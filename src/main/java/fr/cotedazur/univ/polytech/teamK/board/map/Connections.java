@@ -70,7 +70,7 @@ public class Connections {
         Integer colorIndex = isFreeColor(aColor);
         if (colorIndex.equals(-1))
         {
-            //test if a free
+            //test if a free rail of the correct color exists:
             return false;
         }
         else {
@@ -79,7 +79,5 @@ public class Connections {
             return true;
         }
     }
-
-    
 
 }
