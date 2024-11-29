@@ -16,10 +16,10 @@ public class Connections {
     colors: one color per rail
     */
 
-    //private Cities startCity;
-    //private Cities endCity;
-    private String startCity;
-    private String endCity;
+    private Cities startCity;
+    private Cities endCity;
+    //private String startCity;
+    //private String endCity;
     private Integer length = 0;
     private Integer width;
     private List<String> rails; //each element of the List is a color
@@ -28,7 +28,7 @@ public class Connections {
     private List<String> owners; //each element of the list is a player; an unowned one has owner NULL
     private Integer freeToPurchase;
 
-    public Connections(/*Cities aStartCity, Cities aEndCity*/ String aStartCity, String aEndCity, Integer aLength, Integer aWidth) {
+    public Connections(Cities aStartCity, Cities aEndCity /*String aStartCity, String aEndCity*/, Integer aLength, Integer aWidth) {
         this.startCity = aStartCity;
         this.endCity = aEndCity;
         this.length = max(aLength, this.length);
