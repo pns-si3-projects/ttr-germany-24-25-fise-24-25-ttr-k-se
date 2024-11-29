@@ -44,7 +44,7 @@ public enum Cities {
     OSTERREICH2(40);
 
 
-    final int id;
+    int id;
 
     Cities(int id) {
         this.id = id;
