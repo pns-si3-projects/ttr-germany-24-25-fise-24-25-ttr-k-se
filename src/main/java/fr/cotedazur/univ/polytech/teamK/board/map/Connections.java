@@ -1,5 +1,7 @@
 package fr.cotedazur.univ.polytech.teamK.board.map;
 
+import fr.cotedazur.univ.polytech.teamK.board.Colors;
+
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
@@ -22,19 +24,19 @@ public class Connections {
     //private String endCity;
     private Integer length = 0;
     private Integer width;
-    private List<String> rails; //each element of the List is a color
+    private List<Colors> rails; //each element of the List is a color
 
     //private Player owner;
     private List<String> owners; //each element of the list is a player; an unowned one has owner NULL
     private Integer freeToPurchase;
 
-    public Connections(Cities aStartCity, Cities aEndCity /*String aStartCity, String aEndCity*/, Integer aLength, Integer aWidth) {
+    public Connections(Cities aStartCity, Cities aEndCity, Integer aLength, Integer aWidth, List<Colors> aRailsList) {
         this.startCity = aStartCity;
         this.endCity = aEndCity;
         this.length = max(aLength, this.length);
         this.width = aWidth;
         this.freeToPurchase = this.width;
-        this.rails = new ArrayList<>(Collections.nCopies(aWidth, "NULL"));
+        this.rails = aRailsList;
         //this.fillRails();
         this.owners = new ArrayList<>(Collections.nCopies(aWidth, "NULL"));
     }
