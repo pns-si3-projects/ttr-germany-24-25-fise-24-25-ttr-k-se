@@ -6,9 +6,7 @@ import org.junit.jupiter.api.Test;
 
 import java.util.ArrayList;
 import java.util.Arrays;
-import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
 
 class ConnectionsTest {
 
@@ -22,8 +20,6 @@ class ConnectionsTest {
     @Test
     void getLength() {
         Assertions.assertEquals(4, connectionStandard.getLength());
-        //Assertions.assertEquals(0, connectionTooShort.getLength());
-        //Assertions.assertEquals(4, connectionSameCity.getLength());
     }
 
     @Test
