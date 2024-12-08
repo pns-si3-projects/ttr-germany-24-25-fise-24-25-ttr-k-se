@@ -18,7 +18,7 @@ public class WagonCards {
         initializeDeck();
         shuffleDeck();
     }
-
+    //ca c'est une méthode de shuffling
     private void initializeDeck() {
         for (Colors color : Colors.values()) {
             if (color != Colors.RAINBOW) {
@@ -39,13 +39,19 @@ public class WagonCards {
 
     public Colors drawCard() {
         if (cards.isEmpty()) {
-            return null; // or throw an exception
+            return null;
         }
         return cards.remove(cards.size() - 1);
     }
 
     public void addCard(Colors card) {
         cards.add(card);
+    }
+
+    // as in return card to deck
+    public void returnCard(Colors card) {
+        cards.add(card);
+        shuffleDeck();
     }
 
     public int getRemainingCards() {
