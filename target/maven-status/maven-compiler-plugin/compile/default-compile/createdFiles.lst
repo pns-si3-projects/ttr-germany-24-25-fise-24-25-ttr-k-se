@@ -1,1 +1,5 @@
-fr/cotedazur/univ/polytech/startingpoint/Main.class
+fr/cotedazur/univ/polytech/teamK/board/player/Player.class
+fr/cotedazur/univ/polytech/teamK/Main.class
+fr/cotedazur/univ/polytech/teamK/board/map/Connections.class
+fr/cotedazur/univ/polytech/teamK/board/map/Cities.class
+fr/cotedazur/univ/polytech/teamK/board/Colors.class
