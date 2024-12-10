@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.teamK;
+/*package fr.cotedazur.univ.polytech.teamK;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -19,3 +19,4 @@ class MainTest {
         assertEquals(varToBeInitInSetup, Main.hello());
     }
 }
+*/

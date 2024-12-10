@@ -22,7 +22,7 @@ public class Connections {
     private Cities endCity;
     //private String startCity;
     //private String endCity;
-    private Integer length = 0;
+    private Integer length;
     private Integer width;
     private List<Colors> rails; //each element of the List is a color
 
@@ -31,30 +31,44 @@ public class Connections {
     private Integer freeToPurchase;
 
     public Connections(Cities aStartCity, Cities aEndCity, Integer aLength, List<Colors> aRailsList) {
-        this.startCity = aStartCity;
-        this.endCity = aEndCity;
-        this.length = aLength;
-        this.width = aRailsList.size();
+        setStartCity(aStartCity);
+        setEndCity(aEndCity);
+        setLength(aLength);
+        setWidth(aRailsList.size());
         this.freeToPurchase = this.width;
         this.rails = aRailsList;
         //this.fillRails();
         this.owners = new ArrayList<>(Collections.nCopies(width, "NULL"));
-        if (this.length <= 0){
-            throw new IllegalArgumentException("Length must be greater than 0");
-        }
-        if (this.width <= 0){
-            throw new IllegalArgumentException("Width must be greater than 0");
-        }
-        if (this.startCity == null){
+    }
+
+    public void setStartCity(Cities startCity) {
+        if (startCity == null){
             throw new IllegalArgumentException("StartCity must not be null");
         }
-        if (this.endCity == null){
+        this.startCity = startCity;
+    }
+    public void setEndCity(Cities endCity) {
+        if (endCity == null){
             throw new IllegalArgumentException("EndCity must not be null");
         }
-        if (this.startCity.equals(endCity)){
+        if (startCity.equals(endCity)){
             throw new IllegalArgumentException("StartCity and EndCity must not be the same");
         }
+        this.endCity = endCity;
     }
+    public void setLength(Integer length) {
+        if (length <= 0){
+            throw new IllegalArgumentException("Length must be greater than 0");
+        }
+        this.length = length;
+    }
+    public void setWidth(Integer width) {
+        if (width <= 0){
+            throw new IllegalArgumentException("Width must be greater than 0");
+        }
+        this.width = width;
+    }
+
 
     public Integer getLength() {
         return length;

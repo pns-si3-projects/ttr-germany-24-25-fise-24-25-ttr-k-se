@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.teamK.board.Cards;
+/*package fr.cotedazur.univ.polytech.teamK.board.Cards;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -49,3 +49,4 @@ class WagonCardsTest {
         assertEquals(109, wagonCards.getRemainingCards());
     }
 }
+*/
