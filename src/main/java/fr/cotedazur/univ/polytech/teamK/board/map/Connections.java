@@ -29,6 +29,7 @@ public class Connections {
     //private Player owner;
     private List<String> owners; //each element of the list is a player; an unowned one has owner NULL
     private Integer freeToPurchase;
+    private Boolean isClaimed = false; //WEEK1
 
     public Connections(Cities aStartCity, Cities aEndCity, Integer aLength, List<Colors> aRailsList) {
         setStartCity(aStartCity);
@@ -40,6 +41,9 @@ public class Connections {
         //this.fillRails();
         this.owners = new ArrayList<>(Collections.nCopies(width, "NULL"));
     }
+
+    public Boolean isClaimed() { return isClaimed; } //WEEK1
+    public void setClaimed() { this.isClaimed = true; } //WEEK1
 
     public void setStartCity(Cities startCity) {
         if (startCity == null){
