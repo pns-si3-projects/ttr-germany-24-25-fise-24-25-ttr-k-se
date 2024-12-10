@@ -1,5 +1,8 @@
 package fr.cotedazur.univ.polytech.teamK.board.player;
 
+import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
+import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
+import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.Connections;
 
 import javax.print.attribute.standard.Destination;
@@ -11,7 +14,7 @@ public class Player {
     private String name ;
     private int score;
     private ArrayList<WagonCard> wagonCards;
-    private ArrayList<DestinationCard> cartesDestination;
+    private ArrayList<DestinationCard> destinationCards;
 
 
     public Player(String name) {
@@ -19,13 +22,13 @@ public class Player {
         this.name = name;
         this.score = 0;
         this.wagonCards = new ArrayList<>();
-        this.cartesDestination = new ArrayList<>();
+        this.destinationCards = new ArrayList<>();
     }
 
-    public Player(int id, String name, ArrayList<WagonCards> wagonCards, ArrayList<DestinationCard> destinationCards) {
+    public Player(int id, String name, ArrayList<WagonCard> wagonCards, ArrayList<DestinationCard> destinationCards) {
         this(name);
         this.wagonCards = wagonCards;
-        this.cartesDestination = destinationCards;
+        this.destinationCards = destinationCards;
     }
 
     // Getteur and Setteur
@@ -34,7 +37,7 @@ public class Player {
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
     public int getScore() {return score;}
-    public ArrayList<DestinationCard> getCartesDestination() {return cartesDestination;}
+    public ArrayList<DestinationCard> getCartesDestination() {return destinationCards;}
     public ArrayList<WagonCard> getCartesWagon() {return wagonCards;}
 
     /**
@@ -49,7 +52,7 @@ public class Player {
      * Add a WagonCard to the player's hand
      * @param carte the card to add
      */
-    public boolean addCardWagon(WagonCards carte) {
+    public boolean addCardWagon(WagonCard carte) {
         this.wagonCards.add(carte);
         return true;
     }
@@ -58,9 +61,8 @@ public class Player {
     public boolean removeCardWagon(Colors color, int number) {
         if (getNumberColor(color) <number) {
             throw new IllegalArgumentException("The player doesn't have enough card");
-            return false;
         }
-        for (WagonCards carte : this.wagonCards) {
+        for (WagonCard carte : this.wagonCards) {
             if (carte.getColor() == color && number > 0) {
                 this.wagonCards.remove(carte);
                 number--;
@@ -76,7 +78,7 @@ public class Player {
      */
     public int getNumberColor(Colors color) {
         int count = 0;
-        for (WagonCards carte : this.wagonCards) {
+        for (WagonCard carte : this.wagonCards) {
             if (carte.getColor() == color) {
                 count++;
             }
@@ -92,7 +94,6 @@ public class Player {
     public boolean addCardDestination(DestinationCard carte) {
         if (destinationCards.contains(carte)) {
             throw new IllegalArgumentException("The player already has this card");
-            return false;
         }
         this.destinationCards.add(carte);
         return true;
@@ -105,12 +106,11 @@ public class Player {
      */
     public boolean validDestinationCard(DestinationCard carte) {
         if (destinationCards.contains(carte)) {
-            this.score += carte.getPoints();
+            this.score += carte.getValue();
             this.destinationCards.remove(carte);
             return true;
         }
         throw new IllegalArgumentException("The player doesn't have this card");
-        return false;
     }
 }
 
