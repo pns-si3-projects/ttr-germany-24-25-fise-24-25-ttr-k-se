@@ -41,13 +41,13 @@ public class Connections {
         this.owners = new ArrayList<>(Collections.nCopies(width, "NULL"));
     }
 
-    public void setStartCity(Cities startCity) {
+    private void setStartCity(Cities startCity) {
         if (startCity == null){
             throw new IllegalArgumentException("StartCity must not be null");
         }
         this.startCity = startCity;
     }
-    public void setEndCity(Cities endCity) {
+    private void setEndCity(Cities endCity) {
         if (endCity == null){
             throw new IllegalArgumentException("EndCity must not be null");
         }
@@ -56,13 +56,13 @@ public class Connections {
         }
         this.endCity = endCity;
     }
-    public void setLength(Integer length) {
+    private void setLength(Integer length) {
         if (length <= 0){
             throw new IllegalArgumentException("Length must be greater than 0");
         }
         this.length = length;
     }
-    public void setWidth(Integer width) {
+    private void setWidth(Integer width) {
         if (width <= 0){
             throw new IllegalArgumentException("Width must be greater than 0");
         }

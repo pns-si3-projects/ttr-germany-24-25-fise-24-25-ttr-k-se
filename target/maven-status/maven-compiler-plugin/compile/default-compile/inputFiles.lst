@@ -1,5 +1,9 @@
 /home/jm/Documents/ps5/ttr-germany-24-25-fise-24-25-ttr-k-se/src/main/java/fr/cotedazur/univ/polytech/teamK/Main.java
-/home/jm/Documents/ps5/ttr-germany-24-25-fise-24-25-ttr-k-se/src/main/java/fr/cotedazur/univ/polytech/teamK/board/Cards/WagonCards.java
+/home/jm/Documents/ps5/ttr-germany-24-25-fise-24-25-ttr-k-se/src/main/java/fr/cotedazur/univ/polytech/teamK/board/Cards/Card.java
+/home/jm/Documents/ps5/ttr-germany-24-25-fise-24-25-ttr-k-se/src/main/java/fr/cotedazur/univ/polytech/teamK/board/Cards/Deck.java
+/home/jm/Documents/ps5/ttr-germany-24-25-fise-24-25-ttr-k-se/src/main/java/fr/cotedazur/univ/polytech/teamK/board/Cards/DestinationCard.java
+/home/jm/Documents/ps5/ttr-germany-24-25-fise-24-25-ttr-k-se/src/main/java/fr/cotedazur/univ/polytech/teamK/board/Cards/TypeOfCards.java
+/home/jm/Documents/ps5/ttr-germany-24-25-fise-24-25-ttr-k-se/src/main/java/fr/cotedazur/univ/polytech/teamK/board/Cards/WagonCard.java
 /home/jm/Documents/ps5/ttr-germany-24-25-fise-24-25-ttr-k-se/src/main/java/fr/cotedazur/univ/polytech/teamK/board/Colors.java
 /home/jm/Documents/ps5/ttr-germany-24-25-fise-24-25-ttr-k-se/src/main/java/fr/cotedazur/univ/polytech/teamK/board/map/Cities.java
 /home/jm/Documents/ps5/ttr-germany-24-25-fise-24-25-ttr-k-se/src/main/java/fr/cotedazur/univ/polytech/teamK/board/map/Connections.java

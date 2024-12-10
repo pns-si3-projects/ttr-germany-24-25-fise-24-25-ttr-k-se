@@ -1,5 +1,9 @@
-fr/cotedazur/univ/polytech/teamK/board/Cards/WagonCards.class
+fr/cotedazur/univ/polytech/teamK/board/Cards/TypeOfCards.class
+fr/cotedazur/univ/polytech/teamK/board/Cards/Card.class
 fr/cotedazur/univ/polytech/teamK/Main.class
-fr/cotedazur/univ/polytech/teamK/board/map/Connections.class
 fr/cotedazur/univ/polytech/teamK/board/map/Cities.class
 fr/cotedazur/univ/polytech/teamK/board/Colors.class
+fr/cotedazur/univ/polytech/teamK/board/map/Connections.class
+fr/cotedazur/univ/polytech/teamK/board/Cards/WagonCard.class
+fr/cotedazur/univ/polytech/teamK/board/Cards/DestinationCard.class
+fr/cotedazur/univ/polytech/teamK/board/Cards/Deck.class
