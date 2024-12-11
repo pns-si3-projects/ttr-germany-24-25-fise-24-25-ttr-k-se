@@ -6,23 +6,13 @@ package fr.cotedazur.univ.polytech.teamK.board.Cards;
  */
 public abstract class Card {
     private TypeOfCards type;
-    private int id;
+    private static int COUNT = 0; // Compteur partagé et statique
+    private final int id;
 
-    public Card(TypeOfCards type, int id) {
+    public Card(TypeOfCards type) {
         this.type = type;
-        setId(id);
+        this.id = COUNT++;
     }
-
-    /**
-     * Attribue un identifiant pour pouvoir identifier les cartes.
-     *
-     * @param id
-     */
-    private void setId(int id){
-        if(id <= 0) throw new IllegalArgumentException("Id must be greater than 0");
-        this.id = id;
-    }
-
     /**
      * @return l'identifiant de la carte.
      */

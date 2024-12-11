@@ -18,7 +18,7 @@ public enum Cities {
     MAGDEBURG(14),
     LEIPZIG(15),
     ERFURT(16),
-    DRESDE(17),
+    DRESDEN(17),
     CHEMNITZ(18),
     KOLN(19),
     KOBLENZ(20),
@@ -29,7 +29,7 @@ public enum Cities {
     REGENSBURG(25),
     MUNCHEN(26),
     OSTERREICH(27),
-    AUSBURG(28),
+    AUGSBURG(28),
     ULM(29),
     STUTTGART(30),
     KARLSRUHE(31),
@@ -40,8 +40,10 @@ public enum Cities {
     FREIBURG(36),
     SCHWEIZ(37),
     KONSTANZ(38),
-    LINBAU(39),
-    OSTERREICH2(40);
+    LINDAU(39),
+    OSTERREICH2(40),
+    BREMEN(41),
+    NIEDERLANDE(42);
 
 
     final int id;

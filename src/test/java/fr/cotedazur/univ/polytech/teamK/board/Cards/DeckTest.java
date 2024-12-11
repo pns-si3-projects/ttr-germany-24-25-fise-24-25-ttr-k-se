@@ -1,53 +1,72 @@
 package fr.cotedazur.univ.polytech.teamK.board.Cards;
 
-import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
 
+import fr.cotedazur.univ.polytech.teamK.board.Cards.*;
+import fr.cotedazur.univ.polytech.teamK.board.Colors;
+import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
+
 class DeckTest {
-    private Deck<WagonCard> deck;
-    private WagonCard card1;
-    private WagonCard card2;
+
+    private Deck<DestinationCard> destinationDeck;
+    private Deck<WagonCard> wagonDeck;
 
     @BeforeEach
     void setUp() {
-        deck = new Deck<>();
-        card1 = new WagonCard(1, Colors.BLUE);
-        card2 = new WagonCard(2, Colors.RED);
+        // Initialisation des paquets avant chaque test
+        destinationDeck = new Deck<>(TypeOfCards.DESTINATION);
+        wagonDeck = new Deck<>(TypeOfCards.WAGON);
     }
 
     @Test
-    void testInitialize() {
-        List<WagonCard> initialCards = List.of(card1, card2);
-        deck.initialize(initialCards);
-        assertEquals(2, deck.getRemainingCards());
+    void testInitializeDestinationDeck() {
+        assertNotNull(destinationDeck);
+        assertEquals(89,destinationDeck.getRemainingCards());
     }
 
     @Test
-    void testShuffle() {
-        List<WagonCard> initialCards = List.of(card1, card2);
-        deck.initialize(initialCards);
-        deck.shuffle();
-        assertEquals(2, deck.getRemainingCards());
+    void testInitializeWagonDeck() {
+        assertNotNull(wagonDeck);
+        assertEquals(110,wagonDeck.getRemainingCards());
     }
 
+
     @Test
-    void testDraw() {
-        deck.addCard(card1);
-        deck.addCard(card2);
-        WagonCard drawnCard = deck.draw();
+    void testDrawCard() {
+        Deck<DestinationCard> deck = new Deck<>(TypeOfCards.DESTINATION);
+        int remainingBeforeDraw = deck.getRemainingCards();
+
+        DestinationCard drawnCard = deck.draw();
+        int remainingAfterDraw = deck.getRemainingCards();
+
         assertNotNull(drawnCard);
-        assertEquals(1, deck.getRemainingCards());
+        assertEquals(remainingBeforeDraw - 1, remainingAfterDraw);
     }
 
     @Test
     void testAddCard() {
-        deck.addCard(card1);
-        assertEquals(1, deck.getRemainingCards());
+        Deck<DestinationCard> deck = new Deck<>(TypeOfCards.DESTINATION);
+        int remainingBeforeAdd = deck.getRemainingCards();
+
+        deck.addCard(new DestinationCard(Cities.BERLIN, Cities.MUNCHEN, 7));
+        int remainingAfterAdd = deck.getRemainingCards();
+
+        assertEquals(remainingBeforeAdd + 1, remainingAfterAdd);
+    }
+
+    @Test
+    void testEmptyDeck() {
+        // Vérifier que le paquet est vide après avoir tiré toutes les cartes
+        Deck<DestinationCard> deck = new Deck<>(TypeOfCards.DESTINATION);
+        while (deck.getRemainingCards() > 0) {
+            deck.draw();
+        }
+
+        // Le paquet devrait être vide
+        assertEquals(0, deck.getRemainingCards());
+        assertNull(deck.draw()); // Aucun élément à tirer
     }
 }

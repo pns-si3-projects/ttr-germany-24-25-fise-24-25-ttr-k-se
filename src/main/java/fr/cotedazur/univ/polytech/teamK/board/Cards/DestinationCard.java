@@ -14,8 +14,8 @@ public class DestinationCard extends Card {
     private int value;
     private boolean isComplete;
 
-    public DestinationCard(int id, Cities startCity, Cities endCity, int value) {
-        super(TypeOfCards.DESTINATION, id);
+    public DestinationCard(Cities startCity, Cities endCity, int value) {
+        super(TypeOfCards.DESTINATION);
         setStartCity(startCity);
         setEndCity(endCity);
         setValue(value);

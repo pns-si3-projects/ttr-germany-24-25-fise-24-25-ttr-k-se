@@ -11,8 +11,8 @@ import fr.cotedazur.univ.polytech.teamK.board.Colors;
 public class WagonCard extends Card {
     private Colors color;
 
-    public WagonCard(int id, Colors color) {
-        super(TypeOfCards.WAGON, id);
+    public WagonCard(Colors color) {
+        super(TypeOfCards.WAGON);
         setColor(color);
     }
 

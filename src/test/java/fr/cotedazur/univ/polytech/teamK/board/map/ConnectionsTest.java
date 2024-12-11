@@ -10,7 +10,7 @@ import java.util.Arrays;
 
 class ConnectionsTest {
 
-    Cities city1 = Cities.AUSBURG;
+    Cities city1 = Cities.AUGSBURG;
     Cities city2 = Cities.HANNOVER;
     Connections connectionStandard = new Connections(city1, city2, 4, new ArrayList<>(Arrays.asList(Colors.BLACK, Colors.PINK, Colors.BLACK)));
     //Connections connectionTooShort = new Connections(city1, city2, -2, new ArrayList<>(Arrays.asList(Colors.BLACK, Colors.PINK, Colors.BLACK)));
