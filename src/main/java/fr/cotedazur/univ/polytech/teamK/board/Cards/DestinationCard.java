@@ -28,7 +28,6 @@ public class DestinationCard extends Card {
      * @param startCity
      */
     private void setStartCity(Cities startCity) {
-        if (startCity == null) throw new IllegalArgumentException("StartCity must not be null");
         this.startCity = startCity;
     }
 
@@ -38,7 +37,6 @@ public class DestinationCard extends Card {
      * @param endCity
      */
     private void setEndCity(Cities endCity) {
-        if (endCity == null) throw new IllegalArgumentException("EndCity must not be null");
         this.endCity = endCity;
     }
 
@@ -50,7 +48,6 @@ public class DestinationCard extends Card {
      *              ou perdera le joueur en fin de partie
      */
     private void setValue(int value) {
-        if (value <= 0) throw new IllegalArgumentException("Value of card must be greater than zero");
         this.value = value;
     }
 

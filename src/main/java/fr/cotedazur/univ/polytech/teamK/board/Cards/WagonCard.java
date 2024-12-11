@@ -22,7 +22,6 @@ public class WagonCard extends Card {
      * @param color la couleur peut être RAINBOW.
      */
     public void setColor(Colors color) {
-        if (color == null) throw new IllegalArgumentException("Color cannot be null");
         this.color = color;
     }
 

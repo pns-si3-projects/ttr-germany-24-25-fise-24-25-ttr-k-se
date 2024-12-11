@@ -47,14 +47,12 @@ class DeckTest {
     }
 
     @Test
-    void testAddCard() {
+    void testAddCard() throws PaquetPleinException {
         Deck<DestinationCard> deck = new Deck<>(TypeOfCards.DESTINATION);
-        int remainingBeforeAdd = deck.getRemainingCards();
-
-        deck.addCard(new DestinationCard(Cities.BERLIN, Cities.MUNCHEN, 7));
-        int remainingAfterAdd = deck.getRemainingCards();
-
-        assertEquals(remainingBeforeAdd + 1, remainingAfterAdd);
+        DestinationCard lastCard = deck.draw();
+        assertEquals(88, deck.getRemainingCards());
+        deck.addCard(lastCard);
+        assertEquals(89, deck.getRemainingCards());
     }
 
     @Test

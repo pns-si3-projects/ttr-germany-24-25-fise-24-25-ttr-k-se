@@ -16,8 +16,13 @@ import java.util.List;
  */
 public class Deck<T extends Card> {
     private List<T> cards;
+    private int MAX_CAPACITY;
 
-    public Deck(TypeOfCards type) { initialize(type); }
+    public Deck(TypeOfCards type) {
+        if(type==TypeOfCards.DESTINATION) MAX_CAPACITY = 89;
+        if(type==TypeOfCards.WAGON) MAX_CAPACITY = 110;
+        initialize(type);
+    }
 
     /**
      * Creer un paquet de cartes.
@@ -25,8 +30,8 @@ public class Deck<T extends Card> {
      * @param type le type de la carte
      */
     public void initialize(TypeOfCards type) {
+        this.cards = new ArrayList<>(MAX_CAPACITY);
         if (type == TypeOfCards.DESTINATION) {
-            this.cards = new ArrayList<>(89);
             //DESTINATIONS COURTES
             this.cards.add((T) new DestinationCard(Cities.MANNHEIM, Cities.STUTTGART, 2));
             this.cards.add((T) new DestinationCard(Cities.MAINZ, Cities.STUTTGART, 3));
@@ -94,6 +99,7 @@ public class Deck<T extends Card> {
             this.cards.add((T) new DestinationCard(Cities.DRESDEN, Cities.AUGSBURG, 12));
             this.cards.add((T) new DestinationCard(Cities.KIEL, Cities.NURNBERG, 15));
             this.cards.add((T) new DestinationCard(Cities.BERLIN, Cities.KOLN, 14));
+            this.cards.add((T) new DestinationCard(Cities.BERLIN, Cities.FRANKFURT, 14));
             this.cards.add((T) new DestinationCard(Cities.HAMBURG, Cities.KARLSRUHE, 14));
             this.cards.add((T) new DestinationCard(Cities.MUNSTER, Cities.MUNCHEN, 14));
             this.cards.add((T) new DestinationCard(Cities.LEIPZIG, Cities.STUTTGART, 14));
@@ -120,16 +126,19 @@ public class Deck<T extends Card> {
         }
         //créer 12 cartes wagons par couleur et 14 cartes locomotives
         if (type == TypeOfCards.WAGON) {
-            this.cards = new ArrayList<>(110);
-
             for (Colors color : Colors.values()) {
-                for (int i = 0; i < 12; i++) {
-                    this.cards.add((T) new WagonCard(color));
+                if(color==Colors.RAINBOW) {
+                    for (int i = 0; i < 14; i++) {
+                        this.cards.add((T) new WagonCard(Colors.RAINBOW));
+                    }
+                }
+                if(color!=Colors.RAINBOW && color!=Colors.GRAY) {
+                    for (int i = 0; i < 12; i++) {
+                        this.cards.add((T) new WagonCard(color));
+                    }
                 }
             }
-            for (int i = 0; i < 14; i++) {
-                this.cards.add((T) new WagonCard(Colors.RAINBOW));
-            }
+
         }
         shuffle();
     }
@@ -150,14 +159,16 @@ public class Deck<T extends Card> {
     }
 
     /**
-     * Ajoute une carte au paquet.
+     * Ajoute une carte au paquet seulement si la capacité maximale n'est pas atteinte.
      *
-     * @param card
+     * @param card La carte à ajouter
      */
-    public void addCard(T card) {
+    public void addCard(T card) throws PaquetPleinException {
+        if (cards.size() == MAX_CAPACITY) {
+            throw new PaquetPleinException("Le paquet est plein");
+        }
         cards.add(card);
     }
-
     /**
      * @return le nombre de cartes restantes dans le paquet.
      */
