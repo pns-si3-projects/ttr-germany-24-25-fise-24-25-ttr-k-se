@@ -3,7 +3,9 @@ package fr.cotedazur.univ.polytech.teamK.board.player;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
+import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
 import fr.cotedazur.univ.polytech.teamK.board.map.Connections;
+import fr.cotedazur.univ.polytech.teamK.board.map.Neeples;
 
 import javax.print.attribute.standard.Destination;
 import java.util.ArrayList;
@@ -13,6 +15,7 @@ public class Player {
     private static int COUNT = 0;
     private String name ;
     private int score;
+    private Neeples neeples;
     private ArrayList<WagonCard> wagonCards;
     private ArrayList<DestinationCard> destinationCards;
 
@@ -23,6 +26,7 @@ public class Player {
         this.score = 0;
         this.wagonCards = new ArrayList<>();
         this.destinationCards = new ArrayList<>();
+        this.neeples = new Neeples();
     }
 
     public Player(int id, String name, ArrayList<WagonCard> wagonCards, ArrayList<DestinationCard> destinationCards) {
@@ -39,6 +43,8 @@ public class Player {
     public int getScore() {return score;}
     public ArrayList<DestinationCard> getCartesDestination() {return destinationCards;}
     public ArrayList<WagonCard> getCartesWagon() {return wagonCards;}
+    public Neeples getNeeples() {return neeples;}
+    public void setNeeples(Neeples neeples) {this.neeples = neeples;}
 
     /**
      * Modify the socre of the player by adding a value
@@ -111,6 +117,14 @@ public class Player {
             return true;
         }
         throw new IllegalArgumentException("The player doesn't have this card");
+    }
+
+    /**
+     * Transfer the neeples from a city to the player
+     * @param city the city to take the neeples from
+     */
+    public void takeNeeples(Cities city) {
+        this.neeples.transferNeeples(city.getNeeples());
     }
 }
 
