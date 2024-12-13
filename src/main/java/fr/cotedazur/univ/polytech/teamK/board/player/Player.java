@@ -129,5 +129,10 @@ public class Player {
         }
 
     }
+
+    @Override
+    public String toString() {
+        return "\nNom: " + getName() + "\nScore: " + getScore() + "\nCartes Destination: " + getCartesDestination() + "\nCartes Wagons: " + getCartesWagon() ;
+    }
 }
 
