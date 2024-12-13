@@ -1,52 +1,72 @@
 package fr.cotedazur.univ.polytech.teamK.board.map;
 
-public enum Cities {
-    DANEMARK(0),
-    KIEL(1),
-    ROSTOCK(2),
-    EMDEN(3),
-    BREMERHAVEN(4),
-    HAMBURG(5),
-    SCHWERIN(6),
-    NETHERLANDS(7),
-    MUNSTER(8),
-    HANNOVER(9),
-    BERLIN(10),
-    DUSSELDORF(11),
-    DORTMUND(12),
-    KASSEL(13),
-    MAGDEBURG(14),
-    LEIPZIG(15),
-    ERFURT(16),
-    DRESDE(17),
-    CHEMNITZ(18),
-    KOLN(19),
-    KOBLENZ(20),
-    FRANKFURT(21),
-    MAINZ(22),
-    WURZBURG(23),
-    NURNBERG(24),
-    REGENSBURG(25),
-    MUNCHEN(26),
-    OSTERREICH(27),
-    AUSBURG(28),
-    ULM(29),
-    STUTTGART(30),
-    KARLSRUHE(31),
-    MANNHEIM(32),
-    SAARBRUCKEN(33),
-    STRASBOURG(34),
-    FRANKREICH(35),
-    FREIBURG(36),
-    SCHWEIZ(37),
-    KONSTANZ(38),
-    LINBAU(39),
-    OSTERREICH2(40);
+import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 
+import java.util.ArrayList;
+import java.util.List;
+
+public enum Cities {
+    DANEMARK(0, new Meeples(1)),
+    KIEL(1, new Meeples(1)),
+    ROSTOCK(2, new Meeples(1)),
+    EMDEN(3, new Meeples(1)),
+    BREMERHAVEN(4, new Meeples(1)),
+    HAMBURG(5, new Meeples(4)),
+    SCHWERIN(6, new Meeples(1)),
+    MUNSTER(7, new Meeples(1)),
+    HANNOVER(8, new Meeples(1)),
+    BERLIN(9, new Meeples(5)),
+    DUSSELDORF(10, new Meeples(1)),
+    DORTMUND(11, new Meeples(1)),
+    KASSEL(12, new Meeples(1)),
+    MAGDEBURG(13, new Meeples(1)),
+    LEIPZIG(14, new Meeples(3)),
+    ERFURT(15, new Meeples(1)),
+    DRESDEN(16, new Meeples(1)),
+    CHEMNITZ(17, new Meeples(1)),
+    KOLN(18, new Meeples(4)),
+    KOBLENZ(19, new Meeples(1)),
+    FRANKFURT(20, new Meeples(4)),
+    MAINZ(21, new Meeples(1)),
+    WURZBURG(22, new Meeples(1)),
+    NURNBERG(23, new Meeples(1)),
+    REGENSBURG(24, new Meeples(1)),
+    MUNCHEN(25, new Meeples(4)),
+    AUGSBURG(26, new Meeples(1)),
+    ULM(27, new Meeples(1)),
+    STUTTGART(28, new Meeples(3)),
+    KARLSRUHE(29, new Meeples(1)),
+    MANNHEIM(30, new Meeples(1)),
+    SAARBRUCKEN(31, new Meeples(1)),
+    FREIBURG(32, new Meeples(1)),
+    KONSTANZ(33, new Meeples(1)),
+    LINDAU(34, new Meeples(1)),
+    BREMEN(35, new Meeples(1)),
+    FRANKREICH(36, new Meeples(1)),
+    SCHWEIZ(37, new Meeples(1)),
+    NIEDERLANDE(38, new Meeples(1)),
+    OSTERREICH(39, new Meeples(1));
 
     final int id;
 
-    Cities(int id) {
+    final Meeples meeples;
+    private List<Player> playersThatPickedUpMeeples;
+
+    Cities(int id, Meeples meeples) {
         this.id = id;
+        this.meeples = meeples;
+        this.playersThatPickedUpMeeples = new ArrayList<>();
+    }
+
+    public int getId() {
+        return id;
+    }
+
+    public Meeples getMeeples() {
+        return meeples;
+    }
+
+    public void addPlayer(Player player) {
+        playersThatPickedUpMeeples.add(player);
     }
 }

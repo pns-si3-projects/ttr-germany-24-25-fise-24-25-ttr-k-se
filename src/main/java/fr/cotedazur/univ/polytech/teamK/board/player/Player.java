@@ -1,24 +1,39 @@
 package fr.cotedazur.univ.polytech.teamK.board.player;
 
+import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
+import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
+import fr.cotedazur.univ.polytech.teamK.board.Colors;
+import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
 import fr.cotedazur.univ.polytech.teamK.board.map.Connections;
+import fr.cotedazur.univ.polytech.teamK.board.map.Meeples;
 
 import java.util.ArrayList;
 
-
 public class Player {
-    private int id;
+    private int id ;
     private static int COUNT = 0;
-    private String name;
+    private String name ;
     private int score;
-    private int counters; //Ceci représente le nombre de rails que le joueur a.
-    private ArrayList<Connections> claimedConnections; // List of routes claimed by the player
+    private Meeples meeples;
+    private ArrayList<Connections> connections;
+    private ArrayList<WagonCard> wagonCards;
+    private ArrayList<DestinationCard> destinationCards;
 
-    public Player(String name, int initialCounters) {
+
+    public Player(String name) {
         this.id = COUNT++;
         this.name = name;
         this.score = 0;
-        this.counters = initialCounters;
-        this.claimedConnections = new ArrayList<>();
+        this.wagonCards = new ArrayList<>();
+        this.destinationCards = new ArrayList<>();
+        this.connections = new ArrayList<>();
+        this.meeples = new Meeples();
+    }
+
+    public Player(int id, String name, ArrayList<WagonCard> wagonCards, ArrayList<DestinationCard> destinationCards) {
+        this(name);
+        this.wagonCards = wagonCards;
+        this.destinationCards = destinationCards;
     }
 
     // Getteur and Setteur
@@ -27,148 +42,113 @@ public class Player {
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
     public int getScore() {return score;}
-    public int getCounters() {return counters;} //WEEK1
-    public ArrayList<Connections> getClaimedConnections() {return claimedConnections;}
+    public ArrayList<DestinationCard> getCartesDestination() {return destinationCards;}
+    public ArrayList<WagonCard> getCartesWagon() {return wagonCards;}
+    public Meeples getMeeples() {return meeples;}
+    public void setMeeples(Meeples meeples) {this.meeples = meeples;}
 
     /**
-     * Modifie le score du joueur en lui ajoutant une valeur
-     *
-     * @param value la valeur peut être négative
+     * Modify the socre of the player by adding a value
+     * @param value the value to add to the score
      */
-    public void addScore(int value) { this.score += value; }
+    public void addScore(int value) {
+        this.score += value;
+    }
 
     /**
-     * Essayes de récupérer une connexion
-     *
-     * @param connection la connection que le joueur veut
-     * @return true if the route is successfully claimed, false otherwise
+     * Add a WagonCard to the player's hand
+     * @param carte the card to add
      */
-    public boolean claimRoute(Connections connection) {
-        if (connection.isClaimed()) {
-            throw new IllegalArgumentException("This route has already been claimed");
-        }
-
-        if (connection.getLength() > this.counters) {
-            throw new IllegalArgumentException("Not enough counters to claim this route");
-        }
-
-        // Deduct counters and claim the route
-        this.counters -= connection.getLength();
-        this.claimedConnections.add(connection);
-        connection.setClaimed();
+    public boolean addCardWagon(WagonCard carte) {
+        this.wagonCards.add(carte);
         return true;
+    }
+
+
+    public boolean removeCardWagon(Colors color, int number) {
+        if (getNumberColor(color) <number) {
+            throw new IllegalArgumentException("The player doesn't have enough card");
+        }
+        //for (WagonCard carte : this.wagonCards) {
+        for (int i=0; i<wagonCards.size(); i++) {
+                if (wagonCards.get(i).getColor() == color && number > 0) {
+                    this.wagonCards.remove(wagonCards.get(i));
+                    i--;
+                    number--;
+                }
+            }
+        return true;
+    }
+
+    /**
+     * Get the number of WagonCard of a specific color
+     * @param color the color to count
+     * @return the number of WagonCard of the color
+     */
+    public int getNumberColor(Colors color) {
+        int count = 0;
+        for (WagonCard carte : this.wagonCards) {
+            if (carte.getColor() == color) {
+                count++;
+            }
+        }
+        return count;
+    }
+
+    /**
+     * Add a DestinationCard to the player's hand
+     * @param carte the card to add
+     * @return true if the card was added, false otherwise
+     */
+    public boolean addCardDestination(DestinationCard carte) {
+        if (destinationCards.contains(carte)) {
+            throw new IllegalArgumentException("The player already has this card");
+        }
+        this.destinationCards.add(carte);
+        return true;
+    }
+
+    /**
+     * Add DestinationCard points and remove it from the player's hand
+     * @param carte the card to check
+     * @return true if the card was removed, false otherwise
+     */
+    public boolean validDestinationCard(DestinationCard carte) {
+        if (destinationCards.contains(carte)) {
+            this.score += carte.getValue();
+            this.destinationCards.remove(carte);
+            return true;
+        }
+        throw new IllegalArgumentException("The player doesn't have this card");
+    }
+
+    /**
+     * Transfer the neeples from a city to the player
+     * @param city the city to take the neeples from
+     */
+    public void takeMeeples(Cities city) {
+        try {
+            this.meeples.transferMeeples(city.getMeeples());
+            city.addPlayer(this);
+        } catch (IllegalAccessException e) {
+            System.out.println("Il n'y a plus de meeples dans cette ville !!!");
+        }
+    }
+
+    public void buyRail(Connections connection, Colors color) {
+        if(connection.claimAttempt(color, getNumberColor(color), this)) {
+            this.connections.add(connection);
+            removeCardWagon(color, connection.getLength());
+            //connection.addOwner(this);
+        }
+    }
+
+    @Override
+    public String toString() {
+        if (getName().equals("PlayerBank")){
+            return "";
+        }
+        return "\nNom: " + getName() + "\nScore: " + getScore() + "\nCartes Destination: " + getCartesDestination() + "\nCartes Wagons: " + getCartesWagon() + "\nMeeples: " + getMeeples() ;
     }
 }
 
-/*      CE CODE SERA VALABLE EN SEMAINE 2
-        A ADAPTER AVEC LES NOUVELLES CLASSES CARDS
-
-        public class Player {
-            private int id ;
-            private static int COUNT = 0;
-            private String name ;
-            private int score;
-            //private ArrayList<WagonCards> cartesWagon; POUR WEEK2
-            //private ArrayList<CarteDestination> cartesDestination; POUR WEEK2
-
-
-            public Player(String name) {
-                this.id = COUNT++;
-                this.name = name;
-                this.score = 0;
-                this.cartesWagon = new ArrayList<>();
-                this.cartesDestination = new ArrayList<>();
-            }
-
-            public Player(int id, String name, ArrayList<WagonCards> cartesWagon, ArrayList<CarteDestination> cartesDestination) {
-                this(name);
-                this.cartesWagon = cartesWagon;
-                this.cartesDestination = cartesDestination;
-            }
-
-            // Getteur and Setteur
-            public int getId() {return id;}
-            public void setId(int id) {this.id = id;}
-            public String getName() {return name;}
-            public void setName(String name) {this.name = name;}
-            public int getScore() {return score;}
-            public ArrayList<CarteDestination> getCartesDestination() {return cartesDestination;}
-            public ArrayList<WagonCards> getCartesWagon() {return cartesWagon;}
-
-            /**
-             * Modify the socre of the player by adding a value
-             * @param value the value to add to the score
-             */
-/*          public void addScore(int value) {
-                this.score += value;
-            }
-
-            /**
-             * Add a WagonCard to the player's hand
-             * @param carte the card to add
-             */
-/*          public boolean addCardWagon(WagonCards carte) {
-                this.cartesWagon.add(carte);
-                return true;
-            }
-
-
-/*          public boolean removeCardWagon(Colors color, int number) {
-                if (getNumberColor(color) <number) {
-                    throw new IllegalArgumentException("The player doesn't have enough card");
-                    return false;
-                }
-                for (WagonCards carte : this.cartesWagon) {
-                    if (carte.getColor() == color && number > 0) {
-                        this.cartesWagon.remove(carte);
-                        number--;
-                    }
-                }
-                return true;
-            }
-
-            /**
-             * Get the number of WagonCard of a specific color
-             * @param color the color to count
-             * @return the number of WagonCard of the color
-             */
-/*          public int getNumberColor(Colors color) {
-                int count = 0;
-                for (WagonCards carte : this.cartesWagon) {
-                    if (carte.getColor() == color) {
-                        count++;
-                    }
-                }
-                return count;
-            }
-
-            /**
-             * Add a DestinationCard to the player's hand
-             * @param carte the card to add
-             * @return true if the card was added, false otherwise
-             */
-/*          public boolean addCardDestination(CarteDestination carte) {
-                if (cartesDestination.contains(carte)) {
-                    throw new IllegalArgumentException("The player already has this card");
-                    return false;
-                }
-                this.cartesDestination.add(carte);
-                return true;
-            }
-
-            /**
-             * Add DestinationCard points and remove it from the player's hand
-             * @param carte the card to check
-             * @return true if the card was removed, false otherwise
-             */
-/*          public boolean validDestinationCard(CarteDestination carte) {
-                if (cartesDestination.contains(carte)) {
-                    this.score += carte.getPoints();
-                    this.cartesDestination.remove(carte);
-                    return true;
-                }
-                throw new IllegalArgumentException("The player doesn't have this card");
-                return false;
-            }
-        }
-*/
