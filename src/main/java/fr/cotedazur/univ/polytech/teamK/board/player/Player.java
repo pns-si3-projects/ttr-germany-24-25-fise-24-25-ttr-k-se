@@ -4,6 +4,7 @@ import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
+import fr.cotedazur.univ.polytech.teamK.board.map.Connections;
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeples;
 
 import java.util.ArrayList;
@@ -14,6 +15,7 @@ public class Player {
     private String name ;
     private int score;
     private Meeples meeples;
+    private ArrayList<Connections> connections;
     private ArrayList<WagonCard> wagonCards;
     private ArrayList<DestinationCard> destinationCards;
 
@@ -24,6 +26,7 @@ public class Player {
         this.score = 0;
         this.wagonCards = new ArrayList<>();
         this.destinationCards = new ArrayList<>();
+        this.connections = new ArrayList<>();
         this.meeples = new Meeples();
     }
 
@@ -66,12 +69,14 @@ public class Player {
         if (getNumberColor(color) <number) {
             throw new IllegalArgumentException("The player doesn't have enough card");
         }
-        for (WagonCard carte : this.wagonCards) {
-            if (carte.getColor() == color && number > 0) {
-                this.wagonCards.remove(carte);
-                number--;
+        //for (WagonCard carte : this.wagonCards) {
+        for (int i=0; i<wagonCards.size(); i++) {
+                if (wagonCards.get(i).getColor() == color && number > 0) {
+                    this.wagonCards.remove(wagonCards.get(i));
+                    i--;
+                    number--;
+                }
             }
-        }
         return true;
     }
 
@@ -124,15 +129,26 @@ public class Player {
     public void takeMeeples(Cities city) {
         try {
             this.meeples.transferMeeples(city.getMeeples());
+            city.addPlayer(this);
         } catch (IllegalAccessException e) {
             System.out.println("Il n'y a plus de meeples dans cette ville !!!");
         }
+    }
 
+    public void buyRail(Connections connection, Colors color) {
+        if(connection.claimAttempt(color, getNumberColor(color), this)) {
+            this.connections.add(connection);
+            removeCardWagon(color, connection.getLength());
+            //connection.addOwner(this);
+        }
     }
 
     @Override
     public String toString() {
-        return "\nNom: " + getName() + "\nScore: " + getScore() + "\nCartes Destination: " + getCartesDestination() + "\nCartes Wagons: " + getCartesWagon() ;
+        if (getName().equals("PlayerBank")){
+            return "";
+        }
+        return "\nNom: " + getName() + "\nScore: " + getScore() + "\nCartes Destination: " + getCartesDestination() + "\nCartes Wagons: " + getCartesWagon() + "\nMeeples: " + getMeeples() ;
     }
 }
 

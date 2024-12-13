@@ -1,5 +1,10 @@
 package fr.cotedazur.univ.polytech.teamK.board.map;
 
+import fr.cotedazur.univ.polytech.teamK.board.player.Player;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public enum Cities {
     DANEMARK(0, new Meeples(1)),
     KIEL(1, new Meeples(1)),
@@ -45,10 +50,12 @@ public enum Cities {
     final int id;
 
     final Meeples meeples;
+    private List<Player> playersThatPickedUpMeeples;
 
     Cities(int id, Meeples meeples) {
         this.id = id;
         this.meeples = meeples;
+        this.playersThatPickedUpMeeples = new ArrayList<>();
     }
 
     public int getId() {
@@ -57,5 +64,9 @@ public enum Cities {
 
     public Meeples getMeeples() {
         return meeples;
+    }
+
+    public void addPlayer(Player player) {
+        playersThatPickedUpMeeples.add(player);
     }
 }

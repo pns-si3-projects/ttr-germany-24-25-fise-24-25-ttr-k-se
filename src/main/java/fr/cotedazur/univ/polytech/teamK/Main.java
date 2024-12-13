@@ -21,7 +21,7 @@ public class Main {
         Deck<DestinationCard> deckOfDestinationCards = new Deck(TypeOfCards.DESTINATION);
         Deck<WagonCard> deckOfWagonCards = new Deck(TypeOfCards.WAGON);
 
-        Connections connection1 = new Connections(Cities.BERLIN, Cities.MUNCHEN, 3, List.of(Colors.ORANGE, Colors.YELLOW));
+        Connections connection1 = new Connections(Cities.DUSSELDORF, Cities.DORTMUND, 3, List.of(Colors.ORANGE, Colors.YELLOW));
 
 
         Player player1 = new Player("John Doe");
@@ -36,10 +36,40 @@ public class Main {
         player2.addCardWagon(deckOfWagonCards.draw());
         player2.addCardDestination(deckOfDestinationCards.draw());
 
+        Player player3 = new Player("Tom doe");
+        player3.addCardWagon(new WagonCard(Colors.ORANGE));
+        player3.addCardWagon(new WagonCard(Colors.ORANGE));
+        player3.addCardWagon(new WagonCard(Colors.YELLOW));
+        player3.addCardWagon(new WagonCard(Colors.ORANGE));
+        player3.addCardWagon(new WagonCard(Colors.ORANGE));
+
         System.out.println("\n\nLes joueurs ont tirés quelques cartes.");
         System.out.println(player1 + "\n" + player2);
 
+        System.out.println("\n\nLe joueur 3 n'a pas acheté une connection.");
+        System.out.println(player3);
 
-        //Connection est pas adapté, il faut pouvoir acheter des rails
+        System.out.println("\n\nLe joueur 3 a acheté une connection.");
+        player3.buyRail(connection1, Colors.ORANGE);
+        System.out.println(connection1);
+
+
+        System.out.println("\n\nLe joueur 3 a pris des meeples.");
+        player3.takeMeeples(Cities.DUSSELDORF);
+        player3.takeMeeples(Cities.DORTMUND);
+        System.out.println(player3);
+
+        System.out.println("\n\nLe joueur 2 a pris une connection (la meme que joueur 3).");
+        player2.addCardWagon(new WagonCard(Colors.YELLOW));
+        player2.addCardWagon(new WagonCard(Colors.YELLOW));
+        player2.addCardWagon(new WagonCard(Colors.YELLOW));
+        player2.buyRail(connection1, Colors.YELLOW);
+        System.out.println(connection1);
+
+        System.out.println("\n\nLe joueur 2 essaie de prendre des meeples.");
+        player2.takeMeeples(Cities.DUSSELDORF);
+        player2.takeMeeples(Cities.DORTMUND);
+        System.out.println(player2);
+
     }
 }
