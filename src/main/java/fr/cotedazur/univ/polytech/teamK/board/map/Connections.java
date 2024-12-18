@@ -86,13 +86,16 @@ public class Connections {
 
     public Integer isFreeColor(Colors aColor){
         for (int railIndex = 0; railIndex < this.width; railIndex++) {
-            if (this.owners.get(railIndex).equals("NULL") && (this.rails.get(railIndex).equals(aColor) /* idk where we want to do the grey being any color, so i have this in case || this.rails.get(railIndex).equals(Colors.GRAY)*/)){
+            if (this.owners.get(railIndex).equals("NULL") && (this.rails.get(railIndex).equals(aColor))){ /* idk where we want to do the grey being any color, so i have this in case || this.rails.get(railIndex).equals(Colors.GRAY)*/
                 return railIndex;
             }
         }
         //value to indicate no free slot of that color: -1
         return -1;
     }
+
+
+
     public boolean buyRail(Colors aColor, Integer numberCardsUsed, String buyer) {
         if (this.length > numberCardsUsed || numberCardsUsed <= 0){
             //test if invalid or insufficient number of Cards uses
