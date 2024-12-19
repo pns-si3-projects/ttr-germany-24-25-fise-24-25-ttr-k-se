@@ -44,6 +44,8 @@ public class Player {
     public int getScore() {return score;}
     public ArrayList<DestinationCard> getCartesDestination() {return destinationCards;}
     public ArrayList<WagonCard> getCartesWagon() {return wagonCards;}
+    public int getNumberWagon() {return wagonCards.size();}
+    public int getNumberDestination () {return destinationCards.size();}
     public Meeples getMeeples() {return meeples;}
     public void setMeeples(Meeples meeples) {this.meeples = meeples;}
 
@@ -66,17 +68,24 @@ public class Player {
 
 
     public boolean removeCardWagon(Colors color, int number) {
-        if (getNumberColor(color) <number) {
-            throw new IllegalArgumentException("The player doesn't have enough card");
+        int count = number;
+        if (getNumberColor(color) < number) {
+            throw new IllegalArgumentException("The player doesn't have enough cards");
         }
-        //for (WagonCard carte : this.wagonCards) {
-        for (int i=0; i<wagonCards.size(); i++) {
-                if (wagonCards.get(i).getColor() == color && number > 0) {
-                    this.wagonCards.remove(wagonCards.get(i));
-                    i--;
-                    number--;
-                }
+
+        ArrayList<WagonCard> toRemove = new ArrayList<>();
+        for (WagonCard carte : this.wagonCards) {
+            if (carte.getColor() == color && count > 0) {
+                toRemove.add(carte);
+                count--;
             }
+        }
+
+        if (count > 0) {
+            throw new IllegalArgumentException("Not enough cards to remove");
+        }
+
+        this.wagonCards.removeAll(toRemove);
         return true;
     }
 

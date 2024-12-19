@@ -1,7 +1,5 @@
 package fr.cotedazur.univ.polytech.teamK.board.map;
 
-import java.util.Arrays;
-
 public class Meeples {
     private static int[] total = {10,10,10,10,10,10}; //red, black, green, yellow, blue, white
     private int [] listOfOwnedMeeples; //red, black, green, yellow, blue, white
@@ -40,6 +38,27 @@ public class Meeples {
                 this.number++;
             }
         }
+    }
+
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        final Meeples other = (Meeples) obj;
+        return Arrays.equals(asign, other.asign);
+    }
+
+    @Override
+    public int hashCode() {
+        // Combine les champs 'number' et 'asign' pour calculer un hash unique
+        return Objects.hash(number, Arrays.hashCode(asign));
     }
 
     private boolean stillMeeples(){
