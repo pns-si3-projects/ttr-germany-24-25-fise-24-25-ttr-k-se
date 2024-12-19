@@ -1,5 +1,8 @@
 package fr.cotedazur.univ.polytech.teamK.board.map;
 
+import java.util.Arrays;
+import java.util.Objects;
+
 public class Meeples {
     private static int[] total = {10,10,10,10,10,10}; //red, black, green, yellow, blue, white
     private int [] listOfOwnedMeeples; //red, black, green, yellow, blue, white
@@ -30,14 +33,13 @@ public class Meeples {
         if (cityMeeples.number == 0) {
             throw new IllegalAccessException();
         }
-        for (int i = 0; i < cityMeeples.listOfOwnedMeeples.length; i++) {
-            if (cityMeeples.listOfOwnedMeeples[i] > 0) {
-                cityMeeples.listOfOwnedMeeples[i]--;
-                cityMeeples.number--;
-                this.listOfOwnedMeeples[i]++;
-                this.number++;
-            }
-        }
+        int i;
+        for (i = 0; cityMeeples.listOfOwnedMeeples[i] > 0; i++) ;
+        cityMeeples.listOfOwnedMeeples[i]--;
+        cityMeeples.number--;
+        this.listOfOwnedMeeples[i]++;
+        this.number++;
+
     }
 
 
@@ -52,13 +54,13 @@ public class Meeples {
         }
 
         final Meeples other = (Meeples) obj;
-        return Arrays.equals(asign, other.asign);
+        return Arrays.equals(listOfOwnedMeeples, other.listOfOwnedMeeples);
     }
 
     @Override
     public int hashCode() {
         // Combine les champs 'number' et 'asign' pour calculer un hash unique
-        return Objects.hash(number, Arrays.hashCode(asign));
+        return Objects.hash(number, Arrays.hashCode(listOfOwnedMeeples));
     }
 
     private boolean stillMeeples(){

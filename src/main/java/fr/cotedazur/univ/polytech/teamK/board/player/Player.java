@@ -11,7 +11,7 @@ import java.util.ArrayList;
 
 public class Player {
     private int id ;
-    private static int COUNT = 0;
+    private static int COUNT = 1;
     private String name ;
     private int score;
     private Meeples meeples;
@@ -48,6 +48,7 @@ public class Player {
     public int getNumberDestination () {return destinationCards.size();}
     public Meeples getMeeples() {return meeples;}
     public void setMeeples(Meeples meeples) {this.meeples = meeples;}
+    public int getNumberOfMeeples() {return meeples.getNumber();}
 
     /**
      * Modify the socre of the player by adding a value
@@ -135,12 +136,13 @@ public class Player {
      * Transfer the neeples from a city to the player
      * @param city the city to take the neeples from
      */
-    public void takeMeeples(Cities city) {
+    public boolean takeMeeples(Cities city) {
         try {
             this.meeples.transferMeeples(city.getMeeples());
             city.addPlayer(this);
+            return true;
         } catch (IllegalAccessException e) {
-            System.out.println("Il n'y a plus de meeples dans cette ville !!!");
+            return false;
         }
     }
 
