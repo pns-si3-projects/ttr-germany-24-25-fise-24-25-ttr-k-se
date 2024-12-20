@@ -4,7 +4,7 @@ import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
-public class Meeples {
+public class Meeple {
     private static int[] total = {10,10,10,10,10,10}; //red, black, green, yellow, blue, white
 
     private int [] listOfOwnedMeeples; //red, black, green, yellow, blue, white
@@ -12,7 +12,7 @@ public class Meeples {
     private Random rand;
 
     //pour les joueurs
-    public Meeples(){
+    public Meeple(){
         listOfOwnedMeeples = new int[]{0, 0, 0, 0, 0, 0};
         this.number = 0;
         rand = new Random();
@@ -22,7 +22,7 @@ public class Meeples {
     public int[] getListOfOwnedMeeples() {return listOfOwnedMeeples;}
 
     //pour les city
-    public Meeples(int number)  {
+    public Meeple(int number)  {
         listOfOwnedMeeples = new int[]{0, 0, 0, 0, 0, 0};
         int index;
         this.number = number;
@@ -35,7 +35,7 @@ public class Meeples {
             total[index]--;
         }
     }
-    public void transferMeeples(Meeples cityMeeples) throws IllegalAccessException {
+    public void transferMeeples(Meeple cityMeeples) throws IllegalAccessException {
         if (cityMeeples.number == 0) {
             throw new IllegalAccessException();
         }
@@ -59,7 +59,7 @@ public class Meeples {
             return false;
         }
 
-        final Meeples other = (Meeples) obj;
+        final Meeple other = (Meeple) obj;
         return Arrays.equals(listOfOwnedMeeples, other.listOfOwnedMeeples);
     }
 

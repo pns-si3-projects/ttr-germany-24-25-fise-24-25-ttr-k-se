@@ -9,7 +9,7 @@ import java.util.List;
 
 import static java.lang.Math.max;
 
-public class Connections {
+public class Connection {
     /*
     needs:
     endpoint: a city
@@ -46,7 +46,7 @@ public class Connections {
     private List<Player> owners; //each element of the list is a player; an unowned one has owner NULL
     private Integer freeToPurchase;
 
-    public Connections(Cities aStartCity, Cities aEndCity, Integer aLength, List<Colors> aRailsList) {
+    public Connection(Cities aStartCity, Cities aEndCity, Integer aLength, List<Colors> aRailsList) {
         setStartCity(aStartCity);
         setEndCity(aEndCity);
         setLength(aLength);

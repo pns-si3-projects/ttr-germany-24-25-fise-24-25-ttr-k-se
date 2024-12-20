@@ -4,10 +4,9 @@ import fr.cotedazur.univ.polytech.teamK.board.Cards.Deck;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
-import fr.cotedazur.univ.polytech.teamK.board.map.Connections;
+import fr.cotedazur.univ.polytech.teamK.board.map.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 
-import java.util.ArrayList;
 import java.util.Random;
 
 public class Bot extends Player {
@@ -31,7 +30,7 @@ public class Bot extends Player {
             for (int connectionIndex = 0; connectionIndex < currentmap.getConnectionsInMap().size(); connectionIndex++)
             {
                 //tests every color to buy
-                Connections currentConnectionTried = currentmap.getConnectionsInMap().get(connectionIndex);
+                Connection currentConnectionTried = currentmap.getConnectionsInMap().get(connectionIndex);
                 for (int colorIndex = 0; colorIndex < Colors.values().length; colorIndex++)
                 {
                     Colors colorToTest = availableColors[colorIndex];

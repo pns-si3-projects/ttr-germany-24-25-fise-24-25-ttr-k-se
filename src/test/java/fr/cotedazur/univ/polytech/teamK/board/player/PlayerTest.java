@@ -4,13 +4,9 @@ import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
-import fr.cotedazur.univ.polytech.teamK.board.map.Connections;
-import fr.cotedazur.univ.polytech.teamK.board.map.Meeples;
+import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -30,7 +26,7 @@ class PlayerTest {
         assertEquals(1, player1.getId());
         assertEquals(2, player2.getId());
         assertEquals("Deyann", player1.getName());
-        assertEquals(new Meeples(), player2.getMeeples());
+        assertEquals(new Meeple(), player2.getMeeples());
     }
 
     @Test

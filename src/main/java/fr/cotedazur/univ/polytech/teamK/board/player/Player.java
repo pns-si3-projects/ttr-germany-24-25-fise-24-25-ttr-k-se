@@ -4,9 +4,8 @@ import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
-import fr.cotedazur.univ.polytech.teamK.board.map.Connections;
-import fr.cotedazur.univ.polytech.teamK.board.map.Meeples;
-import org.w3c.dom.css.Counter;
+import fr.cotedazur.univ.polytech.teamK.board.map.Connection;
+import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 
 import java.util.ArrayList;
 
@@ -15,13 +14,13 @@ public class Player {
     private static int COUNT = 1;
     private String name ;
     private int score;
-    private Meeples meeples;
+    private Meeple meeples;
 
-    public ArrayList<Connections> getConnections() {
+    public ArrayList<Connection> getConnections() {
         return connections;
     }
 
-    private ArrayList<Connections> connections;
+    private ArrayList<Connection> connections;
     private ArrayList<WagonCard> wagonCards;
     private ArrayList<DestinationCard> destinationCards;
 
@@ -33,7 +32,7 @@ public class Player {
         this.wagonCards = new ArrayList<>();
         this.destinationCards = new ArrayList<>();
         this.connections = new ArrayList<>();
-        this.meeples = new Meeples();
+        this.meeples = new Meeple();
     }
 
     public Player(int id, String name, ArrayList<WagonCard> wagonCards, ArrayList<DestinationCard> destinationCards) {
@@ -53,8 +52,8 @@ public class Player {
     public ArrayList<WagonCard> getCartesWagon() {return wagonCards;}
     public int getNumberWagon() {return wagonCards.size();}
     public int getNumberDestination () {return destinationCards.size();}
-    public Meeples getMeeples() {return meeples;}
-    public void setMeeples(Meeples meeples) {this.meeples = meeples;}
+    public Meeple getMeeples() {return meeples;}
+    public void setMeeples(Meeple meeples) {this.meeples = meeples;}
     public int getNumberOfMeeples() {return meeples.getNumber();}
 
     public static void resetIdCounter() {
@@ -165,7 +164,7 @@ public class Player {
      * @param color the color we want to use
      * @return true if we bought it, false otherwise
      */
-    public boolean buyRail(Connections connection, Colors color) {
+    public boolean buyRail(Connection connection, Colors color) {
         if(connection.claimAttempt(color, getNumberColor(color), this)) {
             this.connections.add(connection);
             removeCardWagon(color, connection.getLength());

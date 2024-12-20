@@ -1,14 +1,9 @@
 package fr.cotedazur.univ.polytech.teamK.game;
-import fr.cotedazur.univ.polytech.teamK.board.*;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.Deck;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.TypeOfCards;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
-import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
-import fr.cotedazur.univ.polytech.teamK.board.map.Connections;
-import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 
-import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
