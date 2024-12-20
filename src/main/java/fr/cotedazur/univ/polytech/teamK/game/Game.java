@@ -1,6 +1,9 @@
 package fr.cotedazur.univ.polytech.teamK.game;
 import fr.cotedazur.univ.polytech.teamK.board.*;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.Deck;
+import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
+import fr.cotedazur.univ.polytech.teamK.board.Cards.TypeOfCards;
+import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
 import fr.cotedazur.univ.polytech.teamK.board.map.Connections;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
@@ -10,15 +13,33 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Game {
+    public MapSimple getGameMap() {
+        return gameMap;
+    }
+
+    private MapSimple gameMap;
+    private ArrayList<Bot> gamePlayers;
+    private Deck<DestinationCard> destinationDeck;
+    private Deck<WagonCard> wagonDeck;
+
+    public Game(String gameIdentifier)
+    {
+        if (gameIdentifier.equals("basic"))
+        {
+            gameMap =new MapSimple("Reich");
+            gamePlayers = new ArrayList<>(Arrays.asList(new Bot(0), new Bot(0), new Bot(0)));
+            destinationDeck = new Deck<DestinationCard>(TypeOfCards.DESTINATION);
+            wagonDeck = new Deck<WagonCard>(TypeOfCards.WAGON);
+        }
+    }
+
     /*
     STEP ONE: BUILD THE BOARD
      */
-    //matrice d'adjacence:
-    private MapSimple gameMap = new MapSimple("Reich");
+
     /*
     STEP TWO: INITIALISE PLAYERS
      */
-    private Players gamePlayers = new Players(2);
 
     /*
     STEP THREE: CARDS + PLAYABLE OBJECTS
@@ -34,6 +55,19 @@ public class Game {
 
     public void runGame()
     {
-        
+        for (int roundNumber = 0; roundNumber < 10; roundNumber++)
+        {
+            for (int playerIndex = 0; playerIndex < gamePlayers.size(); playerIndex++)
+            {
+                gamePlayers.get(playerIndex).playTurn(gameMap, destinationDeck, wagonDeck);
+            }
+        }
+    }
+    public void printPlayerStatus()
+    {
+        for (int playerIndex = 0; playerIndex < gamePlayers.size(); playerIndex++)
+        {
+            System.out.println(gamePlayers.get(playerIndex).toString());
+        }
     }
 }

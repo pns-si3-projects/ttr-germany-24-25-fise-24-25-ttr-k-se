@@ -23,6 +23,11 @@ public class Connections {
     //private String startCity;
     //private String endCity;
     private Integer length;
+
+    public Integer getWidth() {
+        return width;
+    }
+
     private Integer width;
     private List<Colors> rails; //each element of the List is a color
 

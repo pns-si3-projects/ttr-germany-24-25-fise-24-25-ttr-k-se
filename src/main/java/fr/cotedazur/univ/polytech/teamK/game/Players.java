@@ -12,7 +12,14 @@ public class Players {
         for (int i = 0; i < numberOfPlayers; i++) {
             String name = "Player " + (i + 1);
             players.add(new Player(name));
+        }
+    }
 
+    public Players(ArrayList<Integer> botIDs) {
+        players = new ArrayList<>();
+        for (int i = 0; i < botIDs.size(); i++) {
+            String name = "Player " + (i + 1);
+            players.add(new Bot(botIDs.get(i)));
         }
     }
 

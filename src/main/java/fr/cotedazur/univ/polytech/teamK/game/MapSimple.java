@@ -9,7 +9,7 @@ import java.util.Arrays;
 import java.util.List;
 
 public class MapSimple {
-    private List connectionsInMap;
+    private List<Connections> connectionsInMap;
 
     public MapSimple(String Chosen) {
         if (Chosen.equals("Reich"))
@@ -18,12 +18,12 @@ public class MapSimple {
         }
     }
 
-    public List getConnectionsInMap() {
+    public List<Connections> getConnectionsInMap() {
         return connectionsInMap;
     }
 
-    public List buildReich() {
-        ArrayList railsGermanyReich = new ArrayList();
+    private List buildReich() {
+        ArrayList<Connections> railsGermanyReich = new ArrayList<Connections>();
         railsGermanyReich.add(new Connections(Cities.DANEMARK, Cities.BREMERHAVEN, 5, new ArrayList<>(Arrays.asList(Colors.BLACK))));
         railsGermanyReich.add(new Connections(Cities.DANEMARK, Cities.KIEL, 2, new ArrayList<>(Arrays.asList(Colors.GRAY))));
 
