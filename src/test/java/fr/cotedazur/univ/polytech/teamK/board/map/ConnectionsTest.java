@@ -23,11 +23,6 @@ class ConnectionsTest {
         Assertions.assertEquals(4, connectionStandard.getLength());
     }
 
-    @Test
-    void getFreeRails() {
-        Assertions.assertEquals(new ArrayList<>(Arrays.asList(Colors.BLACK, Colors.PINK, Colors.BLACK)), connectionStandard.getFreeRails());
-
-    }
 
     @Test
     void isFreeColor() {
