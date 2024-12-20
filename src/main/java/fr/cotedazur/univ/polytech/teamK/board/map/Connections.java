@@ -94,8 +94,6 @@ public class Connections {
     public Integer getLength() {
         return length;
     }
-    public Cities getStartCity () {return startCity;}
-    public Cities getEndCity () {return endCity;}
 
     public List<Colors> getFreeRails() {
         List<Colors> freeRails = new ArrayList<>(this.freeToPurchase);
