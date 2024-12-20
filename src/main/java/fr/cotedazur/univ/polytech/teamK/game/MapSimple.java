@@ -46,15 +46,15 @@ public class MapSimple {
         railsGermanyReich.add(new Connections(Cities.BREMERHAVEN, Cities.BREMEN, 1, new ArrayList<>(Arrays.asList(Colors.WHITE))));
         railsGermanyReich.add(new Connections(Cities.BREMERHAVEN, Cities.EMDEN, 3, new ArrayList<>(Arrays.asList(Colors.GRAY))));
 
-        railsGermanyReich.add(new Connections(Cities.EMDEN, Cities.NETHERLANDS, 2, new ArrayList<>(Arrays.asList(Colors.WHITE))));
+        railsGermanyReich.add(new Connections(Cities.EMDEN, Cities.NIEDERLANDE, 2, new ArrayList<>(Arrays.asList(Colors.WHITE))));
         railsGermanyReich.add(new Connections(Cities.EMDEN, Cities.MUNSTER, 4, new ArrayList<>(Arrays.asList(Colors.RED))));
         railsGermanyReich.add(new Connections(Cities.EMDEN, Cities.BREMEN, 3, new ArrayList<>(Arrays.asList(Colors.BLUE))));
 
         railsGermanyReich.add(new Connections(Cities.BREMEN, Cities.HANNOVER, 3, new ArrayList<>(Arrays.asList(Colors.PINK)))); //VERIFY
         railsGermanyReich.add(new Connections(Cities.BREMEN, Cities.MUNSTER, 3, new ArrayList<>(Arrays.asList(Colors.BLACK))));
 
-        railsGermanyReich.add(new Connections(Cities.NETHERLANDS, Cities.MUNSTER, 2, new ArrayList<>(Arrays.asList(Colors.ORANGE))));
-        railsGermanyReich.add(new Connections(Cities.NETHERLANDS, Cities.DUSSELDORF, 3, new ArrayList<>(Arrays.asList(Colors.PINK))));
+        railsGermanyReich.add(new Connections(Cities.NIEDERLANDE, Cities.MUNSTER, 2, new ArrayList<>(Arrays.asList(Colors.ORANGE))));
+        railsGermanyReich.add(new Connections(Cities.NIEDERLANDE, Cities.DUSSELDORF, 3, new ArrayList<>(Arrays.asList(Colors.PINK))));
 
         railsGermanyReich.add(new Connections(Cities.BERLIN, Cities.HANNOVER, 7, new ArrayList<>(Arrays.asList(Colors.YELLOW))));
         railsGermanyReich.add(new Connections(Cities.BERLIN, Cities.MAGDEBURG, 3, new ArrayList<>(Arrays.asList(Colors.RED))));
@@ -114,10 +114,10 @@ public class MapSimple {
         railsGermanyReich.add(new Connections(Cities.MANNHEIM, Cities.KARLSRUHE, 1, new ArrayList<>(Arrays.asList(Colors.BLUE))));
         railsGermanyReich.add(new Connections(Cities.MANNHEIM, Cities.STUTTGART, 2, new ArrayList<>(Arrays.asList(Colors.GRAY, Colors.GRAY))));
 
-        railsGermanyReich.add(new Connections(Cities.SAARBRUCKEN, Cities.STRASBOURG, 1, new ArrayList<>(Arrays.asList(Colors.GREEN))));
+        railsGermanyReich.add(new Connections(Cities.SAARBRUCKEN, Cities.FRANKREICH, 1, new ArrayList<>(Arrays.asList(Colors.GREEN))));
         railsGermanyReich.add(new Connections(Cities.SAARBRUCKEN, Cities.KARLSRUHE, 3, new ArrayList<>(Arrays.asList(Colors.BLACK))));
 
-        railsGermanyReich.add(new Connections(Cities.KARLSRUHE, Cities.STRASBOURG, 2, new ArrayList<>(Arrays.asList(Colors.BLACK))));
+        railsGermanyReich.add(new Connections(Cities.KARLSRUHE, Cities.FRANKREICH, 2, new ArrayList<>(Arrays.asList(Colors.BLACK))));
         railsGermanyReich.add(new Connections(Cities.KARLSRUHE, Cities.FREIBURG, 3, new ArrayList<>(Arrays.asList(Colors.WHITE))));
         railsGermanyReich.add(new Connections(Cities.KARLSRUHE, Cities.STUTTGART, 1, new ArrayList<>(Arrays.asList(Colors.PINK))));
 
@@ -128,7 +128,7 @@ public class MapSimple {
         railsGermanyReich.add(new Connections(Cities.REGENSBURG, Cities.MUNCHEN, 3, new ArrayList<>(Arrays.asList(Colors.ORANGE))));
         railsGermanyReich.add(new Connections(Cities.REGENSBURG, Cities.OSTERREICH, 4, new ArrayList<>(Arrays.asList(Colors.YELLOW))));
 
-        railsGermanyReich.add(new Connections(Cities.STRASBOURG, Cities.FREIBURG, 2, new ArrayList<>(Arrays.asList(Colors.YELLOW))));
+        railsGermanyReich.add(new Connections(Cities.FRANKREICH, Cities.FREIBURG, 2, new ArrayList<>(Arrays.asList(Colors.YELLOW))));
 
         railsGermanyReich.add(new Connections(Cities.ULM, Cities.AUGSBURG, 1, new ArrayList<>(Arrays.asList(Colors.GRAY, Colors.GRAY))));
         railsGermanyReich.add(new Connections(Cities.ULM, Cities.LINDAU, 2, new ArrayList<>(Arrays.asList(Colors.RED))));
@@ -145,7 +145,7 @@ public class MapSimple {
         railsGermanyReich.add(new Connections(Cities.KONSTANZ, Cities.LINDAU, 1, new ArrayList<>(Arrays.asList(Colors.YELLOW))));
 
         railsGermanyReich.add(new Connections(Cities.LINDAU, Cities.SCHWEIZ, 2, new ArrayList<>(Arrays.asList(Colors.BLUE))));
-        railsGermanyReich.add(new Connections(Cities.LINDAU, Cities.OSTERREICH2, 2, new ArrayList<>(Arrays.asList(Colors.PINK))));
+        railsGermanyReich.add(new Connections(Cities.LINDAU, Cities.OSTERREICH, 2, new ArrayList<>(Arrays.asList(Colors.PINK))));
 
         return railsGermanyReich;
     }

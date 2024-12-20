@@ -35,7 +35,7 @@ public class Bot extends Player {
                 for (int colorIndex = 0; colorIndex < Colors.values().length; colorIndex++)
                 {
                     Colors colorToTest = availableColors[colorIndex];
-                    if(currentConnectionTried.buyRail(colorToTest, super.getNumberColor(colorToTest), "buyer"))
+                    if(this.buyRail(currentConnectionTried, colorToTest))
                     {
                         return true;
                         //we want to be breaking out of the method,

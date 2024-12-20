@@ -15,6 +15,11 @@ public class Player {
     private String name ;
     private int score;
     private Meeples meeples;
+
+    public ArrayList<Connections> getConnections() {
+        return connections;
+    }
+
     private ArrayList<Connections> connections;
     private ArrayList<WagonCard> wagonCards;
     private ArrayList<DestinationCard> destinationCards;
@@ -51,7 +56,7 @@ public class Player {
     public int getNumberOfMeeples() {return meeples.getNumber();}
 
     /**
-     * Modify the socre of the player by adding a value
+     * Modify the score of the player by adding a value
      * @param value the value to add to the score
      */
     public void addScore(int value) {
@@ -146,12 +151,14 @@ public class Player {
         }
     }
 
-    public void buyRail(Connections connection, Colors color) {
+    public boolean buyRail(Connections connection, Colors color) {
         if(connection.claimAttempt(color, getNumberColor(color), this)) {
             this.connections.add(connection);
             removeCardWagon(color, connection.getLength());
-            //connection.addOwner(this);
+            connection.addOwner(this);
+            return true;
         }
+        return false;
     }
 
     @Override
@@ -159,7 +166,7 @@ public class Player {
         if (getName().equals("PlayerBank")){
             return "";
         }
-        return "\nNom: " + getName() + "\nScore: " + getScore() + "\nCartes Destination: " + getCartesDestination() + "\nCartes Wagons: " + getCartesWagon() + "\nMeeples: " + getMeeples() ;
+        return "\nNom: " + getName() + "\nScore: " + getScore() + "\nCartes Destination: " + getCartesDestination() + "\nCartes Wagons: " + getCartesWagon() + "\nMeeples: " + getMeeples();
     }
 }
 

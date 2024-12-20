@@ -15,11 +15,6 @@ import java.util.List;
 
 public class Main {
     public static void main(String[] args) {
-        /*
-           on veut que dans le main il y ait un truc du genre
-           Game currentGame = new Game(Player joueur1, Player joueur2);
-           currentGame.startGame();
-         */
         Game currentGame = new Game("basic");
         currentGame.runGame();
         List<Connections> mapConnections = currentGame.getGameMap().getConnectionsInMap();
