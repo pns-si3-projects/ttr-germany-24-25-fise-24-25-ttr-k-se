@@ -1,10 +1,22 @@
+<!--
+Ce fichier POM configure un projet Java en utilisant Maven avec les outils modernes pour :
+
+Compiler en Java 21.
+Exécuter des tests avec JUnit 5.
+Gérer les dépendances efficacement.
+Lancer une classe principale définie par l'utilisateur.
+-->
+
 <project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
          xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
     <modelVersion>4.0.0</modelVersion>
 
-    <groupId>TeamK</groupId> <!-- CHANGE ME -->
-    <artifactId>JarName</artifactId> <!-- CHANGE ME -->
-    <version>1.0-SNAPSHOT</version> <!-- CHANGE ME -->
+    <groupId>TeamK</groupId>
+    <artifactId>TTRGame</artifactId>
+    <version>1.1-SNAPSHOT</version>
+    <packaging>jar</packaging>
+
+    <name>TTRGame</name>
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding> <!-- CHANGE ME IF NEEDED, other : ISO-8859-1 -->
@@ -12,6 +24,7 @@
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <junit.bom.version>5.11.2</junit.bom.version>
+        <mockito.bom.version>5.14.1</mockito.bom.version>
     </properties>
 
     <dependencyManagement> <!-- helps maven to resolve conflicting transitive dependencies -->
@@ -23,20 +36,25 @@
                 <type>pom</type>
                 <scope>import</scope>
             </dependency>
+            <dependency>
+                <groupId>org.mockito</groupId>
+                <artifactId>mockito-bom</artifactId>
+                <version>${mockito.bom.version}</version>
+                <type>pom</type>
+                <scope>import</scope>
+            </dependency>
         </dependencies>
     </dependencyManagement>
 
     <dependencies>
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-api</artifactId>
-            <version>5.11.2</version>
+            <artifactId>junit-jupiter</artifactId>
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter-engine</artifactId>
-            <version>5.11.2</version>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>
@@ -49,21 +67,13 @@
                 <version>3.13.0</version>
             </plugin>
 
-            <plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.13.0</version>
-                <configuration>
-                    <source>${java.version}</source>
-                    <target>${java.version}</target>
-                </configuration>
-            </plugin>
-
+            <!--Plugin utilisé pour executer les tests Junit-->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
                 <version>3.5.1</version>
             </plugin>
 
+            <!--Permet d'exécuter des applications Java directement via Maven-->
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>exec-maven-plugin</artifactId>
@@ -76,17 +86,7 @@
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>fr.cotedazur.univ.polytech.teamK.Main</mainClass> <!-- CHANGE ME -->
-                    <!--          <arguments>
-                                <argument>argument1</argument>
-                              </arguments>
-                              <systemProperties>
-                                <systemProperty>
-                                  <key>myproperty</key>
-                                  <value>myvalue</value>
-                                </systemProperty>
-                              </systemProperties>
-                    -->
+                    <mainClass>fr.cotedazur.univ.polytech.TeamK.Main</mainClass>
                 </configuration>
             </plugin>
 
