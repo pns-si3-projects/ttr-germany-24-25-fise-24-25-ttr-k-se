@@ -19,7 +19,17 @@ public class Connections {
     colors: one color per rail
     */
     private Player playerBank; //used to fill owners list
+
+    public Cities getStartCity() {
+        return startCity;
+    }
+
     private Cities startCity;
+
+    public Cities getEndCity() {
+        return endCity;
+    }
+
     private Cities endCity;
     //private String startCity;
     //private String endCity;
@@ -124,7 +134,8 @@ public class Connections {
 
     @Override
     public String toString() {
-        return owners.toString();
+        return "" + getStartCity() + " <--> " + getEndCity();
+        //return owners.toString();
     }
 
 }
