@@ -45,6 +45,7 @@ public class Player {
     // Getteur and Setteur
     public int getId() {return id;}
     public void setId(int id) {this.id = id;}
+    public void resetId() {this.id = 0;}
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
     public int getScore() {return score;}
@@ -147,14 +148,23 @@ public class Player {
      */
     public boolean takeMeeples(Cities city) {
         try {
-            this.meeples.transferMeeples(city.getMeeples());
-            city.addPlayer(this);
-            return true;
+            if (!city.getPlayersThatPickedUpMeeples().contains(this)) {
+                this.meeples.transferMeeples(city.getMeeples());
+                city.addPlayer(this);
+                return true;
+            }
+            return false;
         } catch (IllegalAccessException e) {
             return false;
         }
     }
 
+    /**
+     * Function who allow a player to buy a rail
+     * @param connection the connection we want to buy
+     * @param color the color we want to use
+     * @return true if we bought it, false otherwise
+     */
     public boolean buyRail(Connections connection, Colors color) {
         if(connection.claimAttempt(color, getNumberColor(color), this)) {
             this.connections.add(connection);

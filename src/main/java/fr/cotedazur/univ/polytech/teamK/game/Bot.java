@@ -37,6 +37,8 @@ public class Bot extends Player {
                     Colors colorToTest = availableColors[colorIndex];
                     if(this.buyRail(currentConnectionTried, colorToTest))
                     {
+                        super.takeMeeples(currentConnectionTried.getStartCity());
+                        super.takeMeeples(currentConnectionTried.getEndCity());
                         return true;
                         //we want to be breaking out of the method,
                         // maybe a return would make more sense? to see what we did on that turn

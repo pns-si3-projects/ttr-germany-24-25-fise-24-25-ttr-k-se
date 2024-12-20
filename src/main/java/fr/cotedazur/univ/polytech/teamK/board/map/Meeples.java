@@ -34,7 +34,7 @@ public class Meeples {
             throw new IllegalAccessException();
         }
         int i;
-        for (i = 0; cityMeeples.listOfOwnedMeeples[i] > 0; i++) ;
+        for (i = 0; cityMeeples.listOfOwnedMeeples[i] == 0; i++) ;
         cityMeeples.listOfOwnedMeeples[i]--;
         cityMeeples.number--;
         this.listOfOwnedMeeples[i]++;

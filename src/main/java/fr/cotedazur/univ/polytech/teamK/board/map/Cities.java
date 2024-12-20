@@ -66,6 +66,8 @@ public enum Cities {
         return meeples;
     }
 
+    public List<Player> getPlayersThatPickedUpMeeples () {return playersThatPickedUpMeeples;}
+
     public void addPlayer(Player player) {
         playersThatPickedUpMeeples.add(player);
     }
