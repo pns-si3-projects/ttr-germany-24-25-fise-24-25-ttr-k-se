@@ -2,28 +2,34 @@ package fr.cotedazur.univ.polytech.teamK.board.map;
 
 import java.util.Arrays;
 import java.util.Objects;
+import java.util.Random;
 
 public class Meeples {
     private static int[] total = {10,10,10,10,10,10}; //red, black, green, yellow, blue, white
+
     private int [] listOfOwnedMeeples; //red, black, green, yellow, blue, white
     private int number;
+    private Random rand;
 
     //pour les joueurs
     public Meeples(){
         listOfOwnedMeeples = new int[]{0, 0, 0, 0, 0, 0};
         this.number = 0;
+        rand = new Random();
     }
 
     public int getNumber () {return number;}
+    public int[] getListOfOwnedMeeples() {return listOfOwnedMeeples;}
 
     //pour les city
     public Meeples(int number)  {
         listOfOwnedMeeples = new int[]{0, 0, 0, 0, 0, 0};
         int index;
         this.number = number;
+        rand = new Random();
         for(int i = 0; i < number; i++){
             do {
-                index = (int) (Math.random() * 6);
+                index = rand.nextInt(6);
             } while (total[index] == 0);
             listOfOwnedMeeples[index]++;
             total[index]--;
@@ -34,7 +40,7 @@ public class Meeples {
             throw new IllegalAccessException();
         }
         int i;
-        for (i = 0; cityMeeples.listOfOwnedMeeples[i] == 0; i++) ;
+        for(i = 0 ; cityMeeples.listOfOwnedMeeples[i] == 0; i ++);
         cityMeeples.listOfOwnedMeeples[i]--;
         cityMeeples.number--;
         this.listOfOwnedMeeples[i]++;
