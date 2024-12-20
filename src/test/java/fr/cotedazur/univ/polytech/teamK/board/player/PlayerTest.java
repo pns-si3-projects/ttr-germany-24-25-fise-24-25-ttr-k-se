@@ -20,6 +20,7 @@ class PlayerTest {
 
     @BeforeEach
     void setUp () {
+        Player.resetIdCounter();
         player1 = new Player("Deyann");
         player2 = new Player("Tom");
     }

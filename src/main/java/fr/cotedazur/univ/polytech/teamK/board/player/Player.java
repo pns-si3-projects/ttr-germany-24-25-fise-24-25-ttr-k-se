@@ -6,6 +6,7 @@ import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
 import fr.cotedazur.univ.polytech.teamK.board.map.Connections;
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeples;
+import org.w3c.dom.css.Counter;
 
 import java.util.ArrayList;
 
@@ -55,6 +56,9 @@ public class Player {
     public void setMeeples(Meeples meeples) {this.meeples = meeples;}
     public int getNumberOfMeeples() {return meeples.getNumber();}
 
+    public static void resetIdCounter() {
+        COUNT = 1;
+    }
     /**
      * Modify the score of the player by adding a value
      * @param value the value to add to the score
