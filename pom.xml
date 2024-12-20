@@ -86,7 +86,7 @@ Lancer une classe principale définie par l'utilisateur.
                     </execution>
                 </executions>
                 <configuration>
-                    <mainClass>fr.cotedazur.univ.polytech.TeamK.Main</mainClass>
+                    <mainClass>fr.cotedazur.univ.polytech.teamK.Main</mainClass>
                 </configuration>
             </plugin>
 

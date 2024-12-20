@@ -65,6 +65,8 @@ public class Game {
     }
     public void printPlayerStatus()
     {
+        System.out.println("Etat des joueurs à la fin de partie :\n");
+
         for (int playerIndex = 0; playerIndex < gamePlayers.size(); playerIndex++)
         {
             System.out.println(gamePlayers.get(playerIndex).toString());
