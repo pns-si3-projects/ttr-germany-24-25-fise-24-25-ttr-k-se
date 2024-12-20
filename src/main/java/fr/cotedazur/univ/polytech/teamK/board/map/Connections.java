@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.teamK.board.map;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
+import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -17,7 +18,7 @@ public class Connections {
     width: number of rails
     colors: one color per rail
     */
-
+    private Player playerBank; //used to fill owners list
     private Cities startCity;
     private Cities endCity;
     //private String startCity;
@@ -32,7 +33,7 @@ public class Connections {
     private List<Colors> rails; //each element of the List is a color
 
     //private Player owner;
-    private List<String> owners; //each element of the list is a player; an unowned one has owner NULL
+    private List<Player> owners; //each element of the list is a player; an unowned one has owner NULL
     private Integer freeToPurchase;
 
     public Connections(Cities aStartCity, Cities aEndCity, Integer aLength, List<Colors> aRailsList) {
@@ -43,7 +44,8 @@ public class Connections {
         this.freeToPurchase = this.width;
         this.rails = aRailsList;
         //this.fillRails();
-        this.owners = new ArrayList<>(Collections.nCopies(width, "NULL"));
+        playerBank = new Player("PlayerBank");
+        this.owners = new ArrayList<>(Collections.nCopies(width, playerBank));
     }
 
     private void setStartCity(Cities startCity) {
@@ -74,6 +76,10 @@ public class Connections {
         this.width = width;
     }
 
+    public void addOwner(Player player) {
+        this.owners.add(player);
+    }
+
 
     public Integer getLength() {
         return length;
@@ -90,18 +96,15 @@ public class Connections {
     }
 
     public Integer isFreeColor(Colors aColor){
-        for (int railIndex = 0; railIndex < this.width; railIndex++) {
-            if (this.owners.get(railIndex).equals("NULL") && (this.rails.get(railIndex).equals(aColor))){ /* idk where we want to do the grey being any color, so i have this in case || this.rails.get(railIndex).equals(Colors.GRAY)*/
+        for (int railIndex = 0; railIndex < rails.size(); railIndex++) {
+            if (rails.get(railIndex) == aColor && owners.get(railIndex).equals(playerBank)){/* idk where we want to do the grey being any color, so i have this in case || this.rails.get(railIndex).equals(Colors.GRAY)*/
                 return railIndex;
             }
         }
         //value to indicate no free slot of that color: -1
         return -1;
     }
-
-
-
-    public boolean buyRail(Colors aColor, Integer numberCardsUsed, String buyer) {
+    public boolean claimAttempt(Colors aColor, Integer numberCardsUsed, Player buyer) {
         if (this.length > numberCardsUsed || numberCardsUsed <= 0){
             //test if invalid or insufficient number of Cards uses
             return false;
@@ -117,6 +120,11 @@ public class Connections {
             freeToPurchase--;
             return true;
         }
+    }
+
+    @Override
+    public String toString() {
+        return owners.toString();
     }
 
 }

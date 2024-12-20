@@ -1,5 +1,9 @@
 package fr.cotedazur.univ.polytech.teamK;
 
+import fr.cotedazur.univ.polytech.teamK.board.Cards.Deck;
+import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
+import fr.cotedazur.univ.polytech.teamK.board.Cards.TypeOfCards;
+import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
 import fr.cotedazur.univ.polytech.teamK.board.map.Connections;

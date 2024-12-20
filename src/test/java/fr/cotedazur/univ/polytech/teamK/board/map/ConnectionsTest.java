@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.teamK.board.map;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
+import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -37,23 +38,24 @@ class ConnectionsTest {
     }
 
     @Test
-    void buyRail() {
+    void isBuyable() {
+        Player John = new Player("John");
         //try to buy with weird stuff, should fail
-        Assertions.assertEquals(false, connectionStandard.buyRail(Colors.BLUE, 3, "John"));
-        Assertions.assertEquals(false, connectionStandard.buyRail(Colors.BLACK, 3, "John"));
-        Assertions.assertEquals(false, connectionStandard.buyRail(Colors.BLACK, -2, "John"));
+        Assertions.assertFalse(connectionStandard.claimAttempt(Colors.BLUE, 3, John));
+        Assertions.assertFalse(connectionStandard.claimAttempt(Colors.BLACK, 3, John));
+        Assertions.assertFalse(connectionStandard.claimAttempt(Colors.BLACK, -2, John));
         //try to buy, should succeed
-        Assertions.assertEquals(true, connectionStandard.buyRail(Colors.BLACK, 5, "John"));
+        Assertions.assertTrue(connectionStandard.claimAttempt(Colors.BLACK, 5, John));
         //test if properly done after purchase
         Assertions.assertEquals(2, connectionStandard.isFreeColor(Colors.BLACK));
         //try to buy a new one, should succeed
-        Assertions.assertEquals(true, connectionStandard.buyRail(Colors.BLACK, 5, "John"));
+        Assertions.assertTrue(connectionStandard.claimAttempt(Colors.BLACK, 5, John));
         //try to buy a third one, should fail
-        Assertions.assertEquals(false, connectionStandard.buyRail(Colors.BLACK, 5, "John"));
+        Assertions.assertFalse(connectionStandard.claimAttempt(Colors.BLACK, 5, John));
         //try to buy the pink one
-        Assertions.assertEquals(true, connectionStandard.buyRail(Colors.PINK, 5, "John"));
+        Assertions.assertTrue(connectionStandard.claimAttempt(Colors.PINK, 5, John));
         //all of them should be purchased, test to see what happens when i try to purchase another one
-        Assertions.assertEquals(false, connectionStandard.buyRail(Colors.BLUE, 5, "John"));
+        Assertions.assertFalse(connectionStandard.claimAttempt(Colors.BLUE, 5, John));
 
     }
 }

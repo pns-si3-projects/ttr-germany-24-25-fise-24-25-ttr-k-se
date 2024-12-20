@@ -3,16 +3,19 @@ package fr.cotedazur.univ.polytech.teamK.board.player;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
+import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
 import fr.cotedazur.univ.polytech.teamK.board.map.Connections;
+import fr.cotedazur.univ.polytech.teamK.board.map.Meeples;
 
-import javax.print.attribute.standard.Destination;
 import java.util.ArrayList;
 
 public class Player {
     private int id ;
-    private static int COUNT = 0;
+    private static int COUNT = 1;
     private String name ;
     private int score;
+    private Meeples meeples;
+    private ArrayList<Connections> connections;
     private ArrayList<WagonCard> wagonCards;
     private ArrayList<DestinationCard> destinationCards;
 
@@ -23,6 +26,8 @@ public class Player {
         this.score = 0;
         this.wagonCards = new ArrayList<>();
         this.destinationCards = new ArrayList<>();
+        this.connections = new ArrayList<>();
+        this.meeples = new Meeples();
     }
 
     public Player(int id, String name, ArrayList<WagonCard> wagonCards, ArrayList<DestinationCard> destinationCards) {
@@ -39,6 +44,11 @@ public class Player {
     public int getScore() {return score;}
     public ArrayList<DestinationCard> getCartesDestination() {return destinationCards;}
     public ArrayList<WagonCard> getCartesWagon() {return wagonCards;}
+    public int getNumberWagon() {return wagonCards.size();}
+    public int getNumberDestination () {return destinationCards.size();}
+    public Meeples getMeeples() {return meeples;}
+    public void setMeeples(Meeples meeples) {this.meeples = meeples;}
+    public int getNumberOfMeeples() {return meeples.getNumber();}
 
     /**
      * Modify the socre of the player by adding a value
@@ -59,15 +69,24 @@ public class Player {
 
 
     public boolean removeCardWagon(Colors color, int number) {
-        if (getNumberColor(color) <number) {
-            throw new IllegalArgumentException("The player doesn't have enough card");
+        int count = number;
+        if (getNumberColor(color) < number) {
+            throw new IllegalArgumentException("The player doesn't have enough cards");
         }
+
+        ArrayList<WagonCard> toRemove = new ArrayList<>();
         for (WagonCard carte : this.wagonCards) {
-            if (carte.getColor() == color && number > 0) {
-                this.wagonCards.remove(carte);
-                number--;
+            if (carte.getColor() == color && count > 0) {
+                toRemove.add(carte);
+                count--;
             }
         }
+
+        if (count > 0) {
+            throw new IllegalArgumentException("Not enough cards to remove");
+        }
+
+        this.wagonCards.removeAll(toRemove);
         return true;
     }
 
@@ -111,6 +130,36 @@ public class Player {
             return true;
         }
         throw new IllegalArgumentException("The player doesn't have this card");
+    }
+
+    /**
+     * Transfer the neeples from a city to the player
+     * @param city the city to take the neeples from
+     */
+    public boolean takeMeeples(Cities city) {
+        try {
+            this.meeples.transferMeeples(city.getMeeples());
+            city.addPlayer(this);
+            return true;
+        } catch (IllegalAccessException e) {
+            return false;
+        }
+    }
+
+    public void buyRail(Connections connection, Colors color) {
+        if(connection.claimAttempt(color, getNumberColor(color), this)) {
+            this.connections.add(connection);
+            removeCardWagon(color, connection.getLength());
+            //connection.addOwner(this);
+        }
+    }
+
+    @Override
+    public String toString() {
+        if (getName().equals("PlayerBank")){
+            return "";
+        }
+        return "\nNom: " + getName() + "\nScore: " + getScore() + "\nCartes Destination: " + getCartesDestination() + "\nCartes Wagons: " + getCartesWagon() + "\nMeeples: " + getMeeples() ;
     }
 }
 
