@@ -3,11 +3,12 @@ package fr.cotedazur.univ.polytech.teamK.game;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.Deck;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
-import fr.cotedazur.univ.polytech.teamK.board.Colors;
-import fr.cotedazur.univ.polytech.teamK.board.map.Connections;
+import fr.cotedazur.univ.polytech.teamK.board.map.City;
+import fr.cotedazur.univ.polytech.teamK.board.map.PhysicalConnection;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 
-import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.List;
 import java.util.Random;
 
 public class Bot extends Player {
@@ -22,7 +23,69 @@ public class Bot extends Player {
         }
     }
 
+    public boolean playTurn(MapHash currentMap, Deck<DestinationCard> destinationDeck, Deck<WagonCard> wagonDeck)
+    {
+        if (this.ID == 0)
+        {
+            //look at city 0 and purchase a connection. if not possible, look at a random neighbor etc
+            //once you find yourself on a city you've already seen, pull cards.
+            HashSet<Integer> seenCities = new HashSet<Integer>();
+            Integer currentCityID = super.getId();
+            while (!seenCities.contains(currentCityID))
+            {
+                List<PhysicalConnection> connections = currentMap.getCities().get(currentCityID).getPhysicalConnectionList();
+                for (int connectionIndex = 0; connectionIndex < connections.size(); connectionIndex++)
+                {
 
+                    if (this.buyRail(connections.get(connectionIndex)))
+                    {
+                        super.takeMeeples(connections.get(connectionIndex).getCityOne());
+                        super.takeMeeples(connections.get(connectionIndex).getCityTwo());
+                        return true;
+                    }
+                }
+                seenCities.add(currentCityID);
+                Random rand = new Random();
+                int rand_int = rand.nextInt(connections.size());
+                int oldID = currentCityID;
+                currentCityID = connections.get(rand_int).getCityOne().getId();
+                if (oldID == currentCityID)
+                {
+                    currentCityID = connections.get(rand_int).getCityTwo().getId();
+                }
+            }
+            Random rand = new Random();
+            int rand_int = rand.nextInt(100);
+            if (rand_int < 20)
+            {
+                //draw from destination
+                DestinationCard destCardDrawn = destinationDeck.draw();
+                if (destCardDrawn != null)
+                {
+                    super.addCardDestination(destCardDrawn);
+                    return true;
+                }
+
+            }
+            else
+            {
+                //draw from wagons
+                WagonCard wagonCardDrawn1 = wagonDeck.draw();
+                WagonCard wagonCardDrawn2 = wagonDeck.draw();
+                if (wagonCardDrawn1 != null && wagonCardDrawn2 != null)
+                {
+                    super.addCardWagon(wagonCardDrawn1);
+                    super.addCardWagon(wagonCardDrawn2);
+                    return true;
+                }
+            }
+
+        }
+        return false;
+    }
+
+
+    /*
     public boolean playTurn(MapSimple currentmap, Deck<DestinationCard> destinationDeck, Deck<WagonCard> wagonDeck)
     {
         if (this.ID == 0)
@@ -78,5 +141,6 @@ public class Bot extends Player {
         //need a return statement outside of the if
         return false;
     }
+    */
 
 }

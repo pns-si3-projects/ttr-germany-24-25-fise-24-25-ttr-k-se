@@ -18,6 +18,7 @@ public class Main {
     public static void main(String[] args) {
         Game currentGame = new Game("basic");
         currentGame.runGame();
+        /*
         List<Connections> mapConnections = currentGame.getGameMap().getConnectionsInMap();
         for (int checkingConnections = 0; checkingConnections < mapConnections.size(); checkingConnections++)
         {
@@ -26,6 +27,7 @@ public class Main {
                 String yo = "yo";
             }
         }
+        */
         currentGame.printPlayerStatus();
     }
 }

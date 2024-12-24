@@ -4,9 +4,7 @@ import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
 import fr.cotedazur.univ.polytech.teamK.board.map.Connections;
 
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.List;
+import java.util.*;
 
 public class MapSimple {
     private List<Connections> connectionsInMap;
@@ -14,7 +12,7 @@ public class MapSimple {
     public MapSimple(String Chosen) {
         if (Chosen.equals("Reich"))
         {
-            connectionsInMap = buildReich();
+            //connectionsInMap = buildReich();
         }
     }
 
@@ -22,13 +20,14 @@ public class MapSimple {
         return connectionsInMap;
     }
 
-    private List buildReich() {
+    private ArrayList buildReichOld() {
         ArrayList<Connections> railsGermanyReich = new ArrayList<Connections>();
         railsGermanyReich.add(new Connections(Cities.DANEMARK, Cities.BREMERHAVEN, 5, new ArrayList<>(Arrays.asList(Colors.BLACK))));
         railsGermanyReich.add(new Connections(Cities.DANEMARK, Cities.KIEL, 2, new ArrayList<>(Arrays.asList(Colors.GRAY))));
 
         railsGermanyReich.add(new Connections(Cities.KIEL, Cities.BREMERHAVEN, 3, new ArrayList<>(Arrays.asList(Colors.GRAY))));
         railsGermanyReich.add(new Connections(Cities.KIEL, Cities.HAMBURG, 2, new ArrayList<>(Arrays.asList(Colors.BLACK, Colors.PINK))));
+
         railsGermanyReich.add(new Connections(Cities.KIEL, Cities.SCHWERIN, 3, new ArrayList<>(Arrays.asList(Colors.YELLOW))));
         railsGermanyReich.add(new Connections(Cities.KIEL, Cities.ROSTOCK, 4, new ArrayList<>(Arrays.asList(Colors.ORANGE))));
 
@@ -67,7 +66,7 @@ public class MapSimple {
         railsGermanyReich.add(new Connections(Cities.HANNOVER, Cities.MUNSTER, 4, new ArrayList<>(Arrays.asList(Colors.YELLOW))));
 
         railsGermanyReich.add(new Connections(Cities.MUNSTER, Cities.DORTMUND, 1, new ArrayList<>(Arrays.asList(Colors.GRAY, Colors.GRAY))));
-
+        //DONE
         railsGermanyReich.add(new Connections(Cities.MAGDEBURG, Cities.LEIPZIG, 2, new ArrayList<>(Arrays.asList(Colors.YELLOW))));
 
         railsGermanyReich.add(new Connections(Cities.DORTMUND, Cities.DUSSELDORF, 1, new ArrayList<>(Arrays.asList(Colors.GRAY, Colors.GRAY, Colors.GRAY))));
@@ -149,4 +148,5 @@ public class MapSimple {
 
         return railsGermanyReich;
     }
+
 }

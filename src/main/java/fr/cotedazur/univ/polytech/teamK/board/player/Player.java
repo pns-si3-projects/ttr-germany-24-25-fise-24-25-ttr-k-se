@@ -3,12 +3,10 @@ package fr.cotedazur.univ.polytech.teamK.board.player;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
-import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
-import fr.cotedazur.univ.polytech.teamK.board.map.Connections;
-import fr.cotedazur.univ.polytech.teamK.board.map.Meeples;
+import fr.cotedazur.univ.polytech.teamK.board.map.*;
 import org.w3c.dom.css.Counter;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class Player {
     private int id ;
@@ -17,11 +15,12 @@ public class Player {
     private int score;
     private Meeples meeples;
 
-    public ArrayList<Connections> getConnections() {
+    public ArrayList<Connection> getConnections() {
         return connections;
     }
+    private Map<Integer, Map<Integer, Integer>> virtualConnectionsCreated;
 
-    private ArrayList<Connections> connections;
+    private ArrayList<Connection> connections;
     private ArrayList<WagonCard> wagonCards;
     private ArrayList<DestinationCard> destinationCards;
 
@@ -34,6 +33,8 @@ public class Player {
         this.destinationCards = new ArrayList<>();
         this.connections = new ArrayList<>();
         this.meeples = new Meeples();
+        createVirtualConnectionMap();
+
     }
 
     public Player(int id, String name, ArrayList<WagonCard> wagonCards, ArrayList<DestinationCard> destinationCards) {
@@ -146,7 +147,7 @@ public class Player {
      * Transfer the neeples from a city to the player
      * @param city the city to take the neeples from
      */
-    public boolean takeMeeples(Cities city) {
+    public boolean takeMeeples(City city) {
         try {
             if (!city.getPlayersThatPickedUpMeeples().contains(this)) {
                 this.meeples.transferMeeples(city.getMeeples());
@@ -161,19 +162,69 @@ public class Player {
 
     /**
      * Function who allow a player to buy a rail
-     * @param connection the connection we want to buy
-     * @param color the color we want to use
+     * @param connectionToBuy the connection we want to buy
      * @return true if we bought it, false otherwise
      */
-    public boolean buyRail(Connections connection, Colors color) {
-        if(connection.claimAttempt(color, getNumberColor(color), this)) {
-            this.connections.add(connection);
-            removeCardWagon(color, connection.getLength());
-            connection.addOwner(this);
+    public boolean buyRail(PhysicalConnection connectionToBuy)
+    {
+        if (connectionToBuy.claimAttempt(getNumberColor(connectionToBuy.getColor())))
+        {
+            this.connections.add(connectionToBuy);
+            removeCardWagon(connectionToBuy.getColor(), connectionToBuy.getLength());
+            connectionToBuy.setOwner(this);
+            updateMap(connectionToBuy);
             return true;
         }
         return false;
     }
+
+    //hashmap of (city, Hashmap of (cities, distance))
+
+    public void createVirtualConnectionMap(){
+        virtualConnectionsCreated = new HashMap<Integer, Map<Integer, Integer>>();
+    }
+    public void addCityToHashmap(City city) {
+        virtualConnectionsCreated.put(city.getId(), new HashMap<Integer, Integer>());
+    }
+    public void connectTwoCities(Integer cityOneID, Integer cityTwoID, Integer length) {
+        //test if there already is a connection: if yes, keep the longest one ; WE LOOSE INFO
+        Map<Integer, Integer> cityOneMap = virtualConnectionsCreated.get(cityOneID);
+        if ((!cityOneMap.containsKey(cityTwoID)) || (cityOneMap.containsKey(cityTwoID) && cityOneMap.get(cityTwoID) <= length)) {
+            //only replace if length is greater than previous length VERIFY
+            virtualConnectionsCreated.get(cityOneID).put(cityTwoID, length);
+            virtualConnectionsCreated.get(cityTwoID).put(cityOneID, length);
+        }
+
+    }
+    //i start with two cities A and B
+    //in every city connected to A, i connect it to every city connected to city B
+    public void updateMap(Connection c) {
+        City cityA = c.getCityOne();
+        City cityB = c.getCityTwo();
+        Integer lengthToAdd = c.getLength();
+        //update map only if the lengthToAdd is longer than the existing distance between A and B (originally -infinity)
+        if ((virtualConnectionsCreated.get(cityA.getId()) == null) || (virtualConnectionsCreated.get(cityA.getId()).get(cityB.getId()) == null) || (lengthToAdd > virtualConnectionsCreated.get(cityA.getId()).get(cityB.getId()))) {
+            //here I have ensured that either there was no previous path from A to B, or that the new connection is Longer
+            //so I want to connect all neighbors of A to all neigbors of B (just need to avoid connecting a city to itself
+            //loop over all neighbors of A
+            for (var cityOne : (virtualConnectionsCreated.get(cityA.getId())).entrySet()) {
+                Integer cityOneID = cityOne.getKey();
+                //loop over all neighbors of B
+                for (var cityTwo : (virtualConnectionsCreated.get(cityB.getId())).entrySet()) {
+                    Integer cityTwoID = cityTwo.getKey();
+                    //ensure I dont connect cityOne to cityTwo.
+                    //otherwise, connect cityOne to cityTwo with length(1-A) + length (A-B) + length(B-2)
+                    if (!cityOneID.equals(cityTwoID)) {
+                        lengthToAdd += virtualConnectionsCreated.get(cityOneID).get(cityA.getId());
+                        lengthToAdd += virtualConnectionsCreated.get(cityTwoID).get(cityB.getId());
+                        connectTwoCities(cityOneID, cityTwoID, lengthToAdd);
+                    }
+                }
+            }
+        }
+    }
+
+
 
     @Override
     public String toString() {

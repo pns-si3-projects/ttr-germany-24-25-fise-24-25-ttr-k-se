@@ -19,30 +19,13 @@ public class Connections {
     colors: one color per rail
     */
     private Player playerBank; //used to fill owners list
-
-    public Cities getStartCity() {
-        return startCity;
-    }
-
     private Cities startCity;
-
-    public Cities getEndCity() {
-        return endCity;
-    }
-
     private Cities endCity;
-    //private String startCity;
-    //private String endCity;
     private Integer length;
 
-    public Integer getWidth() {
-        return width;
-    }
 
     private Integer width;
     private List<Colors> rails; //each element of the List is a color
-
-    //private Player owner;
     private List<Player> owners; //each element of the list is a player; an unowned one has owner NULL
     private Integer freeToPurchase;
 
@@ -85,16 +68,22 @@ public class Connections {
         }
         this.width = width;
     }
-
     public void addOwner(Player player) {
         this.owners.add(player);
     }
 
-
+    public Cities getStartCity() {
+        return startCity;
+    }
+    public Cities getEndCity() {
+        return endCity;
+    }
+    public Integer getWidth() {
+        return width;
+    }
     public Integer getLength() {
         return length;
     }
-
     public List<Colors> getFreeRails() {
         List<Colors> freeRails = new ArrayList<>(this.freeToPurchase);
         for (int railIndex = 0; railIndex < this.width; railIndex++) {
@@ -104,7 +93,6 @@ public class Connections {
         }
         return freeRails;
     }
-
     public Integer isFreeColor(Colors aColor){
         for (int railIndex = 0; railIndex < rails.size(); railIndex++) {
             if (rails.get(railIndex) == aColor && owners.get(railIndex).equals(playerBank)){/* idk where we want to do the grey being any color, so i have this in case || this.rails.get(railIndex).equals(Colors.GRAY)*/
