@@ -85,6 +85,11 @@ public class Bot extends Player {
     }
 
 
+    public void printStatus()
+    {
+        System.out.println(super.toString());
+    }
+
     /*
     public boolean playTurn(MapSimple currentmap, Deck<DestinationCard> destinationDeck, Deck<WagonCard> wagonDeck)
     {

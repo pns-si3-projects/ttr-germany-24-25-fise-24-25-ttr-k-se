@@ -60,6 +60,7 @@ public class Game {
             for (int playerIndex = 0; playerIndex < gamePlayers.size(); playerIndex++)
             {
                 gamePlayers.get(playerIndex).playTurn(gameMap, destinationDeck, wagonDeck);
+                this.printPlayerStatus();
             }
         }
     }

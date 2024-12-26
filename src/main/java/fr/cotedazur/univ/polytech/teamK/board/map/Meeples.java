@@ -30,7 +30,7 @@ public class Meeples {
         for(int i = 0; i < number; i++){
             do {
                 index = rand.nextInt(6);
-            } while (total[index] == 0);
+            } while (total[index] == 0);//WTF
             listOfOwnedMeeples[index]++;
             total[index]--;
         }

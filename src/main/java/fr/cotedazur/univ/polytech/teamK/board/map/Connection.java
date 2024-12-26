@@ -25,16 +25,16 @@ public abstract class Connection {
     }
 
     private void setCityOne(City startCity) {
-        if (cityOne == null){
+        if (startCity == null){
             throw new IllegalArgumentException("StartCity must not be null");
         }
-        this.cityOne = cityOne;
+        this.cityOne = startCity;
     }
     private void setCityTwo(City endCity) {
-        if (cityTwo == null){
+        if (endCity == null){
             throw new IllegalArgumentException("EndCity must not be null");
         }
-        if (cityTwo.equals(endCity)){
+        if (cityOne.equals(endCity)){
             throw new IllegalArgumentException("StartCity and EndCity must not be the same");
         }
         this.cityTwo = endCity;

@@ -33,6 +33,8 @@ public class Deck<T extends Card> {
         this.cards = new ArrayList<>(MAX_CAPACITY);
         if (type == TypeOfCards.DESTINATION) {
             //DESTINATIONS COURTES
+            //ERROR, IM RECREATING THE CITIES
+            //need to have the map hash as input. should i have the keys be the names not the ID's?
             this.cards.add((T) new DestinationCard(Cities.MANNHEIM, Cities.STUTTGART, 2));
             this.cards.add((T) new DestinationCard(Cities.MAINZ, Cities.STUTTGART, 3));
             this.cards.add((T) new DestinationCard(Cities.KOLN, Cities.SAARBRUCKEN, 4));
