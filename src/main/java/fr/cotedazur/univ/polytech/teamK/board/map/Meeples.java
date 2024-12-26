@@ -37,7 +37,7 @@ public class Meeples {
     }
     public void transferMeeples(Meeples cityMeeples) throws IllegalAccessException {
         if (cityMeeples.number == 0) {
-            throw new IllegalAccessException();
+            throw new IllegalAccessException("No meeples left in the city");
         }
         int i;
         for(i = 0 ; cityMeeples.listOfOwnedMeeples[i] == 0; i ++);
