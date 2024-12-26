@@ -16,7 +16,7 @@ public class City {
     private String name;
     private Meeples meeples;
     private List physicalConnectionList;
-    private List<Player> playersThatPickedUpMeeples;
+    private List<Player> playersThatPickedUpMeeples = new ArrayList<>();
     public City(String name, int numberOfMeeples) {
         this.id = COUNT++;
         setName(name);
