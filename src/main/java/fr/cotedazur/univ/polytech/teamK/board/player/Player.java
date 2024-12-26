@@ -16,9 +16,6 @@ public class Player {
     private int score;
     private Meeples meeples;
 
-    public ArrayList<Connection> getConnections() {
-        return connections;
-    }
     private Map<String, Map<String, Integer>> virtualConnectionsCreated;
     private MapHash gameMap;
 
@@ -60,6 +57,9 @@ public class Player {
     public Meeples getMeeples() {return meeples;}
     public void setMeeples(Meeples meeples) {this.meeples = meeples;}
     public int getNumberOfMeeples() {return meeples.getNumber();}
+    public ArrayList<Connection> getConnections() {
+        return connections;
+    }
 
     public static void resetIdCounter() {
         COUNT = 1;

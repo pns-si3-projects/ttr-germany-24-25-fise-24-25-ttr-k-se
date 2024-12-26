@@ -17,6 +17,7 @@ public class City {
     private Meeples meeples;
     private List physicalConnectionList;
     private List<Player> playersThatPickedUpMeeples = new ArrayList<>();
+
     public City(String name, int numberOfMeeples) {
         this.id = COUNT++;
         setName(name);
@@ -38,6 +39,8 @@ public class City {
     public void setPhysicalConnectionList() {
         this.physicalConnectionList = new ArrayList();
     }
+
+
     public void setName(String name){
         this.name = name;
     }
@@ -53,4 +56,8 @@ public class City {
         playersThatPickedUpMeeples.add(player);
     }
 
+    @Override
+    public String toString() {
+        return name;
+    }
 }

@@ -14,30 +14,36 @@ public abstract class Connection {
     private Player owner;
     private boolean isFree;
 
-    public Connection(City aStartCity, City aEndCity, Integer aLength, Colors aColor)
+    //Constructeur pour les virtual connections
+    public Connection(City cityOne, City cityTwo)
     {
-        setCityOne(aStartCity);
-        setCityTwo(aEndCity);
+        setCityOne(cityOne);
+        setCityTwo(cityTwo);
+    }
+
+    //Constructeur pour les physical conections
+    public Connection(City cityOne, City cityTwo, Integer aLength, Colors aColor)
+    {
+        this(cityOne,cityTwo);
         setLength(aLength);
         setColor(aColor);
         setFree(true);
         setOwner(null);
     }
-
-    private void setCityOne(City startCity) {
-        if (startCity == null){
-            throw new IllegalArgumentException("StartCity must not be null");
+    private void setCityOne(City cityOne) {
+        if (cityOne == null){
+            throw new IllegalArgumentException("cityOne must not be null");
         }
-        this.cityOne = startCity;
+        this.cityOne = cityOne;
     }
-    private void setCityTwo(City endCity) {
-        if (endCity == null){
-            throw new IllegalArgumentException("EndCity must not be null");
+    private void setCityTwo(City cityTwo) {
+        if (cityTwo == null){
+            throw new IllegalArgumentException("cityTwo must not be null");
         }
-        if (cityOne.equals(endCity)){
+        if (cityOne.equals(cityTwo)){
             throw new IllegalArgumentException("StartCity and EndCity must not be the same");
         }
-        this.cityTwo = endCity;
+        this.cityTwo = cityTwo;
     }
     private void setLength(Integer length) {
         if (length <= 0){
