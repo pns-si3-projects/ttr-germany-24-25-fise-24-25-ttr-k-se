@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.teamK.board.map;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
+import fr.cotedazur.univ.polytech.teamK.game.MapHash;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -37,7 +38,7 @@ public class Connections {
         this.freeToPurchase = this.width;
         this.rails = aRailsList;
         //this.fillRails();
-        playerBank = new Player("PlayerBank");
+        playerBank = new Player("PlayerBank", new MapHash("Reich"));
         this.owners = new ArrayList<>(Collections.nCopies(width, playerBank));
     }
 

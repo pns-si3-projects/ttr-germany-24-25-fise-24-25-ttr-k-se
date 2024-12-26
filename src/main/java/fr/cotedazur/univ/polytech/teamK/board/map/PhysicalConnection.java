@@ -9,7 +9,7 @@ public class PhysicalConnection extends Connection {
     }
     public boolean claimAttempt(Integer numberOfCardsUsed)
     {
-        if (numberOfCardsUsed <= 0){
+        if (numberOfCardsUsed < 0){
             throw new IllegalArgumentException("Number of Cards Used must be greater than 0");
         }
         else if (numberOfCardsUsed <= super.getLength()){

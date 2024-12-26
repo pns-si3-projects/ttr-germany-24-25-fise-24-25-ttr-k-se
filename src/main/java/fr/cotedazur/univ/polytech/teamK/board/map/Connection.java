@@ -79,6 +79,7 @@ public abstract class Connection {
     public String toString()
     {
         String base = "" + this.getCityOne() + "connected to" + this.getCityTwo();
+        /*
         if (this.owner != null)
         {
             base += " owned by " + this.owner;
@@ -87,6 +88,7 @@ public abstract class Connection {
         {
             base += " is free";
         }
+        */
         return base;
     }
 
