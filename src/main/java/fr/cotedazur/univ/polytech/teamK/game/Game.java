@@ -27,9 +27,9 @@ public class Game {
         if (gameIdentifier.equals("basic"))
         {
             gameMap =new MapHash("Reich");
-            gamePlayers = new ArrayList<>(Arrays.asList(new Bot(0), new Bot(0), new Bot(0)));
-            destinationDeck = new Deck<DestinationCard>(TypeOfCards.DESTINATION);
-            wagonDeck = new Deck<WagonCard>(TypeOfCards.WAGON);
+            gamePlayers = new ArrayList<>(Arrays.asList(new Bot(0, gameMap)));
+            destinationDeck = new Deck<DestinationCard>(TypeOfCards.DESTINATION, gameMap);
+            wagonDeck = new Deck<WagonCard>(TypeOfCards.WAGON, gameMap);
         }
     }
 
@@ -55,12 +55,12 @@ public class Game {
 
     public void runGame()
     {
-        for (int roundNumber = 0; roundNumber < 10; roundNumber++)
+        for (int roundNumber = 0; roundNumber < 40; roundNumber++)
         {
             for (int playerIndex = 0; playerIndex < gamePlayers.size(); playerIndex++)
             {
                 gamePlayers.get(playerIndex).playTurn(gameMap, destinationDeck, wagonDeck);
-                this.printPlayerStatus();
+                //this.printPlayerStatus();
             }
         }
     }

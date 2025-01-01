@@ -9,13 +9,14 @@ import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Random;
 
 public class Bot extends Player {
     private Integer ID;
-    public Bot(Integer ID)
+    public Bot(Integer ID, MapHash gameMap)
     {
-        super("temp name)");
+        super("temp name)", gameMap);
         this.ID = ID;
         if (ID == 0)
         {
@@ -29,8 +30,20 @@ public class Bot extends Player {
         {
             //look at city 0 and purchase a connection. if not possible, look at a random neighbor etc
             //once you find yourself on a city you've already seen, pull cards.
-            HashSet<Integer> seenCities = new HashSet<Integer>();
-            Integer currentCityID = super.getId();
+            HashSet<String> seenCities = new HashSet<String>();
+            //find the city with the ID corresponding to player ID
+            String currentCityID = "";
+            for (Map.Entry<String, City> entry : currentMap.getCities().entrySet())
+            {
+                if (currentCityID.equals(""))
+                {
+                    currentCityID = entry.getValue().getName();
+                }
+                if (entry.getValue().getId() == super.getId())
+                {
+                    currentCityID = entry.getValue().getName();
+                }
+            }
             while (!seenCities.contains(currentCityID))
             {
                 List<PhysicalConnection> connections = currentMap.getCities().get(currentCityID).getPhysicalConnectionList();
@@ -47,11 +60,11 @@ public class Bot extends Player {
                 seenCities.add(currentCityID);
                 Random rand = new Random();
                 int rand_int = rand.nextInt(connections.size());
-                int oldID = currentCityID;
-                currentCityID = connections.get(rand_int).getCityOne().getId();
+                String oldID = currentCityID;
+                currentCityID = connections.get(rand_int).getCityOne().getName();
                 if (oldID == currentCityID)
                 {
-                    currentCityID = connections.get(rand_int).getCityTwo().getId();
+                    currentCityID = connections.get(rand_int).getCityTwo().getName();
                 }
             }
             Random rand = new Random();
