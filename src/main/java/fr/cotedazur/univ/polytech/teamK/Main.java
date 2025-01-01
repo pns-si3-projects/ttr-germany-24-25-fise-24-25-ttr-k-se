@@ -18,6 +18,7 @@ public class Main {
                 String yo = "yo";
             }
         }
+        currentGame.calculatePointForMeeplesForColor();
         currentGame.printPlayerStatus();
     }
 }

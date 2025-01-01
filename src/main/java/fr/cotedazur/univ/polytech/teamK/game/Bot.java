@@ -10,12 +10,12 @@ import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import java.util.Random;
 
 public class Bot extends Player {
-    private Integer ID;
-    public Bot(Integer ID)
+    private Integer numDeSerie;
+    public Bot(Integer numDeSerie)
     {
         super("temp name)");
-        this.ID = ID;
-        if (ID == 0)
+        this.numDeSerie = numDeSerie;
+        if (numDeSerie == 0)
         {
             super.setName("Dumb");
         }
@@ -24,7 +24,7 @@ public class Bot extends Player {
 
     public boolean playTurn(MapSimple currentmap, Deck<DestinationCard> destinationDeck, Deck<WagonCard> wagonDeck)
     {
-        if (this.ID == 0)
+        if (this.numDeSerie == 0)
         {
             Colors[] availableColors = Colors.values();
             for (int connectionIndex = 0; connectionIndex < currentmap.getConnectionsInMap().size(); connectionIndex++)
@@ -36,9 +36,16 @@ public class Bot extends Player {
                     Colors colorToTest = availableColors[colorIndex];
                     if(this.buyRail(currentConnectionTried, colorToTest))
                     {
+                        for (Colors meeplesColor : Colors.values()) {
+                            try {
+                                super.takeMeeples(currentConnectionTried.getEndCity(), meeplesColor);
+                                super.takeMeeples(currentConnectionTried.getStartCity(), meeplesColor);
+                            } catch (IllegalArgumentException e) {
+                                break;
+                            }
+                        }
 
-                        //super.takeMeeples(currentConnectionTried.getStartCity(), PICKORDERFORCOLORS);
-                        //super.takeMeeples(currentConnectionTried.getEndCity(), PICKORDERFORCOLORS);
+
                         return true;
                         //we want to be breaking out of the method,
                         // maybe a return would make more sense? to see what we did on that turn

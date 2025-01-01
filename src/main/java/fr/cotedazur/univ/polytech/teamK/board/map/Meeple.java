@@ -38,20 +38,19 @@ public class Meeple {
 
     public int getNumber () {return number;}
     public int[] getListOfOwnedMeeples() {return listOfOwnedMeeples;}
+    public int getNumberOfAColor(Colors colors) {return listOfOwnedMeeples[colors.ordinal()];}
 
     /**
      * Transfer one meeple of a choosen color from a Meeple class to this one
      * @param cityMeeples the Meeple class where we pick one meeples
-     * @param color the color choice
+     * @param color the color choice, should be a color of a meeples
      */
-    public boolean transferMeeples(Meeple cityMeeples, Colors color) {
+    public boolean transferMeeples(Meeple cityMeeples, Colors color)  {
         int index = color.ordinal();
-        if (index > 5) {
-            throw new IllegalArgumentException("Couleur de meeples inconnues");
-        }
         if (cityMeeples.listOfOwnedMeeples[index] == 0) {
             return false;
         }
+
         cityMeeples.listOfOwnedMeeples[index]--;
         cityMeeples.number--;
         this.listOfOwnedMeeples[index]++;

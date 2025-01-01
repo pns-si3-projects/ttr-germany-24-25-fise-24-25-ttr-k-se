@@ -51,22 +51,27 @@ public class Game {
      */
 
     public void calculatePointForMeeplesForColor () {
+        int playerValue;
+        ArrayList<Bot> firstWinner = new ArrayList<>();
+        ArrayList<Bot> secondWinner = new ArrayList<>();
         for (Colors meeplesColor : Colors.values()) {
-            ArrayList<Bot> firstWinner = new ArrayList<>();
-            ArrayList<Bot> secondWinner = new ArrayList<>();
+            firstWinner.clear();
+            secondWinner.clear();
             firstWinner.add(gamePlayers.getFirst());
+            secondWinner.add(gamePlayers.getFirst());
             for (int i = 1 ; i < gamePlayers.size() ; i++) {
-                if(gamePlayers.get(i).getNumberColor(meeplesColor) > firstWinner.getFirst().getNumberColor(meeplesColor)){
+                playerValue = gamePlayers.get(i).getMeeples().getNumberOfAColor(meeplesColor);
+                if( playerValue> firstWinner.getFirst().getMeeples().getNumberOfAColor(meeplesColor)){
                     secondWinner.clear();
                     secondWinner.addAll(firstWinner);
                     firstWinner.clear();
                     firstWinner.add(gamePlayers.get(i));
-                } else if (gamePlayers.get(i).getNumberColor(meeplesColor) == firstWinner.getFirst().getNumberColor(meeplesColor)) {
+                } else if (playerValue == firstWinner.getFirst().getMeeples().getNumberOfAColor(meeplesColor)) {
                     firstWinner.add(gamePlayers.get(i));
-                } else if (gamePlayers.get(i).getNumberColor(meeplesColor) > secondWinner.getFirst().getNumberColor(meeplesColor)){
+                } else if (playerValue > secondWinner.getFirst().getMeeples().getNumberOfAColor(meeplesColor)){
                     secondWinner.clear();
                     secondWinner.add(gamePlayers.get(i));
-                } else if (gamePlayers.get(i).getNumberColor(meeplesColor) == secondWinner.getFirst().getNumberColor(meeplesColor)) {
+                } else if (playerValue == secondWinner.getFirst().getMeeples().getNumberOfAColor(meeplesColor)) {
                     secondWinner.add(gamePlayers.get(i));
                 }
             }
@@ -97,9 +102,8 @@ public class Game {
     {
         System.out.println("Etat des joueurs à la fin de partie :\n");
 
-        for (int playerIndex = 0; playerIndex < gamePlayers.size(); playerIndex++)
-        {
-            System.out.println(gamePlayers.get(playerIndex).toString());
+        for (Bot gamePlayer : gamePlayers) {
+            System.out.println(gamePlayer);
         }
     }
 }

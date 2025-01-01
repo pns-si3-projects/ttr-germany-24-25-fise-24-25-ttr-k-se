@@ -38,7 +38,6 @@ class MeepleTest {
     void testTranserMeeples () {
         when(trickedRandom.nextInt(6)).thenReturn(4).thenReturn(5);
         city = new Meeple(2, trickedRandom);
-        assertThrows(IllegalArgumentException.class, () -> player.transferMeeples(city, Colors.PINK));
         assertFalse(player.transferMeeples(city, Colors.RED));
         assertTrue(player.transferMeeples(city, Colors.YELLOW));
         assertTrue(player.transferMeeples(city, Colors.GREEN));

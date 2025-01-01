@@ -151,10 +151,14 @@ public class Player {
      * @param colorChoice a list with the order for color choice
      */
     public boolean takeMeeples(Cities city, Colors colorChoice) {
+        if (colorChoice.ordinal() > 5) {
+            throw new IllegalArgumentException("Couleur de meeples incounnue");
+        }
         if (!city.getPlayersThatPickedUpMeeples().contains(this)) {
-            this.meeples.transferMeeples(city.getMeeples(), colorChoice);
-            city.addPlayer(this);
-            return true;
+            if(meeples.transferMeeples(city.getMeeples(), colorChoice)) {
+                city.addPlayer(this);
+                return true;
+            }
         }
         return false;
     }
