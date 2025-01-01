@@ -3,7 +3,9 @@ import fr.cotedazur.univ.polytech.teamK.board.Cards.Deck;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.TypeOfCards;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
+import fr.cotedazur.univ.polytech.teamK.board.Colors;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -48,13 +50,46 @@ public class Game {
     on each round: each 'player' acts on their turn
      */
 
+    public void calculatePointForMeeplesForColor () {
+        for (Colors meeplesColor : Colors.values()) {
+            ArrayList<Bot> firstWinner = new ArrayList<>();
+            ArrayList<Bot> secondWinner = new ArrayList<>();
+            firstWinner.add(gamePlayers.getFirst());
+            for (int i = 1 ; i < gamePlayers.size() ; i++) {
+                if(gamePlayers.get(i).getNumberColor(meeplesColor) > firstWinner.getFirst().getNumberColor(meeplesColor)){
+                    secondWinner.clear();
+                    secondWinner.addAll(firstWinner);
+                    firstWinner.clear();
+                    firstWinner.add(gamePlayers.get(i));
+                } else if (gamePlayers.get(i).getNumberColor(meeplesColor) == firstWinner.getFirst().getNumberColor(meeplesColor)) {
+                    firstWinner.add(gamePlayers.get(i));
+                } else if (gamePlayers.get(i).getNumberColor(meeplesColor) > secondWinner.getFirst().getNumberColor(meeplesColor)){
+                    secondWinner.clear();
+                    secondWinner.add(gamePlayers.get(i));
+                } else if (gamePlayers.get(i).getNumberColor(meeplesColor) == secondWinner.getFirst().getNumberColor(meeplesColor)) {
+                    secondWinner.add(gamePlayers.get(i));
+                }
+            }
+            for (Bot winner : firstWinner) {
+                winner.addScore(20);
+            }
+            if (firstWinner.size() == 1){
+                for(Bot winner : secondWinner) {
+                    winner.addScore(10);
+                }
+            }
+            if (meeplesColor.ordinal() == 5) {
+                break;
+            }
+        }
+    }
+
     public void runGame()
     {
         for (int roundNumber = 0; roundNumber < 10; roundNumber++)
         {
-            for (int playerIndex = 0; playerIndex < gamePlayers.size(); playerIndex++)
-            {
-                gamePlayers.get(playerIndex).playTurn(gameMap, destinationDeck, wagonDeck);
+            for (Bot gamePlayer : gamePlayers) {
+                gamePlayer.playTurn(gameMap, destinationDeck, wagonDeck);
             }
         }
     }
