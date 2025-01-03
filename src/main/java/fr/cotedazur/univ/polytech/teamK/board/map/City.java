@@ -19,7 +19,7 @@ public class City {
     private int id;
     private static int COUNT = 1;
     private String name;
-    private Meeples meeples;
+    private Meeple meeples;
     private List physicalConnectionList;
     private List<Player> playersThatPickedUpMeeples;
     /**
@@ -31,7 +31,7 @@ public class City {
     public City(String name, int numberOfMeeples) {
         this.id = COUNT++;
         setName(name);
-        this.meeples = new Meeples(numberOfMeeples);
+        this.meeples = new Meeple(numberOfMeeples);
         setPhysicalConnectionList();
     }
 
@@ -58,7 +58,7 @@ public class City {
      *
      * @return the meeples in the city
      */
-    public Meeples getMeeples() {
+    public Meeple getMeeples() {
         return meeples;
     }
 
