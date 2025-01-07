@@ -128,7 +128,35 @@ public class Connection {
         else {
             owners.set(colorIndex, buyer);
             freeToPurchase--;
+            int points = calculatePoints(this.length);
+            buyer.addScore(points);
             return true;
+        }
+    }
+
+    /**
+     * Calculates the points earned for a given route length
+     * @param length the length of the route
+     * @return the points earned
+     */
+    public static int calculatePoints(int length){
+        switch(length){
+            case 1:
+                return 1;
+            case 2:
+                return 2;
+            case 3:
+                return 4;
+            case 5:
+                return 10;
+            case 6:
+                return 15;
+            case 7:
+                return 18;
+            case 8:
+                return 21;
+            default:
+                throw new IllegalArgumentException("Invalid route lenght: "+ length);
         }
     }
 
