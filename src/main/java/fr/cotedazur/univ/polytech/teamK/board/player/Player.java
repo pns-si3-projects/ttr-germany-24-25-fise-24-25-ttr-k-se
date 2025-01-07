@@ -134,6 +134,7 @@ public class Player {
      */
     public boolean validDestinationCard(DestinationCard carte) {
         if (destinationCards.contains(carte)) {
+            carte.setComplete();
             this.score += carte.getValue();
             this.destinationCards.remove(carte);
             return true;
@@ -172,6 +173,12 @@ public class Player {
             return true;
         }
         return false;
+    }
+
+    public void DestinationAcheived(DestinationCard carte){
+        if (carte.isComplete()){
+            score += carte.getValue();
+        }
     }
 
     @Override

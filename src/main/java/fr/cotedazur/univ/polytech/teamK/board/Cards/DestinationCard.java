@@ -54,7 +54,7 @@ public class DestinationCard extends Card {
     /**
      * Mets l'état de complétion de la carte en vrai.
      */
-    private void setComplete() { this.isComplete = true; }
+    public void setComplete() { this.isComplete = true; }
 
     /**
      * @return la ville de départ de la carte destination.
