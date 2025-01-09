@@ -1,5 +1,4 @@
 package fr.cotedazur.univ.polytech.teamK.board.Cards;
-
 /**
  * Cette classe est une classe abstraite, qui permet de rassembler les attributs et
  * méthodes communes de WagonCard et DestinationCard.
