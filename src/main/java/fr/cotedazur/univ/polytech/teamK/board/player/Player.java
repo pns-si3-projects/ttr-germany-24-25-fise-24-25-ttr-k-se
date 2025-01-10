@@ -144,7 +144,12 @@ public class Player {
      * @return true if the card was removed, false otherwise
      */
     public boolean validDestinationCard(DestinationCard carte) {
-        if (destinationCards.contains(carte)) {
+        String cityOne = carte.getEndCity().getName();
+        String cityTwo = carte.getStartCity().getName();
+        Boolean connected = false;
+        if (virtualConnectionsCreated.get(cityOne) != null)
+                connected = virtualConnectionsCreated.get(cityOne).get(cityTwo) != null;
+        if (destinationCards.contains(carte) && connected) {
             this.score += carte.getValue();
             this.destinationCards.remove(carte);
             return true;
