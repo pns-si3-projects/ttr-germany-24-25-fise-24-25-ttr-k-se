@@ -116,4 +116,8 @@ public class City {
         playersThatPickedUpMeeples.add(player);
     }
 
+    @Override
+    public String toString() {
+        return getName();
+    }
 }
