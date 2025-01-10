@@ -159,6 +159,5 @@ public class Bot extends Player {
         //need a return statement outside of the if
         return false;
     }
-    */
 
 }

@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.teamK.board.map;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
+import fr.cotedazur.univ.polytech.teamK.game.MapHash;
 
 import java.awt.*;
 
@@ -85,22 +86,6 @@ public abstract class Connection {
     public String toString()
     {
         String base = "" + this.getCityOne() + "connected to" + this.getCityTwo();
-        /*
-        if (this.owner != null)
-        {
-            base += " owned by " + this.owner;
-        }
-        else
-        {
-            base += " is free";
-        }
-
-         */
-
         return base;
     }
-
-
-
-
 }

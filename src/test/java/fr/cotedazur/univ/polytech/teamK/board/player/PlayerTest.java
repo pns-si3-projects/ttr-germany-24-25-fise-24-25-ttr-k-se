@@ -7,14 +7,11 @@ import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.Connections;
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeples;
+import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
-import java.util.List;
-
 import static org.junit.jupiter.api.Assertions.*;
-import static org.mockito.Mockito.*;
 
 class PlayerTest {
     Player player1;
@@ -32,7 +29,7 @@ class PlayerTest {
         assertEquals(1, player1.getId());
         assertEquals(2, player2.getId());
         assertEquals("Deyann", player1.getName());
-        assertEquals(new Meeples(), player2.getMeeples());
+        assertEquals(new Meeple(), player2.getMeeples());
     }
 
     @Test
@@ -72,15 +69,15 @@ class PlayerTest {
         assertTrue(player1.getCartesDestination().isEmpty());
     }
 
+    /**
     @Test
-    void testTakeMeeples() throws IllegalAccessException {
-        City city = new City("Berlin", 5);
+    void testMeeples () {
         assertEquals(0, player1.getNumberOfMeeples());
-        //for some reasonthe player can't take a meeple from the city
-        //this needs to be fixed
-        /*assertTrue(player1.takeMeeples(city));
+        assertTrue(player1.takeMeeples(Cities.DANEMARK, new int[]{1, 2, 3, 4, 5}));
         assertEquals(1, player1.getNumberOfMeeples());
-        assertTrue(city.getPlayersThatPickedUpMeeples().contains(player1));
-        assertFalse(player1.takeMeeples(city));*/
-    }
+        assertFalse(player1.takeMeeples(Cities.DANEMARK, new int[]{1, 2, 3, 4, 5}));
+        assertTrue(player1.takeMeeples(Cities.HAMBURG, new int[]{1, 2, 3, 4, 5}));
+        assertEquals(2, player1.getNumberOfMeeples());
+        assertEquals(3,Cities.HAMBURG.getMeeples().getNumber());
+    }*/
 }

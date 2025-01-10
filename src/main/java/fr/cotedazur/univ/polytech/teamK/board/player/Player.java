@@ -14,7 +14,7 @@ public class Player {
     private static int COUNT = 1;
     private String name ;
     private int score;
-    private Meeples meeples;
+    private Meeple meeples;
 
     private Map<String, Map<String, Integer>> virtualConnectionsCreated;
     private MapHash gameMap;
@@ -31,7 +31,7 @@ public class Player {
         this.wagonCards = new ArrayList<>();
         this.destinationCards = new ArrayList<>();
         this.connections = new ArrayList<>();
-        this.meeples = new Meeples();
+        this.meeples = new Meeple();
         createVirtualConnectionMap();
         this.gameMap = gameMap;
 
@@ -54,8 +54,8 @@ public class Player {
     public ArrayList<WagonCard> getCartesWagon() {return wagonCards;}
     public int getNumberWagon() {return wagonCards.size();}
     public int getNumberDestination () {return destinationCards.size();}
-    public Meeples getMeeples() {return meeples;}
-    public void setMeeples(Meeples meeples) {this.meeples = meeples;}
+    public Meeple getMeeples() {return meeples;}
+    public void setMeeples(Meeple meeples) {this.meeples = meeples;}
     public int getNumberOfMeeples() {return meeples.getNumber();}
     public ArrayList<Connection> getConnections() {
         return connections;
@@ -150,17 +150,22 @@ public class Player {
      * Transfer the neeples from a city to the player
      * @param city the city to take the neeples from
      */
-    public boolean takeMeeples(City city) {
-        try {
-            if (!city.getPlayersThatPickedUpMeeples().contains(this)) {
-                this.meeples.transferMeeples(city.getMeeples());
+    /**
+     * Transfer the neeples from a city to the player
+     * @param city the city to take the neeples from
+     * @param colorChoice a list with the order for color choice
+     */
+    public boolean takeMeeples(Cities city, Colors colorChoice) {
+        if (colorChoice.ordinal() > 5) {
+            throw new IllegalArgumentException("Couleur de meeples incounnue");
+        }
+        if (!city.getPlayersThatPickedUpMeeples().contains(this)) {
+            if(meeples.transferMeeples(city.getMeeples(), colorChoice)) {
                 city.addPlayer(this);
                 return true;
             }
-            return false;
-        } catch (IllegalAccessException e) {
-            return false;
         }
+        return false;
     }
 
     /**
