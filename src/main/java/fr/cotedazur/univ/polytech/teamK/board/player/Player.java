@@ -15,6 +15,7 @@ public class Player {
     private String name ;
     private int score;
     private Meeple meeples;
+    private int wagonsRemaining;
 
     private Map<String, Map<String, Integer>> virtualConnectionsCreated;
     private MapHash gameMap;
@@ -28,6 +29,7 @@ public class Player {
         this.id = COUNT++;
         this.name = name;
         this.score = 0;
+        this.wagonsRemaining = 45;
         this.wagonCards = new ArrayList<>();
         this.destinationCards = new ArrayList<>();
         this.connections = new ArrayList<>();
@@ -52,6 +54,7 @@ public class Player {
     public int getScore() {return score;}
     public ArrayList<DestinationCard> getCartesDestination() {return destinationCards;}
     public ArrayList<WagonCard> getCartesWagon() {return wagonCards;}
+    public int getWagonsRemaining() {return wagonsRemaining;}
     public int getNumberWagon() {return wagonCards.size();}
     public int getNumberDestination () {return destinationCards.size();}
     public Meeple getMeeples() {return meeples;}
@@ -82,10 +85,12 @@ public class Player {
     }
 
 
-    public boolean removeCardWagon(Colors color, int number) {
-        int count = number;
-        if (getNumberColor(color) < number) {
+    public boolean removeCardWagon(Colors color, int count) {
+        if (getNumberColor(color) < count) {
             throw new IllegalArgumentException("The player doesn't have enough cards");
+        }
+        if (getWagonsRemaining() < count) {
+            throw new IllegalArgumentException("The player doesn't have enough wagons");
         }
 
         ArrayList<WagonCard> toRemove = new ArrayList<>();
@@ -100,6 +105,7 @@ public class Player {
             throw new IllegalArgumentException("Not enough cards to remove");
         }
 
+        wagonsRemaining-=count;
         this.wagonCards.removeAll(toRemove);
         return true;
     }

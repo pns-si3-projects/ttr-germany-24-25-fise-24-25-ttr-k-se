@@ -1,21 +1,20 @@
 package fr.cotedazur.univ.polytech.teamK.game;
-import fr.cotedazur.univ.polytech.teamK.board.*;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.Deck;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.TypeOfCards;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 
-import java.lang.reflect.Array;
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Game {
-    public MapHash getGameMap() {
+    public MapSimple getGameMap() {
         return gameMap;
     }
 
-    private MapHash gameMap;
+    private MapSimple gameMap;
     private ArrayList<Bot> gamePlayers;
     private Deck<DestinationCard> destinationDeck;
     private Deck<WagonCard> wagonDeck;
@@ -24,10 +23,10 @@ public class Game {
     {
         if (gameIdentifier.equals("basic"))
         {
-            gameMap =new MapHash("Reich");
-            gamePlayers = new ArrayList<>(Arrays.asList(new Bot(0, gameMap)));
-            destinationDeck = new Deck<DestinationCard>(TypeOfCards.DESTINATION, gameMap);
-            wagonDeck = new Deck<WagonCard>(TypeOfCards.WAGON, gameMap);
+            gameMap =new MapSimple("Reich");
+            gamePlayers = new ArrayList<>(Arrays.asList(new Bot(0), new Bot(0), new Bot(0)));
+            destinationDeck = new Deck<DestinationCard>(TypeOfCards.DESTINATION);
+            wagonDeck = new Deck<WagonCard>(TypeOfCards.WAGON);
         }
     }
 
@@ -92,10 +91,18 @@ public class Game {
 
     public void runGame()
     {
-        for (int roundNumber = 0; roundNumber < 40; roundNumber++)
-        {
+        boolean run = true;
+        while(run){
             for (Bot gamePlayer : gamePlayers) {
                 gamePlayer.playTurn(gameMap, destinationDeck, wagonDeck);
+            }
+            for (Bot gamePlayer : gamePlayers) { //si un joueur à 0,1 ou 2 wagons restant, il y a un dernier tour avant que la partie se finisse
+                if(gamePlayer.getWagonsRemaining() < 3){
+                    for (Bot gamePlayerLastRound : gamePlayers) {
+                        gamePlayerLastRound.playTurn(gameMap, destinationDeck, wagonDeck);
+                    }
+                    run = false;
+                }
             }
         }
     }
