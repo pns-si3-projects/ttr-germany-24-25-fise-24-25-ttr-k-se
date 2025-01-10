@@ -1,20 +1,21 @@
 package fr.cotedazur.univ.polytech.teamK.game;
+import fr.cotedazur.univ.polytech.teamK.board.*;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.Deck;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.TypeOfCards;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 
-import java.awt.*;
+import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Game {
-    public MapSimple getGameMap() {
+    public MapHash getGameMap() {
         return gameMap;
     }
 
-    private MapSimple gameMap;
+    private MapHash gameMap;
     private ArrayList<Bot> gamePlayers;
     private Deck<DestinationCard> destinationDeck;
     private Deck<WagonCard> wagonDeck;
@@ -23,10 +24,10 @@ public class Game {
     {
         if (gameIdentifier.equals("basic"))
         {
-            gameMap =new MapSimple("Reich");
-            gamePlayers = new ArrayList<>(Arrays.asList(new Bot(0), new Bot(0), new Bot(0)));
-            destinationDeck = new Deck<DestinationCard>(TypeOfCards.DESTINATION);
-            wagonDeck = new Deck<WagonCard>(TypeOfCards.WAGON);
+            gameMap =new MapHash("Reich");
+            gamePlayers = new ArrayList<>(Arrays.asList(new Bot(0, gameMap)));
+            destinationDeck = new Deck<DestinationCard>(TypeOfCards.DESTINATION, gameMap);
+            wagonDeck = new Deck<WagonCard>(TypeOfCards.WAGON, gameMap);
         }
     }
 
@@ -91,7 +92,7 @@ public class Game {
 
     public void runGame()
     {
-        for (int roundNumber = 0; roundNumber < 10; roundNumber++)
+        for (int roundNumber = 0; roundNumber < 40; roundNumber++)
         {
             for (Bot gamePlayer : gamePlayers) {
                 gamePlayer.playTurn(gameMap, destinationDeck, wagonDeck);

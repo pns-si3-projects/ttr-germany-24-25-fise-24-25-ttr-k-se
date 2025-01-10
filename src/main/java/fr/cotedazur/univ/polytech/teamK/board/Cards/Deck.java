@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.teamK.board.Cards;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
+import fr.cotedazur.univ.polytech.teamK.game.MapHash;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,10 +19,10 @@ public class Deck<T extends Card> {
     private List<T> cards;
     private int MAX_CAPACITY;
 
-    public Deck(TypeOfCards type) {
+    public Deck(TypeOfCards type, MapHash currentMap) {
         if(type==TypeOfCards.DESTINATION) MAX_CAPACITY = 89;
         if(type==TypeOfCards.WAGON) MAX_CAPACITY = 110;
-        initialize(type);
+        initialize(type, currentMap);
     }
 
     /**
@@ -29,100 +30,102 @@ public class Deck<T extends Card> {
      *
      * @param type le type de la carte
      */
-    public void initialize(TypeOfCards type) {
+    public void initialize(TypeOfCards type, MapHash currentMap) {
         this.cards = new ArrayList<>(MAX_CAPACITY);
         if (type == TypeOfCards.DESTINATION) {
             //DESTINATIONS COURTES
-            this.cards.add((T) new DestinationCard(Cities.MANNHEIM, Cities.STUTTGART, 2));
-            this.cards.add((T) new DestinationCard(Cities.MAINZ, Cities.STUTTGART, 3));
-            this.cards.add((T) new DestinationCard(Cities.KOLN, Cities.SAARBRUCKEN, 4));
-            this.cards.add((T) new DestinationCard(Cities.BERLIN, Cities.LEIPZIG, 4));
-            this.cards.add((T) new DestinationCard(Cities.FRANKFURT, Cities.STUTTGART, 4));
-            this.cards.add((T) new DestinationCard(Cities.KARLSRUHE, Cities.AUGSBURG, 4));
-            this.cards.add((T) new DestinationCard(Cities.HAMBURG, Cities.ROSTOCK, 4));
-            this.cards.add((T) new DestinationCard(Cities.KOLN, Cities.FRANKFURT, 4));
-            this.cards.add((T) new DestinationCard(Cities.MANNHEIM, Cities.WURZBURG, 4));
-            this.cards.add((T) new DestinationCard(Cities.BREMEN, Cities.DUSSELDORF, 5));
-            this.cards.add((T) new DestinationCard(Cities.MUNCHEN, Cities.STUTTGART,5));
-            this.cards.add((T) new DestinationCard(Cities.EMDEN, Cities.HAMBURG, 6));
-            this.cards.add((T) new DestinationCard(Cities.MUNCHEN, Cities.KONSTANZ, 6));
-            this.cards.add((T) new DestinationCard(Cities.ERFURT, Cities.WURZBURG, 6));
-            this.cards.add((T) new DestinationCard(Cities.BREMEN, Cities.KASSEL, 6));
-            this.cards.add((T) new DestinationCard(Cities.HANNOVER, Cities.LEIPZIG, 6));
-            this.cards.add((T) new DestinationCard(Cities.BERLIN, Cities.CHEMNITZ, 6));
-            this.cards.add((T) new DestinationCard(Cities.DORTMUND, Cities.MANNHEIM, 6));
-            this.cards.add((T) new DestinationCard(Cities.MUNCHEN, Cities.WURZBURG, 7));
-            this.cards.add((T) new DestinationCard(Cities.NURNBERG, Cities.STUTTGART, 7));
-            this.cards.add((T) new DestinationCard(Cities.DORTMUND, Cities.ERFURT, 7));
-            this.cards.add((T) new DestinationCard(Cities.HAMBURG, Cities.KASSEL, 7));
-            this.cards.add((T) new DestinationCard(Cities.BREMERHAVEN, Cities.KOLN, 7));
-            this.cards.add((T) new DestinationCard(Cities.HANNOVER, Cities.FRANKFURT, 7));
-            this.cards.add((T) new DestinationCard(Cities.BERLIN, Cities.ERFURT, 7));
-            this.cards.add((T) new DestinationCard(Cities.KOBLENZ, Cities.ULM, 7));
-            this.cards.add((T) new DestinationCard(Cities.LEIPZIG, Cities.NURNBERG, 7));
-            this.cards.add((T) new DestinationCard(Cities.HAMBURG, Cities.BERLIN, 7));
-            this.cards.add((T) new DestinationCard(Cities.KOLN, Cities.NURNBERG, 8));
-            this.cards.add((T) new DestinationCard(Cities.NIEDERLANDE, Cities.FRANKFURT, 8));
-            this.cards.add((T) new DestinationCard(Cities.FRANKREICH, Cities.MUNCHEN, 8));
-            this.cards.add((T) new DestinationCard(Cities.MUNCHEN, Cities.FREIBURG, 8));
-            this.cards.add((T) new DestinationCard(Cities.FRANKFURT, Cities.LINDAU, 8));
-            this.cards.add((T) new DestinationCard(Cities.FRANKFURT, Cities.MUNCHEN, 9));
-            this.cards.add((T) new DestinationCard(Cities.HAMBURG, Cities.KOLN, 9));
-            this.cards.add((T) new DestinationCard(Cities.KARLSRUHE, Cities.REGENSBURG, 9));
-            this.cards.add((T) new DestinationCard(Cities.NIEDERLANDE, Cities.KARLSRUHE, 9));
-            this.cards.add((T) new DestinationCard(Cities.MUNSTER, Cities.STUTTGART, 9));
-            this.cards.add((T) new DestinationCard(Cities.DORTMUND, Cities.MAGDEBURG, 9));
-            this.cards.add((T) new DestinationCard(Cities.HAMBURG, Cities.LEIPZIG, 10));
-            this.cards.add((T) new DestinationCard(Cities.KOLN, Cities.SCHWEIZ, 10));
-            this.cards.add((T) new DestinationCard(Cities.LEIPZIG, Cities.FRANKFURT, 10));
-            this.cards.add((T) new DestinationCard(Cities.DANEMARK, Cities.BERLIN, 10));
-            this.cards.add((T) new DestinationCard(Cities.HAMBURG, Cities.KOBLENZ, 10));
-            this.cards.add((T) new DestinationCard(Cities.FRANKFURT, Cities.OSTERREICH, 10));
-            this.cards.add((T) new DestinationCard(Cities.DUSSELDORF, Cities.KONSTANZ, 10));
-            this.cards.add((T) new DestinationCard(Cities.DANEMARK, Cities.NIEDERLANDE, 10));
-            this.cards.add((T) new DestinationCard(Cities.BREMEN, Cities.BERLIN, 10));
-            this.cards.add((T) new DestinationCard(Cities.KASSEL, Cities.FREIBURG, 10));
-            this.cards.add((T) new DestinationCard(Cities.HANNOVER, Cities.SAARBRUCKEN, 11));
-            this.cards.add((T) new DestinationCard(Cities.LEIPZIG, Cities.MUNCHEN, 11));
-            this.cards.add((T) new DestinationCard(Cities.HAMBURG, Cities.FRANKFURT, 11));
-            this.cards.add((T) new DestinationCard(Cities.KOLN, Cities.MUNCHEN, 11));
-            this.cards.add((T) new DestinationCard(Cities.MAGDEBURG, Cities.KOLN, 11));
-            this.cards.add((T) new DestinationCard(Cities.KOLN, Cities.REGENSBURG, 11));
+            //ERROR, IM RECREATING THE CITIES
+            //need to have the map hash as input. should i have the keys be the names not the ID's?
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Mannheim"), currentMap.getCities().get("Stuttgart"), 2));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Mainz"), currentMap.getCities().get("Stuttgart"), 3));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Koln"), currentMap.getCities().get("Saarbrucken"), 4));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Berlin"), currentMap.getCities().get("Leipzig"), 4));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Frankfurt"), currentMap.getCities().get("Stuttgart"), 4));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Karlsruhe"), currentMap.getCities().get("Augsburg"), 4));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Hamburg"), currentMap.getCities().get("Rostock"), 4));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Koln"), currentMap.getCities().get("Frankfurt"), 4));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Mannheim"), currentMap.getCities().get("Wurzburg"), 4));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Bremen"), currentMap.getCities().get("Dusseldorf"), 5));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Munchen"), currentMap.getCities().get("Stuttgart"),5));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Emden"), currentMap.getCities().get("Hamburg"), 6));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Munchen"), currentMap.getCities().get("Konstanz"), 6));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Erfurt"), currentMap.getCities().get("Wurzburg"), 6));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Bremen"), currentMap.getCities().get("Kassel"), 6));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Hannover"), currentMap.getCities().get("Leipzig"), 6));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Berlin"), currentMap.getCities().get("Chemnitz"), 6));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Dortmund"), currentMap.getCities().get("Mannheim"), 6));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Munchen"), currentMap.getCities().get("Wurzburg"), 7));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Nurnberg"), currentMap.getCities().get("Stuttgart"), 7));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Dortmund"), currentMap.getCities().get("Erfurt"), 7));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Hamburg"), currentMap.getCities().get("Kassel"), 7));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Bremerhaven"), currentMap.getCities().get("Koln"), 7));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Hannover"), currentMap.getCities().get("Frankfurt"), 7));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Berlin"), currentMap.getCities().get("Erfurt"), 7));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Koblenz"), currentMap.getCities().get("Ulm"), 7));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Leipzig"), currentMap.getCities().get("Nurnberg"), 7));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Hamburg"), currentMap.getCities().get("Berlin"), 7));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Koln"), currentMap.getCities().get("Nurnberg"), 8));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Niederlande"), currentMap.getCities().get("Frankfurt"), 8));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Frankreich"), currentMap.getCities().get("Munchen"), 8));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Munchen"), currentMap.getCities().get("Freiburg"), 8));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Frankfurt"), currentMap.getCities().get("Lindau"), 8));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Frankfurt"), currentMap.getCities().get("Munchen"), 9));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Hamburg"), currentMap.getCities().get("Koln"), 9));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Karlsruhe"), currentMap.getCities().get("Regensburg"), 9));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Niederlande"), currentMap.getCities().get("Karlsruhe"), 9));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Munster"), currentMap.getCities().get("Stuttgart"), 9));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Dortmund"), currentMap.getCities().get("Magdeburg"), 9));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Hamburg"), currentMap.getCities().get("Leipzig"), 10));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Koln"), currentMap.getCities().get("Schweiz"), 10));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Leipzig"), currentMap.getCities().get("Frankfurt"), 10));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Danemark"), currentMap.getCities().get("Berlin"), 10));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Hamburg"), currentMap.getCities().get("Koblenz"), 10));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Frankfurt"), currentMap.getCities().get("Osterreich"), 10));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Dusseldorf"), currentMap.getCities().get("Konstanz"), 10));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Danemark"), currentMap.getCities().get("Niederlande"), 10));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Bremen"), currentMap.getCities().get("Berlin"), 10));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Kassel"), currentMap.getCities().get("Freiburg"), 10));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Hannover"), currentMap.getCities().get("Saarbrucken"), 11));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Leipzig"), currentMap.getCities().get("Munchen"), 11));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Hamburg"), currentMap.getCities().get("Frankfurt"), 11));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Koln"), currentMap.getCities().get("Munchen"), 11));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Magdeburg"), currentMap.getCities().get("Koln"), 11));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Koln"), currentMap.getCities().get("Freiburg"), 11));
             //DESTINATIONS LONGUES
-            this.cards.add((T) new DestinationCard(Cities.NIEDERLANDE, Cities.BERLIN, 13));
-            this.cards.add((T) new DestinationCard(Cities.DORTMUND, Cities.MUNCHEN, 13));
-            this.cards.add((T) new DestinationCard(Cities.LEIPZIG, Cities.ULM, 12));
-            this.cards.add((T) new DestinationCard(Cities.BREMERHAVEN, Cities.FRANKREICH, 12));
-            this.cards.add((T) new DestinationCard(Cities.KOLN, Cities.LEIPZIG, 12));
-            this.cards.add((T) new DestinationCard(Cities.SCHWERIN, Cities.KOBLENZ, 12));
-            this.cards.add((T) new DestinationCard(Cities.HAMBURG, Cities.DRESDEN, 12));
-            this.cards.add((T) new DestinationCard(Cities.DRESDEN, Cities.AUGSBURG, 12));
-            this.cards.add((T) new DestinationCard(Cities.KIEL, Cities.NURNBERG, 15));
-            this.cards.add((T) new DestinationCard(Cities.BERLIN, Cities.KOLN, 14));
-            this.cards.add((T) new DestinationCard(Cities.BERLIN, Cities.FRANKFURT, 14));
-            this.cards.add((T) new DestinationCard(Cities.HAMBURG, Cities.KARLSRUHE, 14));
-            this.cards.add((T) new DestinationCard(Cities.MUNSTER, Cities.MUNCHEN, 14));
-            this.cards.add((T) new DestinationCard(Cities.LEIPZIG, Cities.STUTTGART, 14));
-            this.cards.add((T) new DestinationCard(Cities.SCHWERIN, Cities.FRANKFURT, 13));
-            this.cards.add((T) new DestinationCard(Cities.BERLIN, Cities.DUSSELDORF, 13));
-            this.cards.add((T) new DestinationCard(Cities.FRANKREICH, Cities.LEIPZIG, 15));
-            this.cards.add((T) new DestinationCard(Cities.BERLIN, Cities.MUNCHEN, 15));
-            this.cards.add((T) new DestinationCard(Cities.MUNSTER, Cities.OSTERREICH, 15));
-            this.cards.add((T) new DestinationCard(Cities.BERLIN, Cities.MAINZ, 15));
-            this.cards.add((T) new DestinationCard(Cities.HAMBURG, Cities.STUTTGART, 15));
-            this.cards.add((T) new DestinationCard(Cities.EMDEN, Cities.FREIBURG, 15));
-            this.cards.add((T) new DestinationCard(Cities.EMDEN, Cities.OSTERREICH, 19));
-            this.cards.add((T) new DestinationCard(Cities.BERLIN, Cities.STUTTGART, 18));
-            this.cards.add((T) new DestinationCard(Cities.HAMBURG, Cities.MUNCHEN, 18));
-            this.cards.add((T) new DestinationCard(Cities.FRANKREICH, Cities.DANEMARK, 17));
-            this.cards.add((T) new DestinationCard(Cities.KIEL, Cities.STUTTGART, 17));
-            this.cards.add((T) new DestinationCard(Cities.BREMERHAVEN, Cities.REGENSBURG, 16));
-            this.cards.add((T) new DestinationCard(Cities.DRESDEN, Cities.SAARBRUCKEN, 16));
-            this.cards.add((T) new DestinationCard(Cities.BERLIN, Cities.SCHWEIZ, 20));
-            this.cards.add((T) new DestinationCard(Cities.ROSTOCK, Cities.KONSTANZ, 22));
-            this.cards.add((T) new DestinationCard(Cities.ROSTOCK, Cities.OSTERREICH, 22));
-            this.cards.add((T) new DestinationCard(Cities.DANEMARK, Cities.LINDAU, 22));
-            this.cards.add((T) new DestinationCard(Cities.KIEL, Cities.SCHWEIZ, 20));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Niederlande"), currentMap.getCities().get("Berlin"), 13));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Dortmund"), currentMap.getCities().get("Munchen"), 13));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Leipzig"), currentMap.getCities().get("Ulm"), 12));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Bremerhaven"), currentMap.getCities().get("Frankreich"), 12));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Koln"), currentMap.getCities().get("Leipzig"), 12));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Schwerin"), currentMap.getCities().get("Koblenz"), 12));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Hamburg"), currentMap.getCities().get("Dresden"), 12));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Dresden"), currentMap.getCities().get("Augsburg"), 12));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Kiel"), currentMap.getCities().get("Nurnberg"), 15));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Berlin"), currentMap.getCities().get("Koln"), 14));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Berlin"), currentMap.getCities().get("Frankfurt"), 14));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Hamburg"), currentMap.getCities().get("Karlsruhe"), 14));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Munster"), currentMap.getCities().get("Munchen"), 14));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Leipzig"), currentMap.getCities().get("Stuttgart"), 14));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Schwerin"), currentMap.getCities().get("Frankfurt"), 13));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Berlin"), currentMap.getCities().get("Dusseldorf"), 13));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Frankreich"), currentMap.getCities().get("Leipzig"), 15));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Berlin"), currentMap.getCities().get("Munchen"), 15));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Munster"), currentMap.getCities().get("Osterreich"), 15));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Berlin"), currentMap.getCities().get("Mainz"), 15));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Hamburg"), currentMap.getCities().get("Stuttgart"), 15));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Emden"), currentMap.getCities().get("Freiburg"), 15));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Emden"), currentMap.getCities().get("Osterreich"), 19));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Berlin"), currentMap.getCities().get("Stuttgart"), 18));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Hamburg"), currentMap.getCities().get("Munchen"), 18));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Frankreich"), currentMap.getCities().get("Danemark"), 17));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Kiel"), currentMap.getCities().get("Stuttgart"), 17));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Bremerhaven"), currentMap.getCities().get("Freiburg"), 16));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Dresden"), currentMap.getCities().get("Saarbrucken"), 16));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Berlin"), currentMap.getCities().get("Schweiz"), 20));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Rostock"), currentMap.getCities().get("Konstanz"), 22));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Rostock"), currentMap.getCities().get("Osterreich"), 22));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Danemark"), currentMap.getCities().get("Lindau"), 22));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Kiel"), currentMap.getCities().get("Schweiz"), 20));
         }
         //créer 12 cartes wagons par couleur et 14 cartes locomotives
         if (type == TypeOfCards.WAGON) {

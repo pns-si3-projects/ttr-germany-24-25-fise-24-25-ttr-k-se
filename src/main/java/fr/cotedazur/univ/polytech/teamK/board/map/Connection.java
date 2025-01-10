@@ -2,76 +2,49 @@ package fr.cotedazur.univ.polytech.teamK.board.map;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
+import fr.cotedazur.univ.polytech.teamK.game.MapHash;
 
-import java.util.ArrayList;
-import java.util.Collections;
-import java.util.List;
+import java.awt.*;
 
-import static java.lang.Math.max;
-
-public class Connection {
-    /*
-    needs:
-    endpoint: a city
-    starting point: a city
-    length of connection
-    width: number of rails
-    colors: one color per rail
-    */
-    private Player playerBank; //used to fill owners list
-
-    public Cities getStartCity() {
-        return startCity;
-    }
-
-    private Cities startCity;
-
-    public Cities getEndCity() {
-        return endCity;
-    }
-
-    private Cities endCity;
-    //private String startCity;
-    //private String endCity;
+public abstract class Connection {
+    private City cityOne;
+    private City cityTwo;
     private Integer length;
+    private Colors color;
 
-    public Integer getWidth() {
-        return width;
+    private Player owner;
+    private boolean isFree;
+
+    //Constructeur pour les virtual connections
+    public Connection(City cityOne, City cityTwo)
+    {
+        setCityOne(cityOne);
+        setCityTwo(cityTwo);
     }
 
-    private Integer width;
-    private List<Colors> rails; //each element of the List is a color
-
-    //private Player owner;
-    private List<Player> owners; //each element of the list is a player; an unowned one has owner NULL
-    private Integer freeToPurchase;
-
-    public Connection(Cities aStartCity, Cities aEndCity, Integer aLength, List<Colors> aRailsList) {
-        setStartCity(aStartCity);
-        setEndCity(aEndCity);
+    //Constructeur pour les physical conections
+    public Connection(City cityOne, City cityTwo, Integer aLength, Colors aColor)
+    {
+        this(cityOne,cityTwo);
         setLength(aLength);
-        setWidth(aRailsList.size());
-        this.freeToPurchase = this.width;
-        this.rails = aRailsList;
-        //this.fillRails();
-        playerBank = new Player("PlayerBank");
-        this.owners = new ArrayList<>(Collections.nCopies(width, playerBank));
+        setColor(aColor);
+        setFree(true);
+        setOwner(null);
     }
-
-    private void setStartCity(Cities startCity) {
-        if (startCity == null){
-            throw new IllegalArgumentException("StartCity must not be null");
+    private void setCityOne(City cityOne) {
+        if (cityOne == null){
+            throw new IllegalArgumentException("cityOne must not be null");
         }
-        this.startCity = startCity;
+        this.cityOne = cityOne;
     }
-    private void setEndCity(Cities endCity) {
-        if (endCity == null){
-            throw new IllegalArgumentException("EndCity must not be null");
+    private void setCityTwo(City cityTwo) {
+        if (cityTwo == null){
+            throw new IllegalArgumentException("cityTwo must not be null");
         }
-        if (startCity.equals(endCity)){
+        if (cityOne.equals(cityTwo)){
             throw new IllegalArgumentException("StartCity and EndCity must not be the same");
         }
-        this.endCity = endCity;
+        this.cityTwo = cityTwo;
     }
     private void setLength(Integer length) {
         if (length <= 0){
@@ -79,63 +52,40 @@ public class Connection {
         }
         this.length = length;
     }
-    private void setWidth(Integer width) {
-        if (width <= 0){
-            throw new IllegalArgumentException("Width must be greater than 0");
-        }
-        this.width = width;
+    private void setColor(Colors color) {
+        this.color = color;
+    }
+    private void setFree(boolean free)
+    {
+        isFree = free;
+    }
+    public void setOwner(Player owner) {
+        this.owner = owner;
     }
 
-    public void addOwner(Player player) {
-        this.owners.add(player);
+    public City getCityOne() {
+        return cityOne;
     }
-
-
+    public City getCityTwo() {
+        return cityTwo;
+    }
     public Integer getLength() {
         return length;
     }
-
-    public List<Colors> getFreeRails() {
-        List<Colors> freeRails = new ArrayList<>(this.freeToPurchase);
-        for (int railIndex = 0; railIndex < this.width; railIndex++) {
-            if (this.owners.get(railIndex).equals("NULL")){
-                freeRails.add(rails.get(railIndex));
-            }
-        }
-        return freeRails;
+    public Colors getColor() {
+        return color;
     }
-
-    public Integer isFreeColor(Colors aColor){
-        for (int railIndex = 0; railIndex < rails.size(); railIndex++) {
-            if (rails.get(railIndex) == aColor && owners.get(railIndex).equals(playerBank)){/* idk where we want to do the grey being any color, so i have this in case || this.rails.get(railIndex).equals(Colors.GRAY)*/
-                return railIndex;
-            }
-        }
-        //value to indicate no free slot of that color: -1
-        return -1;
+    public boolean isFree() {
+        return isFree;
     }
-    public boolean claimAttempt(Colors aColor, Integer numberCardsUsed, Player buyer) {
-        if (this.length > numberCardsUsed || numberCardsUsed <= 0){
-            //test if invalid or insufficient number of Cards uses
-            return false;
-        }
-        Integer colorIndex = isFreeColor(aColor);
-        if (colorIndex.equals(-1))
-        {
-            //test if a free rail of the correct color exists:
-            return false;
-        }
-        else {
-            owners.set(colorIndex, buyer);
-            freeToPurchase--;
-            return true;
-        }
+    public Player getOwner() {
+        return owner;
     }
 
     @Override
-    public String toString() {
-        return "" + getStartCity() + " <--> " + getEndCity();
-        //return owners.toString();
+    public String toString()
+    {
+        String base = "" + this.getCityOne() + "connected to" + this.getCityTwo();
+        return base;
     }
-
 }

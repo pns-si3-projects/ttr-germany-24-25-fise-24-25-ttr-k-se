@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.teamK.board.Cards;
 
 import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
+import fr.cotedazur.univ.polytech.teamK.board.map.City;
 
 /**
  * Les cartes destinations possèdent les informations que le joueur a besoin pour marquer des points.
@@ -9,12 +10,12 @@ import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
  * la carte.
  */
 public class DestinationCard extends Card {
-    private Cities startCity;
-    private Cities endCity;
+    private City startCity;
+    private City endCity;
     private int value;
     private boolean isComplete;
 
-    public DestinationCard(Cities startCity, Cities endCity, int value) {
+    public DestinationCard(City startCity, City endCity, int value) {
         super(TypeOfCards.DESTINATION);
         setStartCity(startCity);
         setEndCity(endCity);
@@ -27,7 +28,7 @@ public class DestinationCard extends Card {
      *
      * @param startCity
      */
-    private void setStartCity(Cities startCity) {
+    private void setStartCity(City startCity) {
         this.startCity = startCity;
     }
 
@@ -36,7 +37,7 @@ public class DestinationCard extends Card {
      *
      * @param endCity
      */
-    private void setEndCity(Cities endCity) {
+    private void setEndCity(City endCity) {
         this.endCity = endCity;
     }
 
@@ -59,12 +60,12 @@ public class DestinationCard extends Card {
     /**
      * @return la ville de départ de la carte destination.
      */
-    public Cities getStartCity() { return startCity; }
+    public City getStartCity() { return startCity; }
 
     /**
      * @return la ville d'arrivé de la carte destination.
      */
-    public Cities getEndCity() { return endCity; }
+    public City getEndCity() { return endCity; }
 
     /**
      * @return la valeur de la carte destination.
