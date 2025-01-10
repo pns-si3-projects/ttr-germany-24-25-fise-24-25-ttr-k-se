@@ -1,6 +1,5 @@
 package fr.cotedazur.univ.polytech.teamK.board.Cards;
 
-import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 
 /**

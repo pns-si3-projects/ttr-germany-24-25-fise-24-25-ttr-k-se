@@ -33,6 +33,7 @@ public class City {
         setName(name);
         this.meeples = new Meeple(numberOfMeeples);
         setPhysicalConnectionList();
+        this.playersThatPickedUpMeeples = new ArrayList<>();
     }
 
     /**

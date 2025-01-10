@@ -29,7 +29,7 @@ public class Player {
         this.id = COUNT++;
         this.name = name;
         this.score = 0;
-        this.wagonsRemaining = 45;
+        this.wagonsRemaining = 5;
         this.wagonCards = new ArrayList<>();
         this.destinationCards = new ArrayList<>();
         this.connections = new ArrayList<>();
@@ -92,7 +92,7 @@ public class Player {
         if (getWagonsRemaining() < count) {
             throw new IllegalArgumentException("The player doesn't have enough wagons");
         }
-
+        wagonsRemaining -= count;
         ArrayList<WagonCard> toRemove = new ArrayList<>();
         for (WagonCard carte : this.wagonCards) {
             if (carte.getColor() == color && count > 0) {
@@ -105,7 +105,7 @@ public class Player {
             throw new IllegalArgumentException("Not enough cards to remove");
         }
 
-        wagonsRemaining-=count;
+
         this.wagonCards.removeAll(toRemove);
         return true;
     }
@@ -161,9 +161,9 @@ public class Player {
      * @param city the city to take the neeples from
      * @param colorChoice a list with the order for color choice
      */
-    public boolean takeMeeples(Cities city, Colors colorChoice) {
+    public boolean takeMeeples(City city, Colors colorChoice) {
         if (colorChoice.ordinal() > 5) {
-            throw new IllegalArgumentException("Couleur de meeples incounnue");
+            throw new IllegalArgumentException("Couleur de meeples inconnue");
         }
         if (!city.getPlayersThatPickedUpMeeples().contains(this)) {
             if(meeples.transferMeeples(city.getMeeples(), colorChoice)) {
