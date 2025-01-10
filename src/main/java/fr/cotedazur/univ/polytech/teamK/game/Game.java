@@ -3,7 +3,9 @@ import fr.cotedazur.univ.polytech.teamK.board.Cards.Deck;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.TypeOfCards;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
+import fr.cotedazur.univ.polytech.teamK.board.Colors;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -48,13 +50,51 @@ public class Game {
     on each round: each 'player' acts on their turn
      */
 
+    public void calculatePointForMeeplesForColor () {
+        int playerValue;
+        ArrayList<Bot> firstWinner = new ArrayList<>();
+        ArrayList<Bot> secondWinner = new ArrayList<>();
+        for (Colors meeplesColor : Colors.values()) {
+            firstWinner.clear();
+            secondWinner.clear();
+            firstWinner.add(gamePlayers.getFirst());
+            secondWinner.add(gamePlayers.getFirst());
+            for (int i = 1 ; i < gamePlayers.size() ; i++) {
+                playerValue = gamePlayers.get(i).getMeeples().getNumberOfAColor(meeplesColor);
+                if( playerValue> firstWinner.getFirst().getMeeples().getNumberOfAColor(meeplesColor)){
+                    secondWinner.clear();
+                    secondWinner.addAll(firstWinner);
+                    firstWinner.clear();
+                    firstWinner.add(gamePlayers.get(i));
+                } else if (playerValue == firstWinner.getFirst().getMeeples().getNumberOfAColor(meeplesColor)) {
+                    firstWinner.add(gamePlayers.get(i));
+                } else if (playerValue > secondWinner.getFirst().getMeeples().getNumberOfAColor(meeplesColor)){
+                    secondWinner.clear();
+                    secondWinner.add(gamePlayers.get(i));
+                } else if (playerValue == secondWinner.getFirst().getMeeples().getNumberOfAColor(meeplesColor)) {
+                    secondWinner.add(gamePlayers.get(i));
+                }
+            }
+            for (Bot winner : firstWinner) {
+                winner.addScore(20);
+            }
+            if (firstWinner.size() == 1){
+                for(Bot winner : secondWinner) {
+                    winner.addScore(10);
+                }
+            }
+            if (meeplesColor.ordinal() == 5) {
+                break;
+            }
+        }
+    }
+
     public void runGame()
     {
         for (int roundNumber = 0; roundNumber < 10; roundNumber++)
         {
-            for (int playerIndex = 0; playerIndex < gamePlayers.size(); playerIndex++)
-            {
-                gamePlayers.get(playerIndex).playTurn(gameMap, destinationDeck, wagonDeck);
+            for (Bot gamePlayer : gamePlayers) {
+                gamePlayer.playTurn(gameMap, destinationDeck, wagonDeck);
             }
         }
     }
@@ -62,9 +102,8 @@ public class Game {
     {
         System.out.println("Etat des joueurs à la fin de partie :\n");
 
-        for (int playerIndex = 0; playerIndex < gamePlayers.size(); playerIndex++)
-        {
-            System.out.println(gamePlayers.get(playerIndex).toString());
+        for (Bot gamePlayer : gamePlayers) {
+            System.out.println(gamePlayer);
         }
     }
 }

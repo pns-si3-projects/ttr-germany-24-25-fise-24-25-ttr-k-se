@@ -146,17 +146,22 @@ public class Player {
      * Transfer the neeples from a city to the player
      * @param city the city to take the neeples from
      */
-    public boolean takeMeeples(Cities city) {
-        try {
-            if (!city.getPlayersThatPickedUpMeeples().contains(this)) {
-                this.meeples.transferMeeples(city.getMeeples());
+    /**
+     * Transfer the neeples from a city to the player
+     * @param city the city to take the neeples from
+     * @param colorChoice a list with the order for color choice
+     */
+    public boolean takeMeeples(Cities city, Colors colorChoice) {
+        if (colorChoice.ordinal() > 5) {
+            throw new IllegalArgumentException("Couleur de meeples incounnue");
+        }
+        if (!city.getPlayersThatPickedUpMeeples().contains(this)) {
+            if(meeples.transferMeeples(city.getMeeples(), colorChoice)) {
                 city.addPlayer(this);
                 return true;
             }
-            return false;
-        } catch (IllegalAccessException e) {
-            return false;
         }
+        return false;
     }
 
     /**
@@ -170,6 +175,7 @@ public class Player {
             this.connections.add(connection);
             removeCardWagon(color, connection.getLength());
             connection.addOwner(this);
+
             return true;
         }
         return false;
