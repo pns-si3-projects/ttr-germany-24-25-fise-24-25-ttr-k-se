@@ -8,10 +8,7 @@ import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.PhysicalConnection;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Random;
+import java.util.*;
 
 public class Bot extends Player {
     private Integer ID;
@@ -25,7 +22,7 @@ public class Bot extends Player {
         }
     }
 
-    public boolean playTurn(MapHash currentMap, Deck<DestinationCard> destinationDeck, Deck<WagonCard> wagonDeck)
+    public boolean playTurn(MapHash currentMap, Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck, Deck<WagonCard> wagonDeck)
     {
         if (this.ID == 0)
         {
@@ -63,7 +60,7 @@ public class Bot extends Player {
                 int rand_int = rand.nextInt(connections.size());
                 String oldID = currentCityID;
                 currentCityID = connections.get(rand_int).getCityOne().getName();
-                if (oldID == currentCityID)
+                if (Objects.equals(oldID, currentCityID))
                 {
                     currentCityID = connections.get(rand_int).getCityTwo().getName();
                 }
@@ -73,7 +70,7 @@ public class Bot extends Player {
             if (rand_int < 20)
             {
                 //draw from destination
-                DestinationCard destCardDrawn = destinationDeck.draw();
+                DestinationCard destCardDrawn = shortDestinationDeck.draw();
                 if (destCardDrawn != null)
                 {
                     super.addCardDestination(destCardDrawn);

@@ -5,7 +5,6 @@ import fr.cotedazur.univ.polytech.teamK.board.Cards.TypeOfCards;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.Arrays;
 
@@ -16,7 +15,8 @@ public class Game {
 
     private MapHash gameMap;
     private ArrayList<Bot> gamePlayers;
-    private Deck<DestinationCard> destinationDeck;
+    private Deck<DestinationCard> shortDestinationDeck;
+    private Deck<DestinationCard> longDestinationDeck;
     private Deck<WagonCard> wagonDeck;
 
     public Game(String gameIdentifier)
@@ -25,7 +25,8 @@ public class Game {
         {
             gameMap =new MapHash("Reich");
             gamePlayers = new ArrayList<>(Arrays.asList(new Bot(0, gameMap), new Bot(0, gameMap), new Bot(0, gameMap)));
-            destinationDeck = new Deck<DestinationCard>(TypeOfCards.DESTINATION, gameMap);
+            shortDestinationDeck = new Deck<DestinationCard>(TypeOfCards.SHORT_DESTINATION, gameMap);
+            longDestinationDeck = new Deck<DestinationCard>(TypeOfCards.LONG_DESTINATION, gameMap);
             wagonDeck = new Deck<WagonCard>(TypeOfCards.WAGON, gameMap);
         }
     }
@@ -94,12 +95,12 @@ public class Game {
         boolean run = true;
         while(run){
             for (Bot gamePlayer : gamePlayers) {
-                gamePlayer.playTurn(gameMap, destinationDeck, wagonDeck);
+                gamePlayer.playTurn(gameMap, shortDestinationDeck,longDestinationDeck, wagonDeck);
             }
             for (Bot gamePlayer : gamePlayers) { //si un joueur à 0,1 ou 2 wagons restant, il y a un dernier tour avant que la partie se finisse
                 if(gamePlayer.getWagonsRemaining() < 3){
                     for (Bot gamePlayerLastRound : gamePlayers) {
-                        gamePlayerLastRound.playTurn(gameMap, destinationDeck, wagonDeck);
+                        gamePlayerLastRound.playTurn(gameMap, shortDestinationDeck,longDestinationDeck, wagonDeck);
                     }
                     run = false;
                 }
