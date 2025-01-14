@@ -19,8 +19,8 @@ public class Deck<T extends Card> {
     private int MAX_CAPACITY;
 
     public Deck(TypeOfCards type, MapHash currentMap) {
-        if(type==TypeOfCards.LONG_DESTINATION) MAX_CAPACITY = 35;
-        if(type == TypeOfCards.SHORT_DESTINATION) MAX_CAPACITY = 54;
+        if(type==TypeOfCards.LONG_DESTINATION) MAX_CAPACITY = 34;
+        if(type == TypeOfCards.SHORT_DESTINATION) MAX_CAPACITY = 55;
         if(type==TypeOfCards.WAGON) MAX_CAPACITY = 110;
         initialize(type, currentMap);
     }

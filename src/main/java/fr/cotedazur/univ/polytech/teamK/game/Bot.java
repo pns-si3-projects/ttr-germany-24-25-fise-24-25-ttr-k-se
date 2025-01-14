@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.teamK.game;
 
 import fr.cotedazur.univ.polytech.teamK.board.Cards.Deck;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
+import fr.cotedazur.univ.polytech.teamK.board.Cards.PaquetPleinException;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
@@ -22,7 +23,7 @@ public class Bot extends Player {
         }
     }
 
-    public boolean playTurn(MapHash currentMap, Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck, Deck<WagonCard> wagonDeck)
+    public boolean playTurn(MapHash currentMap,Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck, Deck<WagonCard> wagonDeck)
     {
         if (this.ID == 0)
         {
@@ -93,6 +94,34 @@ public class Bot extends Player {
 
         }
         return false;
+    }
+
+    public List<DestinationCard> drawDestCard (Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck, int number_short) {
+        List<DestinationCard> res = new ArrayList<>(4) ;
+        for (int i = 0 ; i < 4 ; i++) {
+            if (i < number_short) {
+                res.add(shortDestinationDeck.draw());
+            } else {
+                res.add(longDestinationDeck.draw());
+            }
+        }
+        return res;
+    }
+
+    public boolean giveBackCard (List<DestinationCard> cards, Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck) {
+        try {
+            for (DestinationCard card : cards) {
+                if (card.getValue() > 11) {
+                    longDestinationDeck.addCard(card);
+                } else {
+                    shortDestinationDeck.addCard(card);
+                }
+            }
+        } catch (PaquetPleinException e) {
+            System.out.println("you gave too much cards");
+            return false;
+        }
+        return true;
     }
 
 
