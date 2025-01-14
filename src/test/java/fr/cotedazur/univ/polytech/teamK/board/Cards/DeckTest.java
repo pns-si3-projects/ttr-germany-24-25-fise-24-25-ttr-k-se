@@ -1,30 +1,31 @@
 package fr.cotedazur.univ.polytech.teamK.board.Cards;
 
+import fr.cotedazur.univ.polytech.teamK.game.MapHash;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-import fr.cotedazur.univ.polytech.teamK.board.Cards.*;
-import fr.cotedazur.univ.polytech.teamK.board.Colors;
-import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
-
 class DeckTest {
 
-    private Deck<DestinationCard> destinationDeck;
+    private Deck<DestinationCard> shortDestinationDeck;
+    private Deck<DestinationCard> longDestinationDeck;
     private Deck<WagonCard> wagonDeck;
+    private MapHash map = new MapHash("Reich");
 
     @BeforeEach
     void setUp() {
         // Initialisation des paquets avant chaque test
-        destinationDeck = new Deck<>(TypeOfCards.DESTINATION);
-        wagonDeck = new Deck<>(TypeOfCards.WAGON);
+        shortDestinationDeck = new Deck<>(TypeOfCards.SHORT_DESTINATION,map);
+        longDestinationDeck = new Deck<>(TypeOfCards.LONG_DESTINATION, map);
+        wagonDeck = new Deck<>(TypeOfCards.WAGON, map);
     }
 
     @Test
     void testInitializeDestinationDeck() {
-        assertNotNull(destinationDeck);
-        assertEquals(89,destinationDeck.getRemainingCards());
+        assertNotNull(shortDestinationDeck);
+        assertEquals(55, shortDestinationDeck.getRemainingCards());
+        assertEquals(34, longDestinationDeck.getRemainingCards());
     }
 
     @Test
@@ -36,11 +37,10 @@ class DeckTest {
 
     @Test
     void testDrawCard() {
-        Deck<DestinationCard> deck = new Deck<>(TypeOfCards.DESTINATION);
-        int remainingBeforeDraw = deck.getRemainingCards();
+        int remainingBeforeDraw = shortDestinationDeck.getRemainingCards();
 
-        DestinationCard drawnCard = deck.draw();
-        int remainingAfterDraw = deck.getRemainingCards();
+        DestinationCard drawnCard = shortDestinationDeck.draw();
+        int remainingAfterDraw = shortDestinationDeck.getRemainingCards();
 
         assertNotNull(drawnCard);
         assertEquals(remainingBeforeDraw - 1, remainingAfterDraw);
@@ -48,23 +48,20 @@ class DeckTest {
 
     @Test
     void testAddCard() throws PaquetPleinException {
-        Deck<DestinationCard> deck = new Deck<>(TypeOfCards.DESTINATION);
-        DestinationCard lastCard = deck.draw();
-        assertEquals(88, deck.getRemainingCards());
-        deck.addCard(lastCard);
-        assertEquals(89, deck.getRemainingCards());
+        DestinationCard lastCard = longDestinationDeck.draw();
+        assertEquals(33, longDestinationDeck.getRemainingCards());
+        longDestinationDeck.addCard(lastCard);
+        assertEquals(34, longDestinationDeck.getRemainingCards());
     }
 
     @Test
     void testEmptyDeck() {
         // Vérifier que le paquet est vide après avoir tiré toutes les cartes
-        Deck<DestinationCard> deck = new Deck<>(TypeOfCards.DESTINATION);
-        while (deck.getRemainingCards() > 0) {
-            deck.draw();
+        while (longDestinationDeck.getRemainingCards() > 0) {
+            longDestinationDeck.draw();
         }
 
         // Le paquet devrait être vide
-        assertEquals(0, deck.getRemainingCards());
-        assertNull(deck.draw()); // Aucun élément à tirer
+        assertNull(longDestinationDeck.draw()); // Aucun élément à tirer
     }
 }

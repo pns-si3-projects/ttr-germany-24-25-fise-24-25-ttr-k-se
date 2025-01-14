@@ -1,6 +1,10 @@
 package fr.cotedazur.univ.polytech.teamK.board.Cards;
 
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
+import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
+
+import java.util.Arrays;
+import java.util.Objects;
 
 /**
  * Les cartes destinations possèdent les informations que le joueur a besoin pour marquer des points.
@@ -15,70 +19,48 @@ public class DestinationCard extends Card {
     private boolean isComplete;
 
     public DestinationCard(City startCity, City endCity, int value) {
-        super(TypeOfCards.DESTINATION);
-        setStartCity(startCity);
-        setEndCity(endCity);
-        setValue(value);
+        super((value > 11)? TypeOfCards.LONG_DESTINATION : TypeOfCards.SHORT_DESTINATION);
+        this.startCity = startCity;
+        this.endCity = endCity;
+        this.value = value;
         this.isComplete = false;
     }
 
-    /**
-     * Attribue une ville de départ.
-     *
-     * @param startCity
-     */
-    private void setStartCity(City startCity) {
-        this.startCity = startCity;
-    }
-
-    /**
-     * Attribue une ville d'arrivée.
-     *
-     * @param endCity
-     */
-    private void setEndCity(City endCity) {
-        this.endCity = endCity;
-    }
-
-    /**
-     * Attribue une valeur de carte destination.
-     *
-     * @param value cette valeur déterminera
-     *              le nombre de points que gagnera,
-     *              ou perdera le joueur en fin de partie
-     */
-    private void setValue(int value) {
-        this.value = value;
-    }
-
-    /**
-     * Mets l'état de complétion de la carte en vrai.
-     */
-    public void setComplete() { this.isComplete = true; }
-
-    /**
-     * @return la ville de départ de la carte destination.
-     */
     public City getStartCity() { return startCity; }
-
-    /**
-     * @return la ville d'arrivé de la carte destination.
-     */
     public City getEndCity() { return endCity; }
-
-    /**
-     * @return la valeur de la carte destination.
-     */
     public int getValue() { return value; }
 
     /**
      * @return l'état de complétion de la carte destination.
      */
     public boolean isComplete() { return isComplete; }
+    /**
+     * Mets l'état de complétion de la carte en vrai.
+     */
+    public void setComplete() { this.isComplete = true; }
+
 
     @Override
     public String toString() {
         //return "johnny";
         return super.toString() +" "+ getStartCity()+"->"+getEndCity() +" ("+getValue()+" points)";
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+
+        if (obj.getClass() != this.getClass()) {
+            return false;
+        }
+
+        final DestinationCard other = (DestinationCard) obj;
+        return this.value == other.value && this.startCity == other.startCity && this.endCity == other.endCity;
+    }
+    @Override
+    public int hashCode() {
+        return Objects.hash(startCity,endCity, value, isComplete);
     }
 }

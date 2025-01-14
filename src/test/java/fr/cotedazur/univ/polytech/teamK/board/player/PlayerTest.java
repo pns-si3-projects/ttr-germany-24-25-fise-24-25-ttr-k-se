@@ -3,11 +3,9 @@ package fr.cotedazur.univ.polytech.teamK.board.player;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
-import fr.cotedazur.univ.polytech.teamK.board.map.Cities;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
-import fr.cotedazur.univ.polytech.teamK.board.map.Connections;
-import fr.cotedazur.univ.polytech.teamK.board.map.Meeples;
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
+import fr.cotedazur.univ.polytech.teamK.game.MapHash;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,12 +14,14 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerTest {
     Player player1;
     Player player2;
+    MapHash map;
 
     @BeforeEach
     void setUp () {
         Player.resetIdCounter();
-        player1 = new Player("Deyann");
-        player2 = new Player("Tom");
+        map = new MapHash("Reich");
+        player1 = new Player("Deyann", map);
+        player2 = new Player("Tom", map);
     }
 
     @Test
@@ -58,8 +58,8 @@ class PlayerTest {
 
     @Test
     void testDestination () {
-        DestinationCard dest1 = new DestinationCard(Cities.MANNHEIM, Cities.STUTTGART, 2);
-        DestinationCard dest2 = new DestinationCard(Cities.BERLIN, Cities.LEIPZIG, 4);
+        DestinationCard dest1 = new DestinationCard(new City("Manheim", 1), new City("Stuttgart", 1), 2);
+        DestinationCard dest2 = new DestinationCard(new City("Berlin", 1), new City("Leipzig", 1), 4);
         assertTrue(player1.addCardDestination(dest1));
         assertEquals(1,player1.getNumberDestination());
         assertThrows(IllegalArgumentException.class, () -> player1.addCardDestination(dest1));

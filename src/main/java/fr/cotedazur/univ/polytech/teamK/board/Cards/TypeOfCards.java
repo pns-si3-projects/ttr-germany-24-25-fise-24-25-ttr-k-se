@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.teamK.board.Cards;
 
 public enum TypeOfCards {
-    DESTINATION,
+    SHORT_DESTINATION,
+    LONG_DESTINATION,
     WAGON
 }

@@ -2,10 +2,7 @@ package fr.cotedazur.univ.polytech.teamK.board.map;
 
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * Represents a city in the Ticket to Ride game.
@@ -29,9 +26,13 @@ public class City {
      * @param numberOfMeeples the number of meeples in the city
      */
     public City(String name, int numberOfMeeples) {
+        this(name, numberOfMeeples, new Random());
+    }
+
+    public City(String name, int numberOfMeeples, Random rand) {
         this.id = COUNT++;
         setName(name);
-        this.meeples = new Meeple(numberOfMeeples);
+        this.meeples = new Meeple(numberOfMeeples, rand);
         setPhysicalConnectionList();
         this.playersThatPickedUpMeeples = new ArrayList<>();
     }
