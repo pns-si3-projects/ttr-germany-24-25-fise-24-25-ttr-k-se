@@ -1,8 +1,8 @@
 package fr.cotedazur.univ.polytech.teamK.game;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.Deck;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.TypeOfCards;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.Deck;
+import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.TypeOfCards;
+import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 
 import java.util.ArrayList;
@@ -18,6 +18,7 @@ public class Game {
     private Deck<DestinationCard> shortDestinationDeck;
     private Deck<DestinationCard> longDestinationDeck;
     private Deck<WagonCard> wagonDeck;
+
 
     public Game(String gameIdentifier)
     {

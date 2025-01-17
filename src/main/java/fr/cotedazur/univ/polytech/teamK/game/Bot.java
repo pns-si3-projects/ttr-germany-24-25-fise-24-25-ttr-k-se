@@ -1,9 +1,9 @@
 package fr.cotedazur.univ.polytech.teamK.game;
 
-import fr.cotedazur.univ.polytech.teamK.board.Cards.Deck;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.PaquetPleinException;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.Deck;
+import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.PaquetPleinException;
+import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.PhysicalConnection;
@@ -32,21 +32,20 @@ public class Bot extends Player {
             HashSet<String> seenCities = new HashSet<String>();
             //find the city with the ID corresponding to player ID
             String currentCityID = "";
-            for (Map.Entry<String, City> entry : currentMap.getCities().entrySet())
-            {
-                if (currentCityID.equals(""))
-                {
-                    currentCityID = entry.getValue().getName();
-                }
-                if (entry.getValue().getId() == super.getId())
-                {
-                    currentCityID = entry.getValue().getName();
-                }
-            }
+            currentCityID = findCityWithID(currentMap, currentCityID);
             while (!seenCities.contains(currentCityID))
             {
-                List<PhysicalConnection> connections = currentMap.getCities().get(currentCityID).getPhysicalConnectionList();
+                List<PhysicalConnection> connections = currentMap.getCity().get(currentCityID).getPhysicalConnectionList();
+
+                for(PhysicalConnection connection : connections){
+                    if (this.buyRail(connection)){
+                        takeMeeples(connection.getCityOne(),Colors.RED);
+
+                    }
+
+                }
                 for (int connectionIndex = 0; connectionIndex < connections.size(); connectionIndex++)
+
                 {
 
                     if (this.buyRail(connections.get(connectionIndex)))
@@ -94,6 +93,21 @@ public class Bot extends Player {
 
         }
         return false;
+    }
+
+    private String findCityWithID(MapHash currentMap, String currentCityID) {
+        for (Map.Entry<String, City> entry : currentMap.getCity().entrySet())
+        {
+            if (currentCityID.equals(""))
+            {
+                currentCityID = entry.getValue().getName();
+            }
+            if (entry.getValue().getId() == super.getId())
+            {
+                currentCityID = entry.getValue().getName();
+            }
+        }
+        return currentCityID;
     }
 
     public List<DestinationCard> drawDestCard (Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck, int number_short) {
