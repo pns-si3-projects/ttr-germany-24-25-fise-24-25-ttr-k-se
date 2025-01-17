@@ -549,4 +549,9 @@ public class MapHash {
         }
         return count;
     }
+
+    public City getCity(String cityName)
+    {
+        return cities.get(cityName);
+    }
 }

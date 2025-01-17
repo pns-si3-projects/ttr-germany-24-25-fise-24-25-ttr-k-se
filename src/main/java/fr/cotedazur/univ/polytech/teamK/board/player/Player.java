@@ -5,6 +5,7 @@ import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.*;
 import fr.cotedazur.univ.polytech.teamK.game.MapHash;
+import org.w3c.dom.css.Counter;
 
 import java.util.*;
 
@@ -17,14 +18,14 @@ public class Player {
     private int wagonsRemaining;
 
     private Map<String, Map<String, Integer>> virtualConnectionsCreated;
-    private MapHash gameMap;
+    //private MapHash gameMap;
 
     private ArrayList<Connection> connections;
     private ArrayList<WagonCard> wagonCards;
     private ArrayList<DestinationCard> destinationCards;
 
 
-    public Player(String name, MapHash gameMap) {
+    public Player(String name) {
         this.id = COUNT++;
         this.name = name;
         this.score = 0;
@@ -34,12 +35,12 @@ public class Player {
         this.connections = new ArrayList<>();
         this.meeples = new Meeple();
         createVirtualConnectionMap();
-        this.gameMap = gameMap;
+        //this.gameMap = gameMap;
 
     }
 
-    public Player(int id, String name, ArrayList<WagonCard> wagonCards, ArrayList<DestinationCard> destinationCards, MapHash gameMap) {
-        this(name, gameMap);
+    public Player(int id, String name, ArrayList<WagonCard> wagonCards, ArrayList<DestinationCard> destinationCards) {
+        this(name);
         this.wagonCards = wagonCards;
         this.destinationCards = destinationCards;
     }
@@ -146,9 +147,7 @@ public class Player {
         String cityOne = carte.getEndCity().getName();
         String cityTwo = carte.getStartCity().getName();
         Boolean connected = false;
-        if (virtualConnectionsCreated.get(cityOne) != null)
-                connected = virtualConnectionsCreated.get(cityOne).get(cityTwo) != null;
-        if (destinationCards.contains(carte) && connected) {
+        if (isNeighbour(cityOne, cityTwo) && destinationCards.contains(carte)) {
             this.score += carte.getValue();
             this.destinationCards.remove(carte);
             return true;
@@ -183,9 +182,9 @@ public class Player {
      * @param connectionToBuy the connection we want to buy
      * @return true if we bought it, false otherwise
      */
-    public boolean buyRail(PhysicalConnection connectionToBuy)
+    public boolean buyRail(Connection connectionToBuy, MapHash gameMap, int numberOfPlayers)
     {
-        if (connectionToBuy.claimAttempt(getNumberColor(connectionToBuy.getColor())))
+        if (connectionToBuy.claimAttempt(getNumberColor(connectionToBuy.getColor()), this, gameMap, numberOfPlayers))
         {
             this.connections.add(connectionToBuy);
             removeCardWagon(connectionToBuy.getColor(), connectionToBuy.getLength());
@@ -197,92 +196,141 @@ public class Player {
         return false;
     }
 
-    //hashmap of (city, Hashmap of (cities, distance))
-
+    /**
+     * creates the map of cities the player has managed to tie together
+     *
+     */
     public void createVirtualConnectionMap(){
         virtualConnectionsCreated = new HashMap<String, Map<String, Integer>>();
     }
+    /**
+     * adds a city to the map of cities the player has manged to tie together
+     *
+     */
     private void addCityToHashmap(City city) {
         virtualConnectionsCreated.put(city.getName(), new HashMap<String, Integer>());
     }
-
-    public void connectTwoCities(String cityOneName, String cityTwoName, Integer length) {
-        //add the two cities to the virtualconnections map if they arent in it already
+    /**
+     * connects two cities together on the map of connected cities:
+     * @param cityOneName name of the first city
+     * @param cityTwoName name of the second city
+     * @param length length of the connection between the two cities
+     * @param gameMap the board of the current game
+     */
+    public void connectTwoCities(String cityOneName, String cityTwoName, Integer length, MapHash gameMap) {
         if (!virtualConnectionsCreated.containsKey(cityOneName)) {
-            addCityToHashmap(gameMap.getCity().get(cityOneName));
+            addCityToHashmap(gameMap.getCity(cityOneName));
         }
         if (!virtualConnectionsCreated.containsKey(cityTwoName)) {
-            addCityToHashmap(gameMap.getCity().get(cityTwoName));
+            addCityToHashmap(gameMap.getCity(cityTwoName));
         }
 
-        //test if there already is a connection: if yes, keep the longest one ; WE LOOSE INFO
-        Map<String, Integer> cityOneMap = virtualConnectionsCreated.get(cityOneName);
-        if ((!cityOneMap.containsKey(cityTwoName)) || (cityOneMap.containsKey(cityTwoName) && cityOneMap.get(cityTwoName) <= length)) {
-            //only replace if length is greater than previous length VERIFY
+        if ((!isNeighbour(cityOneName, cityTwoName)) || (distance(cityOneName, cityTwoName) <= length)) {
             virtualConnectionsCreated.get(cityOneName).put(cityTwoName, length);
             virtualConnectionsCreated.get(cityTwoName).put(cityOneName, length);
         }
 
     }
-    //i start with two cities A and B
-    //in every city connected to A, i connect it to every city connected to city B
-    public void updateMap(Connection c) {
+    /**
+     * updates the map of connected cities
+     * @param c the connection that was just purchased
+     * @param gameMap the board of the game
+     */
+    public void updateMap(Connection c, MapHash gameMap) {
         City cityA = c.getCityOne();
-        String temp = "testing";
+        String cityAName = cityA.getName();
         City cityB = c.getCityTwo();
+        String cityBName = cityB.getName();
         Integer lengthToAdd = c.getLength();
-        //update map only if the lengthToAdd is longer than the existing distance between A and B (originally -infinity)
-        if ((virtualConnectionsCreated.get(cityA.getName()) == null) || (virtualConnectionsCreated.get(cityA.getName()).get(cityB.getName()) == null) || (lengthToAdd > virtualConnectionsCreated.get(cityA.getName()).get(cityB.getName()))) {
-            //here I have ensured that either there was no previous path from A to B, or that the new connection is Longer
-            //so I want to connect all neighbors of A to all neigbors of B (just need to avoid connecting a city to itself
-            //loop over all neighbors of A
+        if (foundCity(cityAName) || (!isNeighbour(cityAName, cityBName)) || (lengthToAdd > distance(cityAName, cityBName))) {
 
-            //current issue: when there are no neigbors, the for loop breaks
-            //solution: connect A to B, and then loop over all neighbors
-            //upcoming problems: B becomes a neighbor of A: needs to be excluded
-            //A becomes a neighbor of B: needs to be excluded
-            connectTwoCities(cityA.getName(), cityB.getName(), lengthToAdd);
-
+            connectTwoCities(cityA.getName(), cityB.getName(), lengthToAdd, gameMap);
             if (cityA.isCountry() && !cityB.isCountry())
             {
-                String countryName = cityA.getName();
-                for (var cityTwo : (virtualConnectionsCreated.get(cityB.getName())).entrySet()) {
-                    String cityTwoName = cityTwo.getKey();
-                    if (!countryName.equals(cityTwoName)) {
-                        lengthToAdd += virtualConnectionsCreated.get(cityTwoName).get(cityB.getName());
-                        connectTwoCities(countryName, cityTwoName, lengthToAdd);
-                    }
-                }
+                connectCountryAndCity(cityAName, cityBName, lengthToAdd, gameMap);
             }
-
-            else if (cityA.isCountry() && !cityB.isCountry())
+            else if (cityB.isCountry() && !cityA.isCountry())
             {
-                String countryName = cityB.getName();
-                for (var cityTwo : (virtualConnectionsCreated.get(cityA.getName())).entrySet()) {
-                    String cityTwoName = cityTwo.getKey();
-                    if (!countryName.equals(cityTwoName)) {
-                        lengthToAdd += virtualConnectionsCreated.get(cityTwoName).get(cityB.getName());
-                        connectTwoCities(countryName, cityTwoName, lengthToAdd);
-                    }
-                }
+                connectCountryAndCity(cityBName, cityAName, lengthToAdd, gameMap);
             }
-
             else if (!cityA.isCountry() && !cityB.isCountry())
             {
-                for (var cityOne : (virtualConnectionsCreated.get(cityA.getName())).entrySet()) {
-                    String cityOneName = cityOne.getKey();
-                    //loop over all neighbors of B
-                    if (!cityOneName.equals(cityB.getName())) {
-                        for (var cityTwo : (virtualConnectionsCreated.get(cityB.getName())).entrySet()) {
-                            String cityTwoName = cityTwo.getKey();
-                            //ensure I dont connect cityOne to cityTwo.
-                            //otherwise, connect cityOne to cityTwo with length(1-A) + length (A-B) + length(B-2)
-                            if (!cityOneName.equals(cityTwoName) && !cityTwoName.equals(cityA.getName())) {
-                                lengthToAdd += virtualConnectionsCreated.get(cityOneName).get(cityA.getName());
-                                lengthToAdd += virtualConnectionsCreated.get(cityTwoName).get(cityB.getName());
-                                connectTwoCities(cityOneName, cityTwoName, lengthToAdd);
-                            }
-                        }
+                connectCityAndCity(cityAName, cityBName, lengthToAdd, gameMap);
+            }
+        }
+    }
+    /**
+     * have we found the city yet
+     * @param cityName the city we want to see if we have found yet
+     *
+     */
+    public boolean foundCity(String cityName) {
+        return virtualConnectionsCreated.containsKey(cityName);
+    }
+    /**
+     * test if two cities are connected
+     * @param cityTwoName the first city
+     * @param cityOneName the other city
+     */
+    public boolean isNeighbour(String cityOneName, String cityTwoName) {
+        if (!virtualConnectionsCreated.containsKey(cityOneName))
+        {
+            return false;
+        }
+        else {
+            return virtualConnectionsCreated.get(cityOneName).containsKey(cityTwoName);
+        }
+    }
+    /**
+     * distance between two cities
+     * @param cityTwoName first city
+     * @param cityOneName other city
+     *
+     */
+    public int distance(String cityOneName, String cityTwoName) {
+        return virtualConnectionsCreated.get(cityOneName).get(cityTwoName);
+    }
+    /**
+     * connects a country and city
+     * countries cannot be a link in a chain, they are dead ends
+     * @param countryName name of the country
+     * @param cityName name of the city
+     * @param lengthToAdd distance between the two
+     * @param gameMap board
+     */
+
+    private void connectCountryAndCity(String countryName, String cityName, int lengthToAdd, MapHash gameMap)
+    {
+        for (var cityTwo : (virtualConnectionsCreated.get(cityName)).entrySet()) {
+            String cityTwoName = cityTwo.getKey();
+            if (!countryName.equals(cityTwoName)) {
+                lengthToAdd += virtualConnectionsCreated.get(cityTwoName).get(cityName);
+                connectTwoCities(countryName, cityTwoName, lengthToAdd, gameMap);
+            }
+        }
+    }
+    /**
+     * connects a city and city
+     * countries cannot be a link in a chain, they are dead ends
+     * @param cityBName name of the country
+     * @param cityAName name of the city
+     * @param lengthToAdd distance between the two
+     * @param gameMap board
+     */
+    private void connectCityAndCity(String cityAName, String cityBName, int lengthToAdd, MapHash gameMap)
+    {
+        for (var cityOne : (virtualConnectionsCreated.get(cityAName)).entrySet()) {
+            String cityOneName = cityOne.getKey();
+            //loop over all neighbors of B
+            if (!cityOneName.equals(cityBName)) {
+                for (var cityTwo : (virtualConnectionsCreated.get(cityBName)).entrySet()) {
+                    String cityTwoName = cityTwo.getKey();
+                    //ensure I dont connect cityOne to cityTwo.
+                    //otherwise, connect cityOne to cityTwo with length(1-A) + length (A-B) + length(B-2)
+                    if (!cityOneName.equals(cityTwoName) && !cityTwoName.equals(cityAName)) {
+                        lengthToAdd += virtualConnectionsCreated.get(cityOneName).get(cityAName);
+                        lengthToAdd += virtualConnectionsCreated.get(cityTwoName).get(cityBName);
+                        connectTwoCities(cityOneName, cityTwoName, lengthToAdd, gameMap);
                     }
                 }
             }
