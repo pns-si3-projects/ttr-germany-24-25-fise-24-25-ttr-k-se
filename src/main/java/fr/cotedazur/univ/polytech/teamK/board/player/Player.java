@@ -144,7 +144,12 @@ public class Player {
      * @return true if the card was removed, false otherwise
      */
     public boolean validDestinationCard(DestinationCard carte) {
-        if (destinationCards.contains(carte)) {
+        String cityOne = carte.getEndCity().getName();
+        String cityTwo = carte.getStartCity().getName();
+        Boolean connected = false;
+        if (virtualConnectionsCreated.get(cityOne) != null)
+                connected = virtualConnectionsCreated.get(cityOne).get(cityTwo) != null;
+        if (destinationCards.contains(carte) && connected) {
             this.score += carte.getValue();
             this.destinationCards.remove(carte);
             return true;
@@ -238,18 +243,46 @@ public class Player {
             //upcoming problems: B becomes a neighbor of A: needs to be excluded
             //A becomes a neighbor of B: needs to be excluded
             connectTwoCities(cityA.getName(), cityB.getName(), lengthToAdd);
-            for (var cityOne : (virtualConnectionsCreated.get(cityA.getName())).entrySet()) {
-                String cityOneName = cityOne.getKey();
-                //loop over all neighbors of B
-                if (!cityOneName.equals(cityB.getName())) {
-                    for (var cityTwo : (virtualConnectionsCreated.get(cityB.getName())).entrySet()) {
-                        String cityTwoName = cityTwo.getKey();
-                        //ensure I dont connect cityOne to cityTwo.
-                        //otherwise, connect cityOne to cityTwo with length(1-A) + length (A-B) + length(B-2)
-                        if (!cityOneName.equals(cityTwoName) && !cityTwoName.equals(cityA.getName())) {
-                            lengthToAdd += virtualConnectionsCreated.get(cityOneName).get(cityA.getName());
-                            lengthToAdd += virtualConnectionsCreated.get(cityTwoName).get(cityB.getName());
-                            connectTwoCities(cityOneName, cityTwoName, lengthToAdd);
+
+            if (cityA.isCountry() && !cityB.isCountry())
+            {
+                String countryName = cityA.getName();
+                for (var cityTwo : (virtualConnectionsCreated.get(cityB.getName())).entrySet()) {
+                    String cityTwoName = cityTwo.getKey();
+                    if (!countryName.equals(cityTwoName)) {
+                        lengthToAdd += virtualConnectionsCreated.get(cityTwoName).get(cityB.getName());
+                        connectTwoCities(countryName, cityTwoName, lengthToAdd);
+                    }
+                }
+            }
+
+            else if (cityA.isCountry() && !cityB.isCountry())
+            {
+                String countryName = cityB.getName();
+                for (var cityTwo : (virtualConnectionsCreated.get(cityA.getName())).entrySet()) {
+                    String cityTwoName = cityTwo.getKey();
+                    if (!countryName.equals(cityTwoName)) {
+                        lengthToAdd += virtualConnectionsCreated.get(cityTwoName).get(cityB.getName());
+                        connectTwoCities(countryName, cityTwoName, lengthToAdd);
+                    }
+                }
+            }
+
+            else if (!cityA.isCountry() && !cityB.isCountry())
+            {
+                for (var cityOne : (virtualConnectionsCreated.get(cityA.getName())).entrySet()) {
+                    String cityOneName = cityOne.getKey();
+                    //loop over all neighbors of B
+                    if (!cityOneName.equals(cityB.getName())) {
+                        for (var cityTwo : (virtualConnectionsCreated.get(cityB.getName())).entrySet()) {
+                            String cityTwoName = cityTwo.getKey();
+                            //ensure I dont connect cityOne to cityTwo.
+                            //otherwise, connect cityOne to cityTwo with length(1-A) + length (A-B) + length(B-2)
+                            if (!cityOneName.equals(cityTwoName) && !cityTwoName.equals(cityA.getName())) {
+                                lengthToAdd += virtualConnectionsCreated.get(cityOneName).get(cityA.getName());
+                                lengthToAdd += virtualConnectionsCreated.get(cityTwoName).get(cityB.getName());
+                                connectTwoCities(cityOneName, cityTwoName, lengthToAdd);
+                            }
                         }
                     }
                 }

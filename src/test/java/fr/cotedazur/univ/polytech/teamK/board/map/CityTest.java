@@ -2,20 +2,28 @@ package fr.cotedazur.univ.polytech.teamK.board.map;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
+import fr.cotedazur.univ.polytech.teamK.game.MapHash;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.util.Random;
+
 import static org.junit.jupiter.api.Assertions.*;
+import static org.mockito.Mockito.mock;
+import static org.mockito.Mockito.when;
 
 class CityTest {
 
     private City city;
     private Player player;
+    private MapHash map = new MapHash("Reich");
+    private Random trickedRandom = mock(Random.class);
 
     @BeforeEach
     void setUp(){
-        city = new City("Kiel", 5);
-        player = new Player("DaTutelBoss");
+        when(trickedRandom.nextInt(6)).thenReturn(4);
+        city = new City("Kiel", 5, trickedRandom);
+        player = new Player("DaTutelBoss", map);
     }
 
     @Test
@@ -64,7 +72,7 @@ class CityTest {
     @Test
     void testGetPlayersThatPickedUpMeeples(){
         assertNull(city.getPlayersThatPickedUpMeeples());
-        player.takeMeeples(city);
+        player.takeMeeples(city, Colors.YELLOW);
         assertNotNull(city.getPlayersThatPickedUpMeeples());
     }
 

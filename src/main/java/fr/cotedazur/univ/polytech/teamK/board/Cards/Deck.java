@@ -19,7 +19,8 @@ public class Deck<T extends Card> {
     private int MAX_CAPACITY;
 
     public Deck(TypeOfCards type, MapHash currentMap) {
-        if(type==TypeOfCards.DESTINATION) MAX_CAPACITY = 89;
+        if(type==TypeOfCards.LONG_DESTINATION) MAX_CAPACITY = 34;
+        if(type == TypeOfCards.SHORT_DESTINATION) MAX_CAPACITY = 55;
         if(type==TypeOfCards.WAGON) MAX_CAPACITY = 110;
         initialize(type, currentMap);
     }
@@ -31,10 +32,8 @@ public class Deck<T extends Card> {
      */
     public void initialize(TypeOfCards type, MapHash currentMap) {
         this.cards = new ArrayList<>(MAX_CAPACITY);
-        if (type == TypeOfCards.DESTINATION) {
+        if (type == TypeOfCards.SHORT_DESTINATION) {
             //DESTINATIONS COURTES
-            //ERROR, IM RECREATING THE CITIES
-            //need to have the map hash as input. should i have the keys be the names not the ID's?
             this.cards.add((T) new DestinationCard(currentMap.getCities().get("Mannheim"), currentMap.getCities().get("Stuttgart"), 2));
             this.cards.add((T) new DestinationCard(currentMap.getCities().get("Mainz"), currentMap.getCities().get("Stuttgart"), 3));
             this.cards.add((T) new DestinationCard(currentMap.getCities().get("Koln"), currentMap.getCities().get("Saarbrucken"), 4));
@@ -45,7 +44,7 @@ public class Deck<T extends Card> {
             this.cards.add((T) new DestinationCard(currentMap.getCities().get("Koln"), currentMap.getCities().get("Frankfurt"), 4));
             this.cards.add((T) new DestinationCard(currentMap.getCities().get("Mannheim"), currentMap.getCities().get("Wurzburg"), 4));
             this.cards.add((T) new DestinationCard(currentMap.getCities().get("Bremen"), currentMap.getCities().get("Dusseldorf"), 5));
-            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Munchen"), currentMap.getCities().get("Stuttgart"),5));
+            this.cards.add((T) new DestinationCard(currentMap.getCities().get("Munchen"), currentMap.getCities().get("Stuttgart"), 5));
             this.cards.add((T) new DestinationCard(currentMap.getCities().get("Emden"), currentMap.getCities().get("Hamburg"), 6));
             this.cards.add((T) new DestinationCard(currentMap.getCities().get("Munchen"), currentMap.getCities().get("Konstanz"), 6));
             this.cards.add((T) new DestinationCard(currentMap.getCities().get("Erfurt"), currentMap.getCities().get("Wurzburg"), 6));
@@ -90,6 +89,7 @@ public class Deck<T extends Card> {
             this.cards.add((T) new DestinationCard(currentMap.getCities().get("Koln"), currentMap.getCities().get("Munchen"), 11));
             this.cards.add((T) new DestinationCard(currentMap.getCities().get("Magdeburg"), currentMap.getCities().get("Koln"), 11));
             this.cards.add((T) new DestinationCard(currentMap.getCities().get("Koln"), currentMap.getCities().get("Freiburg"), 11));
+        }else if (type == TypeOfCards.LONG_DESTINATION) {
             //DESTINATIONS LONGUES
             this.cards.add((T) new DestinationCard(currentMap.getCities().get("Niederlande"), currentMap.getCities().get("Berlin"), 13));
             this.cards.add((T) new DestinationCard(currentMap.getCities().get("Dortmund"), currentMap.getCities().get("Munchen"), 13));

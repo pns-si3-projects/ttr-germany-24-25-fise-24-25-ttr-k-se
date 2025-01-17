@@ -15,6 +15,9 @@ public abstract class Connection {
     private Player owner;
     private boolean isFree;
 
+    private static int COUNT = 1;
+    private int tag;
+
     //Constructeur pour les virtual connections
     public Connection(City cityOne, City cityTwo)
     {
@@ -30,13 +33,16 @@ public abstract class Connection {
         setColor(aColor);
         setFree(true);
         setOwner(null);
+        this.tag = COUNT++;
     }
+
     private void setCityOne(City cityOne) {
         if (cityOne == null){
             throw new IllegalArgumentException("cityOne must not be null");
         }
         this.cityOne = cityOne;
     }
+
     private void setCityTwo(City cityTwo) {
         if (cityTwo == null){
             throw new IllegalArgumentException("cityTwo must not be null");
@@ -46,6 +52,7 @@ public abstract class Connection {
         }
         this.cityTwo = cityTwo;
     }
+
     private void setLength(Integer length) {
         if (length <= 0){
             throw new IllegalArgumentException("Length must be greater than 0");

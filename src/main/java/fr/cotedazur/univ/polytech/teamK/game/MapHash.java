@@ -25,7 +25,7 @@ public class MapHash {
     {
         HashMap<String, City> reichMap = new HashMap<String, City>();
 
-        reichMap.put("Danemark", new City("Danemark", 1));
+        reichMap.put("Danemark", new City("Danemark", 1, true));
         reichMap.put("Kiel", new City("Kiel", 1));
         reichMap.put("Rostock", new City("Rostock", 1));
         reichMap.put("Emden", new City("Emden", 1));
@@ -61,10 +61,10 @@ public class MapHash {
         reichMap.put("Konstanz", new City("Konstanz", 1));
         reichMap.put("Lindau", new City("Lindau", 1));
         reichMap.put("Bremen", new City("Bremen", 1));
-        reichMap.put("Frankreich", new City("Frankreich", 1));
-        reichMap.put("Schweiz", new City("Schweiz", 1));
-        reichMap.put("Niederlande", new City("Niederlande", 1));
-        reichMap.put("Osterreich", new City("Osterreich", 1));
+        reichMap.put("Frankreich", new City("Frankreich", 1, true));
+        reichMap.put("Schweiz", new City("Schweiz", 1, true));
+        reichMap.put("Niederlande", new City("Niederlande", 1, true));
+        reichMap.put("Osterreich", new City("Osterreich", 1, true));
 
 // DANEMARK to BREMERHAVEN
         PhysicalConnection danemarkToBremerhaven = new PhysicalConnection(reichMap.get("Danemark"), reichMap.get("Bremerhaven"), 5, Colors.BLACK);
