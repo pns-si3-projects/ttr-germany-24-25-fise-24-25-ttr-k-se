@@ -209,10 +209,10 @@ public class Player {
     public void connectTwoCities(String cityOneName, String cityTwoName, Integer length) {
         //add the two cities to the virtualconnections map if they arent in it already
         if (!virtualConnectionsCreated.containsKey(cityOneName)) {
-            addCityToHashmap(gameMap.getCities().get(cityOneName));
+            addCityToHashmap(gameMap.getCity().get(cityOneName));
         }
         if (!virtualConnectionsCreated.containsKey(cityTwoName)) {
-            addCityToHashmap(gameMap.getCities().get(cityTwoName));
+            addCityToHashmap(gameMap.getCity().get(cityTwoName));
         }
 
         //test if there already is a connection: if yes, keep the longest one ; WE LOOSE INFO
