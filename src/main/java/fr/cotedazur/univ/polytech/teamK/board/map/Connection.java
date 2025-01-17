@@ -55,7 +55,7 @@ public abstract class Connection {
     private void setColor(Colors color) {
         this.color = color;
     }
-    private void setFree(boolean free)
+    public void setFree(boolean free)
     {
         isFree = free;
     }

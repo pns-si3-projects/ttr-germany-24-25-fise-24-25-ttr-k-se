@@ -5,6 +5,7 @@ import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.PhysicalConnection;
 
 import java.util.HashMap;
+import java.util.List;
 
 public class MapHash {
     private HashMap<String, City> cities;
@@ -19,6 +20,7 @@ public class MapHash {
     {
         return cities;
     }
+
     private HashMap buildReichMap()
     {
         HashMap<String, City> reichMap = new HashMap<String, City>();
@@ -357,7 +359,6 @@ public class MapHash {
         frankfurtToWurzburg = new PhysicalConnection(reichMap.get("Frankfurt"), reichMap.get("Wurzburg"), 2, Colors.BLACK);
         reichMap.get("Frankfurt").addPhysicalConnection(frankfurtToWurzburg);
         reichMap.get("Wurzburg").addPhysicalConnection(frankfurtToWurzburg);
-
 // MAINZ to SAARBRUCKEN
         PhysicalConnection mainzToSaarbrucken = new PhysicalConnection(reichMap.get("Mainz"), reichMap.get("Saarbrucken"), 3, Colors.GRAY);
         reichMap.get("Mainz").addPhysicalConnection(mainzToSaarbrucken);
@@ -536,5 +537,16 @@ public class MapHash {
         reichMap.get("Osterreich").addPhysicalConnection(lindauToOsterreich);
 
         return reichMap;
+    }
+
+    public int countConnectionsBetweenCities(City cityOne, City cityTwo){
+        int count = 0;
+        List<PhysicalConnection> connections = cities.get(cityOne.getName()).getPhysicalConnectionList();
+        for(PhysicalConnection connection : connections){
+            if(connection.getCityTwo().equals(cityTwo)){
+                count++;
+            }
+        }
+        return count;
     }
 }
