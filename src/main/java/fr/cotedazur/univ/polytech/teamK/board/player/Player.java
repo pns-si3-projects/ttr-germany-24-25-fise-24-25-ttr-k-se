@@ -189,7 +189,7 @@ public class Player {
             this.connections.add(connectionToBuy);
             removeCardWagon(connectionToBuy.getColor(), connectionToBuy.getLength());
             connectionToBuy.setOwner(this);
-            updateMap(connectionToBuy);
+            updateMap(connectionToBuy, gameMap);
             score += connectionToBuy.calculatePoints(connectionToBuy.getLength());
             return true;
         }
