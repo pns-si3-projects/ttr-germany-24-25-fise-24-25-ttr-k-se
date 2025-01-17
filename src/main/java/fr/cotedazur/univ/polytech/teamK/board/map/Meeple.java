@@ -1,32 +1,21 @@
 package fr.cotedazur.univ.polytech.teamK.board.map;
 
+import fr.cotedazur.univ.polytech.teamK.board.Colors;
+
 import java.util.Arrays;
 import java.util.Objects;
 import java.util.Random;
 
 public class Meeple {
-    private static int[] total = {10,10,10,10,10,10}; //red, black, green, yellow, blue, white
+    private static int[] total = {10,10,10,10,10,10}; //black, blue, red,white,yellow, green
 
-    private int [] listOfOwnedMeeples; //red, black, green, yellow, blue, white
+    private int [] listOfOwnedMeeples; //black, blue, red,white,yellow, green
     private int number;
-    private Random rand;
 
-    //pour les joueurs
-    public Meeple(){
-        listOfOwnedMeeples = new int[]{0, 0, 0, 0, 0, 0};
-        this.number = 0;
-        rand = new Random();
-    }
-
-    public int getNumber () {return number;}
-    public int[] getListOfOwnedMeeples() {return listOfOwnedMeeples;}
-
-    //pour les city
-    public Meeple(int number)  {
+    public Meeple(int number, Random rand) {
         listOfOwnedMeeples = new int[]{0, 0, 0, 0, 0, 0};
         int index;
         this.number = number;
-        rand = new Random();
         for(int i = 0; i < number; i++){
             do {
                 index = rand.nextInt(6);
@@ -35,18 +24,39 @@ public class Meeple {
             total[index]--;
         }
     }
-    public void transferMeeples(Meeple cityMeeples) throws IllegalAccessException {
-        if (cityMeeples.number == 0) {
-            throw new IllegalAccessException();
-        }
-        int i;
-        for(i = 0 ; cityMeeples.listOfOwnedMeeples[i] == 0; i ++);
-        cityMeeples.listOfOwnedMeeples[i]--;
-        cityMeeples.number--;
-        this.listOfOwnedMeeples[i]++;
-        this.number++;
 
+    //pour les joueurs
+    public Meeple(){
+        listOfOwnedMeeples = new int[]{0, 0, 0, 0, 0, 0};
+        this.number = 0;
     }
+
+    //pour les city
+    public Meeple(int number) {
+        this(number, new Random());
+    }
+
+    public int getNumber () {return number;}
+    public int[] getListOfOwnedMeeples() {return listOfOwnedMeeples;}
+    public int getNumberOfAColor(Colors colors) {return listOfOwnedMeeples[colors.ordinal()];}
+
+    /**
+     * Transfer one meeple of a choosen color from a Meeple class to this one
+     * @param cityMeeples the Meeple class where we pick one meeples
+     * @param color the color choice, should be a color of a meeples
+     */
+    public boolean transferMeeples(Meeple cityMeeples, Colors color)  {
+        int index = color.ordinal();
+        if (cityMeeples.listOfOwnedMeeples[index] == 0) {
+            return false;
+        }
+
+        cityMeeples.listOfOwnedMeeples[index]--;
+        cityMeeples.number--;
+        this.listOfOwnedMeeples[index]++;
+        this.number++;
+        return true;
+        }
 
 
     @Override
@@ -67,15 +77,6 @@ public class Meeple {
     public int hashCode() {
         // Combine les champs 'number' et 'asign' pour calculer un hash unique
         return Objects.hash(number, Arrays.hashCode(listOfOwnedMeeples));
-    }
-
-    private boolean stillMeeples(){
-        for(int i = 0; i < 6; i++){
-            if(total[i] != 0){
-                return true;
-            }
-        }
-        return false;
     }
 
     @Override

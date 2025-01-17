@@ -2,18 +2,20 @@ package fr.cotedazur.univ.polytech.teamK.game;
 
 import fr.cotedazur.univ.polytech.teamK.board.Cards.Deck;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
+import fr.cotedazur.univ.polytech.teamK.board.Cards.PaquetPleinException;
 import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
-import fr.cotedazur.univ.polytech.teamK.board.map.Connection;
+import fr.cotedazur.univ.polytech.teamK.board.map.City;
+import fr.cotedazur.univ.polytech.teamK.board.map.PhysicalConnection;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 
-import java.util.Random;
+import java.util.*;
 
 public class Bot extends Player {
     private Integer ID;
-    public Bot(Integer ID)
+    public Bot(Integer ID, MapHash gameMap)
     {
-        super("temp name)");
+        super("temp name)", gameMap);
         this.ID = ID;
         if (ID == 0)
         {
@@ -21,36 +23,55 @@ public class Bot extends Player {
         }
     }
 
-
-    public boolean playTurn(MapSimple currentmap, Deck<DestinationCard> destinationDeck, Deck<WagonCard> wagonDeck)
+    public boolean playTurn(MapHash currentMap,Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck, Deck<WagonCard> wagonDeck)
     {
         if (this.ID == 0)
         {
-            Colors[] availableColors = Colors.values();
-            for (int connectionIndex = 0; connectionIndex < currentmap.getConnectionsInMap().size(); connectionIndex++)
+            //look at city 0 and purchase a connection. if not possible, look at a random neighbor etc
+            //once you find yourself on a city you've already seen, pull cards.
+            HashSet<String> seenCities = new HashSet<String>();
+            //find the city with the ID corresponding to player ID
+            String currentCityID = "";
+            for (Map.Entry<String, City> entry : currentMap.getCities().entrySet())
             {
-                //tests every color to buy
-                Connection currentConnectionTried = currentmap.getConnectionsInMap().get(connectionIndex);
-                for (int colorIndex = 0; colorIndex < Colors.values().length; colorIndex++)
+                if (currentCityID.equals(""))
                 {
-                    Colors colorToTest = availableColors[colorIndex];
-                    if(this.buyRail(currentConnectionTried, colorToTest))
-                    {
-                        super.takeMeeples(currentConnectionTried.getStartCity());
-                        super.takeMeeples(currentConnectionTried.getEndCity());
-                        return true;
-                        //we want to be breaking out of the method,
-                        // maybe a return would make more sense? to see what we did on that turn
-                    }
+                    currentCityID = entry.getValue().getName();
+                }
+                if (entry.getValue().getId() == super.getId())
+                {
+                    currentCityID = entry.getValue().getName();
                 }
             }
-            //if you get here, no connections can be bought: in which case draw a card
+            while (!seenCities.contains(currentCityID))
+            {
+                List<PhysicalConnection> connections = currentMap.getCities().get(currentCityID).getPhysicalConnectionList();
+                for (int connectionIndex = 0; connectionIndex < connections.size(); connectionIndex++)
+                {
+
+                    if (this.buyRail(connections.get(connectionIndex)))
+                    {
+                        super.takeMeeples(connections.get(connectionIndex).getCityOne(), Colors.RED);
+                        super.takeMeeples(connections.get(connectionIndex).getCityTwo(), Colors.RED);
+                        return true;
+                    }
+                }
+                seenCities.add(currentCityID);
+                Random rand = new Random();
+                int rand_int = rand.nextInt(connections.size());
+                String oldID = currentCityID;
+                currentCityID = connections.get(rand_int).getCityOne().getName();
+                if (Objects.equals(oldID, currentCityID))
+                {
+                    currentCityID = connections.get(rand_int).getCityTwo().getName();
+                }
+            }
             Random rand = new Random();
             int rand_int = rand.nextInt(100);
             if (rand_int < 20)
             {
                 //draw from destination
-                DestinationCard destCardDrawn = destinationDeck.draw();
+                DestinationCard destCardDrawn = shortDestinationDeck.draw();
                 if (destCardDrawn != null)
                 {
                     super.addCardDestination(destCardDrawn);
@@ -71,11 +92,43 @@ public class Bot extends Player {
                 }
             }
 
-            //would need to have a throw about if nothing happens, idk; something to ensure turns actually happen
-            return false;
         }
-        //need a return statement outside of the if
         return false;
     }
+
+    public List<DestinationCard> drawDestCard (Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck, int number_short) {
+        List<DestinationCard> res = new ArrayList<>(4) ;
+        for (int i = 0 ; i < 4 ; i++) {
+            if (i < number_short) {
+                res.add(shortDestinationDeck.draw());
+            } else {
+                res.add(longDestinationDeck.draw());
+            }
+        }
+        return res;
+    }
+
+    public boolean giveBackCard (List<DestinationCard> cards, Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck) {
+        try {
+            for (DestinationCard card : cards) {
+                if (card.getValue() > 11) {
+                    longDestinationDeck.addCard(card);
+                } else {
+                    shortDestinationDeck.addCard(card);
+                }
+            }
+        } catch (PaquetPleinException e) {
+            System.out.println("you gave too much cards");
+            return false;
+        }
+        return true;
+    }
+
+
+    public void printStatus()
+    {
+        System.out.println(super.toString());
+    }
+
 
 }
