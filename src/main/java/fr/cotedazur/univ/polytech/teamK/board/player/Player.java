@@ -1,11 +1,10 @@
 package fr.cotedazur.univ.polytech.teamK.board.player;
 
-import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.*;
 import fr.cotedazur.univ.polytech.teamK.game.MapHash;
-import org.w3c.dom.css.Counter;
 
 import java.util.*;
 
@@ -210,10 +209,10 @@ public class Player {
     public void connectTwoCities(String cityOneName, String cityTwoName, Integer length) {
         //add the two cities to the virtualconnections map if they arent in it already
         if (!virtualConnectionsCreated.containsKey(cityOneName)) {
-            addCityToHashmap(gameMap.getCities().get(cityOneName));
+            addCityToHashmap(gameMap.getCity().get(cityOneName));
         }
         if (!virtualConnectionsCreated.containsKey(cityTwoName)) {
-            addCityToHashmap(gameMap.getCities().get(cityTwoName));
+            addCityToHashmap(gameMap.getCity().get(cityTwoName));
         }
 
         //test if there already is a connection: if yes, keep the longest one ; WE LOOSE INFO

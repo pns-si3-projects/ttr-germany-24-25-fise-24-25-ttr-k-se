@@ -1,11 +1,11 @@
-package fr.cotedazur.univ.polytech.teamK.board.Cards;
+package fr.cotedazur.univ.polytech.teamK.board.cards;
 
 /**
  * Cette classe est une classe abstraite, qui permet de rassembler les attributs et
  * méthodes communes de WagonCard et DestinationCard.
  */
 public abstract class Card {
-    private TypeOfCards type;
+    private final TypeOfCards type;
     private static int COUNT = 0; // Compteur partagé et statique
     private final int id;
 

@@ -16,7 +16,7 @@ public class MapHash {
         }
     }
 
-    public HashMap<String, City> getCities()
+    public HashMap<String, City> getCity()
     {
         return cities;
     }
