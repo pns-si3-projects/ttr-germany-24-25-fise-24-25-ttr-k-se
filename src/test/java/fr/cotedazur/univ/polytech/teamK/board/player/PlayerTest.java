@@ -20,8 +20,8 @@ class PlayerTest {
     void setUp () {
         Player.resetIdCounter();
         map = new MapHash("Reich");
-        player1 = new Player("Deyann", map);
-        player2 = new Player("Tom", map);
+        player1 = new Player("Deyann");
+        player2 = new Player("Tom");
     }
 
     @Test
