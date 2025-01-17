@@ -6,26 +6,35 @@ import fr.cotedazur.univ.polytech.teamK.game.MapHash;
 
 import java.awt.*;
 
-public abstract class Connection {
+public class Connection {
     private City cityOne;
     private City cityTwo;
     private Integer length;
     private Colors color;
-
     private Player owner;
     private boolean isFree;
-
     private static int COUNT = 1;
     private int tag;
 
-    //Constructeur pour les virtual connections
-    public Connection(City cityOne, City cityTwo)
-    {
+    /**
+     * Constructs a Connection object for virtual connections.
+     *
+     * @param cityOne the first city
+     * @param cityTwo the second city
+     */
+    public Connection(City cityOne, City cityTwo) {
         setCityOne(cityOne);
         setCityTwo(cityTwo);
     }
 
-    //Constructeur pour les physical conections
+    /**
+     * Constructs a Connection object for physical connections.
+     *
+     * @param cityOne the first city
+     * @param cityTwo the second city
+     * @param aLength the length of the connection
+     * @param aColor  the color of the connection
+     */
     public Connection(City cityOne, City cityTwo, Integer aLength, Colors aColor)
     {
         this(cityOne,cityTwo);
@@ -36,6 +45,12 @@ public abstract class Connection {
         this.tag = COUNT++;
     }
 
+    /**
+     * Sets the first city.
+     *
+     * @param cityOne the first city
+     * @throws IllegalArgumentException if cityOne is null
+     */
     private void setCityOne(City cityOne) {
         if (cityOne == null){
             throw new IllegalArgumentException("cityOne must not be null");
@@ -43,6 +58,12 @@ public abstract class Connection {
         this.cityOne = cityOne;
     }
 
+    /**
+     * Sets the second city.
+     *
+     * @param cityTwo the second city
+     * @throws IllegalArgumentException if cityTwo is null or the same as cityOne
+     */
     private void setCityTwo(City cityTwo) {
         if (cityTwo == null){
             throw new IllegalArgumentException("cityTwo must not be null");
@@ -53,48 +74,165 @@ public abstract class Connection {
         this.cityTwo = cityTwo;
     }
 
+    /**
+     * Sets the length of the connection.
+     *
+     * @param length the length of the connection
+     * @throws IllegalArgumentException if length is less than or equal to 0
+     */
     private void setLength(Integer length) {
         if (length <= 0){
             throw new IllegalArgumentException("Length must be greater than 0");
         }
         this.length = length;
     }
+
+    /**
+     * Sets the color of the connection.
+     *
+     * @param color the color of the connection
+     */
     private void setColor(Colors color) {
         this.color = color;
     }
+
+    /**
+     * Sets whether the connection is free.
+     *
+     * @param free true if the connection is free, false otherwise
+     */
     public void setFree(boolean free)
     {
         isFree = free;
     }
+
+    /**
+     * Sets the owner of the connection.
+     *
+     * @param owner the owner of the connection
+     */
     public void setOwner(Player owner) {
         this.owner = owner;
     }
 
+    /**
+     * Gets the first city.
+     *
+     * @return the first city
+     */
     public City getCityOne() {
         return cityOne;
     }
+
+    /**
+     * Gets the second city.
+     *
+     * @return the second city
+     */
     public City getCityTwo() {
         return cityTwo;
     }
+
+    /**
+     * Gets the length of the connection.
+     *
+     * @return the length of the connection
+     */
     public Integer getLength() {
         return length;
     }
+
+    /**
+     * Gets the color of the connection.
+     *
+     * @return the color of the connection
+     */
     public Colors getColor() {
         return color;
     }
+
+    /**
+     * Checks if the connection is free.
+     *
+     * @return true if the connection is free, false otherwise
+     */
     public boolean isFree() {
         return isFree;
     }
+
+    /**
+     * Gets the owner of the connection.
+     *
+     * @return the owner of the connection
+     */
     public Player getOwner() {
         return owner;
     }
 
 
+    /**
+     * Attempts to claim the connection.
+     *
+     * @param numberOfCardsUsed the number of cards used to claim the connection
+     * @param player            the player attempting to claim the connection
+     * @param gameMap           the game map
+     * @param numberOfPlayers   the number of players in the game
+     * @return true if the connection is successfully claimed, false otherwise
+     * @throws IllegalArgumentException if the number of cards used is less than 0
+     */
+    public boolean claimAttempt(Integer numberOfCardsUsed, Player player, MapHash gameMap, int numberOfPlayers) {
+        if (numberOfCardsUsed < 0){
+            throw new IllegalArgumentException("Number of Cards Used must be greater than 0");
+        }
+        else if (numberOfCardsUsed <= getLength()){
+            return false;
+        }
+        else if (!this.isFree()) {
+            return false;
+        }
+        else {
+            int connectionCount = gameMap.countConnectionsBetweenCities(this.getCityOne(), this.getCityTwo());
+            if (numberOfPlayers <= 3 && connectionCount > 1) {
+                return false; // Double/triple connections not available for 2-3 players
+            } else {
+                this.setFree(false);
+                this.setOwner(player);
+                if (connectionCount > 1) {
+                    markOtherConnectionsAsClaimed(gameMap, this.getCityOne(), this.getCityTwo());
+                }
+                return true; // Successfully claimed
+            }
+        }
+    }
 
     /**
-     * Calculates the points earned for a given route length
-     * @param length the length of the route
-     * @return the points earned
+     * Marks other connections between the same cities as claimed.
+     *
+     * @param gameMap the game map
+     * @param cityOne the first city
+     * @param cityTwo the second city
+     */
+    private void markOtherConnectionsAsClaimed(MapHash gameMap, City cityOne, City cityTwo) {
+        for (Object obj : gameMap.getCities().get(cityOne.getName()).getPhysicalConnectionList()) {
+            Connection conn = (Connection) obj;
+            if (conn.getCityTwo().equals(cityTwo) && !conn.equals(this)) {
+                conn.setFree(false);
+            }
+        }
+        for (Object obj : gameMap.getCities().get(cityTwo.getName()).getPhysicalConnectionList()) {
+            Connection conn = (Connection) obj;
+            if (conn.getCityOne().equals(cityOne) && !conn.equals(this)) {
+                conn.setFree(false);
+            }
+        }
+    }
+
+    /**
+     * Calculates the points for a given length.
+     *
+     * @param length the length of the connection
+     * @return the points for the given length
+     * @throws IllegalArgumentException if the length is invalid
      */
     public static int calculatePoints(int length){
         switch(length){

@@ -1,9 +1,7 @@
-package fr.cotedazur.univ.polytech.teamK.board.Cards;
+package fr.cotedazur.univ.polytech.teamK.board.cards;
 
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
-import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 /**

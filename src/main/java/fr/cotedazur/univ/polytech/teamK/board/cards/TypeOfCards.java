@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.teamK.board.Cards;
+package fr.cotedazur.univ.polytech.teamK.board.cards;
 
 public enum TypeOfCards {
     SHORT_DESTINATION,

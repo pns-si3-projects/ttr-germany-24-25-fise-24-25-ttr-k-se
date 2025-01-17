@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.teamK.board.Cards;
+package fr.cotedazur.univ.polytech.teamK.board.cards;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.game.MapHash;

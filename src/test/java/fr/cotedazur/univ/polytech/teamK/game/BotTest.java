@@ -1,12 +1,11 @@
 package fr.cotedazur.univ.polytech.teamK.game;
 
-import fr.cotedazur.univ.polytech.teamK.board.Cards.Deck;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.TypeOfCards;
+import fr.cotedazur.univ.polytech.teamK.board.cards.Deck;
+import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.TypeOfCards;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;

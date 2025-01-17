@@ -1,9 +1,9 @@
 package fr.cotedazur.univ.polytech.teamK.game;
 
-import fr.cotedazur.univ.polytech.teamK.board.Cards.Deck;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.PaquetPleinException;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.Deck;
+import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.PaquetPleinException;
+import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.PhysicalConnection;
