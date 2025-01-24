@@ -24,34 +24,11 @@ public class DumbBot extends  Bot {
         //once you find yourself on a city you've already seen, pull cards.
 
         //find the city with the ID corresponding to player ID
-        String currentCityID = "";
-        for (Map.Entry<String, City> entry : currentMap.getCities().entrySet()) {
-            if (currentCityID.equals("")) {
-                currentCityID = entry.getValue().getName();
-            }
-            if (entry.getValue().getId() == super.getId()) {
-                currentCityID = entry.getValue().getName();
-            }
-        }
-        while (!seenCities.contains(currentCityID)) {
-            List<PhysicalConnection> connections = currentMap.getCities().get(currentCityID).getPhysicalConnectionList();
-            for (int connectionIndex = 0; connectionIndex < connections.size(); connectionIndex++) {
 
-                if (this.buyRail(connections.get(connectionIndex))) {
-                    super.takeMeeples(connections.get(connectionIndex).getCityOne(), Colors.RED);
-                    super.takeMeeples(connections.get(connectionIndex).getCityTwo(), Colors.RED);
-                    return true;
-                }
-            }
-            seenCities.add(currentCityID);
-            Random rand = new Random();
-            int rand_int = rand.nextInt(connections.size());
-            String oldID = currentCityID;
-            currentCityID = connections.get(rand_int).getCityOne().getName();
-            if (Objects.equals(oldID, currentCityID)) {
-                currentCityID = connections.get(rand_int).getCityTwo().getName();
-            }
+        if(buyConnection(currentMap)) {
+            return true;
         }
+
         Random rand = new Random();
         int rand_int = rand.nextInt(100);
         if (rand_int < 20) {
@@ -80,25 +57,45 @@ public class DumbBot extends  Bot {
         }
     }
 
-    public boolean giveBackCard (List<DestinationCard> cards, Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck) {
-        try {
-            for (DestinationCard card : cards) {
-                if (card.getValue() > 11) {
-                    longDestinationDeck.addCard(card);
-                } else {
-                    shortDestinationDeck.addCard(card);
-                }
+    private String findCityWithID(MapHash currentMap, String currentCityID) {
+        for (Map.Entry<String, City> entry : currentMap.getCities().entrySet())
+        {
+            if (currentCityID.equals(""))
+            {
+                currentCityID = entry.getValue().getName();
             }
-        } catch (PaquetPleinException e) {
-            System.out.println("you gave too much cards");
-            return false;
+            if (entry.getValue().getId() == super.getId())
+            {
+                currentCityID = entry.getValue().getName();
+            }
         }
-        return true;
+        return currentCityID;
     }
 
     @Override
-    public void buyRail(MapHash currentMap) {
+    public boolean buyConnection(MapHash currentMap) {
+        String currentCityID = "";
+        currentCityID = findCityWithID(currentMap,currentCityID);
+        while (!seenCities.contains(currentCityID)) {
+            List<PhysicalConnection> connections = currentMap.getCities().get(currentCityID).getPhysicalConnectionList();
+            for (PhysicalConnection connection : connections) {
 
+                if (this.buyRail(connection)) {
+                    super.takeMeeples(connection.getCityOne(), Colors.RED);
+                    super.takeMeeples(connection.getCityTwo(), Colors.RED);
+                    return true;
+                }
+            }
+            seenCities.add(currentCityID);
+            Random rand = new Random();
+            int rand_int = rand.nextInt(connections.size());
+            String oldID = currentCityID;
+            currentCityID = connections.get(rand_int).getCityOne().getName();
+            if (Objects.equals(oldID, currentCityID)) {
+                currentCityID = connections.get(rand_int).getCityTwo().getName();
+            }
+        }
+        return false;
     }
 
     @Override
