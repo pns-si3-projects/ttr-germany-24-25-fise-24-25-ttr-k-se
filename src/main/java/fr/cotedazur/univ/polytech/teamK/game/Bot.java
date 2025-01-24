@@ -45,7 +45,6 @@ public class Bot extends Player {
 
                 }
                 for (int connectionIndex = 0; connectionIndex < connections.size(); connectionIndex++)
-
                 {
 
                     if (this.buyRail(connections.get(connectionIndex)))
