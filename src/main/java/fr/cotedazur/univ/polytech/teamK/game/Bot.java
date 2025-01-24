@@ -13,7 +13,7 @@ import java.util.*;
 
 public class Bot extends Player {
     private Integer ID;
-    public Bot(Integer ID, MapHash gameMap)
+    public Bot(Integer ID, Board gameMap)
     {
         super("temp name)", gameMap);
         this.ID = ID;
@@ -23,7 +23,7 @@ public class Bot extends Player {
         }
     }
 
-    public boolean playTurn(MapHash currentMap,Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck, Deck<WagonCard> wagonDeck)
+    public boolean playTurn(Board currentMap, Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck, Deck<WagonCard> wagonDeck)
     {
         if (this.ID == 0)
         {
@@ -94,7 +94,7 @@ public class Bot extends Player {
         return false;
     }
 
-    private String findCityWithID(MapHash currentMap, String currentCityID) {
+    private String findCityWithID(Board currentMap, String currentCityID) {
         for (Map.Entry<String, City> entry : currentMap.getCity().entrySet())
         {
             if (currentCityID.equals(""))

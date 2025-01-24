@@ -7,9 +7,9 @@ import fr.cotedazur.univ.polytech.teamK.board.map.Connection;
 import java.util.HashMap;
 import java.util.List;
 
-public class MapHash {
+public class Board {
     private HashMap<String, City> cities;
-    public MapHash(String name) {
+    public Board(String name) {
         if (name.equals("Reich"))
         {
             cities = buildReichMap();

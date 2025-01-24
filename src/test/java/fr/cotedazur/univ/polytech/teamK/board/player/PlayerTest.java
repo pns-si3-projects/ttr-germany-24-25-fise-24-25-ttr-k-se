@@ -5,7 +5,7 @@ import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
-import fr.cotedazur.univ.polytech.teamK.game.MapHash;
+import fr.cotedazur.univ.polytech.teamK.game.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,12 +14,12 @@ import static org.junit.jupiter.api.Assertions.*;
 class PlayerTest {
     Player player1;
     Player player2;
-    MapHash map;
+    Board map;
 
     @BeforeEach
     void setUp () {
         Player.resetIdCounter();
-        map = new MapHash("Reich");
+        map = new Board("Reich");
         player1 = new Player("Deyann");
         player2 = new Player("Tom");
     }

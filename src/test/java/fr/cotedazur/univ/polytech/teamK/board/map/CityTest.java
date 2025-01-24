@@ -2,7 +2,7 @@ package fr.cotedazur.univ.polytech.teamK.board.map;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
-import fr.cotedazur.univ.polytech.teamK.game.MapHash;
+import fr.cotedazur.univ.polytech.teamK.game.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,7 +16,7 @@ class CityTest {
 
     private City city;
     private Player player;
-    private MapHash map = new MapHash("Reich");
+    private Board map = new Board("Reich");
     private Random trickedRandom = mock(Random.class);
 
     @BeforeEach

@@ -1,7 +1,7 @@
 package fr.cotedazur.univ.polytech.teamK.board.cards;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
-import fr.cotedazur.univ.polytech.teamK.game.MapHash;
+import fr.cotedazur.univ.polytech.teamK.game.Board;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -18,7 +18,7 @@ public class Deck<T extends Card> {
     private List<T> visibleCard;
     private int MAX_CAPACITY;
 
-    public Deck(TypeOfCards type, MapHash currentMap) {
+    public Deck(TypeOfCards type, Board currentMap) {
         if(type==TypeOfCards.LONG_DESTINATION) MAX_CAPACITY = 34;
         if(type == TypeOfCards.SHORT_DESTINATION) MAX_CAPACITY = 55;
         if(type==TypeOfCards.WAGON) {
@@ -33,7 +33,7 @@ public class Deck<T extends Card> {
      *
      * @param type le type de la carte
      */
-    public void initialize(TypeOfCards type, MapHash currentMap) {
+    public void initialize(TypeOfCards type, Board currentMap) {
         this.cards = new ArrayList<>(MAX_CAPACITY);
         if (type == TypeOfCards.SHORT_DESTINATION) {
             //DESTINATIONS COURTES
@@ -69,7 +69,7 @@ public class Deck<T extends Card> {
         }
     }
 
-    private void initializeLongDestination(MapHash currentMap) {
+    private void initializeLongDestination(Board currentMap) {
         this.cards.add((T) new DestinationCard(currentMap.getCity("Niederlande"), currentMap.getCity("Berlin"), 13));
         this.cards.add((T) new DestinationCard(currentMap.getCity("Dortmund"), currentMap.getCity("Munchen"), 13));
         this.cards.add((T) new DestinationCard(currentMap.getCity("Leipzig"), currentMap.getCity("Ulm"), 12));
@@ -106,7 +106,7 @@ public class Deck<T extends Card> {
         this.cards.add((T) new DestinationCard(currentMap.getCity("Kiel"), currentMap.getCity("Schweiz"), 20));
     }
 
-    private void initializeShortDestination(MapHash currentMap) {
+    private void initializeShortDestination(Board currentMap) {
         this.cards.add((T) new DestinationCard(currentMap.getCity("Mannheim"), currentMap.getCity("Stuttgart"), 2));
         this.cards.add((T) new DestinationCard(currentMap.getCity("Mainz"), currentMap.getCity("Stuttgart"), 3));
         this.cards.add((T) new DestinationCard(currentMap.getCity("Koln"), currentMap.getCity("Saarbrucken"), 4));

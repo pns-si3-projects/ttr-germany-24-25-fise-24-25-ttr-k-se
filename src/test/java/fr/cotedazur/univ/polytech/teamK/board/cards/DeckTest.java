@@ -1,6 +1,6 @@
 package fr.cotedazur.univ.polytech.teamK.board.cards;
 
-import fr.cotedazur.univ.polytech.teamK.game.MapHash;
+import fr.cotedazur.univ.polytech.teamK.game.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,7 +11,7 @@ class DeckTest {
     private Deck<DestinationCard> shortDestinationDeck;
     private Deck<DestinationCard> longDestinationDeck;
     private Deck<WagonCard> wagonDeck;
-    private MapHash map = new MapHash("Reich");
+    private Board map = new Board("Reich");
 
     @BeforeEach
     void setUp() {

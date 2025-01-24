@@ -11,14 +11,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BotTest {
-    MapHash map;
+    Board map;
     Deck<DestinationCard> longDest;
     Deck<DestinationCard> shortDest;
     Bot bot;
 
     @BeforeEach
     void setUp () {
-        map = new MapHash("Reich");
+        map = new Board("Reich");
         longDest = new Deck<>(TypeOfCards.LONG_DESTINATION,map);
         shortDest = new Deck<>(TypeOfCards.SHORT_DESTINATION,map);
         bot = new Bot(1,map);

@@ -9,11 +9,11 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Game {
-    public MapHash getGameMap() {
+    public Board getGameMap() {
         return gameMap;
     }
 
-    private MapHash gameMap;
+    private Board gameMap;
     private ArrayList<Bot> gamePlayers;
     private Deck<DestinationCard> shortDestinationDeck;
     private Deck<DestinationCard> longDestinationDeck;
@@ -24,7 +24,7 @@ public class Game {
     {
         if (gameIdentifier.equals("basic"))
         {
-            gameMap =new MapHash("Reich");
+            gameMap =new Board("Reich");
             gamePlayers = new ArrayList<>(Arrays.asList(new Bot(0, gameMap), new Bot(0, gameMap), new Bot(0, gameMap)));
             shortDestinationDeck = new Deck<DestinationCard>(TypeOfCards.SHORT_DESTINATION, gameMap);
             longDestinationDeck = new Deck<DestinationCard>(TypeOfCards.LONG_DESTINATION, gameMap);
