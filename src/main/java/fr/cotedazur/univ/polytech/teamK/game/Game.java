@@ -1,8 +1,8 @@
 package fr.cotedazur.univ.polytech.teamK.game;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.Deck;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.TypeOfCards;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.Deck;
+import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.TypeOfCards;
+import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.bot.DumbBot;
 
@@ -10,21 +10,22 @@ import java.util.ArrayList;
 import java.util.Arrays;
 
 public class Game {
-    public MapHash getGameMap() {
+    public Board getGameMap() {
         return gameMap;
     }
 
-    private MapHash gameMap;
+    private Board gameMap;
     private ArrayList<DumbBot> gamePlayers;
     private Deck<DestinationCard> shortDestinationDeck;
     private Deck<DestinationCard> longDestinationDeck;
     private Deck<WagonCard> wagonDeck;
 
+
     public Game(String gameIdentifier)
     {
         if (gameIdentifier.equals("basic"))
         {
-            gameMap =new MapHash("Reich");
+            gameMap =new Board("Reich");
             gamePlayers = new ArrayList<>(Arrays.asList(new DumbBot("test1", gameMap), new DumbBot("test2", gameMap), new DumbBot("test3", gameMap)));
             shortDestinationDeck = new Deck<DestinationCard>(TypeOfCards.SHORT_DESTINATION, gameMap);
             longDestinationDeck = new Deck<DestinationCard>(TypeOfCards.LONG_DESTINATION, gameMap);

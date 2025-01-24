@@ -1,9 +1,6 @@
 package fr.cotedazur.univ.polytech.teamK;
 
-import fr.cotedazur.univ.polytech.teamK.board.map.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.Game;
-
-import java.util.List;
 
 public class Main {
 

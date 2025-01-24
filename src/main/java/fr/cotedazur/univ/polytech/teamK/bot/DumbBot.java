@@ -1,24 +1,24 @@
 package fr.cotedazur.univ.polytech.teamK.bot;
 
-import fr.cotedazur.univ.polytech.teamK.board.Cards.*;
+import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
-import fr.cotedazur.univ.polytech.teamK.board.map.PhysicalConnection;
-import fr.cotedazur.univ.polytech.teamK.board.player.Player;
-import fr.cotedazur.univ.polytech.teamK.game.MapHash;
+import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
+import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.Game;
 
 import javax.lang.model.type.NullType;
 import java.util.*;
 
 public class DumbBot extends  Bot {
     HashSet<String> seenCities ;
-    public DumbBot(String name, MapHash gameMap)
+    public DumbBot(String name, Board gameMap)
     {
-        super(name, gameMap);
+        super(name);
         seenCities = new HashSet<String>();
     }
 
-    public boolean playTurn(MapHash currentMap, Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck, Deck<WagonCard> wagonDeck)
+    public boolean playTurn(Board currentMap, Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck, Deck<WagonCard> wagonDeck)
     {
         //look at city 0 and purchase a connection. if not possible, look at a random neighbor etc
         //once you find yourself on a city you've already seen, pull cards.
@@ -57,8 +57,8 @@ public class DumbBot extends  Bot {
         }
     }
 
-    private String findCityWithID(MapHash currentMap, String currentCityID) {
-        for (Map.Entry<String, City> entry : currentMap.getCities().entrySet())
+    private String findCityWithID(Board currentMap, String currentCityID) {
+        for (Map.Entry<String, City> entry : currentMap.getCity().entrySet())
         {
             if (currentCityID.equals(""))
             {
@@ -73,14 +73,14 @@ public class DumbBot extends  Bot {
     }
 
     @Override
-    public boolean buyConnection(MapHash currentMap) {
+    public boolean buyConnection(Board currentMap) {
         String currentCityID = "";
         currentCityID = findCityWithID(currentMap,currentCityID);
         while (!seenCities.contains(currentCityID)) {
-            List<PhysicalConnection> connections = currentMap.getCities().get(currentCityID).getPhysicalConnectionList();
-            for (PhysicalConnection connection : connections) {
-
-                if (this.buyRail(connection)) {
+            List<Connection> connections = currentMap.getCity().get(currentCityID).getConnectionList();
+            for (Connection connection : connections) {
+/*ATTENTION CHANGER LE NOMBRE DE JOUEUR*/
+                if (this.buyRail(connection,currentMap, 10)) {
                     super.takeMeeples(connection.getCityOne(), Colors.RED);
                     super.takeMeeples(connection.getCityTwo(), Colors.RED);
                     return true;

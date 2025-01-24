@@ -1,11 +1,11 @@
 package fr.cotedazur.univ.polytech.teamK.board.player;
 
-import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.*;
-import fr.cotedazur.univ.polytech.teamK.game.MapHash;
-import org.w3c.dom.css.Counter;
+import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
+import fr.cotedazur.univ.polytech.teamK.game.Board;
 
 import java.util.*;
 
@@ -16,16 +16,16 @@ public class Player {
     private int score;
     private Meeple meeples;
     private int wagonsRemaining;
+    private PlayerOwnedMap playerMap;
 
-    private Map<String, Map<String, Integer>> virtualConnectionsCreated;
-    private MapHash gameMap;
+    //private Board gameMap;
 
     private ArrayList<Connection> connections;
     private ArrayList<WagonCard> wagonCards;
     private ArrayList<DestinationCard> destinationCards;
 
 
-    public Player(String name, MapHash gameMap) {
+    public Player(String name) {
         this.id = COUNT++;
         this.name = name;
         this.score = 0;
@@ -34,13 +34,13 @@ public class Player {
         this.destinationCards = new ArrayList<>();
         this.connections = new ArrayList<>();
         this.meeples = new Meeple();
-        createVirtualConnectionMap();
-        this.gameMap = gameMap;
+        playerMap = new PlayerOwnedMap();
+        //this.gameMap = gameMap;
 
     }
 
-    public Player(int id, String name, ArrayList<WagonCard> wagonCards, ArrayList<DestinationCard> destinationCards, MapHash gameMap) {
-        this(name, gameMap);
+    public Player(int id, String name, ArrayList<WagonCard> wagonCards, ArrayList<DestinationCard> destinationCards) {
+        this(name);
         this.wagonCards = wagonCards;
         this.destinationCards = destinationCards;
     }
@@ -138,6 +138,8 @@ public class Player {
         return true;
     }
 
+
+
     /**
      * Add DestinationCard points and remove it from the player's hand
      * @param carte the card to check
@@ -147,9 +149,7 @@ public class Player {
         String cityOne = carte.getEndCity().getName();
         String cityTwo = carte.getStartCity().getName();
         Boolean connected = false;
-        if (virtualConnectionsCreated.get(cityOne) != null)
-                connected = virtualConnectionsCreated.get(cityOne).get(cityTwo) != null;
-        if (destinationCards.contains(carte) && connected) {
+        if (playerMap.isNeighbour(cityOne, cityTwo) && destinationCards.contains(carte)) {
             this.score += carte.getValue();
             this.destinationCards.remove(carte);
             return true;
@@ -184,113 +184,35 @@ public class Player {
      * @param connectionToBuy the connection we want to buy
      * @return true if we bought it, false otherwise
      */
-    public boolean buyRail(PhysicalConnection connectionToBuy)
+    public boolean buyRail(Connection connectionToBuy, Board gameMap, int numberOfPlayers)
     {
-        if (connectionToBuy.claimAttempt(getNumberColor(connectionToBuy.getColor())))
+        Colors connectionColor = connectionToBuy.getColor();
+        int cardsOfCorrectColor = getNumberColor(connectionColor);
+        int lengthOfRail = connectionToBuy.getLength();
+        int rainbowCards = getNumberColor(Colors.RAINBOW);
+
+        if (connectionToBuy.claimAttempt(cardsOfCorrectColor + rainbowCards, this, gameMap, numberOfPlayers))
         {
             this.connections.add(connectionToBuy);
-            removeCardWagon(connectionToBuy.getColor(), connectionToBuy.getLength());
+
+            if (lengthOfRail > cardsOfCorrectColor)
+            {
+                int rainbowsUsed = lengthOfRail - cardsOfCorrectColor;
+                removeCardWagon(Colors.RAINBOW, rainbowsUsed);
+                removeCardWagon(connectionColor, cardsOfCorrectColor);
+            }
+            else
+            {
+                removeCardWagon(connectionColor, lengthOfRail);
+            }
+            //removeCardWagon(connectonColor, min(lengthOfRail, cardsOfCorrectColor)
             connectionToBuy.setOwner(this);
-            updateMap(connectionToBuy);
-            score += connectionToBuy.calculatePoints(connectionToBuy.getLength());
+            playerMap.updateMap(connectionToBuy, gameMap);
+            score += connectionToBuy.calculatePoints(lengthOfRail);
             return true;
         }
         return false;
     }
-
-    //hashmap of (city, Hashmap of (cities, distance))
-
-    public void createVirtualConnectionMap(){
-        virtualConnectionsCreated = new HashMap<String, Map<String, Integer>>();
-    }
-    private void addCityToHashmap(City city) {
-        virtualConnectionsCreated.put(city.getName(), new HashMap<String, Integer>());
-    }
-
-    public void connectTwoCities(String cityOneName, String cityTwoName, Integer length) {
-        //add the two cities to the virtualconnections map if they arent in it already
-        if (!virtualConnectionsCreated.containsKey(cityOneName)) {
-            addCityToHashmap(gameMap.getCities().get(cityOneName));
-        }
-        if (!virtualConnectionsCreated.containsKey(cityTwoName)) {
-            addCityToHashmap(gameMap.getCities().get(cityTwoName));
-        }
-
-        //test if there already is a connection: if yes, keep the longest one ; WE LOOSE INFO
-        Map<String, Integer> cityOneMap = virtualConnectionsCreated.get(cityOneName);
-        if ((!cityOneMap.containsKey(cityTwoName)) || (cityOneMap.containsKey(cityTwoName) && cityOneMap.get(cityTwoName) <= length)) {
-            //only replace if length is greater than previous length VERIFY
-            virtualConnectionsCreated.get(cityOneName).put(cityTwoName, length);
-            virtualConnectionsCreated.get(cityTwoName).put(cityOneName, length);
-        }
-
-    }
-    //i start with two cities A and B
-    //in every city connected to A, i connect it to every city connected to city B
-    public void updateMap(Connection c) {
-        City cityA = c.getCityOne();
-        String temp = "testing";
-        City cityB = c.getCityTwo();
-        Integer lengthToAdd = c.getLength();
-        //update map only if the lengthToAdd is longer than the existing distance between A and B (originally -infinity)
-        if ((virtualConnectionsCreated.get(cityA.getName()) == null) || (virtualConnectionsCreated.get(cityA.getName()).get(cityB.getName()) == null) || (lengthToAdd > virtualConnectionsCreated.get(cityA.getName()).get(cityB.getName()))) {
-            //here I have ensured that either there was no previous path from A to B, or that the new connection is Longer
-            //so I want to connect all neighbors of A to all neigbors of B (just need to avoid connecting a city to itself
-            //loop over all neighbors of A
-
-            //current issue: when there are no neigbors, the for loop breaks
-            //solution: connect A to B, and then loop over all neighbors
-            //upcoming problems: B becomes a neighbor of A: needs to be excluded
-            //A becomes a neighbor of B: needs to be excluded
-            connectTwoCities(cityA.getName(), cityB.getName(), lengthToAdd);
-
-            if (cityA.isCountry() && !cityB.isCountry())
-            {
-                String countryName = cityA.getName();
-                for (var cityTwo : (virtualConnectionsCreated.get(cityB.getName())).entrySet()) {
-                    String cityTwoName = cityTwo.getKey();
-                    if (!countryName.equals(cityTwoName)) {
-                        lengthToAdd += virtualConnectionsCreated.get(cityTwoName).get(cityB.getName());
-                        connectTwoCities(countryName, cityTwoName, lengthToAdd);
-                    }
-                }
-            }
-
-            else if (cityA.isCountry() && !cityB.isCountry())
-            {
-                String countryName = cityB.getName();
-                for (var cityTwo : (virtualConnectionsCreated.get(cityA.getName())).entrySet()) {
-                    String cityTwoName = cityTwo.getKey();
-                    if (!countryName.equals(cityTwoName)) {
-                        lengthToAdd += virtualConnectionsCreated.get(cityTwoName).get(cityB.getName());
-                        connectTwoCities(countryName, cityTwoName, lengthToAdd);
-                    }
-                }
-            }
-
-            else if (!cityA.isCountry() && !cityB.isCountry())
-            {
-                for (var cityOne : (virtualConnectionsCreated.get(cityA.getName())).entrySet()) {
-                    String cityOneName = cityOne.getKey();
-                    //loop over all neighbors of B
-                    if (!cityOneName.equals(cityB.getName())) {
-                        for (var cityTwo : (virtualConnectionsCreated.get(cityB.getName())).entrySet()) {
-                            String cityTwoName = cityTwo.getKey();
-                            //ensure I dont connect cityOne to cityTwo.
-                            //otherwise, connect cityOne to cityTwo with length(1-A) + length (A-B) + length(B-2)
-                            if (!cityOneName.equals(cityTwoName) && !cityTwoName.equals(cityA.getName())) {
-                                lengthToAdd += virtualConnectionsCreated.get(cityOneName).get(cityA.getName());
-                                lengthToAdd += virtualConnectionsCreated.get(cityTwoName).get(cityB.getName());
-                                connectTwoCities(cityOneName, cityTwoName, lengthToAdd);
-                            }
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
 
     @Override
     public String toString() {

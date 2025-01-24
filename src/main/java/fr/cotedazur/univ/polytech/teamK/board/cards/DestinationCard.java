@@ -1,9 +1,7 @@
-package fr.cotedazur.univ.polytech.teamK.board.Cards;
+package fr.cotedazur.univ.polytech.teamK.board.cards;
 
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
-import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 
-import java.util.Arrays;
 import java.util.Objects;
 
 /**
@@ -57,8 +55,10 @@ public class DestinationCard extends Card {
         }
 
         final DestinationCard other = (DestinationCard) obj;
-        return this.value == other.value && this.startCity == other.startCity && this.endCity == other.endCity;
-    }
+        return this.value == other.value &&
+                Objects.equals(this.startCity, other.startCity) &&
+                Objects.equals(this.endCity, other.endCity);}
+
     @Override
     public int hashCode() {
         return Objects.hash(startCity,endCity, value, isComplete);

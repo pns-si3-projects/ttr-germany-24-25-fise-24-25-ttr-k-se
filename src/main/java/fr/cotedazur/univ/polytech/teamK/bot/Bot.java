@@ -1,17 +1,17 @@
 package fr.cotedazur.univ.polytech.teamK.bot;
 
-import fr.cotedazur.univ.polytech.teamK.board.Cards.*;
+import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
-import fr.cotedazur.univ.polytech.teamK.game.MapHash;
+import fr.cotedazur.univ.polytech.teamK.game.Board;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public abstract class Bot extends Player {
 
-    public Bot(String name, MapHash gameMap)
+    public Bot(String name)
     {
-        super(name, gameMap);
+        super(name);
     }
 
     /**
@@ -84,7 +84,7 @@ public abstract class Bot extends Player {
      * The bot will choose to buy a connection or not
      * @param currentMap the map of the game
      */
-    public abstract boolean buyConnection(MapHash currentMap);
+    public abstract boolean buyConnection(Board currentMap);
 
     /**
      * The main fonction who run the bot
@@ -94,5 +94,5 @@ public abstract class Bot extends Player {
      * @param wagonDeck the deck were the bot can pick cards
      * @return true if the bot did something
      */
-    public abstract boolean playTurn(MapHash currentMap, Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck, Deck<WagonCard> wagonDeck) ;
+    public abstract boolean playTurn(Board currentMap, Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck, Deck<WagonCard> wagonDeck) ;
 }
