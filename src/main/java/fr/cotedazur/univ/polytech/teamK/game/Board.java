@@ -2,7 +2,7 @@ package fr.cotedazur.univ.polytech.teamK.game;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
-import fr.cotedazur.univ.polytech.teamK.board.map.Connection;
+import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 
 import java.util.HashMap;
 import java.util.List;
@@ -553,5 +553,10 @@ public class Board {
     public City getCity(String cityName)
     {
         return cities.get(cityName);
+    }
+
+    public List<Connection> getCitiesConnections(String cityName){
+        City inputCity = cities.get(cityName);
+        return inputCity.getConnectionList();
     }
 }

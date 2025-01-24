@@ -20,7 +20,6 @@ public class Game {
     private Deck<DestinationCard> longDestinationDeck;
     private Deck<WagonCard> wagonDeck;
 
-
     public Game(String gameIdentifier)
     {
         if (gameIdentifier.equals("basic"))

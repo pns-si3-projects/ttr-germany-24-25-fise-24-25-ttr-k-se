@@ -8,6 +8,7 @@ public class ConnectionClaimService {
     /**
      * Attempts to claim the connection.
      *
+     * @param connection        the connection to be claimed
      * @param numberOfCardsUsed the number of cards used to claim the connection
      * @param player            the player attempting to claim the connection
      * @param gameMap           the game map
@@ -16,26 +17,48 @@ public class ConnectionClaimService {
      * @throws IllegalArgumentException if the number of cards used is less than 0
      */
     public boolean claimAttempt(Connection connection, Integer numberOfCardsUsed, Player player, Board gameMap, int numberOfPlayers) {
+        validateNumberOfCards(numberOfCardsUsed);
+        if (!hasEnoughCards(numberOfCardsUsed, connection)) {
+            return false;
+        }
+        if (!isConnectionFree(connection)) {
+            return false;
+        }
+        if (!canClaimConnection(connection, gameMap, numberOfPlayers)) {
+            return false;
+        }
+        claimConnection(connection, player, gameMap);
+        return true;
+    }
+
+    private void validateNumberOfCards(Integer numberOfCardsUsed) {
         if (numberOfCardsUsed < 0) {
             throw new IllegalArgumentException("Number of Cards Used must be greater than 0");
-        } else if (numberOfCardsUsed <= connection.getLength()) {
-            return false;
-        } else if (!connection.isFree()) {
-            return false;
-        } else {
-            int connectionCount = gameMap.countConnectionsBetweenCities(connection.getCityOne(), connection.getCityTwo());
-            if (numberOfPlayers <= 3 && connectionCount > 1) {
-                return false; // Double/triple connections not available for 2-3 players
-            } else {
-                connection.setFree(false);
-                connection.setOwner(player);
-                if (connectionCount > 1) {
-                    markOtherConnectionsAsClaimed(gameMap, connection.getCityOne(), connection.getCityTwo());
-                }
-                return true; // Successfully claimed
-            }
         }
     }
+
+    private boolean hasEnoughCards(Integer numberOfCardsUsed, Connection connection) {
+        return numberOfCardsUsed >= connection.getLength();
+    }
+
+    private boolean isConnectionFree(Connection connection) {
+        return connection.isFree();
+    }
+
+    private boolean canClaimConnection(Connection connection, Board gameMap, int numberOfPlayers) {
+        int connectionCount = gameMap.countConnectionsBetweenCities(connection.getCityOne(), connection.getCityTwo());
+        return !(numberOfPlayers <= 3 && connectionCount > 1);
+    }
+
+    private void claimConnection(Connection connection, Player player, Board gameMap) {
+        connection.setFree(false);
+        connection.setOwner(player);
+        int connectionCount = gameMap.countConnectionsBetweenCities(connection.getCityOne(), connection.getCityTwo());
+        if (connectionCount > 1) {
+            markOtherConnectionsAsClaimed(gameMap, connection.getCityOne(), connection.getCityTwo());
+        }
+    }
+
     /**
      * Marks other connections between the same cities as claimed.
      *
@@ -44,14 +67,12 @@ public class ConnectionClaimService {
      * @param cityTwo the second city
      */
     private void markOtherConnectionsAsClaimed(Board gameMap, City cityOne, City cityTwo) {
-        for (Object obj : gameMap.getCities().get(cityOne.getName()).getPhysicalConnectionList()) {
-            Connection conn = (Connection) obj;
+        for (Connection conn : gameMap.getCitiesConnections(cityOne.getName())) {
             if (conn.getCityTwo().equals(cityTwo) && !conn.equals(this)) {
                 conn.setFree(false);
             }
         }
-        for (Object obj : gameMap.getCities().get(cityTwo.getName()).getPhysicalConnectionList()) {
-            Connection conn = (Connection) obj;
+        for (Connection conn : gameMap.getCitiesConnections(cityTwo.getName())) {
             if (conn.getCityOne().equals(cityOne) && !conn.equals(this)) {
                 conn.setFree(false);
             }
