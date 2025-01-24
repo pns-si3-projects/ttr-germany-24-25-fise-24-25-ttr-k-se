@@ -3,7 +3,7 @@ package fr.cotedazur.univ.polytech.teamK.board.map.connection;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
-import fr.cotedazur.univ.polytech.teamK.game.MapHash;
+import fr.cotedazur.univ.polytech.teamK.game.Board;
 
 public class Connection {
     private City cityOne;
@@ -15,6 +15,9 @@ public class Connection {
     private boolean isFree;
     private static int COUNT = 1;
     private int tag;
+
+    private ConnectionClaimService claimService;
+    private ConnectionUtils utils;
 
     /**
      * Constructs a Connection object for virtual connections.
@@ -167,6 +170,30 @@ public class Connection {
      */
     public Player getOwner() {
         return owner;
+    }
+
+    /**
+     * Attempts to claim the connection.
+     *
+     * @param numberOfCardsUsed the number of cards used to claim the connection
+     * @param player            the player attempting to claim the connection
+     * @param gameMap           the game map
+     * @param numberOfPlayers   the number of players in the game
+     * @return true if the connection is successfully claimed, false otherwise
+     * @throws IllegalArgumentException if the number of cards used is less than 0
+     */
+    public boolean claimAttempt(Integer numberOfCardsUsed, Player player, Board gameMap, int numberOfPlayers) {
+        return claimService.claimAttempt(this, numberOfCardsUsed, player, gameMap, numberOfPlayers);
+    }
+
+    /**
+     * Calculates the points for the connection's length.
+     *
+     * @return the points for the connection's length
+     * @throws IllegalArgumentException if the length is invalid
+     */
+    public int calculatePoints() {
+        return utils.calculatePoints(this.length);
     }
 
     @Override
