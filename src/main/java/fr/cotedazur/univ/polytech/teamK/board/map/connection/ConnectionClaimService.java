@@ -2,7 +2,7 @@ package fr.cotedazur.univ.polytech.teamK.board.map.connection;
 
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
-import fr.cotedazur.univ.polytech.teamK.game.MapHash;
+import fr.cotedazur.univ.polytech.teamK.game.Board;
 
 public class ConnectionClaimService {
     /**
@@ -15,7 +15,7 @@ public class ConnectionClaimService {
      * @return true if the connection is successfully claimed, false otherwise
      * @throws IllegalArgumentException if the number of cards used is less than 0
      */
-    public boolean claimAttempt(Connection connection, Integer numberOfCardsUsed, Player player, MapHash gameMap, int numberOfPlayers) {
+    public boolean claimAttempt(Connection connection, Integer numberOfCardsUsed, Player player, Board gameMap, int numberOfPlayers) {
         if (numberOfCardsUsed < 0) {
             throw new IllegalArgumentException("Number of Cards Used must be greater than 0");
         } else if (numberOfCardsUsed <= connection.getLength()) {
@@ -43,7 +43,7 @@ public class ConnectionClaimService {
      * @param cityOne the first city
      * @param cityTwo the second city
      */
-    private void markOtherConnectionsAsClaimed(MapHash gameMap, City cityOne, City cityTwo) {
+    private void markOtherConnectionsAsClaimed(Board gameMap, City cityOne, City cityTwo) {
         for (Object obj : gameMap.getCities().get(cityOne.getName()).getPhysicalConnectionList()) {
             Connection conn = (Connection) obj;
             if (conn.getCityTwo().equals(cityTwo) && !conn.equals(this)) {
