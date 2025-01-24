@@ -58,7 +58,7 @@ public class ConnectionClaimService {
             markOtherConnectionsAsClaimed(gameMap, connection.getCityOne(), connection.getCityTwo());
         }
     }
-    
+
     /**
      * Marks other connections between the same cities as claimed.
      *
@@ -67,13 +67,13 @@ public class ConnectionClaimService {
      * @param cityTwo the second city
      */
     private void markOtherConnectionsAsClaimed(Board gameMap, City cityOne, City cityTwo) {
-        for (Object obj : gameMap.getCities().get(cityOne.getName()).getPhysicalConnectionList()) {
+        for (Object obj : gameMap.getCity().get(cityOne.getName()).getConnectionList()) {
             Connection conn = (Connection) obj;
             if (conn.getCityTwo().equals(cityTwo) && !conn.equals(this)) {
                 conn.setFree(false);
             }
         }
-        for (Object obj : gameMap.getCities().get(cityTwo.getName()).getPhysicalConnectionList()) {
+        for (Object obj : gameMap.getCity().get(cityTwo.getName()).getConnectionList()) {
             Connection conn = (Connection) obj;
             if (conn.getCityOne().equals(cityOne) && !conn.equals(this)) {
                 conn.setFree(false);
