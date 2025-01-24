@@ -554,4 +554,9 @@ public class Board {
     {
         return cities.get(cityName);
     }
+
+    public List<Connection> getCitiesConnections(String cityName){
+        City inputCity = cities.get(cityName);
+        return inputCity.getConnectionList();
+    }
 }

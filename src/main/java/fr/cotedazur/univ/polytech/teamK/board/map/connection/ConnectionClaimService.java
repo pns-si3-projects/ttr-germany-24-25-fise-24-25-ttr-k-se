@@ -67,14 +67,12 @@ public class ConnectionClaimService {
      * @param cityTwo the second city
      */
     private void markOtherConnectionsAsClaimed(Board gameMap, City cityOne, City cityTwo) {
-        for (Object obj : gameMap.getCity().get(cityOne.getName()).getConnectionList()) {
-            Connection conn = (Connection) obj;
+        for (Connection conn : gameMap.getCitiesConnections(cityOne.getName())) {
             if (conn.getCityTwo().equals(cityTwo) && !conn.equals(this)) {
                 conn.setFree(false);
             }
         }
-        for (Object obj : gameMap.getCity().get(cityTwo.getName()).getConnectionList()) {
-            Connection conn = (Connection) obj;
+        for (Connection conn : gameMap.getCitiesConnections(cityTwo.getName())) {
             if (conn.getCityOne().equals(cityOne) && !conn.equals(this)) {
                 conn.setFree(false);
             }
