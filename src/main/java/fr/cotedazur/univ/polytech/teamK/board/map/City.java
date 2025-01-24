@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.teamK.board.map;
 
+import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 
 import java.util.*;

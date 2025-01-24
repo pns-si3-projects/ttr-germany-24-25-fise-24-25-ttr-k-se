@@ -192,8 +192,8 @@ public class Connection {
      * @return the points for the connection's length
      * @throws IllegalArgumentException if the length is invalid
      */
-    public int calculatePoints() {
-        return utils.calculatePoints(this.length);
+    public int calculatePoints(int length) {
+        return utils.calculatePoints(length);
     }
 
     @Override
