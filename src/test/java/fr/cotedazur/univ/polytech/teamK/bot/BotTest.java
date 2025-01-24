@@ -1,9 +1,9 @@
 package fr.cotedazur.univ.polytech.teamK.bot;
 
-import fr.cotedazur.univ.polytech.teamK.board.Cards.Deck;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.TypeOfCards;
-import fr.cotedazur.univ.polytech.teamK.game.MapHash;
+import fr.cotedazur.univ.polytech.teamK.board.cards.Deck;
+import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.TypeOfCards;
+import fr.cotedazur.univ.polytech.teamK.game.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,14 +12,14 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BotTest {
-    MapHash map;
+    Board map;
     Deck<DestinationCard> longDest;
     Deck<DestinationCard> shortDest;
     Bot bot;
 
     @BeforeEach
     void setUp () {
-        map = new MapHash("Reich");
+        map = new Board("Reich");
         longDest = new Deck<>(TypeOfCards.LONG_DESTINATION,map);
         shortDest = new Deck<>(TypeOfCards.SHORT_DESTINATION,map);
         bot = new DumbBot("Dumn",map);
