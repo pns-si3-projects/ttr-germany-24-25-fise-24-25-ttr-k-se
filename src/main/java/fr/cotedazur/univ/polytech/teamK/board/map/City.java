@@ -17,7 +17,7 @@ public class City {
     private static int COUNT = 1;
     private String name;
     private Meeple meeples;
-    private List physicalConnectionList;
+    private List connectionList;
     private List<Player> playersThatPickedUpMeeples;
     private boolean isCountry;
     /**
@@ -77,13 +77,13 @@ public class City {
      *
      * @return the list of physical connections
      */
-    public List getPhysicalConnectionList() {return physicalConnectionList;}
+    public List getConnectionList() {return connectionList;}
 
     /**
      * Initializes the list of physical connections.
      */
     public void setPhysicalConnectionList() {
-        this.physicalConnectionList = new ArrayList();
+        this.connectionList = new ArrayList();
     }
 
     /**
@@ -98,10 +98,10 @@ public class City {
     /**
      * Adds a physical connection to the city's list of physical connections.
      *
-     * @param physicalConnection the physical connection to add
+     * @param connection the connection to add
      */
-    public void addPhysicalConnection(PhysicalConnection physicalConnection){
-        this.physicalConnectionList.add(physicalConnection);
+    public void addConnection(Connection connection){
+        this.connectionList.add(connection);
     }
 
     /**

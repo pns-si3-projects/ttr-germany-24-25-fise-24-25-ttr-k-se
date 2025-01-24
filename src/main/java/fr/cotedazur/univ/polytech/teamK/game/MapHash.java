@@ -2,7 +2,7 @@ package fr.cotedazur.univ.polytech.teamK.game;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
-import fr.cotedazur.univ.polytech.teamK.board.map.PhysicalConnection;
+import fr.cotedazur.univ.polytech.teamK.board.map.Connection;
 
 import java.util.HashMap;
 import java.util.List;
@@ -67,482 +67,482 @@ public class MapHash {
         reichMap.put("Osterreich", new City("Osterreich", 1, true));
 
 // DANEMARK to BREMERHAVEN
-        PhysicalConnection danemarkToBremerhaven = new PhysicalConnection(reichMap.get("Danemark"), reichMap.get("Bremerhaven"), 5, Colors.BLACK);
-        reichMap.get("Danemark").addPhysicalConnection(danemarkToBremerhaven);
-        reichMap.get("Bremerhaven").addPhysicalConnection(danemarkToBremerhaven);
+        Connection danemarkToBremerhaven = new Connection(reichMap.get("Danemark"), reichMap.get("Bremerhaven"), 5, Colors.BLACK);
+        reichMap.get("Danemark").addConnection(danemarkToBremerhaven);
+        reichMap.get("Bremerhaven").addConnection(danemarkToBremerhaven);
 
 // DANEMARK to KIEL
-        PhysicalConnection danemarkToKiel = new PhysicalConnection(reichMap.get("Danemark"), reichMap.get("Kiel"), 2, Colors.GRAY);
-        reichMap.get("Danemark").addPhysicalConnection(danemarkToKiel);
-        reichMap.get("Kiel").addPhysicalConnection(danemarkToKiel);
+        Connection danemarkToKiel = new Connection(reichMap.get("Danemark"), reichMap.get("Kiel"), 2, Colors.GRAY);
+        reichMap.get("Danemark").addConnection(danemarkToKiel);
+        reichMap.get("Kiel").addConnection(danemarkToKiel);
 
 // KIEL to BREMERHAVEN
-        PhysicalConnection kielToBremerhaven = new PhysicalConnection(reichMap.get("Kiel"), reichMap.get("Bremerhaven"), 3, Colors.GRAY);
-        reichMap.get("Kiel").addPhysicalConnection(kielToBremerhaven);
-        reichMap.get("Bremerhaven").addPhysicalConnection(kielToBremerhaven);
+        Connection kielToBremerhaven = new Connection(reichMap.get("Kiel"), reichMap.get("Bremerhaven"), 3, Colors.GRAY);
+        reichMap.get("Kiel").addConnection(kielToBremerhaven);
+        reichMap.get("Bremerhaven").addConnection(kielToBremerhaven);
 // KIEL TO HAMBURG
-        PhysicalConnection kielToHamburg = new PhysicalConnection(reichMap.get("Kiel"), reichMap.get("Hamburg"), 2, Colors.BLACK);
-        reichMap.get("Kiel").addPhysicalConnection(kielToHamburg);
-        reichMap.get("Hamburg").addPhysicalConnection(kielToHamburg);
-        kielToHamburg = new PhysicalConnection(reichMap.get("Kiel"), reichMap.get("Hamburg"), 2, Colors.PINK);
-        reichMap.get("Kiel").addPhysicalConnection(kielToHamburg);
-        reichMap.get("Hamburg").addPhysicalConnection(kielToHamburg);
+        Connection kielToHamburg = new Connection(reichMap.get("Kiel"), reichMap.get("Hamburg"), 2, Colors.BLACK);
+        reichMap.get("Kiel").addConnection(kielToHamburg);
+        reichMap.get("Hamburg").addConnection(kielToHamburg);
+        kielToHamburg = new Connection(reichMap.get("Kiel"), reichMap.get("Hamburg"), 2, Colors.PINK);
+        reichMap.get("Kiel").addConnection(kielToHamburg);
+        reichMap.get("Hamburg").addConnection(kielToHamburg);
 // KIEL TO SCHWERIN
-        PhysicalConnection kielToSchwerin = new PhysicalConnection(reichMap.get("Kiel"), reichMap.get("Schwerin"), 3, Colors.YELLOW);
-        reichMap.get("Kiel").addPhysicalConnection(kielToSchwerin);
-        reichMap.get("Schwerin").addPhysicalConnection(kielToSchwerin);
+        Connection kielToSchwerin = new Connection(reichMap.get("Kiel"), reichMap.get("Schwerin"), 3, Colors.YELLOW);
+        reichMap.get("Kiel").addConnection(kielToSchwerin);
+        reichMap.get("Schwerin").addConnection(kielToSchwerin);
 
-        PhysicalConnection kielToRostock = new PhysicalConnection(reichMap.get("Kiel"), reichMap.get("Rostock"), 4, Colors.ORANGE);
-        reichMap.get("Kiel").addPhysicalConnection(kielToRostock);
-        reichMap.get("Rostock").addPhysicalConnection(kielToRostock);
+        Connection kielToRostock = new Connection(reichMap.get("Kiel"), reichMap.get("Rostock"), 4, Colors.ORANGE);
+        reichMap.get("Kiel").addConnection(kielToRostock);
+        reichMap.get("Rostock").addConnection(kielToRostock);
 
-        PhysicalConnection rostockToSchwerin = new PhysicalConnection(reichMap.get("Rostock"), reichMap.get("Schwerin"), 2, Colors.RED);
-        reichMap.get("Rostock").addPhysicalConnection(rostockToSchwerin);
-        reichMap.get("Schwerin").addPhysicalConnection(rostockToSchwerin);
+        Connection rostockToSchwerin = new Connection(reichMap.get("Rostock"), reichMap.get("Schwerin"), 2, Colors.RED);
+        reichMap.get("Rostock").addConnection(rostockToSchwerin);
+        reichMap.get("Schwerin").addConnection(rostockToSchwerin);
 
-        PhysicalConnection rostockToBerlin = new PhysicalConnection(reichMap.get("Rostock"), reichMap.get("Berlin"), 6, Colors.PINK);
-        reichMap.get("Rostock").addPhysicalConnection(rostockToBerlin);
-        reichMap.get("Berlin").addPhysicalConnection(rostockToBerlin);
+        Connection rostockToBerlin = new Connection(reichMap.get("Rostock"), reichMap.get("Berlin"), 6, Colors.PINK);
+        reichMap.get("Rostock").addConnection(rostockToBerlin);
+        reichMap.get("Berlin").addConnection(rostockToBerlin);
 
-        PhysicalConnection schwerinToBerlin = new PhysicalConnection(reichMap.get("Schwerin"), reichMap.get("Berlin"), 5, Colors.WHITE);
-        reichMap.get("Schwerin").addPhysicalConnection(schwerinToBerlin);
-        reichMap.get("Berlin").addPhysicalConnection(schwerinToBerlin);
+        Connection schwerinToBerlin = new Connection(reichMap.get("Schwerin"), reichMap.get("Berlin"), 5, Colors.WHITE);
+        reichMap.get("Schwerin").addConnection(schwerinToBerlin);
+        reichMap.get("Berlin").addConnection(schwerinToBerlin);
 
-        PhysicalConnection schwerinToHamburg = new PhysicalConnection(reichMap.get("Schwerin"), reichMap.get("Hamburg"), 2, Colors.RED);
-        reichMap.get("Schwerin").addPhysicalConnection(schwerinToHamburg);
-        reichMap.get("Hamburg").addPhysicalConnection(schwerinToHamburg);
+        Connection schwerinToHamburg = new Connection(reichMap.get("Schwerin"), reichMap.get("Hamburg"), 2, Colors.RED);
+        reichMap.get("Schwerin").addConnection(schwerinToHamburg);
+        reichMap.get("Hamburg").addConnection(schwerinToHamburg);
 
-        PhysicalConnection hamburgToBerlin = new PhysicalConnection(reichMap.get("Hamburg"), reichMap.get("Berlin"), 7, Colors.BLUE);
-        reichMap.get("Hamburg").addPhysicalConnection(hamburgToBerlin);
-        reichMap.get("Berlin").addPhysicalConnection(hamburgToBerlin);
-        hamburgToBerlin = new PhysicalConnection(reichMap.get("Hamburg"), reichMap.get("Berlin"), 7, Colors.YELLOW);
-        reichMap.get("Hamburg").addPhysicalConnection(hamburgToBerlin);
-        reichMap.get("Berlin").addPhysicalConnection(hamburgToBerlin);
+        Connection hamburgToBerlin = new Connection(reichMap.get("Hamburg"), reichMap.get("Berlin"), 7, Colors.BLUE);
+        reichMap.get("Hamburg").addConnection(hamburgToBerlin);
+        reichMap.get("Berlin").addConnection(hamburgToBerlin);
+        hamburgToBerlin = new Connection(reichMap.get("Hamburg"), reichMap.get("Berlin"), 7, Colors.YELLOW);
+        reichMap.get("Hamburg").addConnection(hamburgToBerlin);
+        reichMap.get("Berlin").addConnection(hamburgToBerlin);
 
-        PhysicalConnection hamburgToHannover = new PhysicalConnection(reichMap.get("Hamburg"), reichMap.get("Hannover"), 4, Colors.RED);
-        reichMap.get("Hamburg").addPhysicalConnection(hamburgToHannover);
-        reichMap.get("Hannover").addPhysicalConnection(hamburgToHannover);
-        hamburgToHannover = new PhysicalConnection(reichMap.get("Hamburg"), reichMap.get("Hannover"), 4, Colors.WHITE);
-        reichMap.get("Hamburg").addPhysicalConnection(hamburgToHannover);
-        reichMap.get("Hannover").addPhysicalConnection(hamburgToHannover);
+        Connection hamburgToHannover = new Connection(reichMap.get("Hamburg"), reichMap.get("Hannover"), 4, Colors.RED);
+        reichMap.get("Hamburg").addConnection(hamburgToHannover);
+        reichMap.get("Hannover").addConnection(hamburgToHannover);
+        hamburgToHannover = new Connection(reichMap.get("Hamburg"), reichMap.get("Hannover"), 4, Colors.WHITE);
+        reichMap.get("Hamburg").addConnection(hamburgToHannover);
+        reichMap.get("Hannover").addConnection(hamburgToHannover);
 
-        PhysicalConnection hamburgToBremerhaven = new PhysicalConnection(reichMap.get("Hamburg"), reichMap.get("Bremerhaven"), 3, Colors.GRAY);
-        reichMap.get("Hamburg").addPhysicalConnection(hamburgToBremerhaven);
-        reichMap.get("Bremerhaven").addPhysicalConnection(hamburgToBremerhaven);
+        Connection hamburgToBremerhaven = new Connection(reichMap.get("Hamburg"), reichMap.get("Bremerhaven"), 3, Colors.GRAY);
+        reichMap.get("Hamburg").addConnection(hamburgToBremerhaven);
+        reichMap.get("Bremerhaven").addConnection(hamburgToBremerhaven);
 
-        PhysicalConnection hamburgToBremen = new PhysicalConnection(reichMap.get("Hamburg"), reichMap.get("Bremen"), 3, Colors.ORANGE);
-        reichMap.get("Hamburg").addPhysicalConnection(hamburgToBremen);
-        reichMap.get("Bremen").addPhysicalConnection(hamburgToBremen);
+        Connection hamburgToBremen = new Connection(reichMap.get("Hamburg"), reichMap.get("Bremen"), 3, Colors.ORANGE);
+        reichMap.get("Hamburg").addConnection(hamburgToBremen);
+        reichMap.get("Bremen").addConnection(hamburgToBremen);
 
-        PhysicalConnection bremerhavenToBremen = new PhysicalConnection(reichMap.get("Bremerhaven"), reichMap.get("Bremen"), 1, Colors.WHITE);
-        reichMap.get("Bremerhaven").addPhysicalConnection(bremerhavenToBremen);
-        reichMap.get("Bremen").addPhysicalConnection(bremerhavenToBremen);
+        Connection bremerhavenToBremen = new Connection(reichMap.get("Bremerhaven"), reichMap.get("Bremen"), 1, Colors.WHITE);
+        reichMap.get("Bremerhaven").addConnection(bremerhavenToBremen);
+        reichMap.get("Bremen").addConnection(bremerhavenToBremen);
 
-        PhysicalConnection bremerhavenToEmden = new PhysicalConnection(reichMap.get("Bremerhaven"), reichMap.get("Emden"), 3, Colors.GRAY);
-        reichMap.get("Bremerhaven").addPhysicalConnection(bremerhavenToEmden);
-        reichMap.get("Emden").addPhysicalConnection(bremerhavenToEmden);
+        Connection bremerhavenToEmden = new Connection(reichMap.get("Bremerhaven"), reichMap.get("Emden"), 3, Colors.GRAY);
+        reichMap.get("Bremerhaven").addConnection(bremerhavenToEmden);
+        reichMap.get("Emden").addConnection(bremerhavenToEmden);
 
-        PhysicalConnection emdenToNiederlande = new PhysicalConnection(reichMap.get("Emden"), reichMap.get("Niederlande"), 2, Colors.WHITE);
-        reichMap.get("Emden").addPhysicalConnection(emdenToNiederlande);
-        reichMap.get("Niederlande").addPhysicalConnection(emdenToNiederlande);
+        Connection emdenToNiederlande = new Connection(reichMap.get("Emden"), reichMap.get("Niederlande"), 2, Colors.WHITE);
+        reichMap.get("Emden").addConnection(emdenToNiederlande);
+        reichMap.get("Niederlande").addConnection(emdenToNiederlande);
 
-        PhysicalConnection emdenToMunster = new PhysicalConnection(reichMap.get("Emden"), reichMap.get("Munster"), 4, Colors.RED);
-        reichMap.get("Emden").addPhysicalConnection(emdenToMunster);
-        reichMap.get("Munster").addPhysicalConnection(emdenToMunster);
+        Connection emdenToMunster = new Connection(reichMap.get("Emden"), reichMap.get("Munster"), 4, Colors.RED);
+        reichMap.get("Emden").addConnection(emdenToMunster);
+        reichMap.get("Munster").addConnection(emdenToMunster);
 
-        PhysicalConnection emdenToBremen = new PhysicalConnection(reichMap.get("Emden"), reichMap.get("Bremen"), 3, Colors.BLUE);
-        reichMap.get("Emden").addPhysicalConnection(emdenToBremen);
-        reichMap.get("Bremen").addPhysicalConnection(emdenToBremen);
+        Connection emdenToBremen = new Connection(reichMap.get("Emden"), reichMap.get("Bremen"), 3, Colors.BLUE);
+        reichMap.get("Emden").addConnection(emdenToBremen);
+        reichMap.get("Bremen").addConnection(emdenToBremen);
 
-        PhysicalConnection bremenToHannover = new PhysicalConnection(reichMap.get("Bremen"), reichMap.get("Hannover"), 3, Colors.PINK);
-        reichMap.get("Bremen").addPhysicalConnection(bremenToHannover);
-        reichMap.get("Hannover").addPhysicalConnection(bremenToHannover);
+        Connection bremenToHannover = new Connection(reichMap.get("Bremen"), reichMap.get("Hannover"), 3, Colors.PINK);
+        reichMap.get("Bremen").addConnection(bremenToHannover);
+        reichMap.get("Hannover").addConnection(bremenToHannover);
 
-        PhysicalConnection bremenToMunster = new PhysicalConnection(reichMap.get("Bremen"), reichMap.get("Munster"), 3, Colors.BLACK);
-        reichMap.get("Bremen").addPhysicalConnection(bremenToMunster);
-        reichMap.get("Munster").addPhysicalConnection(bremenToMunster);
+        Connection bremenToMunster = new Connection(reichMap.get("Bremen"), reichMap.get("Munster"), 3, Colors.BLACK);
+        reichMap.get("Bremen").addConnection(bremenToMunster);
+        reichMap.get("Munster").addConnection(bremenToMunster);
 
-        PhysicalConnection niederlandeToMunster = new PhysicalConnection(reichMap.get("Niederlande"), reichMap.get("Munster"), 2, Colors.ORANGE);
-        reichMap.get("Niederlande").addPhysicalConnection(niederlandeToMunster);
-        reichMap.get("Munster").addPhysicalConnection(niederlandeToMunster);
+        Connection niederlandeToMunster = new Connection(reichMap.get("Niederlande"), reichMap.get("Munster"), 2, Colors.ORANGE);
+        reichMap.get("Niederlande").addConnection(niederlandeToMunster);
+        reichMap.get("Munster").addConnection(niederlandeToMunster);
 
-        PhysicalConnection niederlandeToDusseldorf = new PhysicalConnection(reichMap.get("Niederlande"), reichMap.get("Dusseldorf"), 3, Colors.PINK);
-        reichMap.get("Niederlande").addPhysicalConnection(niederlandeToDusseldorf);
-        reichMap.get("Dusseldorf").addPhysicalConnection(niederlandeToDusseldorf);
+        Connection niederlandeToDusseldorf = new Connection(reichMap.get("Niederlande"), reichMap.get("Dusseldorf"), 3, Colors.PINK);
+        reichMap.get("Niederlande").addConnection(niederlandeToDusseldorf);
+        reichMap.get("Dusseldorf").addConnection(niederlandeToDusseldorf);
 
-        PhysicalConnection berlinToHannover = new PhysicalConnection(reichMap.get("Berlin"), reichMap.get("Hannover"), 7, Colors.YELLOW);
-        reichMap.get("Berlin").addPhysicalConnection(berlinToHannover);
-        reichMap.get("Hannover").addPhysicalConnection(berlinToHannover);
+        Connection berlinToHannover = new Connection(reichMap.get("Berlin"), reichMap.get("Hannover"), 7, Colors.YELLOW);
+        reichMap.get("Berlin").addConnection(berlinToHannover);
+        reichMap.get("Hannover").addConnection(berlinToHannover);
 
-        PhysicalConnection berlinToMagdeburg = new PhysicalConnection(reichMap.get("Berlin"), reichMap.get("Magdeburg"), 3, Colors.RED);
-        reichMap.get("Berlin").addPhysicalConnection(berlinToMagdeburg);
-        reichMap.get("Magdeburg").addPhysicalConnection(berlinToMagdeburg);
+        Connection berlinToMagdeburg = new Connection(reichMap.get("Berlin"), reichMap.get("Magdeburg"), 3, Colors.RED);
+        reichMap.get("Berlin").addConnection(berlinToMagdeburg);
+        reichMap.get("Magdeburg").addConnection(berlinToMagdeburg);
 
-        PhysicalConnection berlinToLeipzig = new PhysicalConnection(reichMap.get("Berlin"), reichMap.get("Leipzig"), 4, Colors.PINK);
-        reichMap.get("Berlin").addPhysicalConnection(berlinToLeipzig);
-        reichMap.get("Leipzig").addPhysicalConnection(berlinToLeipzig);
+        Connection berlinToLeipzig = new Connection(reichMap.get("Berlin"), reichMap.get("Leipzig"), 4, Colors.PINK);
+        reichMap.get("Berlin").addConnection(berlinToLeipzig);
+        reichMap.get("Leipzig").addConnection(berlinToLeipzig);
 
-        PhysicalConnection berlinToDresden = new PhysicalConnection(reichMap.get("Berlin"), reichMap.get("Dresden"), 5, Colors.GREEN);
-        reichMap.get("Berlin").addPhysicalConnection(berlinToDresden);
-        reichMap.get("Dresden").addPhysicalConnection(berlinToDresden);
+        Connection berlinToDresden = new Connection(reichMap.get("Berlin"), reichMap.get("Dresden"), 5, Colors.GREEN);
+        reichMap.get("Berlin").addConnection(berlinToDresden);
+        reichMap.get("Dresden").addConnection(berlinToDresden);
 
-        PhysicalConnection hannoverToMagdeburg = new PhysicalConnection(reichMap.get("Hannover"), reichMap.get("Magdeburg"), 4, Colors.BLUE);
-        reichMap.get("Hannover").addPhysicalConnection(hannoverToMagdeburg);
-        reichMap.get("Magdeburg").addPhysicalConnection(hannoverToMagdeburg);
+        Connection hannoverToMagdeburg = new Connection(reichMap.get("Hannover"), reichMap.get("Magdeburg"), 4, Colors.BLUE);
+        reichMap.get("Hannover").addConnection(hannoverToMagdeburg);
+        reichMap.get("Magdeburg").addConnection(hannoverToMagdeburg);
 
-        PhysicalConnection hannoverToErfurt = new PhysicalConnection(reichMap.get("Hannover"), reichMap.get("Erfurt"), 5, Colors.ORANGE);
-        reichMap.get("Hannover").addPhysicalConnection(hannoverToErfurt);
-        reichMap.get("Erfurt").addPhysicalConnection(hannoverToErfurt);
-        hannoverToErfurt = new PhysicalConnection(reichMap.get("Hannover"), reichMap.get("Erfurt"), 5, Colors.GREEN);
-        reichMap.get("Hannover").addPhysicalConnection(hannoverToErfurt);
-        reichMap.get("Erfurt").addPhysicalConnection(hannoverToErfurt);
+        Connection hannoverToErfurt = new Connection(reichMap.get("Hannover"), reichMap.get("Erfurt"), 5, Colors.ORANGE);
+        reichMap.get("Hannover").addConnection(hannoverToErfurt);
+        reichMap.get("Erfurt").addConnection(hannoverToErfurt);
+        hannoverToErfurt = new Connection(reichMap.get("Hannover"), reichMap.get("Erfurt"), 5, Colors.GREEN);
+        reichMap.get("Hannover").addConnection(hannoverToErfurt);
+        reichMap.get("Erfurt").addConnection(hannoverToErfurt);
 
-        PhysicalConnection hannoverToKassel = new PhysicalConnection(reichMap.get("Hannover"), reichMap.get("Kassel"), 3, Colors.GRAY);
-        reichMap.get("Hannover").addPhysicalConnection(hannoverToKassel);
-        reichMap.get("Kassel").addPhysicalConnection(hannoverToKassel);
-        hannoverToKassel = new PhysicalConnection(reichMap.get("Hannover"), reichMap.get("Kassel"), 3, Colors.GRAY);
-        reichMap.get("Hannover").addPhysicalConnection(hannoverToKassel);
-        reichMap.get("Kassel").addPhysicalConnection(hannoverToKassel);
+        Connection hannoverToKassel = new Connection(reichMap.get("Hannover"), reichMap.get("Kassel"), 3, Colors.GRAY);
+        reichMap.get("Hannover").addConnection(hannoverToKassel);
+        reichMap.get("Kassel").addConnection(hannoverToKassel);
+        hannoverToKassel = new Connection(reichMap.get("Hannover"), reichMap.get("Kassel"), 3, Colors.GRAY);
+        reichMap.get("Hannover").addConnection(hannoverToKassel);
+        reichMap.get("Kassel").addConnection(hannoverToKassel);
 
-        PhysicalConnection hannoverToMunster = new PhysicalConnection(reichMap.get("Hannover"), reichMap.get("Munster"), 4, Colors.YELLOW);
-        reichMap.get("Hannover").addPhysicalConnection(hannoverToMunster);
-        reichMap.get("Munster").addPhysicalConnection(hannoverToMunster);
+        Connection hannoverToMunster = new Connection(reichMap.get("Hannover"), reichMap.get("Munster"), 4, Colors.YELLOW);
+        reichMap.get("Hannover").addConnection(hannoverToMunster);
+        reichMap.get("Munster").addConnection(hannoverToMunster);
 
-        PhysicalConnection munsterToDortmund = new PhysicalConnection(reichMap.get("Munster"), reichMap.get("Dortmund"), 1, Colors.GRAY);
-        reichMap.get("Munster").addPhysicalConnection(munsterToDortmund);
-        reichMap.get("Dortmund").addPhysicalConnection(munsterToDortmund);
-        munsterToDortmund = new PhysicalConnection(reichMap.get("Munster"), reichMap.get("Dortmund"), 1, Colors.GRAY);
-        reichMap.get("Munster").addPhysicalConnection(munsterToDortmund);
-        reichMap.get("Dortmund").addPhysicalConnection(munsterToDortmund);
+        Connection munsterToDortmund = new Connection(reichMap.get("Munster"), reichMap.get("Dortmund"), 1, Colors.GRAY);
+        reichMap.get("Munster").addConnection(munsterToDortmund);
+        reichMap.get("Dortmund").addConnection(munsterToDortmund);
+        munsterToDortmund = new Connection(reichMap.get("Munster"), reichMap.get("Dortmund"), 1, Colors.GRAY);
+        reichMap.get("Munster").addConnection(munsterToDortmund);
+        reichMap.get("Dortmund").addConnection(munsterToDortmund);
 
 // MAGDEBURG to LEIPZIG
-        PhysicalConnection magdeburgToLeipzig = new PhysicalConnection(reichMap.get("Magdeburg"), reichMap.get("Leipzig"), 2, Colors.YELLOW);
-        reichMap.get("Magdeburg").addPhysicalConnection(magdeburgToLeipzig);
-        reichMap.get("Leipzig").addPhysicalConnection(magdeburgToLeipzig);
+        Connection magdeburgToLeipzig = new Connection(reichMap.get("Magdeburg"), reichMap.get("Leipzig"), 2, Colors.YELLOW);
+        reichMap.get("Magdeburg").addConnection(magdeburgToLeipzig);
+        reichMap.get("Leipzig").addConnection(magdeburgToLeipzig);
 
 // DORTMUND to DUSSELDORF
-        PhysicalConnection dortmundToDusseldorf = new PhysicalConnection(reichMap.get("Dortmund"), reichMap.get("Dusseldorf"), 1, Colors.GRAY);
-        reichMap.get("Dortmund").addPhysicalConnection(dortmundToDusseldorf);
-        reichMap.get("Dusseldorf").addPhysicalConnection(dortmundToDusseldorf);
-        dortmundToDusseldorf = new PhysicalConnection(reichMap.get("Dortmund"), reichMap.get("Dusseldorf"), 1, Colors.GRAY);
-        reichMap.get("Dortmund").addPhysicalConnection(dortmundToDusseldorf);
-        reichMap.get("Dusseldorf").addPhysicalConnection(dortmundToDusseldorf);
-        dortmundToDusseldorf = new PhysicalConnection(reichMap.get("Dortmund"), reichMap.get("Dusseldorf"), 1, Colors.GRAY);
-        reichMap.get("Dortmund").addPhysicalConnection(dortmundToDusseldorf);
-        reichMap.get("Dusseldorf").addPhysicalConnection(dortmundToDusseldorf);
+        Connection dortmundToDusseldorf = new Connection(reichMap.get("Dortmund"), reichMap.get("Dusseldorf"), 1, Colors.GRAY);
+        reichMap.get("Dortmund").addConnection(dortmundToDusseldorf);
+        reichMap.get("Dusseldorf").addConnection(dortmundToDusseldorf);
+        dortmundToDusseldorf = new Connection(reichMap.get("Dortmund"), reichMap.get("Dusseldorf"), 1, Colors.GRAY);
+        reichMap.get("Dortmund").addConnection(dortmundToDusseldorf);
+        reichMap.get("Dusseldorf").addConnection(dortmundToDusseldorf);
+        dortmundToDusseldorf = new Connection(reichMap.get("Dortmund"), reichMap.get("Dusseldorf"), 1, Colors.GRAY);
+        reichMap.get("Dortmund").addConnection(dortmundToDusseldorf);
+        reichMap.get("Dusseldorf").addConnection(dortmundToDusseldorf);
 
 // DORTMUND to KASSEL
-        PhysicalConnection dortmundToKassel = new PhysicalConnection(reichMap.get("Dortmund"), reichMap.get("Kassel"), 4, Colors.GREEN);
-        reichMap.get("Dortmund").addPhysicalConnection(dortmundToKassel);
-        reichMap.get("Kassel").addPhysicalConnection(dortmundToKassel);
+        Connection dortmundToKassel = new Connection(reichMap.get("Dortmund"), reichMap.get("Kassel"), 4, Colors.GREEN);
+        reichMap.get("Dortmund").addConnection(dortmundToKassel);
+        reichMap.get("Kassel").addConnection(dortmundToKassel);
 
 // DUSSELDORF to KOLN
-        PhysicalConnection dusseldorfToKoln = new PhysicalConnection(reichMap.get("Dusseldorf"), reichMap.get("Koln"), 1, Colors.GRAY);
-        reichMap.get("Dusseldorf").addPhysicalConnection(dusseldorfToKoln);
-        reichMap.get("Koln").addPhysicalConnection(dusseldorfToKoln);
-        dusseldorfToKoln = new PhysicalConnection(reichMap.get("Dusseldorf"), reichMap.get("Koln"), 1, Colors.GRAY);
-        reichMap.get("Dusseldorf").addPhysicalConnection(dusseldorfToKoln);
-        reichMap.get("Koln").addPhysicalConnection(dusseldorfToKoln);dusseldorfToKoln = new PhysicalConnection(reichMap.get("Dusseldorf"), reichMap.get("Koln"), 1, Colors.GRAY);
-        reichMap.get("Dusseldorf").addPhysicalConnection(dusseldorfToKoln);
-        reichMap.get("Koln").addPhysicalConnection(dusseldorfToKoln);
+        Connection dusseldorfToKoln = new Connection(reichMap.get("Dusseldorf"), reichMap.get("Koln"), 1, Colors.GRAY);
+        reichMap.get("Dusseldorf").addConnection(dusseldorfToKoln);
+        reichMap.get("Koln").addConnection(dusseldorfToKoln);
+        dusseldorfToKoln = new Connection(reichMap.get("Dusseldorf"), reichMap.get("Koln"), 1, Colors.GRAY);
+        reichMap.get("Dusseldorf").addConnection(dusseldorfToKoln);
+        reichMap.get("Koln").addConnection(dusseldorfToKoln);dusseldorfToKoln = new Connection(reichMap.get("Dusseldorf"), reichMap.get("Koln"), 1, Colors.GRAY);
+        reichMap.get("Dusseldorf").addConnection(dusseldorfToKoln);
+        reichMap.get("Koln").addConnection(dusseldorfToKoln);
 
 // LEIPZIG to DRESDEN
-        PhysicalConnection leipzigToDresden = new PhysicalConnection(reichMap.get("Leipzig"), reichMap.get("Dresden"), 3, Colors.BLACK);
-        reichMap.get("Leipzig").addPhysicalConnection(leipzigToDresden);
-        reichMap.get("Dresden").addPhysicalConnection(leipzigToDresden);
+        Connection leipzigToDresden = new Connection(reichMap.get("Leipzig"), reichMap.get("Dresden"), 3, Colors.BLACK);
+        reichMap.get("Leipzig").addConnection(leipzigToDresden);
+        reichMap.get("Dresden").addConnection(leipzigToDresden);
 
 // LEIPZIG to CHEMNITZ
-        PhysicalConnection leipzigToChemnitz = new PhysicalConnection(reichMap.get("Leipzig"), reichMap.get("Chemnitz"), 2, Colors.BLUE);
-        reichMap.get("Leipzig").addPhysicalConnection(leipzigToChemnitz);
-        reichMap.get("Chemnitz").addPhysicalConnection(leipzigToChemnitz);
+        Connection leipzigToChemnitz = new Connection(reichMap.get("Leipzig"), reichMap.get("Chemnitz"), 2, Colors.BLUE);
+        reichMap.get("Leipzig").addConnection(leipzigToChemnitz);
+        reichMap.get("Chemnitz").addConnection(leipzigToChemnitz);
 
 // LEIPZIG to ERFURT
-        PhysicalConnection leipzigToErfurt = new PhysicalConnection(reichMap.get("Leipzig"), reichMap.get("Erfurt"), 3, Colors.YELLOW);
-        reichMap.get("Leipzig").addPhysicalConnection(leipzigToErfurt);
-        reichMap.get("Erfurt").addPhysicalConnection(leipzigToErfurt);
+        Connection leipzigToErfurt = new Connection(reichMap.get("Leipzig"), reichMap.get("Erfurt"), 3, Colors.YELLOW);
+        reichMap.get("Leipzig").addConnection(leipzigToErfurt);
+        reichMap.get("Erfurt").addConnection(leipzigToErfurt);
 
 // KASSEL to ERFURT
-        PhysicalConnection kasselToErfurt = new PhysicalConnection(reichMap.get("Kassel"), reichMap.get("Erfurt"), 3, Colors.GRAY);
-        reichMap.get("Kassel").addPhysicalConnection(kasselToErfurt);
-        reichMap.get("Erfurt").addPhysicalConnection(kasselToErfurt);
+        Connection kasselToErfurt = new Connection(reichMap.get("Kassel"), reichMap.get("Erfurt"), 3, Colors.GRAY);
+        reichMap.get("Kassel").addConnection(kasselToErfurt);
+        reichMap.get("Erfurt").addConnection(kasselToErfurt);
 
 // KASSEL to FRANKFURT
-        PhysicalConnection kasselToFrankfurt = new PhysicalConnection(reichMap.get("Kassel"), reichMap.get("Frankfurt"), 4, Colors.BLUE);
-        reichMap.get("Kassel").addPhysicalConnection(kasselToFrankfurt);
-        reichMap.get("Frankfurt").addPhysicalConnection(kasselToFrankfurt);
-        kasselToFrankfurt = new PhysicalConnection(reichMap.get("Kassel"), reichMap.get("Frankfurt"), 4, Colors.GRAY);
-        reichMap.get("Kassel").addPhysicalConnection(kasselToFrankfurt);
-        reichMap.get("Frankfurt").addPhysicalConnection(kasselToFrankfurt);
+        Connection kasselToFrankfurt = new Connection(reichMap.get("Kassel"), reichMap.get("Frankfurt"), 4, Colors.BLUE);
+        reichMap.get("Kassel").addConnection(kasselToFrankfurt);
+        reichMap.get("Frankfurt").addConnection(kasselToFrankfurt);
+        kasselToFrankfurt = new Connection(reichMap.get("Kassel"), reichMap.get("Frankfurt"), 4, Colors.GRAY);
+        reichMap.get("Kassel").addConnection(kasselToFrankfurt);
+        reichMap.get("Frankfurt").addConnection(kasselToFrankfurt);
 
 // KOLN to FRANKFURT
-        PhysicalConnection kolnToFrankfurt = new PhysicalConnection(reichMap.get("Koln"), reichMap.get("Frankfurt"), 4, Colors.GRAY);
-        reichMap.get("Koln").addPhysicalConnection(kolnToFrankfurt);
-        reichMap.get("Frankfurt").addPhysicalConnection(kolnToFrankfurt);
-        kolnToFrankfurt = new PhysicalConnection(reichMap.get("Koln"), reichMap.get("Frankfurt"), 4, Colors.WHITE);
-        reichMap.get("Koln").addPhysicalConnection(kolnToFrankfurt);
-        reichMap.get("Frankfurt").addPhysicalConnection(kolnToFrankfurt);
+        Connection kolnToFrankfurt = new Connection(reichMap.get("Koln"), reichMap.get("Frankfurt"), 4, Colors.GRAY);
+        reichMap.get("Koln").addConnection(kolnToFrankfurt);
+        reichMap.get("Frankfurt").addConnection(kolnToFrankfurt);
+        kolnToFrankfurt = new Connection(reichMap.get("Koln"), reichMap.get("Frankfurt"), 4, Colors.WHITE);
+        reichMap.get("Koln").addConnection(kolnToFrankfurt);
+        reichMap.get("Frankfurt").addConnection(kolnToFrankfurt);
 
 // KOLN to KOBLENZ
-        PhysicalConnection kolnToKoblenz = new PhysicalConnection(reichMap.get("Koln"), reichMap.get("Koblenz"), 1, Colors.GRAY);
-        reichMap.get("Koln").addPhysicalConnection(kolnToKoblenz);
-        reichMap.get("Koblenz").addPhysicalConnection(kolnToKoblenz);
-        kolnToKoblenz = new PhysicalConnection(reichMap.get("Koln"), reichMap.get("Koblenz"), 1, Colors.GRAY);
-        reichMap.get("Koln").addPhysicalConnection(kolnToKoblenz);
-        reichMap.get("Koblenz").addPhysicalConnection(kolnToKoblenz);
+        Connection kolnToKoblenz = new Connection(reichMap.get("Koln"), reichMap.get("Koblenz"), 1, Colors.GRAY);
+        reichMap.get("Koln").addConnection(kolnToKoblenz);
+        reichMap.get("Koblenz").addConnection(kolnToKoblenz);
+        kolnToKoblenz = new Connection(reichMap.get("Koln"), reichMap.get("Koblenz"), 1, Colors.GRAY);
+        reichMap.get("Koln").addConnection(kolnToKoblenz);
+        reichMap.get("Koblenz").addConnection(kolnToKoblenz);
 
 // ERFURT to NURNBERG
-        PhysicalConnection erfurtToNurnberg = new PhysicalConnection(reichMap.get("Erfurt"), reichMap.get("Nurnberg"), 4, Colors.RED);
-        reichMap.get("Erfurt").addPhysicalConnection(erfurtToNurnberg);
-        reichMap.get("Nurnberg").addPhysicalConnection(erfurtToNurnberg);
-        erfurtToNurnberg = new PhysicalConnection(reichMap.get("Erfurt"), reichMap.get("Nurnberg"), 4, Colors.BLUE);
-        reichMap.get("Erfurt").addPhysicalConnection(erfurtToNurnberg);
-        reichMap.get("Nurnberg").addPhysicalConnection(erfurtToNurnberg);
+        Connection erfurtToNurnberg = new Connection(reichMap.get("Erfurt"), reichMap.get("Nurnberg"), 4, Colors.RED);
+        reichMap.get("Erfurt").addConnection(erfurtToNurnberg);
+        reichMap.get("Nurnberg").addConnection(erfurtToNurnberg);
+        erfurtToNurnberg = new Connection(reichMap.get("Erfurt"), reichMap.get("Nurnberg"), 4, Colors.BLUE);
+        reichMap.get("Erfurt").addConnection(erfurtToNurnberg);
+        reichMap.get("Nurnberg").addConnection(erfurtToNurnberg);
 
 // ERFURT to REGENSBURG
-        PhysicalConnection erfurtToRegensburg = new PhysicalConnection(reichMap.get("Erfurt"), reichMap.get("Regensburg"), 7, Colors.WHITE);
-        reichMap.get("Erfurt").addPhysicalConnection(erfurtToRegensburg);
-        reichMap.get("Regensburg").addPhysicalConnection(erfurtToRegensburg);
+        Connection erfurtToRegensburg = new Connection(reichMap.get("Erfurt"), reichMap.get("Regensburg"), 7, Colors.WHITE);
+        reichMap.get("Erfurt").addConnection(erfurtToRegensburg);
+        reichMap.get("Regensburg").addConnection(erfurtToRegensburg);
 
 // ERFURT to CHEMNITZ
-        PhysicalConnection erfurtToChemnitz = new PhysicalConnection(reichMap.get("Erfurt"), reichMap.get("Chemnitz"), 3, Colors.BLACK);
-        reichMap.get("Erfurt").addPhysicalConnection(erfurtToChemnitz);
-        reichMap.get("Chemnitz").addPhysicalConnection(erfurtToChemnitz);
+        Connection erfurtToChemnitz = new Connection(reichMap.get("Erfurt"), reichMap.get("Chemnitz"), 3, Colors.BLACK);
+        reichMap.get("Erfurt").addConnection(erfurtToChemnitz);
+        reichMap.get("Chemnitz").addConnection(erfurtToChemnitz);
 
 // DRESDEN to CHEMNITZ
-        PhysicalConnection dresdenToChemnitz = new PhysicalConnection(reichMap.get("Dresden"), reichMap.get("Chemnitz"), 1, Colors.YELLOW);
-        reichMap.get("Dresden").addPhysicalConnection(dresdenToChemnitz);
-        reichMap.get("Chemnitz").addPhysicalConnection(dresdenToChemnitz);
+        Connection dresdenToChemnitz = new Connection(reichMap.get("Dresden"), reichMap.get("Chemnitz"), 1, Colors.YELLOW);
+        reichMap.get("Dresden").addConnection(dresdenToChemnitz);
+        reichMap.get("Chemnitz").addConnection(dresdenToChemnitz);
 
 // DRESDEN to REGENSBURG
-        PhysicalConnection dresdenToRegensburg = new PhysicalConnection(reichMap.get("Dresden"), reichMap.get("Regensburg"), 7, Colors.RED);
-        reichMap.get("Dresden").addPhysicalConnection(dresdenToRegensburg);
-        reichMap.get("Regensburg").addPhysicalConnection(dresdenToRegensburg);
+        Connection dresdenToRegensburg = new Connection(reichMap.get("Dresden"), reichMap.get("Regensburg"), 7, Colors.RED);
+        reichMap.get("Dresden").addConnection(dresdenToRegensburg);
+        reichMap.get("Regensburg").addConnection(dresdenToRegensburg);
 
 // CHEMNITZ to REGENSBURG
-        PhysicalConnection chemnitzToRegensburg = new PhysicalConnection(reichMap.get("Chemnitz"), reichMap.get("Regensburg"), 6, Colors.PINK);
-        reichMap.get("Chemnitz").addPhysicalConnection(chemnitzToRegensburg);
-        reichMap.get("Regensburg").addPhysicalConnection(chemnitzToRegensburg);
+        Connection chemnitzToRegensburg = new Connection(reichMap.get("Chemnitz"), reichMap.get("Regensburg"), 6, Colors.PINK);
+        reichMap.get("Chemnitz").addConnection(chemnitzToRegensburg);
+        reichMap.get("Regensburg").addConnection(chemnitzToRegensburg);
 
 // KOBLENZ to MAINZ
-        PhysicalConnection koblenzToMainz = new PhysicalConnection(reichMap.get("Koblenz"), reichMap.get("Mainz"), 2, Colors.GRAY);
-        reichMap.get("Koblenz").addPhysicalConnection(koblenzToMainz);
-        reichMap.get("Mainz").addPhysicalConnection(koblenzToMainz);
-        koblenzToMainz = new PhysicalConnection(reichMap.get("Koblenz"), reichMap.get("Mainz"), 2, Colors.GRAY);
-        reichMap.get("Koblenz").addPhysicalConnection(koblenzToMainz);
-        reichMap.get("Mainz").addPhysicalConnection(koblenzToMainz);
+        Connection koblenzToMainz = new Connection(reichMap.get("Koblenz"), reichMap.get("Mainz"), 2, Colors.GRAY);
+        reichMap.get("Koblenz").addConnection(koblenzToMainz);
+        reichMap.get("Mainz").addConnection(koblenzToMainz);
+        koblenzToMainz = new Connection(reichMap.get("Koblenz"), reichMap.get("Mainz"), 2, Colors.GRAY);
+        reichMap.get("Koblenz").addConnection(koblenzToMainz);
+        reichMap.get("Mainz").addConnection(koblenzToMainz);
 
 // KOBLENZ to SAARBRUCKEN
-        PhysicalConnection koblenzToSaarbrucken = new PhysicalConnection(reichMap.get("Koblenz"), reichMap.get("Saarbrucken"), 3, Colors.GRAY);
-        reichMap.get("Koblenz").addPhysicalConnection(koblenzToSaarbrucken);
-        reichMap.get("Saarbrucken").addPhysicalConnection(koblenzToSaarbrucken);
+        Connection koblenzToSaarbrucken = new Connection(reichMap.get("Koblenz"), reichMap.get("Saarbrucken"), 3, Colors.GRAY);
+        reichMap.get("Koblenz").addConnection(koblenzToSaarbrucken);
+        reichMap.get("Saarbrucken").addConnection(koblenzToSaarbrucken);
 
 // FRANKFURT to MAINZ
-        PhysicalConnection frankfurtToMainz = new PhysicalConnection(reichMap.get("Frankfurt"), reichMap.get("Mainz"), 1, Colors.WHITE);
-        reichMap.get("Frankfurt").addPhysicalConnection(frankfurtToMainz);
-        reichMap.get("Mainz").addPhysicalConnection(frankfurtToMainz);
-        frankfurtToMainz = new PhysicalConnection(reichMap.get("Frankfurt"), reichMap.get("Mainz"), 1, Colors.GRAY);
-        reichMap.get("Frankfurt").addPhysicalConnection(frankfurtToMainz);
-        reichMap.get("Mainz").addPhysicalConnection(frankfurtToMainz);
+        Connection frankfurtToMainz = new Connection(reichMap.get("Frankfurt"), reichMap.get("Mainz"), 1, Colors.WHITE);
+        reichMap.get("Frankfurt").addConnection(frankfurtToMainz);
+        reichMap.get("Mainz").addConnection(frankfurtToMainz);
+        frankfurtToMainz = new Connection(reichMap.get("Frankfurt"), reichMap.get("Mainz"), 1, Colors.GRAY);
+        reichMap.get("Frankfurt").addConnection(frankfurtToMainz);
+        reichMap.get("Mainz").addConnection(frankfurtToMainz);
 
 // FRANKFURT to MANNHEIM
-        PhysicalConnection frankfurtToMannheim = new PhysicalConnection(reichMap.get("Frankfurt"), reichMap.get("Mannheim"), 2, Colors.GRAY);
-        reichMap.get("Frankfurt").addPhysicalConnection(frankfurtToMannheim);
-        reichMap.get("Mannheim").addPhysicalConnection(frankfurtToMannheim);
-        frankfurtToMannheim = new PhysicalConnection(reichMap.get("Frankfurt"), reichMap.get("Mannheim"), 2, Colors.GRAY);
-        reichMap.get("Frankfurt").addPhysicalConnection(frankfurtToMannheim);
-        reichMap.get("Mannheim").addPhysicalConnection(frankfurtToMannheim);
+        Connection frankfurtToMannheim = new Connection(reichMap.get("Frankfurt"), reichMap.get("Mannheim"), 2, Colors.GRAY);
+        reichMap.get("Frankfurt").addConnection(frankfurtToMannheim);
+        reichMap.get("Mannheim").addConnection(frankfurtToMannheim);
+        frankfurtToMannheim = new Connection(reichMap.get("Frankfurt"), reichMap.get("Mannheim"), 2, Colors.GRAY);
+        reichMap.get("Frankfurt").addConnection(frankfurtToMannheim);
+        reichMap.get("Mannheim").addConnection(frankfurtToMannheim);
 
 // FRANKFURT to WURZBURG
-        PhysicalConnection frankfurtToWurzburg = new PhysicalConnection(reichMap.get("Frankfurt"), reichMap.get("Wurzburg"), 2, Colors.GRAY);
-        reichMap.get("Frankfurt").addPhysicalConnection(frankfurtToWurzburg);
-        reichMap.get("Wurzburg").addPhysicalConnection(frankfurtToWurzburg);
-        frankfurtToWurzburg = new PhysicalConnection(reichMap.get("Frankfurt"), reichMap.get("Wurzburg"), 2, Colors.BLACK);
-        reichMap.get("Frankfurt").addPhysicalConnection(frankfurtToWurzburg);
-        reichMap.get("Wurzburg").addPhysicalConnection(frankfurtToWurzburg);
+        Connection frankfurtToWurzburg = new Connection(reichMap.get("Frankfurt"), reichMap.get("Wurzburg"), 2, Colors.GRAY);
+        reichMap.get("Frankfurt").addConnection(frankfurtToWurzburg);
+        reichMap.get("Wurzburg").addConnection(frankfurtToWurzburg);
+        frankfurtToWurzburg = new Connection(reichMap.get("Frankfurt"), reichMap.get("Wurzburg"), 2, Colors.BLACK);
+        reichMap.get("Frankfurt").addConnection(frankfurtToWurzburg);
+        reichMap.get("Wurzburg").addConnection(frankfurtToWurzburg);
 // MAINZ to SAARBRUCKEN
-        PhysicalConnection mainzToSaarbrucken = new PhysicalConnection(reichMap.get("Mainz"), reichMap.get("Saarbrucken"), 3, Colors.GRAY);
-        reichMap.get("Mainz").addPhysicalConnection(mainzToSaarbrucken);
-        reichMap.get("Saarbrucken").addPhysicalConnection(mainzToSaarbrucken);
+        Connection mainzToSaarbrucken = new Connection(reichMap.get("Mainz"), reichMap.get("Saarbrucken"), 3, Colors.GRAY);
+        reichMap.get("Mainz").addConnection(mainzToSaarbrucken);
+        reichMap.get("Saarbrucken").addConnection(mainzToSaarbrucken);
 
 // MAINZ to MANNHEIM
-        PhysicalConnection mainzToMannheim = new PhysicalConnection(reichMap.get("Mainz"), reichMap.get("Mannheim"), 1, Colors.GRAY);
-        reichMap.get("Mainz").addPhysicalConnection(mainzToMannheim);
-        reichMap.get("Mannheim").addPhysicalConnection(mainzToMannheim);
-        mainzToMannheim = new PhysicalConnection(reichMap.get("Mainz"), reichMap.get("Mannheim"), 1,  Colors.YELLOW);
-        reichMap.get("Mainz").addPhysicalConnection(mainzToMannheim);
-        reichMap.get("Mannheim").addPhysicalConnection(mainzToMannheim);
+        Connection mainzToMannheim = new Connection(reichMap.get("Mainz"), reichMap.get("Mannheim"), 1, Colors.GRAY);
+        reichMap.get("Mainz").addConnection(mainzToMannheim);
+        reichMap.get("Mannheim").addConnection(mainzToMannheim);
+        mainzToMannheim = new Connection(reichMap.get("Mainz"), reichMap.get("Mannheim"), 1,  Colors.YELLOW);
+        reichMap.get("Mainz").addConnection(mainzToMannheim);
+        reichMap.get("Mannheim").addConnection(mainzToMannheim);
 
 // WURZBURG to NURNBERG
-        PhysicalConnection wurzburgToNurnberg = new PhysicalConnection(reichMap.get("Wurzburg"), reichMap.get("Nurnberg"), 2, Colors.GRAY);
-        reichMap.get("Wurzburg").addPhysicalConnection(wurzburgToNurnberg);
-        reichMap.get("Nurnberg").addPhysicalConnection(wurzburgToNurnberg);
-        wurzburgToNurnberg = new PhysicalConnection(reichMap.get("Wurzburg"), reichMap.get("Nurnberg"), 2, Colors.YELLOW);
-        reichMap.get("Wurzburg").addPhysicalConnection(wurzburgToNurnberg);
-        reichMap.get("Nurnberg").addPhysicalConnection(wurzburgToNurnberg);
+        Connection wurzburgToNurnberg = new Connection(reichMap.get("Wurzburg"), reichMap.get("Nurnberg"), 2, Colors.GRAY);
+        reichMap.get("Wurzburg").addConnection(wurzburgToNurnberg);
+        reichMap.get("Nurnberg").addConnection(wurzburgToNurnberg);
+        wurzburgToNurnberg = new Connection(reichMap.get("Wurzburg"), reichMap.get("Nurnberg"), 2, Colors.YELLOW);
+        reichMap.get("Wurzburg").addConnection(wurzburgToNurnberg);
+        reichMap.get("Nurnberg").addConnection(wurzburgToNurnberg);
 
 // NURNBERG to AUGSBURG
-        PhysicalConnection nurnbergToAugsburg = new PhysicalConnection(reichMap.get("Nurnberg"), reichMap.get("Augsburg"), 4, Colors.BLACK);
-        reichMap.get("Nurnberg").addPhysicalConnection(nurnbergToAugsburg);
-        reichMap.get("Augsburg").addPhysicalConnection(nurnbergToAugsburg);
+        Connection nurnbergToAugsburg = new Connection(reichMap.get("Nurnberg"), reichMap.get("Augsburg"), 4, Colors.BLACK);
+        reichMap.get("Nurnberg").addConnection(nurnbergToAugsburg);
+        reichMap.get("Augsburg").addConnection(nurnbergToAugsburg);
 
 // NURNBERG to MUNCHEN
-        PhysicalConnection nurnbergToMunchen = new PhysicalConnection(reichMap.get("Nurnberg"), reichMap.get("Munchen"), 5, Colors.BLUE);
-        reichMap.get("Nurnberg").addPhysicalConnection(nurnbergToMunchen);
-        reichMap.get("Munchen").addPhysicalConnection(nurnbergToMunchen);
-        nurnbergToMunchen = new PhysicalConnection(reichMap.get("Nurnberg"), reichMap.get("Munchen"), 5, Colors.GRAY);
-        reichMap.get("Nurnberg").addPhysicalConnection(nurnbergToMunchen);
-        reichMap.get("Munchen").addPhysicalConnection(nurnbergToMunchen);
+        Connection nurnbergToMunchen = new Connection(reichMap.get("Nurnberg"), reichMap.get("Munchen"), 5, Colors.BLUE);
+        reichMap.get("Nurnberg").addConnection(nurnbergToMunchen);
+        reichMap.get("Munchen").addConnection(nurnbergToMunchen);
+        nurnbergToMunchen = new Connection(reichMap.get("Nurnberg"), reichMap.get("Munchen"), 5, Colors.GRAY);
+        reichMap.get("Nurnberg").addConnection(nurnbergToMunchen);
+        reichMap.get("Munchen").addConnection(nurnbergToMunchen);
 
 // NURNBERG to REGENSBURG
-        PhysicalConnection nurnbergToRegensburg = new PhysicalConnection(reichMap.get("Nurnberg"), reichMap.get("Regensburg"), 3, Colors.GREEN);
-        reichMap.get("Nurnberg").addPhysicalConnection(nurnbergToRegensburg);
-        reichMap.get("Regensburg").addPhysicalConnection(nurnbergToRegensburg);
+        Connection nurnbergToRegensburg = new Connection(reichMap.get("Nurnberg"), reichMap.get("Regensburg"), 3, Colors.GREEN);
+        reichMap.get("Nurnberg").addConnection(nurnbergToRegensburg);
+        reichMap.get("Regensburg").addConnection(nurnbergToRegensburg);
 
 // MANNHEIM to SAARBRUCKEN
-        PhysicalConnection mannheimToSaarbrucken = new PhysicalConnection(reichMap.get("Mannheim"), reichMap.get("Saarbrucken"), 3, Colors.GRAY);
-        reichMap.get("Mannheim").addPhysicalConnection(mannheimToSaarbrucken);
-        reichMap.get("Saarbrucken").addPhysicalConnection(mannheimToSaarbrucken);
+        Connection mannheimToSaarbrucken = new Connection(reichMap.get("Mannheim"), reichMap.get("Saarbrucken"), 3, Colors.GRAY);
+        reichMap.get("Mannheim").addConnection(mannheimToSaarbrucken);
+        reichMap.get("Saarbrucken").addConnection(mannheimToSaarbrucken);
 
 // MANNHEIM to KARLSRUHE
-        PhysicalConnection mannheimToKarlsruhe = new PhysicalConnection(reichMap.get("Mannheim"), reichMap.get("Karlsruhe"), 1, Colors.BLUE);
-        reichMap.get("Mannheim").addPhysicalConnection(mannheimToKarlsruhe);
-        reichMap.get("Karlsruhe").addPhysicalConnection(mannheimToKarlsruhe);
+        Connection mannheimToKarlsruhe = new Connection(reichMap.get("Mannheim"), reichMap.get("Karlsruhe"), 1, Colors.BLUE);
+        reichMap.get("Mannheim").addConnection(mannheimToKarlsruhe);
+        reichMap.get("Karlsruhe").addConnection(mannheimToKarlsruhe);
 
 // MANNHEIM to STUTTGART
-        PhysicalConnection mannheimToStuttgart = new PhysicalConnection(reichMap.get("Mannheim"), reichMap.get("Stuttgart"), 2, Colors.GRAY);
-        reichMap.get("Mannheim").addPhysicalConnection(mannheimToStuttgart);
-        reichMap.get("Stuttgart").addPhysicalConnection(mannheimToStuttgart);
-        mannheimToStuttgart = new PhysicalConnection(reichMap.get("Mannheim"), reichMap.get("Stuttgart"), 2, Colors.GRAY);
-        reichMap.get("Mannheim").addPhysicalConnection(mannheimToStuttgart);
-        reichMap.get("Stuttgart").addPhysicalConnection(mannheimToStuttgart);
+        Connection mannheimToStuttgart = new Connection(reichMap.get("Mannheim"), reichMap.get("Stuttgart"), 2, Colors.GRAY);
+        reichMap.get("Mannheim").addConnection(mannheimToStuttgart);
+        reichMap.get("Stuttgart").addConnection(mannheimToStuttgart);
+        mannheimToStuttgart = new Connection(reichMap.get("Mannheim"), reichMap.get("Stuttgart"), 2, Colors.GRAY);
+        reichMap.get("Mannheim").addConnection(mannheimToStuttgart);
+        reichMap.get("Stuttgart").addConnection(mannheimToStuttgart);
 
 // SAARBRUCKEN to FRANKREICH
-        PhysicalConnection saarbruckenToFrankreich = new PhysicalConnection(reichMap.get("Saarbrucken"), reichMap.get("Frankreich"), 1, Colors.GREEN);
-        reichMap.get("Saarbrucken").addPhysicalConnection(saarbruckenToFrankreich);
-        reichMap.get("Frankreich").addPhysicalConnection(saarbruckenToFrankreich);
+        Connection saarbruckenToFrankreich = new Connection(reichMap.get("Saarbrucken"), reichMap.get("Frankreich"), 1, Colors.GREEN);
+        reichMap.get("Saarbrucken").addConnection(saarbruckenToFrankreich);
+        reichMap.get("Frankreich").addConnection(saarbruckenToFrankreich);
 
 // SAARBRUCKEN to KARLSRUHE
-        PhysicalConnection saarbruckenToKarlsruhe = new PhysicalConnection(reichMap.get("Saarbrucken"), reichMap.get("Karlsruhe"), 3, Colors.BLACK);
-        reichMap.get("Saarbrucken").addPhysicalConnection(saarbruckenToKarlsruhe);
-        reichMap.get("Karlsruhe").addPhysicalConnection(saarbruckenToKarlsruhe);
+        Connection saarbruckenToKarlsruhe = new Connection(reichMap.get("Saarbrucken"), reichMap.get("Karlsruhe"), 3, Colors.BLACK);
+        reichMap.get("Saarbrucken").addConnection(saarbruckenToKarlsruhe);
+        reichMap.get("Karlsruhe").addConnection(saarbruckenToKarlsruhe);
 
 // KARLSRUHE to FRANKREICH
-        PhysicalConnection karlsruheToFrankreich = new PhysicalConnection(reichMap.get("Karlsruhe"), reichMap.get("Frankreich"), 2, Colors.BLACK);
-        reichMap.get("Karlsruhe").addPhysicalConnection(karlsruheToFrankreich);
-        reichMap.get("Frankreich").addPhysicalConnection(karlsruheToFrankreich);
+        Connection karlsruheToFrankreich = new Connection(reichMap.get("Karlsruhe"), reichMap.get("Frankreich"), 2, Colors.BLACK);
+        reichMap.get("Karlsruhe").addConnection(karlsruheToFrankreich);
+        reichMap.get("Frankreich").addConnection(karlsruheToFrankreich);
 
 // KARLSRUHE to FREIBURG
-        PhysicalConnection karlsruheToFreiburg = new PhysicalConnection(reichMap.get("Karlsruhe"), reichMap.get("Freiburg"), 3, Colors.WHITE);
-        reichMap.get("Karlsruhe").addPhysicalConnection(karlsruheToFreiburg);
-        reichMap.get("Freiburg").addPhysicalConnection(karlsruheToFreiburg);
+        Connection karlsruheToFreiburg = new Connection(reichMap.get("Karlsruhe"), reichMap.get("Freiburg"), 3, Colors.WHITE);
+        reichMap.get("Karlsruhe").addConnection(karlsruheToFreiburg);
+        reichMap.get("Freiburg").addConnection(karlsruheToFreiburg);
 
 // KARLSRUHE to STUTTGART
-        PhysicalConnection karlsruheToStuttgart = new PhysicalConnection(reichMap.get("Karlsruhe"), reichMap.get("Stuttgart"), 1, Colors.PINK);
-        reichMap.get("Karlsruhe").addPhysicalConnection(karlsruheToStuttgart);
-        reichMap.get("Stuttgart").addPhysicalConnection(karlsruheToStuttgart);
+        Connection karlsruheToStuttgart = new Connection(reichMap.get("Karlsruhe"), reichMap.get("Stuttgart"), 1, Colors.PINK);
+        reichMap.get("Karlsruhe").addConnection(karlsruheToStuttgart);
+        reichMap.get("Stuttgart").addConnection(karlsruheToStuttgart);
 
 
         // STUTTGART to FREIBURG
-        PhysicalConnection stuttgartToFreiburg = new PhysicalConnection(reichMap.get("Stuttgart"), reichMap.get("Freiburg"), 3, Colors.RED);
-        reichMap.get("Stuttgart").addPhysicalConnection(stuttgartToFreiburg);
-        reichMap.get("Freiburg").addPhysicalConnection(stuttgartToFreiburg);
+        Connection stuttgartToFreiburg = new Connection(reichMap.get("Stuttgart"), reichMap.get("Freiburg"), 3, Colors.RED);
+        reichMap.get("Stuttgart").addConnection(stuttgartToFreiburg);
+        reichMap.get("Freiburg").addConnection(stuttgartToFreiburg);
 
 // STUTTGART to KONSTANZ
-        PhysicalConnection stuttgartToKonstanz = new PhysicalConnection(reichMap.get("Stuttgart"), reichMap.get("Konstanz"), 3, Colors.GREEN);
-        reichMap.get("Stuttgart").addPhysicalConnection(stuttgartToKonstanz);
-        reichMap.get("Konstanz").addPhysicalConnection(stuttgartToKonstanz);
+        Connection stuttgartToKonstanz = new Connection(reichMap.get("Stuttgart"), reichMap.get("Konstanz"), 3, Colors.GREEN);
+        reichMap.get("Stuttgart").addConnection(stuttgartToKonstanz);
+        reichMap.get("Konstanz").addConnection(stuttgartToKonstanz);
 
 // STUTTGART to ULM
-        PhysicalConnection stuttgartToUlm = new PhysicalConnection(reichMap.get("Stuttgart"), reichMap.get("Ulm"), 2, Colors.GRAY);
-        reichMap.get("Stuttgart").addPhysicalConnection(stuttgartToUlm);
-        reichMap.get("Ulm").addPhysicalConnection(stuttgartToUlm);
-        stuttgartToUlm = new PhysicalConnection(reichMap.get("Stuttgart"), reichMap.get("Ulm"), 2, Colors.GRAY);
-        reichMap.get("Stuttgart").addPhysicalConnection(stuttgartToUlm);
-        reichMap.get("Ulm").addPhysicalConnection(stuttgartToUlm);
+        Connection stuttgartToUlm = new Connection(reichMap.get("Stuttgart"), reichMap.get("Ulm"), 2, Colors.GRAY);
+        reichMap.get("Stuttgart").addConnection(stuttgartToUlm);
+        reichMap.get("Ulm").addConnection(stuttgartToUlm);
+        stuttgartToUlm = new Connection(reichMap.get("Stuttgart"), reichMap.get("Ulm"), 2, Colors.GRAY);
+        reichMap.get("Stuttgart").addConnection(stuttgartToUlm);
+        reichMap.get("Ulm").addConnection(stuttgartToUlm);
 
 // REGENSBURG to MUNCHEN
-        PhysicalConnection regensburgToMunchen = new PhysicalConnection(reichMap.get("Regensburg"), reichMap.get("Munchen"), 3, Colors.ORANGE);
-        reichMap.get("Regensburg").addPhysicalConnection(regensburgToMunchen);
-        reichMap.get("Munchen").addPhysicalConnection(regensburgToMunchen);
+        Connection regensburgToMunchen = new Connection(reichMap.get("Regensburg"), reichMap.get("Munchen"), 3, Colors.ORANGE);
+        reichMap.get("Regensburg").addConnection(regensburgToMunchen);
+        reichMap.get("Munchen").addConnection(regensburgToMunchen);
 
 // REGENSBURG to OSTERREICH
-        PhysicalConnection regensburgToOsterreich = new PhysicalConnection(reichMap.get("Regensburg"), reichMap.get("Osterreich"), 4, Colors.YELLOW);
-        reichMap.get("Regensburg").addPhysicalConnection(regensburgToOsterreich);
-        reichMap.get("Osterreich").addPhysicalConnection(regensburgToOsterreich);
+        Connection regensburgToOsterreich = new Connection(reichMap.get("Regensburg"), reichMap.get("Osterreich"), 4, Colors.YELLOW);
+        reichMap.get("Regensburg").addConnection(regensburgToOsterreich);
+        reichMap.get("Osterreich").addConnection(regensburgToOsterreich);
 
 // FRANKREICH to FREIBURG
-        PhysicalConnection frankreichToFreiburg = new PhysicalConnection(reichMap.get("Frankreich"), reichMap.get("Freiburg"), 2, Colors.YELLOW);
-        reichMap.get("Frankreich").addPhysicalConnection(frankreichToFreiburg);
-        reichMap.get("Freiburg").addPhysicalConnection(frankreichToFreiburg);
+        Connection frankreichToFreiburg = new Connection(reichMap.get("Frankreich"), reichMap.get("Freiburg"), 2, Colors.YELLOW);
+        reichMap.get("Frankreich").addConnection(frankreichToFreiburg);
+        reichMap.get("Freiburg").addConnection(frankreichToFreiburg);
 
 // ULM to AUGSBURG
-        PhysicalConnection ulmToAugsburg = new PhysicalConnection(reichMap.get("Ulm"), reichMap.get("Augsburg"), 1, Colors.GRAY);
-        reichMap.get("Ulm").addPhysicalConnection(ulmToAugsburg);
-        reichMap.get("Augsburg").addPhysicalConnection(ulmToAugsburg);
-        ulmToAugsburg = new PhysicalConnection(reichMap.get("Ulm"), reichMap.get("Augsburg"), 1, Colors.GRAY);
-        reichMap.get("Ulm").addPhysicalConnection(ulmToAugsburg);
-        reichMap.get("Augsburg").addPhysicalConnection(ulmToAugsburg);
+        Connection ulmToAugsburg = new Connection(reichMap.get("Ulm"), reichMap.get("Augsburg"), 1, Colors.GRAY);
+        reichMap.get("Ulm").addConnection(ulmToAugsburg);
+        reichMap.get("Augsburg").addConnection(ulmToAugsburg);
+        ulmToAugsburg = new Connection(reichMap.get("Ulm"), reichMap.get("Augsburg"), 1, Colors.GRAY);
+        reichMap.get("Ulm").addConnection(ulmToAugsburg);
+        reichMap.get("Augsburg").addConnection(ulmToAugsburg);
 
 // ULM to LINDAU
-        PhysicalConnection ulmToLindau = new PhysicalConnection(reichMap.get("Ulm"), reichMap.get("Lindau"), 2, Colors.RED);
-        reichMap.get("Ulm").addPhysicalConnection(ulmToLindau);
-        reichMap.get("Lindau").addPhysicalConnection(ulmToLindau);
+        Connection ulmToLindau = new Connection(reichMap.get("Ulm"), reichMap.get("Lindau"), 2, Colors.RED);
+        reichMap.get("Ulm").addConnection(ulmToLindau);
+        reichMap.get("Lindau").addConnection(ulmToLindau);
 
 // AUGSBURG to MUNCHEN
-        PhysicalConnection augsburgToMunchen = new PhysicalConnection(reichMap.get("Augsburg"), reichMap.get("Munchen"), 2, Colors.WHITE);
-        reichMap.get("Augsburg").addPhysicalConnection(augsburgToMunchen);
-        reichMap.get("Munchen").addPhysicalConnection(augsburgToMunchen);
-        augsburgToMunchen = new PhysicalConnection(reichMap.get("Augsburg"), reichMap.get("Munchen"), 2, Colors.GRAY);
-        reichMap.get("Augsburg").addPhysicalConnection(augsburgToMunchen);
-        reichMap.get("Munchen").addPhysicalConnection(augsburgToMunchen);
+        Connection augsburgToMunchen = new Connection(reichMap.get("Augsburg"), reichMap.get("Munchen"), 2, Colors.WHITE);
+        reichMap.get("Augsburg").addConnection(augsburgToMunchen);
+        reichMap.get("Munchen").addConnection(augsburgToMunchen);
+        augsburgToMunchen = new Connection(reichMap.get("Augsburg"), reichMap.get("Munchen"), 2, Colors.GRAY);
+        reichMap.get("Augsburg").addConnection(augsburgToMunchen);
+        reichMap.get("Munchen").addConnection(augsburgToMunchen);
 
 // MUNCHEN to OSTERREICH
-        PhysicalConnection munchenToOsterreich = new PhysicalConnection(reichMap.get("Munchen"), reichMap.get("Osterreich"), 3, Colors.RED);
-        reichMap.get("Munchen").addPhysicalConnection(munchenToOsterreich);
-        reichMap.get("Osterreich").addPhysicalConnection(munchenToOsterreich);
+        Connection munchenToOsterreich = new Connection(reichMap.get("Munchen"), reichMap.get("Osterreich"), 3, Colors.RED);
+        reichMap.get("Munchen").addConnection(munchenToOsterreich);
+        reichMap.get("Osterreich").addConnection(munchenToOsterreich);
 
 // MUNCHEN to LINDAU
-        PhysicalConnection munchenToLindau = new PhysicalConnection(reichMap.get("Munchen"), reichMap.get("Lindau"), 5, Colors.GRAY);
-        reichMap.get("Munchen").addPhysicalConnection(munchenToLindau);
-        reichMap.get("Lindau").addPhysicalConnection(munchenToLindau);
+        Connection munchenToLindau = new Connection(reichMap.get("Munchen"), reichMap.get("Lindau"), 5, Colors.GRAY);
+        reichMap.get("Munchen").addConnection(munchenToLindau);
+        reichMap.get("Lindau").addConnection(munchenToLindau);
 
 // FREIBURG to SCHWEIZ
-        PhysicalConnection freiburgToSchweiz = new PhysicalConnection(reichMap.get("Freiburg"), reichMap.get("Schweiz"), 2, Colors.ORANGE);
-        reichMap.get("Freiburg").addPhysicalConnection(freiburgToSchweiz);
-        reichMap.get("Schweiz").addPhysicalConnection(freiburgToSchweiz);
+        Connection freiburgToSchweiz = new Connection(reichMap.get("Freiburg"), reichMap.get("Schweiz"), 2, Colors.ORANGE);
+        reichMap.get("Freiburg").addConnection(freiburgToSchweiz);
+        reichMap.get("Schweiz").addConnection(freiburgToSchweiz);
 
 // FREIBURG to KONSTANZ
-        PhysicalConnection freiburgToKonstanz = new PhysicalConnection(reichMap.get("Freiburg"), reichMap.get("Konstanz"), 2, Colors.BLACK);
-        reichMap.get("Freiburg").addPhysicalConnection(freiburgToKonstanz);
-        reichMap.get("Konstanz").addPhysicalConnection(freiburgToKonstanz);
+        Connection freiburgToKonstanz = new Connection(reichMap.get("Freiburg"), reichMap.get("Konstanz"), 2, Colors.BLACK);
+        reichMap.get("Freiburg").addConnection(freiburgToKonstanz);
+        reichMap.get("Konstanz").addConnection(freiburgToKonstanz);
 
 // KONSTANZ to SCHWEIZ
-        PhysicalConnection konstanzToSchweiz = new PhysicalConnection(reichMap.get("Konstanz"), reichMap.get("Schweiz"), 1, Colors.RED);
-        reichMap.get("Konstanz").addPhysicalConnection(konstanzToSchweiz);
-        reichMap.get("Schweiz").addPhysicalConnection(konstanzToSchweiz);
+        Connection konstanzToSchweiz = new Connection(reichMap.get("Konstanz"), reichMap.get("Schweiz"), 1, Colors.RED);
+        reichMap.get("Konstanz").addConnection(konstanzToSchweiz);
+        reichMap.get("Schweiz").addConnection(konstanzToSchweiz);
 
 // KONSTANZ to LINDAU
-        PhysicalConnection konstanzToLindau = new PhysicalConnection(reichMap.get("Konstanz"), reichMap.get("Lindau"), 1, Colors.YELLOW);
-        reichMap.get("Konstanz").addPhysicalConnection(konstanzToLindau);
-        reichMap.get("Lindau").addPhysicalConnection(konstanzToLindau);
+        Connection konstanzToLindau = new Connection(reichMap.get("Konstanz"), reichMap.get("Lindau"), 1, Colors.YELLOW);
+        reichMap.get("Konstanz").addConnection(konstanzToLindau);
+        reichMap.get("Lindau").addConnection(konstanzToLindau);
 
 // LINDAU to SCHWEIZ
-        PhysicalConnection lindauToSchweiz = new PhysicalConnection(reichMap.get("Lindau"), reichMap.get("Schweiz"), 2, Colors.BLUE);
-        reichMap.get("Lindau").addPhysicalConnection(lindauToSchweiz);
-        reichMap.get("Schweiz").addPhysicalConnection(lindauToSchweiz);
+        Connection lindauToSchweiz = new Connection(reichMap.get("Lindau"), reichMap.get("Schweiz"), 2, Colors.BLUE);
+        reichMap.get("Lindau").addConnection(lindauToSchweiz);
+        reichMap.get("Schweiz").addConnection(lindauToSchweiz);
 
 // LINDAU to OSTERREICH
-        PhysicalConnection lindauToOsterreich = new PhysicalConnection(reichMap.get("Lindau"), reichMap.get("Osterreich"), 2, Colors.PINK);
-        reichMap.get("Lindau").addPhysicalConnection(lindauToOsterreich);
-        reichMap.get("Osterreich").addPhysicalConnection(lindauToOsterreich);
+        Connection lindauToOsterreich = new Connection(reichMap.get("Lindau"), reichMap.get("Osterreich"), 2, Colors.PINK);
+        reichMap.get("Lindau").addConnection(lindauToOsterreich);
+        reichMap.get("Osterreich").addConnection(lindauToOsterreich);
 
         return reichMap;
     }
 
     public int countConnectionsBetweenCities(City cityOne, City cityTwo){
         int count = 0;
-        List<PhysicalConnection> connections = cities.get(cityOne.getName()).getPhysicalConnectionList();
-        for(PhysicalConnection connection : connections){
+        List<Connection> connections = cities.get(cityOne.getName()).getConnectionList();
+        for(Connection connection : connections){
             if(connection.getCityTwo().equals(cityTwo)){
                 count++;
             }
