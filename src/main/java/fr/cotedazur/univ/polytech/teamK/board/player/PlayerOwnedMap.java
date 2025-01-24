@@ -1,7 +1,7 @@
 package fr.cotedazur.univ.polytech.teamK.board.player;
 
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
-import fr.cotedazur.univ.polytech.teamK.board.map.Connection;
+import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.MapHash;
 
 import java.util.HashMap;

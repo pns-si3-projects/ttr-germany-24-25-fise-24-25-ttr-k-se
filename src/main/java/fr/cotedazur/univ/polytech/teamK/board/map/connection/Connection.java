@@ -1,16 +1,16 @@
-package fr.cotedazur.univ.polytech.teamK.board.map;
+package fr.cotedazur.univ.polytech.teamK.board.map.connection;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
+import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.game.MapHash;
-
-import java.awt.*;
 
 public class Connection {
     private City cityOne;
     private City cityTwo;
     private Integer length;
     private Colors color;
+    
     private Player owner;
     private boolean isFree;
     private static int COUNT = 1;
@@ -167,92 +167,6 @@ public class Connection {
      */
     public Player getOwner() {
         return owner;
-    }
-
-
-    /**
-     * Attempts to claim the connection.
-     *
-     * @param numberOfCardsUsed the number of cards used to claim the connection
-     * @param player            the player attempting to claim the connection
-     * @param gameMap           the game map
-     * @param numberOfPlayers   the number of players in the game
-     * @return true if the connection is successfully claimed, false otherwise
-     * @throws IllegalArgumentException if the number of cards used is less than 0
-     */
-    public boolean claimAttempt(Integer numberOfCardsUsed, Player player, MapHash gameMap, int numberOfPlayers) {
-        if (numberOfCardsUsed < 0){
-            throw new IllegalArgumentException("Number of Cards Used must be greater than 0");
-        }
-        else if (numberOfCardsUsed <= getLength()){
-            return false;
-        }
-        else if (!this.isFree()) {
-            return false;
-        }
-        else {
-            int connectionCount = gameMap.countConnectionsBetweenCities(this.getCityOne(), this.getCityTwo());
-            if (numberOfPlayers <= 3 && connectionCount > 1) {
-                return false; // Double/triple connections not available for 2-3 players
-            } else {
-                this.setFree(false);
-                this.setOwner(player);
-                if (connectionCount > 1) {
-                    markOtherConnectionsAsClaimed(gameMap, this.getCityOne(), this.getCityTwo());
-                }
-                return true; // Successfully claimed
-            }
-        }
-    }
-
-    /**
-     * Marks other connections between the same cities as claimed.
-     *
-     * @param gameMap the game map
-     * @param cityOne the first city
-     * @param cityTwo the second city
-     */
-    private void markOtherConnectionsAsClaimed(MapHash gameMap, City cityOne, City cityTwo) {
-        for (Object obj : gameMap.getCities().get(cityOne.getName()).getPhysicalConnectionList()) {
-            Connection conn = (Connection) obj;
-            if (conn.getCityTwo().equals(cityTwo) && !conn.equals(this)) {
-                conn.setFree(false);
-            }
-        }
-        for (Object obj : gameMap.getCities().get(cityTwo.getName()).getPhysicalConnectionList()) {
-            Connection conn = (Connection) obj;
-            if (conn.getCityOne().equals(cityOne) && !conn.equals(this)) {
-                conn.setFree(false);
-            }
-        }
-    }
-
-    /**
-     * Calculates the points for a given length.
-     *
-     * @param length the length of the connection
-     * @return the points for the given length
-     * @throws IllegalArgumentException if the length is invalid
-     */
-    public static int calculatePoints(int length){
-        switch(length){
-            case 1:
-                return 1;
-            case 2:
-                return 2;
-            case 3:
-                return 4;
-            case 5:
-                return 10;
-            case 6:
-                return 15;
-            case 7:
-                return 18;
-            case 8:
-                return 21;
-            default:
-                throw new IllegalArgumentException("Invalid route lenght: "+ length);
-        }
     }
 
     @Override
