@@ -78,7 +78,7 @@ public class City {
      *
      * @return the list of physical connections
      */
-    public List getConnectionList() {return connectionList;}
+    public List<Connection> getConnectionList() {return connectionList;}
 
     /**
      * Initializes the list of physical connections.
