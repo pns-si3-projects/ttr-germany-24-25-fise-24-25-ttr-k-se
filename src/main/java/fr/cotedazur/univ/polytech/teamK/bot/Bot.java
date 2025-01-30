@@ -1,11 +1,12 @@
 package fr.cotedazur.univ.polytech.teamK.bot;
 
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
+import fr.cotedazur.univ.polytech.teamK.board.map.City;
+import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.*;
 
 public abstract class Bot extends Player {
 
@@ -63,6 +64,74 @@ public abstract class Bot extends Player {
             return false;
         }
         return true;
+    }
+
+    /**
+     * Djikstra algorithm who find the shortest path between two cities
+     * @param cityOne the first cities
+     * @param cityTwo the second cities
+     * @param board the map
+     * @return a arrayList with the path
+     */
+
+    public ArrayList<City> djikstra(City cityOne, City cityTwo, Board board) {
+        ArrayList<HashMap<City,Integer>> djikstraTable = new ArrayList<>();
+        HashMap<City,Integer> djikstraLine = new HashMap<>();
+        ArrayList<City> seen = new ArrayList<>();
+        for (City c : board.getCity().values()) {
+            djikstraLine.put(c,Integer.MAX_VALUE);
+        }
+
+        City actual = cityOne;
+        int lenght = 0;
+        djikstraLine.replace(cityOne,0);
+
+        while (djikstraLine.get(cityTwo) > lenght) {
+            for(Connection connection : actual.getConnectionList()) {
+                int i1 = djikstraLine.get(actual)+connection.getLength();
+                int i2 = djikstraLine.get(connection.getOtherCity(actual));
+                if (i1< i2)
+                    djikstraLine.replace(connection.getOtherCity(actual),djikstraLine.get(actual)+connection.getLength());
+            }
+            HashMap<City,Integer> djikstraLineToAdd = new HashMap<>();
+            djikstraLineToAdd.putAll(djikstraLine);
+            if (!seen.isEmpty())
+                djikstraLine.replace(seen.getLast(),-1);
+            seen.add(actual);
+            lenght = Integer.MAX_VALUE;
+            for(City city : djikstraLine.keySet()) {
+                if(djikstraLine.get(city) < lenght && !seen.contains(city)) {
+                    lenght = djikstraLine.get(city);
+                    actual = city;
+                }
+            }
+
+            djikstraTable.addFirst(djikstraLineToAdd);
+        }
+
+        ArrayList<City> res = new ArrayList<>();
+        res.add(cityTwo);
+        for (HashMap<City,Integer> line : djikstraTable) {
+            if(line.get(res.getFirst()) == Integer.MAX_VALUE) {
+                ArrayList<City> min = new ArrayList<>();
+                min.add(cityTwo);
+                for (City city : line.keySet()) {
+                    if(line.get(city) < line.get(min.getFirst()) && line.get(city) != -1) {
+                        min.clear();
+                        min.add(city);
+                    } else if(Objects.equals(line.get(city), line.get(min.getFirst())) && line.get(city) != -1)
+                        min.add(city);
+                }
+                for(int i=seen.size()-1 ; i >= 0 ; i--) {
+                    if(min.contains(seen.get(i))) {
+                        res.add(seen.get(i));
+                        break;
+                    }
+                }
+            }
+        }
+        res.addFirst(cityOne);
+        return res;
     }
 
     /**
