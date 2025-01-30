@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.teamK.board.map;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
+import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
 import org.junit.jupiter.api.BeforeEach;
@@ -30,7 +31,7 @@ class CityTest {
     void testConstructor(){
         assertEquals("Kiel", city.getName());
         assertEquals(5, city.getMeeples().getNumber());
-        assertNotNull(city.getPhysicalConnectionList());
+        assertNotNull(city.getConnectionList());
     }
 
     @Test
@@ -49,24 +50,24 @@ class CityTest {
     }
 
     @Test
-    void testGetPhysicalConnectionList(){
-        assertNotNull(city.getPhysicalConnectionList());
-        assertTrue(city.getPhysicalConnectionList().isEmpty());
+    void testGetConnectionList(){
+        assertNotNull(city.getConnectionList());
+        assertTrue(city.getConnectionList().isEmpty());
     }
 
     @Test
-    void testSetPhysicalConnectionList(){
-        city.setPhysicalConnectionList();
-        assertNotNull(city.getPhysicalConnectionList());
-        assertTrue(city.getPhysicalConnectionList().isEmpty());
+    void testSetConnectionList(){
+        city.setConnectionList();
+        assertNotNull(city.getConnectionList());
+        assertTrue(city.getConnectionList().isEmpty());
     }
 
     @Test
-    void testAddPhysicalConnection(){
-        PhysicalConnection connection = new PhysicalConnection(city, new City("Hamburg", 3), 5, Colors.RED);
-        city.addPhysicalConnection(connection);
-        assertEquals(1, city.getPhysicalConnectionList().size());
-        assertEquals(connection, city.getPhysicalConnectionList().get(0));
+    void testAddConnection(){
+        Connection connection = new Connection(city, new City("Hamburg", 3), 5, Colors.RED);
+        city.addConnection(connection);
+        assertEquals(1, city.getConnectionList().size());
+        assertEquals(connection, city.getConnectionList().get(0));
     }
 
     @Test

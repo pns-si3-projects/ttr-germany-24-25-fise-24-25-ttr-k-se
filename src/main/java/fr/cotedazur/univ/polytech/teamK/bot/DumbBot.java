@@ -5,14 +5,13 @@ import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
-import fr.cotedazur.univ.polytech.teamK.game.Game;
 
 import javax.lang.model.type.NullType;
 import java.util.*;
 
 public class DumbBot extends  Bot {
     HashSet<String> seenCities ;
-    public DumbBot(String name, Board gameMap)
+    public DumbBot(String name)
     {
         super(name);
         seenCities = new HashSet<String>();

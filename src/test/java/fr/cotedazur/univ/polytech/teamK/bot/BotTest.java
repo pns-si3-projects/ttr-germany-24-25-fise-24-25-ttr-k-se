@@ -22,7 +22,7 @@ class BotTest {
         map = new Board("Reich");
         longDest = new Deck<>(TypeOfCards.LONG_DESTINATION,map);
         shortDest = new Deck<>(TypeOfCards.SHORT_DESTINATION,map);
-        bot = new DumbBot("Dumn",map);
+        bot = new DumbBot("Dumb");
     }
 
     @Test

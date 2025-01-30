@@ -6,6 +6,7 @@ import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameView;
 
 import java.util.*;
 
@@ -67,6 +68,11 @@ public class Player {
     public static void resetIdCounter() {
         COUNT = 1;
     }
+
+    public void playTurn(GameView gameView) {
+        System.out.println(name + " joue son tour !");
+    }
+
     /**
      * Modify the score of the player by adding a value
      * @param value the value to add to the score
