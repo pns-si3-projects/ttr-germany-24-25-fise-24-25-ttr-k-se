@@ -39,6 +39,16 @@ class BotTest {
     }
 
     @Test
+    public void testShortestDestination() {  // Assurez-vous que c'est bien public
+        City cityOne = map.getCity("Kiel");
+        City cityTwo = map.getCity("Freiburg");
+
+        ArrayList<Connection> way = bot.djikstra(cityOne, cityTwo,map);
+        System.out.println(way);
+        assertEquals(6, way.size());
+    }
+
+    @Test
     void testDraw () {
         List<DestinationCard> draw = bot.drawDestFromNumber(shortDest,longDest,3);
         bot.drawDestinationCard(shortDest,longDest);
