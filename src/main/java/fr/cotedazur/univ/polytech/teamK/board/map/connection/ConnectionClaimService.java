@@ -24,11 +24,14 @@ public class ConnectionClaimService {
         if (!isConnectionFree(connection)) {
             return false;
         }
-        if (!canClaimConnection(connection, gameMap, numberOfPlayers)) {
-            return false;
+        if (numberOfPlayers > 3) {
+            claimConnection(connection, player, gameMap);
+            return true;
+        }else{
+            claimConnection(connection, player, gameMap);
+            markOtherConnectionsAsClaimed(gameMap, connection.getCityOne(), connection.getCityTwo(), connection);
+            return true;
         }
-        claimConnection(connection, player, gameMap);
-        return true;
     }
 
     private void validateNumberOfCards(Integer numberOfCardsUsed) {
@@ -45,18 +48,9 @@ public class ConnectionClaimService {
         return connection.isFree();
     }
 
-    private boolean canClaimConnection(Connection connection, Board gameMap, int numberOfPlayers) {
-        int connectionCount = gameMap.countConnectionsBetweenCities(connection.getCityOne(), connection.getCityTwo());
-        return !(numberOfPlayers <= 3 && connectionCount > 1);
-    }
-
     private void claimConnection(Connection connection, Player player, Board gameMap) {
         connection.setFree(false);
         connection.setOwner(player);
-        int connectionCount = gameMap.countConnectionsBetweenCities(connection.getCityOne(), connection.getCityTwo());
-        if (connectionCount > 1) {
-            markOtherConnectionsAsClaimed(gameMap, connection.getCityOne(), connection.getCityTwo());
-        }
     }
 
     /**
@@ -66,14 +60,14 @@ public class ConnectionClaimService {
      * @param cityOne the first city
      * @param cityTwo the second city
      */
-    private void markOtherConnectionsAsClaimed(Board gameMap, City cityOne, City cityTwo) {
+    private void markOtherConnectionsAsClaimed(Board gameMap, City cityOne, City cityTwo, Connection claimedConnection) {
         for (Connection conn : gameMap.getCitiesConnections(cityOne.getName())) {
-            if (conn.getCityTwo().equals(cityTwo) && !conn.equals(this)) {
+            if (conn.getCityTwo().equals(cityTwo) && !conn.equals(claimedConnection)) {
                 conn.setFree(false);
             }
         }
         for (Connection conn : gameMap.getCitiesConnections(cityTwo.getName())) {
-            if (conn.getCityOne().equals(cityOne) && !conn.equals(this)) {
+            if (conn.getCityOne().equals(cityOne) && !conn.equals(claimedConnection)) {
                 conn.setFree(false);
             }
 

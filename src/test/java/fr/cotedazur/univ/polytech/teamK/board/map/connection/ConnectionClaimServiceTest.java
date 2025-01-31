@@ -19,9 +19,9 @@ class ConnectionClaimServiceTest {
 
     @BeforeEach
     void setUp(){
-        city1 = new City("Hanover", 4);
-        city2 = new City("Magdeburg", 4);
-        connection = new Connection(city1, city2, 3, Colors.BLUE);
+        city1 = new City("Nurnberg", 1);
+        city2 = new City("Regensburg", 1);
+        connection = new Connection(city1, city2, 3, Colors.GREEN);
         player = new Player("Zaynab");
         connectionClaimService = new ConnectionClaimService();
         gameMap = new Board("Reich");
@@ -54,17 +54,16 @@ class ConnectionClaimServiceTest {
 
     @Test
     void testClaimAttemptDoubleConnection() {
-        Connection connection2 = new Connection(city1, city2, 3, Colors.RED);
-        gameMap.getCity().get(city1.getName()).addConnection(connection);
-        gameMap.getCity().get(city1.getName()).addConnection(connection2);
-        gameMap.getCity().get(city2.getName()).addConnection(connection);
-        gameMap.getCity().get(city2.getName()).addConnection(connection2);
-
-        boolean result = connectionClaimService.claimAttempt(connection, 4, player, gameMap, 3);
+        // 2 cities with double connections between them
+        City kiel = new City("Kiel", 1);
+        City hamburg = new City("Hamburg", 1);
+        Connection connection1 = new Connection(kiel, hamburg, 2, Colors.BLACK);
+        Connection connection2 = new Connection(kiel, hamburg, 2, Colors.PINK);
+        boolean result = connectionClaimService.claimAttempt(connection2, 2, player, gameMap, 3);
         assertTrue(result);
-        assertFalse(connection.isFree());
-        assertEquals(player, connection.getOwner());
         assertFalse(connection2.isFree());
+        assertEquals(player, connection2.getOwner());
+        assertFalse(connection1.isFree());
     }
 
     @Test

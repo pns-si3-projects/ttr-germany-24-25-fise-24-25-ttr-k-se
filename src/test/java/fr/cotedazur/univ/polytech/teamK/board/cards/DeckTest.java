@@ -76,7 +76,7 @@ class DeckTest {
     }
 
     @Test
-    void testDrawVisibleCard(){
+    void testDrawVisibleCard() throws IllegalArgumentException {
         WagonCard drawnCard = wagonDeck.drawVisibleCard(0);
         assertNotNull(drawnCard);
         assertEquals(105, wagonDeck.getRemainingCards());
