@@ -25,7 +25,17 @@ class BotTest {
         map = new Board("Reich");
         longDest = new Deck<>(TypeOfCards.LONG_DESTINATION,map);
         shortDest = new Deck<>(TypeOfCards.SHORT_DESTINATION,map);
-        bot = new DumbBot("Dumn",map);
+        bot = new DumbBot("Dumb");
+    }
+
+    @Test
+    public void testShortestDestination() {  // Assurez-vous que c'est bien public
+        City cityOne = map.getCity("Kiel");
+        City cityTwo = map.getCity("Freiburg");
+
+        ArrayList<Connection> way = bot.djikstra(cityOne, cityTwo,map);
+        System.out.println(way);
+        assertEquals(6, way.size());
     }
 
     @Test

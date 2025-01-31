@@ -6,26 +6,45 @@ import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Stack;
 
-public abstract class Bot extends Player {
+public abstract class Bot {
 
-    public Bot(String name)
+    private static int COUNT = 1;
+
+    public final GameEngine gameEngine;
+    public String name;
+    public final int id;
+
+    public Bot(String name, GameEngine gameEngine)
     {
-        super(name);
+        this.name = name;
+        this.id = COUNT++;
+        this.gameEngine = gameEngine;
     }
 
+    public int getId(){
+        return id;
+    }
+    public String getName(){
+        return name;
+    }
     /**
      * Method who will draw the 4 dest Cards with the number of short dest the player chose
-     * @param shortDestinationDeck the deck of short destination
-     * @param longDestinationDeck the deck of long destination
      * @param number_short the number of short dest to draw
      * @return a list of the cards
      */
-    public List<DestinationCard> drawDestFromNumber (Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck, int number_short) {
+    public List<DestinationCard> drawDestFromNumber (int number_short) {
         List<DestinationCard> destCardDrawn = new ArrayList<>(4) ;
         DestinationCard toAddCard;
+        Deck<DestinationCard> shortDestinationDeck = gameEngine.getShortDestinationDeck();
+        Deck<DestinationCard> longDestinationDeck = gameEngine.getLongDestinationDeck();
+
         for (int i = 0 ; i < 4 ; i++) {
             if (i < number_short) {
                 toAddCard = shortDestinationDeck.draw();
@@ -45,20 +64,14 @@ public abstract class Bot extends Player {
     }
 
     /**
-     * The player give a list of the dest Card he doesn't want
-     * @param cards the cards he doesn't want
-     * @param shortDestinationDeck the deck of short dest
-     * @param longDestinationDeck the deck of long dest
-     * @return true if he could give back cards
+     The player give a list of the dest Card he doesn't want
+     @param cards the cards he doesn't want
+     @return true if he could give back cards
      */
-    public boolean giveBackCard (List<DestinationCard> cards, Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck) {
+    public boolean giveBackCard (List<DestinationCard> cards) {
         try {
             for (DestinationCard card : cards) {
-                if (card.getValue() > 11) {
-                    longDestinationDeck.addCard(card);
-                } else {
-                    shortDestinationDeck.addCard(card);
-                }
+                    gameEngine.addDestinationCardToDeck(this,card);
             }
         } catch (PaquetPleinException e) {
             System.out.println("you gave too much cards");
@@ -149,22 +162,15 @@ public abstract class Bot extends Player {
 
     /**
      * The Bot will choose the number of short dest card to draw and give back the one he doesn't want
-     *
-     * @param shortDestinationDeck the deck of short Destination
-     * @param longDestinationDeck  the deck of long Destination
-     * @return if the draw succeed of not
-     * @throws PaquetVideException if the destination deck is empty
+     * @exception PaquetVideException if the destination deck is empty
      */
-    public abstract boolean drawDestinationCard(Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck) throws PaquetVideException;
+    public abstract void drawDestinationCard() throws PaquetVideException;
 
     /**
      * The bot will choose the wagon card he want in the deck
-     *
-     * @param wagonDeck the deck were the bot can pick cards
-     * @return if the draw succeed or not
-     * @throws PaquetVideException if the wagon deck is empty
+     * @exception PaquetVideException if the wagon deck is empty
      */
-    public abstract boolean drawWagonCard(Deck<WagonCard> wagonDeck, Colors toFocus) throws PaquetVideException ;
+    public abstract void drawWagonCard() throws PaquetVideException ;
 
     /**
      * The bot will choose to buy a connection or not

@@ -37,7 +37,7 @@ public class City {
         this.id = COUNT++;
         setName(name);
         this.meeples = new Meeple(numberOfMeeples, rand);
-        setPhysicalConnectionList();
+        setConnectionList();
         this.playersThatPickedUpMeeples = new ArrayList<>();
         this.isCountry = isCountry;
     }
@@ -83,8 +83,8 @@ public class City {
     /**
      * Initializes the list of physical connections.
      */
-    public void setPhysicalConnectionList() {
-        this.connectionList = new ArrayList<>();
+    public void setConnectionList() {
+        this.connectionList = new ArrayList();
     }
 
     /**

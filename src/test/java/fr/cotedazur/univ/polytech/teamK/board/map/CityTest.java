@@ -50,20 +50,20 @@ class CityTest {
     }
 
     @Test
-    void testGetPhysicalConnectionList(){
+    void testGetConnectionList(){
         assertNotNull(city.getConnectionList());
         assertTrue(city.getConnectionList().isEmpty());
     }
 
     @Test
-    void testSetPhysicalConnectionList(){
-        city.setPhysicalConnectionList();
+    void testSetConnectionList(){
+        city.setConnectionList();
         assertNotNull(city.getConnectionList());
         assertTrue(city.getConnectionList().isEmpty());
     }
 
     @Test
-    void testAddPhysicalConnection(){
+    void testAddConnection(){
         Connection connection = new Connection(city, new City("Hamburg", 3), 5, Colors.RED);
         city.addConnection(connection);
         assertEquals(1, city.getConnectionList().size());

@@ -6,11 +6,12 @@ import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameView;
 
 import java.util.*;
 
 public class Player {
-    private int id ;
+    private final int id ;
     private static int COUNT = 1;
     private String name ;
     private int score;
@@ -47,8 +48,6 @@ public class Player {
 
     // Getteur and Setteur
     public int getId() {return id;}
-    public void setId(int id) {this.id = id;}
-    public void resetId() {this.id = 0;}
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
     public int getScore() {return score;}
@@ -67,12 +66,23 @@ public class Player {
     public static void resetIdCounter() {
         COUNT = 1;
     }
+
+    public void playTurn(GameView gameView) {
+        System.out.println(name + " joue son tour !");
+    }
+
     /**
      * Modify the score of the player by adding a value
      * @param value the value to add to the score
      */
     public void addScore(int value) {
         this.score += value;
+    }
+    public void removeDestinationCard(DestinationCard destinationCard) {
+        getCartesDestination().remove(destinationCard);
+    }
+    public void removeWagonCard(WagonCard wagonCard) {
+        getCartesWagon().remove(wagonCard);
     }
 
     /**

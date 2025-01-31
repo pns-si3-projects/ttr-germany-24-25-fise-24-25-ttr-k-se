@@ -8,9 +8,9 @@ import fr.cotedazur.univ.polytech.teamK.game.Board;
 
 import java.util.*;
 
-public class DumbBot extends  Bot {
+public class DumbBot extends Bot {
     HashSet<String> seenCities ;
-    public DumbBot(String name, Board gameMap)
+    public DumbBot(String name)
     {
         super(name);
         seenCities = new HashSet<String>();
@@ -108,6 +108,7 @@ public class DumbBot extends  Bot {
         }
         return true;
     }
+
 
     @Override
     public boolean drawWagonCard(Deck<WagonCard> wagonDeck, Colors toFocus) throws PaquetVideException
