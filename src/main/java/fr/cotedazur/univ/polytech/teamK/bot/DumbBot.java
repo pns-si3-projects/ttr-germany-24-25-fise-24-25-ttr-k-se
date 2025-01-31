@@ -6,7 +6,6 @@ import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
 
-import javax.lang.model.type.NullType;
 import java.util.*;
 
 public class DumbBot extends  Bot {
@@ -24,7 +23,7 @@ public class DumbBot extends  Bot {
 
         //find the city with the ID corresponding to player ID
 
-        if(buyConnection(currentMap)) {
+        if(buyConnection(currentMap, new ArrayList<>())) {
             return true;
         }
 
@@ -35,7 +34,7 @@ public class DumbBot extends  Bot {
                 drawDestinationCard(shortDestinationDeck, longDestinationDeck);
             } catch (PaquetVideException e) {
                 try {
-                    drawWagonCard(wagonDeck);
+                    drawWagonCard(wagonDeck, Colors.GRAY);
                 } catch (PaquetVideException ex) {
                     return false;
                 }
@@ -44,7 +43,7 @@ public class DumbBot extends  Bot {
             return true;
         } else {
             try {
-                drawWagonCard(wagonDeck);
+                drawWagonCard(wagonDeck, Colors.GRAY);
             } catch (PaquetVideException e) {
                 try {
                     drawDestinationCard(shortDestinationDeck, longDestinationDeck);
@@ -72,7 +71,7 @@ public class DumbBot extends  Bot {
     }
 
     @Override
-    public boolean buyConnection(Board currentMap) {
+    public boolean buyConnection(Board currentMap, ArrayList<Connection> path) {
         String currentCityID = "";
         currentCityID = findCityWithID(currentMap,currentCityID);
         while (!seenCities.contains(currentCityID)) {
@@ -98,7 +97,7 @@ public class DumbBot extends  Bot {
     }
 
     @Override
-    public void drawDestinationCard(Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck) throws PaquetVideException {
+    public boolean drawDestinationCard(Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck) throws PaquetVideException {
         if(shortDestinationDeck.getRemainingCards() <=0 && longDestinationDeck.getRemainingCards() <= 0) {
             throw new PaquetVideException("The 2 deck is empty");
         }
@@ -110,13 +109,14 @@ public class DumbBot extends  Bot {
     }
 
     @Override
-    public void drawWagonCard(Deck<WagonCard> wagonDeck) throws PaquetVideException
+    public boolean drawWagonCard(Deck<WagonCard> wagonDeck, Colors toFocus) throws PaquetVideException
     {
         if(wagonDeck.getRemainingCards() <= 0) {
             throw new PaquetVideException("The deck is empty");
         }
         super.addCardWagon(wagonDeck.draw());
         super.addCardWagon(wagonDeck.draw());
+        return true;
     }
 
     public void printStatus()

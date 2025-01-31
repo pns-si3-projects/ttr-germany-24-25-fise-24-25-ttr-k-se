@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.teamK.bot;
 
+import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
@@ -74,7 +75,7 @@ public abstract class Bot extends Player {
      * @return a arrayList with the path
      */
 
-    public ArrayList<City> djikstra(City cityOne, City cityTwo, Board board) {
+    public ArrayList<Connection> djikstra(City cityOne, City cityTwo, Board board) {
         ArrayList<HashMap<City,Integer>> djikstraTable = new ArrayList<>();
         HashMap<City,Integer> djikstraLine = new HashMap<>();
         ArrayList<City> seen = new ArrayList<>();
@@ -86,6 +87,7 @@ public abstract class Bot extends Player {
         int lenght = 0;
         djikstraLine.replace(cityOne,0);
 
+        //Algo
         while (djikstraLine.get(cityTwo) > lenght) {
             for(Connection connection : actual.getConnectionList()) {
                 int i1 = djikstraLine.get(actual)+connection.getLength();
@@ -109,10 +111,11 @@ public abstract class Bot extends Player {
             djikstraTable.addFirst(djikstraLineToAdd);
         }
 
-        ArrayList<City> res = new ArrayList<>();
-        res.add(cityTwo);
+        //Récupération résultat
+        ArrayList<City> resCity = new ArrayList<>();
+        resCity.add(cityTwo);
         for (HashMap<City,Integer> line : djikstraTable) {
-            if(line.get(res.getFirst()) == Integer.MAX_VALUE) {
+            if(line.get(resCity.getFirst()) == Integer.MAX_VALUE) {
                 ArrayList<City> min = new ArrayList<>();
                 min.add(cityTwo);
                 for (City city : line.keySet()) {
@@ -124,36 +127,54 @@ public abstract class Bot extends Player {
                 }
                 for(int i=seen.size()-1 ; i >= 0 ; i--) {
                     if(min.contains(seen.get(i))) {
-                        res.add(seen.get(i));
+                        resCity.add(seen.get(i));
                         break;
                     }
                 }
             }
         }
-        res.addFirst(cityOne);
+        resCity.addFirst(cityOne);
+
+        //COnvertion city -> Connection
+        ArrayList<Connection> res = new ArrayList<>();
+        for(int i=0 ; i<resCity.size()-2 ; i++) {
+            List<Connection> cityConnection = board.getCitiesConnections(resCity.get(i).getName());
+            for(Connection connection : cityConnection) {
+                if(connection.getOtherCity(resCity.get(i)) == resCity.get(i+1)){
+                    res.add(connection);
+                    break;
+                }
+            }
+        }
+
         return res;
     }
 
     /**
      * The Bot will choose the number of short dest card to draw and give back the one he doesn't want
+     *
      * @param shortDestinationDeck the deck of short Destination
-     * @param longDestinationDeck the deck of long Destination
-     * @exception PaquetVideException if the destination deck is empty
+     * @param longDestinationDeck  the deck of long Destination
+     * @return if the draw succeed of not
+     * @throws PaquetVideException if the destination deck is empty
      */
-    public abstract void drawDestinationCard(Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck) throws PaquetVideException;
+    public abstract boolean drawDestinationCard(Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck) throws PaquetVideException;
 
     /**
      * The bot will choose the wagon card he want in the deck
+     *
      * @param wagonDeck the deck were the bot can pick cards
-     * @exception PaquetVideException if the wagon deck is empty
+     * @return if the draw succeed or not
+     * @throws PaquetVideException if the wagon deck is empty
      */
-    public abstract void drawWagonCard(Deck<WagonCard> wagonDeck) throws PaquetVideException ;
+    public abstract boolean drawWagonCard(Deck<WagonCard> wagonDeck, Colors toFocus) throws PaquetVideException ;
 
     /**
      * The bot will choose to buy a connection or not
+     *
      * @param currentMap the map of the game
      */
-    public abstract boolean buyConnection(Board currentMap);
+    public abstract boolean buyConnection(Board currentMap, ArrayList<Connection> path);
 
     /**
      * The main fonction who run the bot

@@ -33,7 +33,7 @@ class BotTest {
         City cityOne = map.getCity("Kiel");
         City cityTwo = map.getCity("Freiburg");
 
-        ArrayList<City> way = bot.djikstra(cityOne, cityTwo,map);
+        ArrayList<Connection> way = bot.djikstra(cityOne, cityTwo,map);
         System.out.println(way);
         assertEquals(5, way.size());
     }
