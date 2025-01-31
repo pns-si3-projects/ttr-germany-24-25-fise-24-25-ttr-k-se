@@ -6,13 +6,14 @@ import fr.cotedazur.univ.polytech.teamK.board.cards.PaquetVideException;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
+import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
 import java.util.*;
 
 public class BotMedDest extends Bot{
 
-    public BotMedDest(String name, GameEngine<Bot> gameEngine) {
+    public BotMedDest(String name, GameEngine<BotMedDest> gameEngine) {
         super(name, gameEngine);
     }
 
@@ -64,7 +65,7 @@ public class BotMedDest extends Bot{
     }
 
     @Override
-    public boolean playTurn() throws PaquetVideException, WrongPlayerException {
+    public boolean playTurn(GameView gameView) throws PaquetVideException, WrongPlayerException {
         try {
             if (buyConnection(null)) {
                 return true;
