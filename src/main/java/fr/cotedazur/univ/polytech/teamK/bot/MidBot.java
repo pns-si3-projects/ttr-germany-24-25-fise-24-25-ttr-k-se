@@ -59,11 +59,11 @@ public class MidBot extends Bot{
 
     @Override
     public boolean buyConnection(Board currentMap, ArrayList<Connection> path) {
-        for(Connection connection : path) {
+        /*for(Connection connection : path) {
             if(connection.claimAttempt(super.getNumberColor(connection.getColor()),super,currentMap,4)) {
                 return true;
             }
-        }
+        }*/
         return false;
     }
 
@@ -71,13 +71,13 @@ public class MidBot extends Bot{
     public boolean playTurn(Board currentMap, Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck, Deck<WagonCard> wagonDeck) {
         if(super.getCartesDestination().isEmpty()) {
             return drawDestinationCard(shortDestinationDeck,longDestinationDeck);
-        }
+        }/*
         DestinationCard toArchieve= super.getCartesDestination().getFirst();
         ArrayList<Connection> path = super.djikstra(toArchieve.getStartCity(), toArchieve.getEndCity(),currentMap);
         if(buyConnection(currentMap, path))
             return true;
         if(drawWagonCard(wagonDeck,path.getFirst().getColor()))
-            return true;
+            return true;*/
         return false;
     }
 }

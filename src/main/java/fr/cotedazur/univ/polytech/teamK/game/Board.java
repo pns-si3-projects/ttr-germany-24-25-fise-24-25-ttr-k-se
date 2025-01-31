@@ -550,6 +550,20 @@ public class Board {
         return count;
     }
 
+    public Boolean isNeighbour(City cityOne, City cityTwo){
+        return (cities.get(cityOne.getName()).getConnectionList().contains(cityTwo));
+    }
+
+    public Connection getNeighbourConnection(City cityOne, City cityTwo) {
+        List<Connection> connections = cityOne.getConnectionList();
+        for(Connection connection : connections) {
+            if(connection.getOtherCity(cityOne) == cityTwo) {
+                return connection;
+            }
+        }
+        return null;
+    }
+
     public City getCity(String cityName)
     {
         return cities.get(cityName);

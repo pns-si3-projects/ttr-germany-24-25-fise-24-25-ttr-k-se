@@ -106,6 +106,7 @@ public class DumbBot extends  Bot {
         for (int i=0 ; i<4 ; i++) {
             super.addCardDestination(destCardDrawn.removeFirst());
         }
+        return true;
     }
 
     @Override

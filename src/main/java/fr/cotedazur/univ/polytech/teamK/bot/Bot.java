@@ -74,7 +74,6 @@ public abstract class Bot extends Player {
      * @param board the map
      * @return a arrayList with the path
      */
-
     public ArrayList<Connection> djikstra(City cityOne, City cityTwo, Board board) {
         ArrayList<HashMap<City,Integer>> djikstraTable = new ArrayList<>();
         HashMap<City,Integer> djikstraLine = new HashMap<>();
@@ -102,7 +101,7 @@ public abstract class Bot extends Player {
             seen.add(actual);
             lenght = Integer.MAX_VALUE;
             for(City city : djikstraLine.keySet()) {
-                if(djikstraLine.get(city) < lenght && !seen.contains(city)) {
+                if(djikstraLine.get(city) < lenght && !seen.contains(city) && !city.isCountry()) {
                     lenght = djikstraLine.get(city);
                     actual = city;
                 }
@@ -115,27 +114,25 @@ public abstract class Bot extends Player {
         ArrayList<City> resCity = new ArrayList<>();
         resCity.add(cityTwo);
         for (HashMap<City,Integer> line : djikstraTable) {
-            if(line.get(resCity.getFirst()) == Integer.MAX_VALUE) {
-                ArrayList<City> min = new ArrayList<>();
-                min.add(cityTwo);
+            if(line.get(resCity.getLast()) == -1);
+            else if(line.get(resCity.getLast()) == Integer.MAX_VALUE ||line.get(resCity.getLast()) > lenght ) {
+                City min = resCity.getLast();
                 for (City city : line.keySet()) {
-                    if(line.get(city) < line.get(min.getFirst()) && line.get(city) != -1) {
-                        min.clear();
-                        min.add(city);
-                    } else if(Objects.equals(line.get(city), line.get(min.getFirst())) && line.get(city) != -1)
-                        min.add(city);
-                }
-                for(int i=seen.size()-1 ; i >= 0 ; i--) {
-                    if(min.contains(seen.get(i))) {
-                        resCity.add(seen.get(i));
-                        break;
+                    Integer value = Integer.MAX_VALUE;
+                    if(line.get(city) <= line.get(min) && line.get(city) != -1 && !city.isCountry()) {
+                        Connection connection = board.getNeighbourConnection(resCity.getLast() , city);
+                        if(connection != null && connection.getLength() < value) {
+                            min = city;
+                            value = connection.getLength();
+                        }
                     }
                 }
+                resCity.add(min);
             }
         }
-        resCity.addFirst(cityOne);
-
+        resCity.addLast(cityOne);
         //COnvertion city -> Connection
+
         ArrayList<Connection> res = new ArrayList<>();
         for(int i=0 ; i<resCity.size()-2 ; i++) {
             List<Connection> cityConnection = board.getCitiesConnections(resCity.get(i).getName());

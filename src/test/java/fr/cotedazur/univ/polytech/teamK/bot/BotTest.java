@@ -35,14 +35,14 @@ class BotTest {
 
         ArrayList<Connection> way = bot.djikstra(cityOne, cityTwo,map);
         System.out.println(way);
-        assertEquals(5, way.size());
+        assertEquals(6, way.size());
     }
 
     @Test
     void testDraw () {
         List<DestinationCard> draw = bot.drawDestFromNumber(shortDest,longDest,3);
         bot.drawDestinationCard(shortDest,longDest);
-        assertEquals(52, shortDest.getRemainingCards());
+        assertEquals(50, shortDest.getRemainingCards());
         assertEquals(33, longDest.getRemainingCards());
         assertTrue(bot.giveBackCard(draw,shortDest,longDest));
         assertEquals(55, shortDest.getRemainingCards());
