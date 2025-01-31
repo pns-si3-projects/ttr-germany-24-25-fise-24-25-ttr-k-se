@@ -11,7 +11,7 @@ import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import java.util.*;
 
 public class Player {
-    private int id ;
+    private final int id ;
     private static int COUNT = 1;
     private String name ;
     private int score;
@@ -48,8 +48,6 @@ public class Player {
 
     // Getteur and Setteur
     public int getId() {return id;}
-    public void setId(int id) {this.id = id;}
-    public void resetId() {this.id = 0;}
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
     public int getScore() {return score;}
