@@ -18,7 +18,7 @@ public class City {
     private static int COUNT = 1;
     private String name;
     private Meeple meeples;
-    private List connectionList;
+    private List<Connection> connectionList;
     private List<Player> playersThatPickedUpMeeples;
     private boolean isCountry;
     /**
@@ -78,7 +78,7 @@ public class City {
      *
      * @return the list of physical connections
      */
-    public List getConnectionList() {return connectionList;}
+    public List<Connection> getConnectionList() {return connectionList;}
 
     /**
      * Initializes the list of physical connections.
@@ -129,5 +129,18 @@ public class City {
     @Override
     public String toString() {
         return getName();
+    }
+
+    @Override
+    public boolean equals(Object obj) {
+        if (this == obj) return true;
+        if (obj == null || getClass() != obj.getClass()) return false;
+        City city = (City) obj;
+        return id == city.id && Objects.equals(name, city.name);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, name);
     }
 }

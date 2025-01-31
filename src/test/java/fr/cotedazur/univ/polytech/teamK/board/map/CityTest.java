@@ -82,4 +82,19 @@ class CityTest {
         city.addPlayer(player);
         assertTrue(city.getPlayersThatPickedUpMeeples().contains(player));
     }
+
+    @Test
+    void testCoutry(){
+        assertFalse(city.isCountry());
+        City countryCity = new City("Berlin", 5, true);
+        assertTrue(countryCity.isCountry());
+    }
+
+    @Test
+    void testTransferMeeples(){
+        City city2 = new City("Hamburg", 3);
+        assertTrue(city.getMeeples().transferMeeples(city2.getMeeples(), Colors.RED));
+        assertEquals(4, city.getMeeples().getNumber());
+        assertEquals(2, city2.getMeeples().getNumber());
+    }
 }
