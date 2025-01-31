@@ -74,17 +74,17 @@ public class City {
     }
 
     /**
-     * Returns the list of physical connections of the city.
+     * Returns the list of  connections of the city.
      *
-     * @return the list of physical connections
+     * @return the list of  connections
      */
     public List<Connection> getConnectionList() {return connectionList;}
 
     /**
-     * Initializes the list of physical connections.
+     * Initializes the list of  connections.
      */
     public void setConnectionList() {
-        this.connectionList = new ArrayList();
+        this.connectionList = new ArrayList<>();
     }
 
     /**
@@ -97,7 +97,7 @@ public class City {
     }
 
     /**
-     * Adds a physical connection to the city's list of physical connections.
+     * Adds a  connection to the city's list of  connections.
      *
      * @param connection the connection to add
      */

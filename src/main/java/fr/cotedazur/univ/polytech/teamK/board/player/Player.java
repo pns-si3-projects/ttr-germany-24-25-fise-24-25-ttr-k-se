@@ -164,7 +164,10 @@ public class Player {
             this.destinationCards.remove(carte);
             return true;
         }
-        throw new IllegalArgumentException("The player doesn't have this card");
+        if (!destinationCards.contains(carte)) {
+            throw new IllegalArgumentException("The player doesn't have this card");
+        }
+        return false;
     }
 
     /**

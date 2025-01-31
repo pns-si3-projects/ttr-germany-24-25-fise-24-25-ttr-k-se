@@ -5,6 +5,7 @@ import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
+import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -58,12 +59,16 @@ class PlayerTest {
 
     @Test
     void testDestination () {
-        DestinationCard dest1 = new DestinationCard(new City("Manheim", 1), new City("Stuttgart", 1), 2);
+        City cityOne = map.getCity("Kiel");
+        City cityTwo = map.getCity("Rostock");
+        Connection connection = map.getNeighbourConnection(cityOne,cityTwo);
+        DestinationCard dest1 = new DestinationCard(cityOne, cityTwo, 2);
         DestinationCard dest2 = new DestinationCard(new City("Berlin", 1), new City("Leipzig", 1), 4);
         assertTrue(player1.addCardDestination(dest1));
         assertEquals(1,player1.getNumberDestination());
         assertThrows(IllegalArgumentException.class, () -> player1.addCardDestination(dest1));
         assertThrows(IllegalArgumentException.class, () -> player1.validDestinationCard(dest2));
+        assertTrue(player1.buyRail(connection,map,5));
         assertTrue(player1.validDestinationCard(dest1));
         assertEquals(2, player1.getScore());
         assertTrue(player1.getCartesDestination().isEmpty());

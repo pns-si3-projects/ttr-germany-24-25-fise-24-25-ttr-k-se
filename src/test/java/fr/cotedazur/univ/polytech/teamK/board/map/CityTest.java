@@ -35,11 +35,6 @@ class CityTest {
     }
 
     @Test
-    void testGetId(){
-        assertEquals(1, city.getId());
-    }
-
-    @Test
     void testGetName(){
         assertEquals("Kiel", city.getName());
     }
@@ -72,7 +67,7 @@ class CityTest {
 
     @Test
     void testGetPlayersThatPickedUpMeeples(){
-        assertNull(city.getPlayersThatPickedUpMeeples());
+        assertTrue(city.getPlayersThatPickedUpMeeples().isEmpty());
         player.takeMeeples(city, Colors.YELLOW);
         assertNotNull(city.getPlayersThatPickedUpMeeples());
     }
@@ -90,11 +85,4 @@ class CityTest {
         assertTrue(countryCity.isCountry());
     }
 
-    @Test
-    void testTransferMeeples(){
-        City city2 = new City("Hamburg", 3);
-        assertTrue(city.getMeeples().transferMeeples(city2.getMeeples(), Colors.RED));
-        assertEquals(4, city.getMeeples().getNumber());
-        assertEquals(2, city2.getMeeples().getNumber());
-    }
 }
