@@ -20,11 +20,11 @@ import static org.junit.jupiter.api.Assertions.*;
 class BotTest {
     Bot bot;
     List<Bot> listBot ;
-    GameEngine<Bot> gameEngine ;
+    GameEngine<Bot> gameEngine = new GameEngine<>("Reich");
 
     @BeforeEach
     void setUp () {
-        gameEngine = new GameEngine<>("Reich");
+        //gameEngine = new GameEngine<>("Reich");
         bot = new DumbBot("Dumb", gameEngine);
         listBot = new ArrayList<>();
         listBot.add(bot);
