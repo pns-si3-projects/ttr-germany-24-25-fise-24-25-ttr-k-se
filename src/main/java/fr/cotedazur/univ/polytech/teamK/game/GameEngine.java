@@ -25,15 +25,17 @@ public class GameEngine <T extends Bot> {
     private Deck<WagonCard> wagonDeck;
     private GameView gameView;
 
-    public GameEngine(List<T> players, String mapName) {
+    public GameEngine(String mapName) {
         this.gameMap = new Board(mapName);
         this.players = new HashMap<>();
-        addBotToPlayerMap(players);
+        this.viewOfPlayers = new HashMap<>();
+        //addBotToPlayerMap(players);
         this.shortDestinationDeck = new Deck<>(TypeOfCards.SHORT_DESTINATION, gameMap);
         this.longDestinationDeck = new Deck<>(TypeOfCards.LONG_DESTINATION, gameMap);
         this.wagonDeck = new Deck<>(TypeOfCards.WAGON, gameMap);
     }
-    private void addBotToPlayerMap(List<T> bots) {
+
+    public void addBotsToPlayerMap(List<T> bots) {
         for (Bot bot : bots) {
             Player player = new Player(bot.getName());
             GameView gameview = new GameView(this,bot);
