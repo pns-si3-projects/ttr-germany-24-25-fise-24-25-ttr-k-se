@@ -67,10 +67,6 @@ public class Player {
         COUNT = 1;
     }
 
-    public void playTurn(GameView gameView) {
-        System.out.println(name + " joue son tour !");
-    }
-
     /**
      * Modify the score of the player by adding a value
      * @param value the value to add to the score

@@ -6,13 +6,14 @@ import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
+import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
 import java.util.*;
 
 public class DumbBot extends Bot {
     HashSet<String> seenCities ;
-    public DumbBot(String name, GameEngine<Bot> gameEngine)
+    public DumbBot(String name, GameEngine<DumbBot> gameEngine)
     {
         super(name, gameEngine);
         seenCities = new HashSet<String>();
@@ -33,7 +34,9 @@ public class DumbBot extends Bot {
         return false;
     }
 
-    public boolean playTurn() throws WrongPlayerException
+
+    @Override
+    public boolean playTurn(GameView gameView) throws WrongPlayerException
     {
         //look at city 0 and purchase a connection. if not possible, look at a random neighbor etc
         //once you find yourself on a city you've already seen, pull cards.

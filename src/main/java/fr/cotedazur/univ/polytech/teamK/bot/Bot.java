@@ -5,21 +5,22 @@ import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
+import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 
-public abstract class Bot {
+public abstract class Bot{
 
     private static int COUNT = 1;
 
-    public final GameEngine<Bot> gameEngine;
+    public final GameEngine gameEngine;
     public String name;
     public final int id;
 
-    public Bot(String name, GameEngine<Bot> gameEngine)
+    public Bot(String name, GameEngine gameEngine)
     {
         this.name = name;
         this.id = COUNT++;
@@ -181,5 +182,8 @@ public abstract class Bot {
      * The main fonction who run the bot
      * @return true if the bot did something
      */
-    public abstract boolean playTurn() throws WrongPlayerException ;
+    public abstract boolean playTurn(GameView gameView) throws WrongPlayerException ;
+
+
+
 }

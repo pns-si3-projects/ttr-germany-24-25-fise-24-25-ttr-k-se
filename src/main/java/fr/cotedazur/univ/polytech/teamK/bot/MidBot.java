@@ -4,13 +4,14 @@ import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
+import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MidBot extends Bot{
-    public MidBot(String name,GameEngine<Bot> gameEngine) {
+    public MidBot(String name,GameEngine<MidBot> gameEngine) {
         super(name, gameEngine);
     }
 
@@ -75,7 +76,7 @@ public class MidBot extends Bot{
     }
 
     @Override
-    public boolean playTurn() {
+    public boolean playTurn(GameView gameView) {
         try {
             if (gameEngine.getDestinationCard(this).isEmpty()) {
                 return drawDestinationCard();
