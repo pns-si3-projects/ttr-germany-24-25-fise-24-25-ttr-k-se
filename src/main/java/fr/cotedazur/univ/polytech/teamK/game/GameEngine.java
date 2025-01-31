@@ -5,6 +5,8 @@ import fr.cotedazur.univ.polytech.teamK.board.cards.Deck;
 import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
 import fr.cotedazur.univ.polytech.teamK.board.cards.TypeOfCards;
 import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
+import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
+import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 
@@ -33,6 +35,19 @@ public class GameEngine <T extends Player> {
     public Deck<DestinationCard> getShortDestinationDeck() { return shortDestinationDeck; }
     public Deck<DestinationCard> getLongDestinationDeck() { return longDestinationDeck; }
     public Deck<WagonCard> getWagonDeck() { return wagonDeck; }
+
+    public String getNameForPlayer(T player) {return player.getName();}
+    public int getScoreForPlayer(T player) {return player.getScore();}
+    public ArrayList<DestinationCard> getDestinationCardsForPlayer(T player) {return player.getCartesDestination();}
+    public ArrayList<WagonCard> getWagonCardsForPlayer(T player) {return player.getCartesWagon();}
+    public int getWagonsRemainingForPlayer(T player) {return player.getWagonsRemaining();}
+    public int getNumberWagonForPlayer(T player) {return player.getCartesWagon().size();}
+    public int getNumberDestinationForPlayer (T player) {return player.getCartesDestination().size();}
+    public Meeple getMeeplesForPlayer(T player) {return player.getMeeples();}
+    public int getNumberOfMeeplesForPlayer(T player) {return player.getMeeples().getNumber();}
+    public ArrayList<Connection> getConnectionsForPlayer(T player) {
+        return player.getConnections();
+    }
 
     public void startGame() {
         while (!isGameOver()) {

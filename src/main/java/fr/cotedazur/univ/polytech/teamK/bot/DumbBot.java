@@ -109,6 +109,7 @@ public class DumbBot extends  Bot {
         }
     }
 
+
     @Override
     public void drawWagonCard(Deck<WagonCard> wagonDeck) throws PaquetVideException
     {
