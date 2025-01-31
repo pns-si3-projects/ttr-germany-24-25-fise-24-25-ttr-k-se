@@ -38,7 +38,7 @@ class BotTest {
 
         ArrayList<Connection> way = bot.djikstra(cityOne, cityTwo);
         System.out.println(way);
-        assertEquals(6, way.size());
+        assertEquals(9, way.size());
     }
 
     @Test

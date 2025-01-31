@@ -9,25 +9,16 @@ public class ConnectionUtils {
      * @throws IllegalArgumentException if the length is invalid
      */
     public static int calculatePoints(int length){
-        switch(length){
-            case 1:
-                return 1;
-            case 2:
-                return 2;
-            case 3:
-                return 4;
-            case 4:
-                return 7;
-            case 5:
-                return 10;
-            case 6:
-                return 15;
-            case 7:
-                return 18;
-            case 8:
-                return 21;
-            default:
-                throw new IllegalArgumentException("Invalid route lenght: "+ length);
-        }
+        return switch (length) {
+            case 1 -> 1;
+            case 2 -> 2;
+            case 3 -> 4;
+            case 4 -> 7;
+            case 5 -> 10;
+            case 6 -> 15;
+            case 7 -> 18;
+            case 8 -> 21;
+            default -> throw new IllegalArgumentException("Invalid route lenght: " + length);
+        };
     }
 }
