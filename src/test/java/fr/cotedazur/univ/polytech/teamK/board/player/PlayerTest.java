@@ -63,14 +63,18 @@ class PlayerTest {
         City cityTwo = map.getCity("Rostock");
         Connection connection = map.getNeighbourConnection(cityOne,cityTwo);
         DestinationCard dest1 = new DestinationCard(cityOne, cityTwo, 2);
-        DestinationCard dest2 = new DestinationCard(new City("Berlin", 1), new City("Leipzig", 1), 4);
+        DestinationCard dest2 = new DestinationCard(map.getCity("Berlin"), map.getCity("Munster"), 4);
         assertTrue(player1.addCardDestination(dest1));
         assertEquals(1,player1.getNumberDestination());
         assertThrows(IllegalArgumentException.class, () -> player1.addCardDestination(dest1));
         assertThrows(IllegalArgumentException.class, () -> player1.validDestinationCard(dest2));
+        player1.addCardWagon(new WagonCard(Colors.ORANGE));
+        player1.addCardWagon(new WagonCard(Colors.ORANGE));
+        player1.addCardWagon(new WagonCard(Colors.ORANGE));
+        player1.addCardWagon(new WagonCard(Colors.ORANGE));
         assertTrue(player1.buyRail(connection,map,5));
         assertTrue(player1.validDestinationCard(dest1));
-        assertEquals(2, player1.getScore());
+        assertEquals(9, player1.getScore());
         assertTrue(player1.getCartesDestination().isEmpty());
     }
 

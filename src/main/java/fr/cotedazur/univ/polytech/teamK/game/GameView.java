@@ -30,34 +30,34 @@ public class GameView{
         return gameEngine.getPlayers();
     }
 
-    public String getMyName() {return gameEngine.getPlayerById(currentBot.getId())
+    public String getMyName() {return gameEngine.getPlayerByBot(currentBot)
             .getName();
     }
-    public int getMyScore() {return gameEngine.getPlayerById(currentBot.getId())
+    public int getMyScore() {return gameEngine.getPlayerByBot(currentBot)
             .getScore();
     }
-    public ArrayList<DestinationCard> getMyDestinationCards() {return gameEngine.getPlayerById(currentBot.getId())
+    public ArrayList<DestinationCard> getMyDestinationCards() {return gameEngine.getPlayerByBot(currentBot)
             .getCartesDestination();
     }
-    public ArrayList<WagonCard> getMyWagonCards() {return gameEngine.getPlayerById(currentBot.getId())
+    public ArrayList<WagonCard> getMyWagonCards() {return gameEngine.getPlayerByBot(currentBot)
             .getCartesWagon();
     }
-    public int getMyWagonsRemaining() {return gameEngine.getPlayerById(currentBot.getId())
+    public int getMyWagonsRemaining() {return gameEngine.getPlayerByBot(currentBot)
             .getWagonsRemaining();
     }
-    public int getMyNumberWagon() {return gameEngine.getPlayerById(currentBot.getId())
+    public int getMyNumberWagon() {return gameEngine.getPlayerByBot(currentBot)
             .getCartesWagon().size();
     }
-    public int getMyNumberDestination () {return gameEngine.getPlayerById(currentBot.getId())
+    public int getMyNumberDestination () {return gameEngine.getPlayerByBot(currentBot)
             .getCartesDestination().size();
     }
-    public Meeple getMyMeeples() {return gameEngine.getPlayerById(currentBot.getId())
+    public Meeple getMyMeeples() {return gameEngine.getPlayerByBot(currentBot)
             .getMeeples();
     }
-    public int getMyNumberOfMeeples() {return gameEngine.getPlayerById(currentBot.getId())
+    public int getMyNumberOfMeeples() {return gameEngine.getPlayerByBot(currentBot)
             .getMeeples().getNumber();
     }
-    public ArrayList<Connection> getMyConnections() {return gameEngine.getPlayerById(currentBot.getId())
+    public ArrayList<Connection> getMyConnections() {return gameEngine.getPlayerByBot(currentBot)
             .getConnections();
     }
 

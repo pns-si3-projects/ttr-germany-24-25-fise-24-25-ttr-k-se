@@ -53,7 +53,7 @@ public abstract class Bot {
             } else {
                 toAddCard = longDestinationDeck.draw();
                 if (toAddCard != null)
-                    destCardDrawn.add(longDestinationDeck.draw());
+                    destCardDrawn.add(toAddCard);
                 else
                     destCardDrawn.add(shortDestinationDeck.draw());
             }

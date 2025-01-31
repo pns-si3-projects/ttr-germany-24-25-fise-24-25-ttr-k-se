@@ -16,6 +16,8 @@ public class ConnectionUtils {
                 return 2;
             case 3:
                 return 4;
+            case 4:
+                return 7;
             case 5:
                 return 10;
             case 6:

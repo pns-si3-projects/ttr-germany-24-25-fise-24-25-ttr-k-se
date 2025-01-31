@@ -208,7 +208,7 @@ public class Player {
         {
             this.connections.add(connectionToBuy);
 
-            if (lengthOfRail > cardsOfCorrectColor)
+            if (lengthOfRail >= cardsOfCorrectColor)
             {
                 int rainbowsUsed = lengthOfRail - cardsOfCorrectColor;
                 removeCardWagon(Colors.RAINBOW, rainbowsUsed);

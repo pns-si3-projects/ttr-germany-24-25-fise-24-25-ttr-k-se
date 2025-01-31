@@ -25,15 +25,17 @@ public class GameEngine <T extends Bot> {
     private Deck<WagonCard> wagonDeck;
     private GameView gameView;
 
-    public GameEngine(List<T> players, String mapName) {
+    public GameEngine(String mapName) {
         this.gameMap = new Board(mapName);
         this.players = new HashMap<>();
-        addBotToPlayerMap(players);
+        this.viewOfPlayers = new HashMap<>();
+        //addBotToPlayerMap(players);
         this.shortDestinationDeck = new Deck<>(TypeOfCards.SHORT_DESTINATION, gameMap);
         this.longDestinationDeck = new Deck<>(TypeOfCards.LONG_DESTINATION, gameMap);
         this.wagonDeck = new Deck<>(TypeOfCards.WAGON, gameMap);
     }
-    private void addBotToPlayerMap(List<T> bots) {
+
+    public void addBotsToPlayerMap(List<T> bots) {
         for (Bot bot : bots) {
             Player player = new Player(bot.getName());
             GameView gameview = new GameView(this,bot);
@@ -43,8 +45,7 @@ public class GameEngine <T extends Bot> {
     }
 
     public HashMap<Bot, Player> getPlayers() { return players; }
-    public Player getPlayerById(int id) { return players.get(id); }
-
+    //public Player getPlayerByBot(int id) { return players.get(id); }
     /*
     INFOS RELATIVES AU BOARD
      */
@@ -57,7 +58,7 @@ public class GameEngine <T extends Bot> {
 
 
     public void addDestinationCardToDeck(T player, DestinationCard destinationCard) throws PaquetPleinException {
-        getPlayerById(player.getId()).removeDestinationCard(destinationCard);
+        getPlayerByBot(player).removeDestinationCard(destinationCard);
         if(destinationCard.getType()==TypeOfCards.SHORT_DESTINATION) {
             shortDestinationDeck.addCard(destinationCard);
         }
@@ -68,7 +69,7 @@ public class GameEngine <T extends Bot> {
 
     public ArrayList<DestinationCard> getDestinationCard(Bot bot) throws WrongPlayerException {
         if(confirmId(bot)){
-            ArrayList<DestinationCard> res = getPlayerById(bot.getId()).getCartesDestination();
+            ArrayList<DestinationCard> res = getPlayerByBot(bot).getCartesDestination();
             return res;
         }
         return null;
@@ -76,14 +77,14 @@ public class GameEngine <T extends Bot> {
 
     public int getNumberColor(Bot bot, Colors color) throws WrongPlayerException {
         if(confirmId(bot)){
-            return getPlayerById(bot.getId()).getNumberColor(color);
+            return getPlayerByBot(bot).getNumberColor(color);
         }
         return 0;
     }
 
     public boolean buyRail(Bot bot, Connection connection, Board board, int number) throws PaquetVideException, WrongPlayerException {
         if(confirmId(bot)) {
-            getPlayerById(bot.getId()).buyRail(connection, board, number);
+            getPlayerByBot(bot).buyRail(connection, board, number);
             return true;
         }
         return false;
@@ -91,7 +92,7 @@ public class GameEngine <T extends Bot> {
 
     public boolean takeMeeples(Bot bot, City city, Colors color) throws WrongPlayerException {
         if(confirmId(bot)){
-            getPlayerById(bot.getId()).takeMeeples(city, color);
+            getPlayerByBot(bot).takeMeeples(city, color);
             return true;
         }
         return false;
@@ -99,21 +100,21 @@ public class GameEngine <T extends Bot> {
 
     public boolean addWagonCard(Bot bot, WagonCard wagonCard) throws PaquetVideException, WrongPlayerException {
         if(confirmId(bot)){
-            getPlayerById(bot.getId()).addCardWagon(wagonCard);
+            getPlayerByBot(bot).addCardWagon(wagonCard);
         }
         return false;
     }
 
     public boolean addDestinationCard(Bot bot, DestinationCard destinationCard) throws PaquetVideException, WrongPlayerException {
         if(confirmId(bot)){
-            getPlayerById(bot.getId()).addCardDestination(destinationCard);
+            getPlayerByBot(bot).addCardDestination(destinationCard);
         }
         return false;
     }
 
     public boolean addScore(Bot bot, int score) throws WrongPlayerException {
         if(confirmId(bot)){
-            getPlayerById(bot.getId()).addScore(score);
+            getPlayerByBot(bot).addScore(score);
         }
         return false;
     }

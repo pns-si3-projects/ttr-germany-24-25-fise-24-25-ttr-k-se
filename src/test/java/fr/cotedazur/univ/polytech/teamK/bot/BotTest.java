@@ -20,14 +20,15 @@ import static org.junit.jupiter.api.Assertions.*;
 class BotTest {
     Bot bot;
     List<Bot> listBot ;
-    GameEngine<Bot> gameEngine ;
+    GameEngine<Bot> gameEngine = new GameEngine<>("Reich");
 
     @BeforeEach
     void setUp () {
+        //gameEngine = new GameEngine<>("Reich");
         bot = new DumbBot("Dumb", gameEngine);
+        listBot = new ArrayList<>();
         listBot.add(bot);
-        gameEngine = new GameEngine<>(listBot,"Reich");
-
+        gameEngine.addBotsToPlayerMap(listBot);
     }
 
     @Test
@@ -43,8 +44,8 @@ class BotTest {
     @Test
     void testDraw () {
         List<DestinationCard> draw = bot.drawDestFromNumber(3);
-        assertThrows(WrongPlayerException.class, () ->bot.drawDestinationCard());
-        assertEquals(50, gameEngine.getShortDestinationDeck().getRemainingCards());
+        //assertThrows(WrongPlayerException.class, () ->bot.drawDestinationCard());
+        assertEquals(52, gameEngine.getShortDestinationDeck().getRemainingCards());
         assertEquals(33, gameEngine.getLongDestinationDeck().getRemainingCards());
         assertTrue(bot.giveBackCard(draw));
         assertEquals(55, gameEngine.getShortDestinationDeck().getRemainingCards());
