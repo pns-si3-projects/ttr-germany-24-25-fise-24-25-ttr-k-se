@@ -6,6 +6,9 @@ import fr.cotedazur.univ.polytech.teamK.board.cards.TypeOfCards;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
+import fr.cotedazur.univ.polytech.teamK.game.GameView;
+import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,47 +18,36 @@ import java.util.List;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BotTest {
-    Board map;
-    Deck<DestinationCard> longDest;
-    Deck<DestinationCard> shortDest;
     Bot bot;
+    List<Bot> listBot ;
+    GameEngine<Bot> gameEngine ;
 
     @BeforeEach
     void setUp () {
-        map = new Board("Reich");
-        longDest = new Deck<>(TypeOfCards.LONG_DESTINATION,map);
-        shortDest = new Deck<>(TypeOfCards.SHORT_DESTINATION,map);
-        bot = new DumbBot("Dumb");
+        bot = new DumbBot("Dumb", gameEngine);
+        listBot.add(bot);
+        gameEngine = new GameEngine<>(listBot,"Reich");
+
     }
 
     @Test
     public void testShortestDestination() {  // Assurez-vous que c'est bien public
-        City cityOne = map.getCity("Kiel");
-        City cityTwo = map.getCity("Freiburg");
+        City cityOne = gameEngine.getGameMap().getCity("Kiel");
+        City cityTwo = gameEngine.getGameMap().getCity("Freiburg");
 
-        ArrayList<Connection> way = bot.djikstra(cityOne, cityTwo,map);
-        System.out.println(way);
-        assertEquals(6, way.size());
-    }
-
-    @Test
-    public void testShortestDestination() {  // Assurez-vous que c'est bien public
-        City cityOne = map.getCity("Kiel");
-        City cityTwo = map.getCity("Freiburg");
-
-        ArrayList<Connection> way = bot.djikstra(cityOne, cityTwo,map);
+        ArrayList<Connection> way = bot.djikstra(cityOne, cityTwo);
         System.out.println(way);
         assertEquals(6, way.size());
     }
 
     @Test
     void testDraw () {
-        List<DestinationCard> draw = bot.drawDestFromNumber(shortDest,longDest,3);
-        bot.drawDestinationCard(shortDest,longDest);
-        assertEquals(50, shortDest.getRemainingCards());
-        assertEquals(33, longDest.getRemainingCards());
-        assertTrue(bot.giveBackCard(draw,shortDest,longDest));
-        assertEquals(55, shortDest.getRemainingCards());
-        assertEquals(34, longDest.getRemainingCards());
+        List<DestinationCard> draw = bot.drawDestFromNumber(3);
+        assertThrows(WrongPlayerException.class, () ->bot.drawDestinationCard());
+        assertEquals(50, gameEngine.getShortDestinationDeck().getRemainingCards());
+        assertEquals(33, gameEngine.getLongDestinationDeck().getRemainingCards());
+        assertTrue(bot.giveBackCard(draw));
+        assertEquals(55, gameEngine.getShortDestinationDeck().getRemainingCards());
+        assertEquals(34, gameEngine.getLongDestinationDeck().getRemainingCards());
     }
 }

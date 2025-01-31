@@ -4,24 +4,22 @@ import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
-import fr.cotedazur.univ.polytech.teamK.board.player.Player;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
+import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
 import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Stack;
 
 public abstract class Bot {
 
     private static int COUNT = 1;
 
-    public final GameEngine gameEngine;
+    public final GameEngine<Bot> gameEngine;
     public String name;
     public final int id;
 
-    public Bot(String name, GameEngine gameEngine)
+    public Bot(String name, GameEngine<Bot> gameEngine)
     {
         this.name = name;
         this.id = COUNT++;
@@ -71,7 +69,7 @@ public abstract class Bot {
     public boolean giveBackCard (List<DestinationCard> cards) {
         try {
             for (DestinationCard card : cards) {
-                    gameEngine.addDestinationCardToDeck(this,card);
+                gameEngine.addDestinationCardToDeck(this,card);
             }
         } catch (PaquetPleinException e) {
             System.out.println("you gave too much cards");
@@ -82,16 +80,16 @@ public abstract class Bot {
 
     /**
      * Djikstra algorithm who find the shortest path between two cities
+     *
      * @param cityOne the first cities
      * @param cityTwo the second cities
-     * @param board the map
      * @return a arrayList with the path
      */
-    public ArrayList<Connection> djikstra(City cityOne, City cityTwo, Board board) {
+    public ArrayList<Connection> djikstra(City cityOne, City cityTwo) {
         ArrayList<HashMap<City,Integer>> djikstraTable = new ArrayList<>();
         HashMap<City,Integer> djikstraLine = new HashMap<>();
         ArrayList<City> seen = new ArrayList<>();
-        for (City c : board.getCity().values()) {
+        for (City c : gameEngine.getGameMap().getCity().values()) {
             djikstraLine.put(c,Integer.MAX_VALUE);
         }
 
@@ -133,7 +131,7 @@ public abstract class Bot {
                 for (City city : line.keySet()) {
                     Integer value = Integer.MAX_VALUE;
                     if(line.get(city) <= line.get(min) && line.get(city) != -1 && !city.isCountry()) {
-                        Connection connection = board.getNeighbourConnection(resCity.getLast() , city);
+                        Connection connection = gameEngine.getGameMap().getNeighbourConnection(resCity.getLast() , city);
                         if(connection != null && connection.getLength() < value) {
                             min = city;
                             value = connection.getLength();
@@ -148,7 +146,7 @@ public abstract class Bot {
 
         ArrayList<Connection> res = new ArrayList<>();
         for(int i=0 ; i<resCity.size()-2 ; i++) {
-            List<Connection> cityConnection = board.getCitiesConnections(resCity.get(i).getName());
+            List<Connection> cityConnection = gameEngine.getGameMap().getCitiesConnections(resCity.get(i).getName());
             for(Connection connection : cityConnection) {
                 if(connection.getOtherCity(resCity.get(i)) == resCity.get(i+1)){
                     res.add(connection);
@@ -162,30 +160,26 @@ public abstract class Bot {
 
     /**
      * The Bot will choose the number of short dest card to draw and give back the one he doesn't want
-     * @exception PaquetVideException if the destination deck is empty
+     * @return true if the draw succeed
+     * @throws PaquetVideException if the destination deck is empty
      */
-    public abstract void drawDestinationCard() throws PaquetVideException;
+    public abstract boolean drawDestinationCard() throws PaquetVideException, WrongPlayerException;
 
     /**
      * The bot will choose the wagon card he want in the deck
-     * @exception PaquetVideException if the wagon deck is empty
+     * @return true if the draw succeed
+     * @throws PaquetVideException if the wagon deck is empty
      */
-    public abstract void drawWagonCard() throws PaquetVideException ;
+    public abstract boolean drawWagonCard(Colors toFocus) throws PaquetVideException, WrongPlayerException ;
 
     /**
      * The bot will choose to buy a connection or not
-     *
-     * @param currentMap the map of the game
      */
-    public abstract boolean buyConnection(Board currentMap, ArrayList<Connection> path);
+    public abstract boolean buyConnection(ArrayList<Connection> path) throws WrongPlayerException;
 
     /**
      * The main fonction who run the bot
-     * @param currentMap the map of the game
-     * @param shortDestinationDeck the deck of short Destination
-     * @param longDestinationDeck the deck of long Destination
-     * @param wagonDeck the deck were the bot can pick cards
      * @return true if the bot did something
      */
-    public abstract boolean playTurn(Board currentMap, Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck, Deck<WagonCard> wagonDeck) ;
+    public abstract boolean playTurn() throws WrongPlayerException ;
 }

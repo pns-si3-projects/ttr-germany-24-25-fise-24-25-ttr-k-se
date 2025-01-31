@@ -26,7 +26,7 @@ public class GameView{
         return gameEngine.getGameMap();
     }
 
-    public HashMap<Integer, Player> getPlayers() {
+    public HashMap<Bot, Player> getPlayers() {
         return gameEngine.getPlayers();
     }
 

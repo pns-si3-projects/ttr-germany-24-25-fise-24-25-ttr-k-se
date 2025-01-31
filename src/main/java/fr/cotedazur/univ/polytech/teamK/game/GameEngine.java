@@ -9,6 +9,7 @@ import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -23,7 +24,6 @@ public class GameEngine <T extends Bot> {
     private Deck<DestinationCard> longDestinationDeck;
     private Deck<WagonCard> wagonDeck;
     private GameView gameView;
-    private GameScore gameScore;
 
     public GameEngine(List<T> players, String mapName) {
         this.gameMap = new Board(mapName);
@@ -49,9 +49,11 @@ public class GameEngine <T extends Bot> {
     INFOS RELATIVES AU BOARD
      */
     public Board getGameMap() { return gameMap; }
-    private Deck<DestinationCard> getShortDestinationDeck() { return shortDestinationDeck; }
-    private Deck<DestinationCard> getLongDestinationDeck() { return longDestinationDeck; }
-    private Deck<WagonCard> getWagonDeck() { return wagonDeck; }
+    public Deck<DestinationCard> getShortDestinationDeck() { return shortDestinationDeck; }
+    public Deck<DestinationCard> getLongDestinationDeck() { return longDestinationDeck; }
+    public Deck<WagonCard> getWagonDeck() { return wagonDeck; }
+    public int getNumberPlayer () {return players.size();}
+    public Player getPlayerByBot (Bot bot) {return players.get(bot);}
 
 
     public void addDestinationCardToDeck(T player, DestinationCard destinationCard) throws PaquetPleinException {
@@ -64,11 +66,27 @@ public class GameEngine <T extends Bot> {
         }
     }
 
-    public boolean buyRail(Bot bot, Connection connection, Board board, int number) throws PaquetPleinException, WrongPlayerException {
+    public ArrayList<DestinationCard> getDestinationCard(Bot bot) throws WrongPlayerException {
+        if(confirmId(bot)){
+            ArrayList<DestinationCard> res = getPlayerById(bot.getId()).getCartesDestination();
+            return res;
+        }
+        return null;
+    }
+
+    public int getNumberColor(Bot bot, Colors color) throws WrongPlayerException {
+        if(confirmId(bot)){
+            return getPlayerById(bot.getId()).getNumberColor(color);
+        }
+        return 0;
+    }
+
+    public boolean buyRail(Bot bot, Connection connection, Board board, int number) throws PaquetVideException, WrongPlayerException {
         if(confirmId(bot)) {
             getPlayerById(bot.getId()).buyRail(connection, board, number);
             return true;
         }
+        return false;
     }
 
     public boolean takeMeeples(Bot bot, City city, Colors color) throws WrongPlayerException {
@@ -76,24 +94,28 @@ public class GameEngine <T extends Bot> {
             getPlayerById(bot.getId()).takeMeeples(city, color);
             return true;
         }
+        return false;
     }
 
-    public boolean addWagonCard(Bot bot, WagonCard wagonCard) throws PaquetPleinException, WrongPlayerException {
+    public boolean addWagonCard(Bot bot, WagonCard wagonCard) throws PaquetVideException, WrongPlayerException {
         if(confirmId(bot)){
             getPlayerById(bot.getId()).addCardWagon(wagonCard);
         }
+        return false;
     }
 
-    public boolean addDestinationCard(Bot bot, DestinationCard destinationCard) throws PaquetPleinException, WrongPlayerException {
+    public boolean addDestinationCard(Bot bot, DestinationCard destinationCard) throws PaquetVideException, WrongPlayerException {
         if(confirmId(bot)){
             getPlayerById(bot.getId()).addCardDestination(destinationCard);
         }
+        return false;
     }
 
     public boolean addScore(Bot bot, int score) throws WrongPlayerException {
         if(confirmId(bot)){
             getPlayerById(bot.getId()).addScore(score);
         }
+        return false;
     }
 
     private boolean confirmId(Bot bot) throws WrongPlayerException {

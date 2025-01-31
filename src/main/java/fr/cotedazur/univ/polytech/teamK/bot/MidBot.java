@@ -1,83 +1,95 @@
 package fr.cotedazur.univ.polytech.teamK.bot;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
-import fr.cotedazur.univ.polytech.teamK.board.cards.Deck;
-import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
-import fr.cotedazur.univ.polytech.teamK.board.cards.PaquetVideException;
-import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
+import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class MidBot extends Bot{
-    public MidBot() {
-        super("midBot");
+    public MidBot(GameEngine<Bot> gameEngine) {
+        super("midBot", gameEngine);
     }
 
     @Override
-    public boolean drawDestinationCard(Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck) throws PaquetVideException {
+    public boolean drawDestinationCard() throws PaquetVideException, WrongPlayerException {
         try {
-            List<DestinationCard> draw = drawDestFromNumber(shortDestinationDeck, longDestinationDeck, 2);
+            List<DestinationCard> draw = drawDestFromNumber(2);
             if (draw.get(0).getValue() < draw.get(1).getValue())
-                super.addCardDestination(draw.remove(1));
+                gameEngine.addDestinationCard(this, draw.remove(1));
             else
-                super.addCardDestination(draw.removeFirst());
+                gameEngine.addDestinationCard(this, draw.removeFirst());
             if (draw.get(2).getValue() < draw.get(3).getValue())
-                super.addCardDestination(draw.remove(3));
+                gameEngine.addDestinationCard(this, draw.remove(3));
             else
-                super.addCardDestination(draw.remove(2));
+                gameEngine.addDestinationCard(this, draw.remove(2));
+            return true;
         } catch (PaquetVideException e) {
             return false;
+        } catch (WrongPlayerException e) {
+            throw e;
         }
-        return true;
     }
 
     @Override
-    public boolean drawWagonCard(Deck<WagonCard> wagonDeck, Colors toFocus) throws PaquetVideException {
+    public boolean drawWagonCard(Colors toFocus) throws PaquetVideException, WrongPlayerException {
         boolean found = false;
         try {
             for (int j = 0; j < 2; j++) {
-                for (int i = 0; i < wagonDeck.getVisibleCard().size(); i++) {
-                    if (wagonDeck.getVisibleCard().get(i).getColor() == toFocus) {
-                        super.addCardWagon(wagonDeck.drawVisibleCard(i));
+                for (int i = 0; i < gameEngine.getWagonDeck().getVisibleCard().size(); i++) {
+                    if (gameEngine.getWagonDeck().getVisibleCard().get(i).getColor() == toFocus) {
+                        Deck<WagonCard> wagondeck = gameEngine.getWagonDeck();
+                        gameEngine.addWagonCard(this, gameEngine.getWagonDeck().drawVisibleCard(i));
                         found = true;
                         break;
                     }
                 }
                 if (!found) {
-                    super.addCardWagon(wagonDeck.draw());
+                    gameEngine.addWagonCard(this, gameEngine.getWagonDeck().draw());
                 }
                 found = false;
             }
         } catch (PaquetVideException e) {
             return false;
+        } catch (WrongPlayerException e) {
+            throw e;
         }
         return true;
     }
 
     @Override
-    public boolean buyConnection(Board currentMap, ArrayList<Connection> path) {
-        /*for(Connection connection : path) {
-            if(connection.claimAttempt(super.getNumberColor(connection.getColor()),super,currentMap,4)) {
-                return true;
+    public boolean buyConnection(ArrayList<Connection> path) throws WrongPlayerException {
+        try {
+            for(Connection connection : path) {
+                if(connection.claimAttempt(gameEngine.getNumberColor(this, connection.getColor()),gameEngine.getPlayerByBot(this),gameEngine.getGameMap(), gameEngine.getNumberPlayer())) {
+                    return true;
+                }
             }
-        }*/
+        } catch (WrongPlayerException e) {
+            throw e;
+        }
         return false;
     }
 
     @Override
-    public boolean playTurn(Board currentMap, Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck, Deck<WagonCard> wagonDeck) {
-        if(super.getCartesDestination().isEmpty()) {
-            return drawDestinationCard(shortDestinationDeck,longDestinationDeck);
-        }/*
-        DestinationCard toArchieve= super.getCartesDestination().getFirst();
-        ArrayList<Connection> path = super.djikstra(toArchieve.getStartCity(), toArchieve.getEndCity(),currentMap);
-        if(buyConnection(currentMap, path))
-            return true;
-        if(drawWagonCard(wagonDeck,path.getFirst().getColor()))
-            return true;*/
+    public boolean playTurn() {
+        try {
+            if (gameEngine.getDestinationCard(this).isEmpty()) {
+                return drawDestinationCard();
+            }
+            ArrayList<DestinationCard> list = gameEngine.getDestinationCard(this);
+            DestinationCard toArchieve = gameEngine.getDestinationCard(this).getFirst();
+            ArrayList<Connection> path = super.djikstra(toArchieve.getStartCity(), toArchieve.getEndCity());
+            if (buyConnection(path))
+                return true;
+            if (drawWagonCard(path.getFirst().getColor()))
+                return true;
+        } catch (WrongPlayerException e) {
+            throw new RuntimeException(e);
+        }
         return false;
     }
 }

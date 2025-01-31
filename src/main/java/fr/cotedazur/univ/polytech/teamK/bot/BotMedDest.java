@@ -1,73 +1,86 @@
 package fr.cotedazur.univ.polytech.teamK.bot;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
-import fr.cotedazur.univ.polytech.teamK.board.cards.Deck;
 import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
 import fr.cotedazur.univ.polytech.teamK.board.cards.PaquetVideException;
-import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
+import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
 import java.util.*;
 
 public class BotMedDest extends Bot{
 
-    public BotMedDest(String name) {
-        super(name);
+    public BotMedDest(String name, GameEngine<Bot> gameEngine) {
+        super(name, gameEngine);
     }
 
     @Override
-    public boolean drawDestinationCard(Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck) throws PaquetVideException {
-        if(shortDestinationDeck.getRemainingCards() <=0 && longDestinationDeck.getRemainingCards() <= 0) {
+    public boolean drawDestinationCard() throws PaquetVideException, WrongPlayerException {
+        if(gameEngine.getShortDestinationDeck().getRemainingCards() <=0 && gameEngine.getLongDestinationDeck().getRemainingCards() <= 0) {
             throw new PaquetVideException("The 2 deck is empty");
         }
         int number_short = 2;
-        List<DestinationCard> destCardDrawn = drawDestFromNumber(shortDestinationDeck,longDestinationDeck,number_short);
+        List<DestinationCard> destCardDrawn = drawDestFromNumber(number_short);
         for(DestinationCard card : destCardDrawn){
-            super.addCardDestination(card);
+            gameEngine.addDestinationCard(this,card);
         }
         return true;
     }
 
     @Override
-    public boolean drawWagonCard(Deck<WagonCard> wagonDeck, Colors toFocus) throws PaquetVideException {
-        if(wagonDeck.getRemainingCards() <= 0) {
-            throw new PaquetVideException("The deck is empty");
+    public boolean drawWagonCard(Colors toFocus) throws PaquetVideException, WrongPlayerException {
+        try {
+            if (gameEngine.getWagonDeck().getRemainingCards() <= 0) {
+                throw new PaquetVideException("The deck is empty");
+            }
+            gameEngine.addWagonCard(this,gameEngine.getWagonDeck().draw());
+            gameEngine.addWagonCard(this,gameEngine.getWagonDeck().draw());
+            return true;
+        } catch (PaquetVideException e) {
+            return false;
         }
-        super.addCardWagon(wagonDeck.draw());
-        super.addCardWagon(wagonDeck.draw());
-        return true;
     }
 
     @Override
-    public boolean buyConnection(Board currentMap, ArrayList<Connection> path) {
-        List<DestinationCard> destinationCards = super.getCartesDestination();
-        for (DestinationCard card : destinationCards){
-            City startCity = card.getStartCity();
-            City endCity = card.getEndCity();
-            List<Connection> way = djikstra(startCity, endCity, currentMap);
-            for (Connection connection : way){
-                if(super.buyRail(connection, currentMap, 10)){
-                    return true;
+    public boolean buyConnection(ArrayList<Connection> path) throws PaquetVideException, WrongPlayerException {
+        try {
+            List<DestinationCard> destinationCards = gameEngine.getDestinationCard(this);
+            for (DestinationCard card : destinationCards) {
+                City startCity = card.getStartCity();
+                City endCity = card.getEndCity();
+                List<Connection> way = djikstra(startCity, endCity);
+                for (Connection connection : way) {
+                    if (gameEngine.buyRail(this, connection, gameEngine.getGameMap(), gameEngine.getNumberPlayer())) {
+                        return true;
+                    }
                 }
             }
+        } catch (PaquetVideException e) {
+            return false;
         }
         return true;
     }
 
     @Override
-    public boolean playTurn(Board currentMap, Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck, Deck<WagonCard> wagonDeck) {
-        if (buyConnection(currentMap, null)) {
-            return true;
+    public boolean playTurn() throws PaquetVideException, WrongPlayerException {
+        try {
+            if (buyConnection(null)) {
+                return true;
+            }
+        } catch (WrongPlayerException e) {
+            throw new RuntimeException(e);
         }
         try {
-            drawDestinationCard(shortDestinationDeck, longDestinationDeck);
+            drawDestinationCard();
         } catch (PaquetVideException e) {
             try {
-                drawWagonCard(wagonDeck,null);
+                drawWagonCard(null);
             } catch (PaquetVideException ex) {
                 return false;
+            } catch (WrongPlayerException e1) {
+                throw new RuntimeException(e1);
             }
         }
         return true;

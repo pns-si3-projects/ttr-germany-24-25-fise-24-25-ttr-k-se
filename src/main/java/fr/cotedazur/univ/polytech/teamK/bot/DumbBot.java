@@ -5,36 +5,57 @@ import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
+import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
 import java.util.*;
 
 public class DumbBot extends Bot {
     HashSet<String> seenCities ;
-    public DumbBot(String name)
+    public DumbBot(String name, GameEngine<Bot> gameEngine)
     {
-        super(name);
+        super(name, gameEngine);
         seenCities = new HashSet<String>();
     }
 
-    public boolean playTurn(Board currentMap, Deck<DestinationCard> shortDestinationDeck, Deck<DestinationCard> longDestinationDeck, Deck<WagonCard> wagonDeck)
+    @Override
+    public boolean drawDestinationCard() throws PaquetVideException, WrongPlayerException {
+        return false;
+    }
+
+    @Override
+    public boolean drawWagonCard(Colors toFocus) throws PaquetVideException, WrongPlayerException {
+        return false;
+    }
+
+    @Override
+    public boolean buyConnection(ArrayList<Connection> path) throws WrongPlayerException {
+        return false;
+    }
+
+    public boolean playTurn() throws WrongPlayerException
     {
         //look at city 0 and purchase a connection. if not possible, look at a random neighbor etc
         //once you find yourself on a city you've already seen, pull cards.
 
         //find the city with the ID corresponding to player ID
 
-        if(buyConnection(currentMap, new ArrayList<>())) {
-            return true;
+        try {
+            if(buyConnection(new ArrayList<>())) {
+                return true;
+            }
+        } catch (WrongPlayerException e) {
+            throw new RuntimeException(e);
         }
 
         Random rand = new Random();
         int rand_int = rand.nextInt(100);
         if (rand_int < 20) {
             try {
-                drawDestinationCard(shortDestinationDeck, longDestinationDeck);
+                drawDestinationCard();
             } catch (PaquetVideException e) {
                 try {
-                    drawWagonCard(wagonDeck, Colors.GRAY);
+                    drawWagonCard(Colors.GRAY);
                 } catch (PaquetVideException ex) {
                     return false;
                 }
@@ -43,10 +64,10 @@ public class DumbBot extends Bot {
             return true;
         } else {
             try {
-                drawWagonCard(wagonDeck, Colors.GRAY);
+                drawWagonCard(Colors.GRAY);
             } catch (PaquetVideException e) {
                 try {
-                    drawDestinationCard(shortDestinationDeck, longDestinationDeck);
+                    drawDestinationCard();
                 } catch (PaquetVideException ex) {
                     return false;
                 }
@@ -69,16 +90,16 @@ public class DumbBot extends Bot {
         }
         return currentCityID;
     }
-
+/*
     @Override
-    public boolean buyConnection(Board currentMap, ArrayList<Connection> path) {
+    public boolean buyConnection(ArrayList<Connection> path) throws WrongPlayerException {
         String currentCityID = "";
-        currentCityID = findCityWithID(currentMap,currentCityID);
+        currentCityID = findCityWithID(gameEngine.getGameMap(),currentCityID);
         while (!seenCities.contains(currentCityID)) {
-            List<Connection> connections = currentMap.getCity().get(currentCityID).getConnectionList();
+            List<Connection> connections = gameEngine.getGameMap().getCity().get(currentCityID).getConnectionList();
             for (Connection connection : connections) {
-/*ATTENTION CHANGER LE NOMBRE DE JOUEUR*/
-                if (this.buyRail(connection,currentMap, 10)) {
+/*ATTENTION CHANGER LE NOMBRE DE JOUEUR
+                if (buyConnection(connection)) {
                     super.takeMeeples(connection.getCityOne(), Colors.RED);
                     super.takeMeeples(connection.getCityTwo(), Colors.RED);
                     return true;
@@ -124,7 +145,7 @@ public class DumbBot extends Bot {
     public void printStatus()
     {
         System.out.println(super.toString());
-    }
+    }*/
 
 
 }
