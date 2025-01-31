@@ -1,21 +1,20 @@
 package fr.cotedazur.univ.polytech.teamK.game;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
-import fr.cotedazur.univ.polytech.teamK.board.cards.Deck;
-import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
-import fr.cotedazur.univ.polytech.teamK.board.cards.TypeOfCards;
-import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
+import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
-public class GameEngine <T extends Player> {
+public class GameEngine <T extends Bot> {
     private Board gameMap;
-    private List<T> players;
+    private HashMap<Integer,Player> players;
     private Deck<DestinationCard> shortDestinationDeck;
     private Deck<DestinationCard> longDestinationDeck;
     private Deck<WagonCard> wagonDeck;
@@ -23,48 +22,92 @@ public class GameEngine <T extends Player> {
 
     public GameEngine(List<T> players, String mapName) {
         this.gameMap = new Board(mapName);
-        this.players = players;
+        this.players = new HashMap<>();
+        addBotToPlayerMap(players);
         this.shortDestinationDeck = new Deck<>(TypeOfCards.SHORT_DESTINATION, gameMap);
         this.longDestinationDeck = new Deck<>(TypeOfCards.LONG_DESTINATION, gameMap);
         this.wagonDeck = new Deck<>(TypeOfCards.WAGON, gameMap);
         this.gameView = new GameView(this);
     }
+    private void addBotToPlayerMap(List<T> bots) {
+        for (Bot bot : bots) {
+            Player player = new Player(bot.getName());
+            players.put(bot.getId(),player);
+        }
+    }
 
+
+    public HashMap<Integer, Player> getPlayers() { return players; }
+    public Player getPlayerById(int id) { return players.get(id); }
+
+    /*
+    INFOS RELATIVES AU BOARD
+     */
     public Board getGameMap() { return gameMap; }
-    public List<T> getPlayers() { return players; }
     public Deck<DestinationCard> getShortDestinationDeck() { return shortDestinationDeck; }
     public Deck<DestinationCard> getLongDestinationDeck() { return longDestinationDeck; }
     public Deck<WagonCard> getWagonDeck() { return wagonDeck; }
 
-    public String getNameForPlayer(T player) {return player.getName();}
-    public int getScoreForPlayer(T player) {return player.getScore();}
-    public ArrayList<DestinationCard> getDestinationCardsForPlayer(T player) {return player.getCartesDestination();}
-    public ArrayList<WagonCard> getWagonCardsForPlayer(T player) {return player.getCartesWagon();}
-    public int getWagonsRemainingForPlayer(T player) {return player.getWagonsRemaining();}
-    public int getNumberWagonForPlayer(T player) {return player.getCartesWagon().size();}
-    public int getNumberDestinationForPlayer (T player) {return player.getCartesDestination().size();}
-    public Meeple getMeeplesForPlayer(T player) {return player.getMeeples();}
-    public int getNumberOfMeeplesForPlayer(T player) {return player.getMeeples().getNumber();}
-    public ArrayList<Connection> getConnectionsForPlayer(T player) {
-        return player.getConnections();
+    /*
+    INFO RELATIVES AUX JOUEURS
+     */
+    public String getNameForPlayer(T player) {return getPlayerById(player.getId())
+            .getName();
+    }
+    public int getScoreForPlayer(T player) {return getPlayerById(player.getId())
+            .getScore();
+    }
+    public ArrayList<DestinationCard> getDestinationCardsForPlayer(T player) {return getPlayerById(player.getId())
+            .getCartesDestination();
+    }
+    public ArrayList<WagonCard> getWagonCardsForPlayer(T player) {return getPlayerById(player.getId())
+            .getCartesWagon();
+    }
+    public int getWagonsRemainingForPlayer(T player) {return getPlayerById(player.getId())
+            .getWagonsRemaining();
+    }
+    public int getNumberWagonForPlayer(T player) {return getPlayerById(player.getId())
+            .getCartesWagon().size();
+    }
+    public int getNumberDestinationForPlayer (T player) {return getPlayerById(player.getId())
+            .getCartesDestination().size();
+    }
+    public Meeple getMeeplesForPlayer(T player) {return getPlayerById(player.getId())
+            .getMeeples();
+    }
+    public int getNumberOfMeeplesForPlayer(T player) {return getPlayerById(player.getId())
+            .getMeeples().getNumber();
+    }
+    public ArrayList<Connection> getConnectionsForPlayer(T player) {return getPlayerById(player.getId())
+            .getConnections();
+    }
+
+    public void addDestinationCardToDeck(T player, DestinationCard destinationCard) throws PaquetPleinException {
+        getPlayerById(player.getId()).removeDestinationCard(destinationCard);
+        if(destinationCard.getType()==TypeOfCards.SHORT_DESTINATION) {
+            shortDestinationDeck.addCard(destinationCard);
+        }
+        else if(destinationCard.getType()==TypeOfCards.LONG_DESTINATION) {
+            longDestinationDeck.addCard(destinationCard);
+        }
     }
 
     public void startGame() {
         while (!isGameOver()) {
-            for (T player : players) {
+            players.values().forEach(player -> {
                 player.playTurn(gameView);
-            }
+            });
         }
-        for (T player : players) {
+        players.values().forEach(player -> {
             player.playTurn(gameView);
-        }
+        });
         calculateMeeplePoints();
         System.out.println("Partie terminée !");
         gameView.displayFinalScores();
     }
 
     private boolean isGameOver() {
-        return players.stream().anyMatch(p -> p.getWagonsRemaining() < 3);
+        return players.values().stream().anyMatch(player -> player.getWagonsRemaining() < 3);
     }
 
     private void calculateMeeplePoints() {
@@ -78,8 +121,8 @@ public class GameEngine <T extends Player> {
      * Traite le calcul des points pour une couleur de meeples spécifique.
      */
     private void processMeepleColorPoints(Colors meepleColor) {
-        List<T> firstWinners = new ArrayList<>();
-        List<T> secondWinners = new ArrayList<>();
+        List<Player> firstWinners = new ArrayList<>();
+        List<Player> secondWinners = new ArrayList<>();
 
         determineMeepleWinners(meepleColor, firstWinners, secondWinners);
         awardMeeplePoints(firstWinners, secondWinners);
@@ -88,11 +131,15 @@ public class GameEngine <T extends Player> {
     /**
      * Détermine les joueurs ayant le plus et le deuxième plus grand nombre de meeples d'une couleur donnée.
      */
-    private void determineMeepleWinners(Colors meepleColor, List<T> firstWinners, List<T> secondWinners) {
-        firstWinners.add(players.getFirst());
-        secondWinners.add(players.getFirst());
+    private void determineMeepleWinners(Colors meepleColor, List<Player> firstWinners, List<Player> secondWinners) {
+        if (players.isEmpty()) return;
 
-        for (T player : players) {
+        // Récupère un joueur arbitraire pour l'initialisation
+        Player first = players.values().iterator().next();
+        firstWinners.add(first);
+        secondWinners.add(first);
+
+        for (Player player : players.values()) {
             int playerMeeples = player.getMeeples().getNumberOfAColor(meepleColor);
             updateWinners(player, playerMeeples, meepleColor, firstWinners, secondWinners);
         }
@@ -101,9 +148,9 @@ public class GameEngine <T extends Player> {
     /**
      * Met à jour les listes des premiers et deuxièmes gagnants en fonction du nombre de meeples.
      */
-    private void updateWinners(T player, int playerMeeples, Colors meepleColor, List<T> firstWinners, List<T> secondWinners) {
-        int firstMeeples = firstWinners.getFirst().getMeeples().getNumberOfAColor(meepleColor);
-        int secondMeeples = secondWinners.getFirst().getMeeples().getNumberOfAColor(meepleColor);
+    private void updateWinners(Player player, int playerMeeples, Colors meepleColor, List<Player> firstWinners, List<Player> secondWinners) {
+        int firstMeeples = firstWinners.get(0).getMeeples().getNumberOfAColor(meepleColor);
+        int secondMeeples = secondWinners.get(0).getMeeples().getNumberOfAColor(meepleColor);
 
         if (playerMeeples > firstMeeples) {
             secondWinners.clear();
@@ -123,13 +170,13 @@ public class GameEngine <T extends Player> {
     /**
      * Attribue les points aux joueurs en fonction des gagnants déterminés.
      */
-    private void awardMeeplePoints(List<T> firstWinners, List<T> secondWinners) {
-        for (T winner : firstWinners) {
+    private void awardMeeplePoints(List<Player> firstWinners, List<Player> secondWinners) {
+        for (Player winner : firstWinners) {
             winner.addScore(20);
         }
 
         if (firstWinners.size() == 1) { // Un seul gagnant => les seconds gagnent 10 points
-            for (T winner : secondWinners) {
+            for (Player winner : secondWinners) {
                 winner.addScore(10);
             }
         }

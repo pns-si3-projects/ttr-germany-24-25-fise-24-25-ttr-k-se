@@ -9,7 +9,7 @@ import fr.cotedazur.univ.polytech.teamK.game.Board;
 import javax.lang.model.type.NullType;
 import java.util.*;
 
-public class DumbBot extends  Bot {
+public class DumbBot extends Bot {
     HashSet<String> seenCities ;
     public DumbBot(String name)
     {

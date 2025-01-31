@@ -80,6 +80,12 @@ public class Player {
     public void addScore(int value) {
         this.score += value;
     }
+    public void removeDestinationCard(DestinationCard destinationCard) {
+        getCartesDestination().remove(destinationCard);
+    }
+    public void removeWagonCard(WagonCard wagonCard) {
+        getCartesWagon().remove(wagonCard);
+    }
 
     /**
      * Add a WagonCard to the player's hand
