@@ -8,6 +8,7 @@ import java.util.Random;
 
 public class Meeple {
     private static int[] total = {10,10,10,10,10,10}; //black, blue, red,white,yellow, green
+    private static int totalMeeples = 60;
 
     private int [] listOfOwnedMeeples; //black, blue, red,white,yellow, green
     private int number;
@@ -16,12 +17,15 @@ public class Meeple {
         listOfOwnedMeeples = new int[]{0, 0, 0, 0, 0, 0};
         int index;
         this.number = number;
-        for(int i = 0; i < number; i++){
-            do {
-                index = rand.nextInt(6);
-            } while (total[index] == 0);
-            listOfOwnedMeeples[index]++;
-            total[index]--;
+        if(totalMeeples > 0) {
+            for (int i = 0; i < number; i++) {
+                do {
+                    index = rand.nextInt(6);
+                } while (total[index] == 0);
+                listOfOwnedMeeples[index]++;
+                total[index]--;
+                totalMeeples--;
+            }
         }
     }
 
