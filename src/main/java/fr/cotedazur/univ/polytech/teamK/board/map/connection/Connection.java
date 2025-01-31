@@ -137,22 +137,6 @@ public class Connection {
     }
 
     /**
-     * Give the other city of a connection
-     * @param city the city we know
-     * @return the city we don't know
-     * @throws IllegalArgumentException if the city isn't in the connection
-     */
-    public City getOtherCity (City city) throws IllegalArgumentException {
-        if (city == cityOne) {
-            return cityTwo;
-        } else if (city == cityTwo) {
-            return cityOne;
-        } else {
-            throw new IllegalArgumentException();
-        }
-    }
-
-    /**
      * Gets the length of the connection.
      *
      * @return the length of the connection
