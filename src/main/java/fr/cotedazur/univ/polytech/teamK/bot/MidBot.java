@@ -10,8 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MidBot extends Bot{
-    public MidBot(GameEngine<Bot> gameEngine) {
-        super("midBot", gameEngine);
+    public MidBot(String name,GameEngine<Bot> gameEngine) {
+        super(name, gameEngine);
     }
 
     @Override
