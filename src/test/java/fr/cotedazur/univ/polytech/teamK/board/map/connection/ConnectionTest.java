@@ -23,19 +23,19 @@ class ConnectionTest {
 
     @BeforeEach
     void setup(){
-        cityOne = new City("Rannover", 1);
-        cityTwo = new City("Berlin", 2);
-        connection = new Connection(cityOne, cityTwo);
         player = new Player("Deyann");
         gameMap = new Board("Reich");
+        cityTwo = gameMap.getCity("Hannover");
+        cityOne = gameMap.getCity("Berlin");
+        connection = gameMap.getNeighbourConnection(cityOne,cityTwo);
     }
 
     @Test
     void testConstructorAndGetters(){
         assertEquals(cityOne, connection.getCityOne());
         assertEquals(cityTwo, connection.getCityTwo());
-        assertEquals(3, connection.getLength());
-        assertEquals(Colors.RED, connection.getColor());
+        assertEquals(7, connection.getLength());
+        assertEquals(Colors.YELLOW, connection.getColor());
         assertTrue(connection.isFree());
         assertNull(connection.getOwner());
     }
@@ -54,7 +54,7 @@ class ConnectionTest {
 
     @Test
     void testClaimAttemptSuccess() {
-        boolean result = connection.claimAttempt(4, player, gameMap, 4);
+        boolean result = connection.claimAttempt(7, player, gameMap, 4);
         assertTrue(result);
         assertFalse(connection.isFree());
         assertEquals(player, connection.getOwner());
@@ -79,13 +79,14 @@ class ConnectionTest {
 
     @Test
     void testClaimAttemptDoubleConnection() {
-        Connection connection2 = new Connection(cityOne, cityTwo, 3, Colors.BLUE);
+        Connection connection2 = gameMap.getNeighbourConnection(cityOne, cityTwo);
+        System.out.println(cityOne.getName());
         gameMap.getCity().get(cityOne.getName()).addConnection(connection);
         gameMap.getCity().get(cityOne.getName()).addConnection(connection2);
         gameMap.getCity().get(cityTwo.getName()).addConnection(connection);
         gameMap.getCity().get(cityTwo.getName()).addConnection(connection2);
 
-        boolean result = connection.claimAttempt(4, player, gameMap, 3);
+        boolean result = connection.claimAttempt(7, player, gameMap, 5);
         assertTrue(result);
         assertFalse(connection.isFree());
         assertEquals(player, connection.getOwner());
@@ -95,12 +96,13 @@ class ConnectionTest {
     @Test
     void testCalculatePoints() {
         int points = connection.calculatePoints(connection.getLength());
-        assertEquals(4, points); // connection de longueur 3 donne 4 points
+        assertEquals(18, points); // connection de longueur 7 donne 18 points
     }
 
     @Test
     void testToString() {
-        String expected = "CityOne connected to CityTwo";
+        String expected = "Berlin connected toHannover";
+        System.out.println(connection.toString());
         assertEquals(expected, connection.toString());
     }
 

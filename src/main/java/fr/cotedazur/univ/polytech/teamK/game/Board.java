@@ -21,7 +21,7 @@ public class Board {
         return cities;
     }
 
-    private HashMap buildReichMap()
+    private HashMap<String,City> buildReichMap()
     {
         HashMap<String, City> reichMap = new HashMap<String, City>();
 

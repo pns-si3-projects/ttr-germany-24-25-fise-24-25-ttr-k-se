@@ -63,7 +63,8 @@ class ConnectionClaimServiceTest {
         assertTrue(result);
         assertFalse(connection2.isFree());
         assertEquals(player, connection2.getOwner());
-        assertFalse(connection1.isFree());
+        assertFalse(connection2.isFree());
+        assertTrue(connection1.isFree());
     }
 
     @Test

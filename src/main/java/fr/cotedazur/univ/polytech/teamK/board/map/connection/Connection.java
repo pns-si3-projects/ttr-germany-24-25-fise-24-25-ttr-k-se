@@ -26,8 +26,7 @@ public class Connection {
      * @param cityTwo the second city
      */
     public Connection(City cityOne, City cityTwo) {
-        setCityOne(cityOne);
-        setCityTwo(cityTwo);
+        this(cityOne,cityTwo,0, null);
     }
 
     /**
@@ -40,7 +39,8 @@ public class Connection {
      */
     public Connection(City cityOne, City cityTwo, Integer aLength, Colors aColor)
     {
-        this(cityOne,cityTwo);
+        this.cityOne = cityOne;
+        this.cityTwo = cityTwo;
         setLength(aLength);
         setColor(aColor);
         setFree(true);
@@ -209,7 +209,7 @@ public class Connection {
     @Override
     public String toString()
     {
-        String base = "" + this.getCityOne() + "connected to" + this.getCityTwo();
+        String base = "" + this.getCityOne() + " connected to" + this.getCityTwo();
         return base;
     }
 }
