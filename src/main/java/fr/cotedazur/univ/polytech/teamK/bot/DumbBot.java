@@ -72,6 +72,16 @@ public class DumbBot extends Bot {
     }
 
     @Override
+    public void drawDestinationCard() throws PaquetVideException {
+
+    }
+
+    @Override
+    public void drawWagonCard() throws PaquetVideException {
+
+    }
+
+    @Override
     public boolean buyConnection(Board currentMap) {
         String currentCityID = "";
         currentCityID = findCityWithID(currentMap,currentCityID);

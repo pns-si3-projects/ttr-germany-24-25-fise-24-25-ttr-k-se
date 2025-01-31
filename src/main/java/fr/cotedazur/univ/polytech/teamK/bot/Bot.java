@@ -15,7 +15,7 @@ public abstract class Bot {
 
     public final GameEngine gameEngine;
     public String name;
-    public int id;
+    public final int id;
 
     public Bot(String name, GameEngine gameEngine)
     {
