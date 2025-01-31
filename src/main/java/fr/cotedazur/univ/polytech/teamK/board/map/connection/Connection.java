@@ -170,6 +170,16 @@ public class Connection {
         return color;
     }
 
+    public City getOtherCity(City city) {
+        if (city.equals(cityOne)) {
+            return cityTwo;
+        } else if (city.equals(cityTwo)) {
+            return cityOne;
+        } else {
+            throw new IllegalArgumentException("City not part of this connection");
+        }
+    }
+
     /**
      * Checks if the connection is free.
      *

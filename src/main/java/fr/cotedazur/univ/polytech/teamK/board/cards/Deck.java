@@ -47,7 +47,7 @@ public class Deck<T extends Card> {
         if (type == TypeOfCards.WAGON) {
             initializeWagonCards();
         }
-        shuffle();
+        //shuffle();
     }
 
     private void initializeWagonCards() {
