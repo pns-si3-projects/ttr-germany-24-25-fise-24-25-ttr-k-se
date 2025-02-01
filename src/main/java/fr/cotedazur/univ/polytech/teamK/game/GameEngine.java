@@ -69,14 +69,6 @@ public class GameEngine{
         }
     }
 
-    public ArrayList<DestinationCard> getDestinationCard(Bot bot) throws WrongPlayerException {
-        if(confirmId(bot)){
-            ArrayList<DestinationCard> res = getPlayerByBot(bot).getCartesDestination();
-            return res;
-        }
-        return null;
-    }
-
     public int getNumberColor(Bot bot, Colors color) throws WrongPlayerException {
         if(confirmId(bot)){
             return getPlayerByBot(bot).getNumberColor(color);

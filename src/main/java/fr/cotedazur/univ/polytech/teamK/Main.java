@@ -16,7 +16,7 @@ public class Main {
 
     public static void main(String[] args) throws WrongPlayerException {
         GameEngine gameEngine = new GameEngine("Reich");
-        List<Bot> bots = Arrays.asList(new BotMedDest("bot1", gameEngine), new BotMedDest("bot2", gameEngine), new BotMedDest("bot3", gameEngine));
+        List<Bot> bots = Arrays.asList(new MidBot("bot1", gameEngine), new MidBot("bot2", gameEngine), new MidBot("bot3", gameEngine));
         gameEngine.addBotsToPlayerMap(bots);
         gameEngine.startGame();
     }

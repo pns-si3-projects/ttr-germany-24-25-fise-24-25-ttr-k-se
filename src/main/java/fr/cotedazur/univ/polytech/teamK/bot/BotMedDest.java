@@ -70,7 +70,7 @@ public class BotMedDest extends Bot{
     @Override
     public boolean buyConnection(ArrayList<Connection> path) throws PaquetVideException, WrongPlayerException {
         try {
-            List<DestinationCard> destinationCards = gameEngine.getDestinationCard(this);
+            List<DestinationCard> destinationCards = gameView.getMyDestinationCards();
             for (DestinationCard card : destinationCards) {
                 City startCity = card.getStartCity();
                 City endCity = card.getEndCity();
