@@ -37,15 +37,19 @@ public class MidBot extends Bot{
     @Override
     public boolean drawDestinationCard() throws PaquetVideException, WrongPlayerException {
         try {
-            List<DestinationCard> draw = drawDestFromNumber(2);
+            List<DestinationCard> draw = drawDestFromNumber(4);
+            List<DestinationCard> selected = new ArrayList<>();
             if (draw.get(0).getValue() < draw.get(1).getValue())
-                gameEngine.addDestinationCard(this, draw.remove(1));
+                selected.add(draw.get(1));
             else
-                gameEngine.addDestinationCard(this, draw.removeFirst());
+                selected.add(draw.get(0));
             if (draw.get(2).getValue() < draw.get(3).getValue())
-                gameEngine.addDestinationCard(this, draw.remove(3));
+                selected.add(draw.get(3));
             else
-                gameEngine.addDestinationCard(this, draw.remove(2));
+                selected.add(draw.get(2));
+            for (DestinationCard card : selected) {
+                gameEngine.addDestinationCard(this, card);
+            }
             return true;
         } catch (PaquetVideException e) {
             return false;

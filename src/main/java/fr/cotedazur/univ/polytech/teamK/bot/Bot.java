@@ -15,7 +15,7 @@ import java.util.List;
 public abstract class Bot{
 
     private static int COUNT = 1;
-
+    public GameView gameView;
     public final GameEngine gameEngine;
     public String name;
     public final int id;
@@ -32,6 +32,9 @@ public abstract class Bot{
     }
     public String getName(){
         return name;
+    }
+    public void setGameView(GameView gameView){
+        this.gameView = gameView;
     }
     /**
      * Method who will draw the 4 dest Cards with the number of short dest the player chose

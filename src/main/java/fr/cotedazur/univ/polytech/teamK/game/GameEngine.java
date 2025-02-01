@@ -40,6 +40,7 @@ public class GameEngine{
         for (Bot bot : bots) {
             Player player = new Player(bot.getName());
             gameView = new GameView(this,bot);
+            bot.setGameView(gameView);
             players.put(bot,player);
             viewOfPlayers.put(bot,gameView);
         }
@@ -144,7 +145,7 @@ public class GameEngine{
             currentBot = entry.getKey();
             Player currentPlayer = entry.getValue();
             currentBot.playTurn(gameView);
-
+            displayBotInfo(currentBot);
             if (lastPlayer == null && gameOver(currentPlayer)) {
                 lastPlayer = currentPlayer;
             }
@@ -167,7 +168,12 @@ public class GameEngine{
         return player.getWagonsRemaining() < 3;
     }
 
-
+    public void displayBotInfo(Bot bot) {
+        System.out.println(bot.getName() +
+                "Score :" +bot.gameView.getMyScore() +
+                "Connections :" +bot.gameView.getMyConnections() +
+                "Meeples :" +bot.gameView.getMyMeeples());
+    }
 
 
     //A METTRE DANS GAMESCORE

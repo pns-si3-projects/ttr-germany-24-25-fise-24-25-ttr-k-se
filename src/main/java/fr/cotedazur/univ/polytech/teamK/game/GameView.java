@@ -12,6 +12,7 @@ import javax.swing.text.View;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class GameView{
     private GameEngine gameEngine;
@@ -26,8 +27,11 @@ public class GameView{
         return gameEngine.getGameMap();
     }
 
-    public HashMap<Bot, Player> getPlayers() {
-        return gameEngine.getPlayers();
+    public List<String> getPlayerNames() {
+        return gameEngine.getPlayers().values()
+                .stream()
+                .map(Player::getName)
+                .collect(Collectors.toList());
     }
 
     public String getMyName() {return gameEngine.getPlayerByBot(currentBot)

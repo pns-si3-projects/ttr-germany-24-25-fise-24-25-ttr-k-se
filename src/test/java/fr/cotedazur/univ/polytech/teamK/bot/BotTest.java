@@ -20,7 +20,7 @@ import static org.junit.jupiter.api.Assertions.*;
 class BotTest {
     Bot bot;
     List<Bot> listBot ;
-    GameEngine<Bot> gameEngine = new GameEngine<>("Reich");
+    GameEngine gameEngine = new GameEngine("Reich");
 
     @BeforeEach
     void setUp () {
