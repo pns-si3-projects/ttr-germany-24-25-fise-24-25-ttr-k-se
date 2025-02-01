@@ -13,8 +13,31 @@ import java.util.*;
 
 public class BotMedDest extends Bot{
 
-    public BotMedDest(String name, GameEngine<BotMedDest> gameEngine) {
+    public BotMedDest(String name, GameEngine gameEngine) {
         super(name, gameEngine);
+    }
+
+    @Override
+    public boolean playTurn(GameView gameView) throws PaquetVideException, WrongPlayerException {
+        try {
+            if (buyConnection(null)) {
+                return true;
+            }
+        } catch (WrongPlayerException e) {
+            throw new RuntimeException(e);
+        }
+        try {
+            drawDestinationCard();
+        } catch (PaquetVideException e) {
+            try {
+                drawWagonCard(null);
+            } catch (PaquetVideException ex) {
+                return false;
+            } catch (WrongPlayerException e1) {
+                throw new RuntimeException(e1);
+            }
+        }
+        return true;
     }
 
     @Override
@@ -64,28 +87,7 @@ public class BotMedDest extends Bot{
         return true;
     }
 
-    @Override
-    public boolean playTurn(GameView gameView) throws PaquetVideException, WrongPlayerException {
-        try {
-            if (buyConnection(null)) {
-                return true;
-            }
-        } catch (WrongPlayerException e) {
-            throw new RuntimeException(e);
-        }
-        try {
-            drawDestinationCard();
-        } catch (PaquetVideException e) {
-            try {
-                drawWagonCard(null);
-            } catch (PaquetVideException ex) {
-                return false;
-            } catch (WrongPlayerException e1) {
-                throw new RuntimeException(e1);
-            }
-        }
-        return true;
-    }
+
 /*
     private List<Connection> findShortestPath(Board currentMap, String startCity, String endCity) {
         Map<String, Integer> distances = new HashMap<>();

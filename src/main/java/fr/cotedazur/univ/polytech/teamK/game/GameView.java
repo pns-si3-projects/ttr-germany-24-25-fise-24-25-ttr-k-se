@@ -14,10 +14,10 @@ import java.util.HashMap;
 import java.util.List;
 
 public class GameView{
-    private GameEngine<? extends Bot> gameEngine;
+    private GameEngine gameEngine;
     private Bot currentBot; 
     
-    public GameView(GameEngine<? extends Bot> gameEngine, Bot player) {
+    public GameView(GameEngine gameEngine, Bot player) {
         this.gameEngine = gameEngine;
         this.currentBot = player;
     }

@@ -13,27 +13,11 @@ import java.util.*;
 
 public class DumbBot extends Bot {
     HashSet<String> seenCities ;
-    public DumbBot(String name, GameEngine<DumbBot> gameEngine)
+    public DumbBot(String name, GameEngine gameEngine)
     {
         super(name, gameEngine);
         seenCities = new HashSet<String>();
     }
-
-    @Override
-    public boolean drawDestinationCard() throws PaquetVideException, WrongPlayerException {
-        return false;
-    }
-
-    @Override
-    public boolean drawWagonCard(Colors toFocus) throws PaquetVideException, WrongPlayerException {
-        return false;
-    }
-
-    @Override
-    public boolean buyConnection(ArrayList<Connection> path) throws WrongPlayerException {
-        return false;
-    }
-
 
     @Override
     public boolean playTurn(GameView gameView) throws WrongPlayerException
@@ -77,6 +61,21 @@ public class DumbBot extends Bot {
             }
             return true;
         }
+    }
+
+    @Override
+    public boolean drawDestinationCard() throws PaquetVideException, WrongPlayerException {
+        return false;
+    }
+
+    @Override
+    public boolean drawWagonCard(Colors toFocus) throws PaquetVideException, WrongPlayerException {
+        return false;
+    }
+
+    @Override
+    public boolean buyConnection(ArrayList<Connection> path) throws WrongPlayerException {
+        return false;
     }
 
     private String findCityWithID(Board currentMap, String currentCityID) {

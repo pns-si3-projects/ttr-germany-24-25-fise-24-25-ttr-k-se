@@ -11,8 +11,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class MidBot extends Bot{
-    public MidBot(String name,GameEngine<MidBot> gameEngine) {
+    public MidBot(String name,GameEngine gameEngine) {
         super(name, gameEngine);
+    }
+
+    @Override
+    public boolean playTurn(GameView gameView) {
+        try {
+            if (gameEngine.getDestinationCard(this).isEmpty()) {
+                return drawDestinationCard();
+            }
+            ArrayList<DestinationCard> list = gameEngine.getDestinationCard(this);
+            DestinationCard toArchieve = gameEngine.getDestinationCard(this).getFirst();
+            ArrayList<Connection> path = super.djikstra(toArchieve.getStartCity(), toArchieve.getEndCity());
+            if (buyConnection(path))
+                return true;
+            if (drawWagonCard(path.getFirst().getColor()))
+                return true;
+        } catch (WrongPlayerException e) {
+            throw new RuntimeException(e);
+        }
+        return false;
     }
 
     @Override
@@ -75,22 +94,5 @@ public class MidBot extends Bot{
         return false;
     }
 
-    @Override
-    public boolean playTurn(GameView gameView) {
-        try {
-            if (gameEngine.getDestinationCard(this).isEmpty()) {
-                return drawDestinationCard();
-            }
-            ArrayList<DestinationCard> list = gameEngine.getDestinationCard(this);
-            DestinationCard toArchieve = gameEngine.getDestinationCard(this).getFirst();
-            ArrayList<Connection> path = super.djikstra(toArchieve.getStartCity(), toArchieve.getEndCity());
-            if (buyConnection(path))
-                return true;
-            if (drawWagonCard(path.getFirst().getColor()))
-                return true;
-        } catch (WrongPlayerException e) {
-            throw new RuntimeException(e);
-        }
-        return false;
-    }
+
 }

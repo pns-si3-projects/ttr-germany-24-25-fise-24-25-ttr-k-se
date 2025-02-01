@@ -15,9 +15,8 @@ import java.util.List;
 public class Main {
 
     public static void main(String[] args) throws WrongPlayerException {
-        Board gameMap = new Board("Reich");
-        GameEngine<DumbBot> gameEngine = new GameEngine("Reich");
-        List<DumbBot> bots = Arrays.asList(new DumbBot("bot1", gameEngine), new DumbBot("bot2", gameEngine), new DumbBot("bot3", gameEngine));
+        GameEngine gameEngine = new GameEngine("Reich");
+        List<Bot> bots = Arrays.asList(new DumbBot("bot1", gameEngine), new DumbBot("bot2", gameEngine), new DumbBot("bot3", gameEngine));
         gameEngine.addBotsToPlayerMap(bots);
         gameEngine.startGame();
     }

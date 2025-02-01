@@ -16,11 +16,11 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class GameEngine <T extends Bot> {
+public class GameEngine{
     private Board gameMap;
-    private HashMap<T,Player> players;
-    private HashMap<T,GameView> viewOfPlayers;
-    private T currentBot;
+    private HashMap<Bot,Player> players;
+    private HashMap<Bot,GameView> viewOfPlayers;
+    private Bot currentBot;
     private Deck<DestinationCard> shortDestinationDeck;
     private Deck<DestinationCard> longDestinationDeck;
     private Deck<WagonCard> wagonDeck;
@@ -30,14 +30,14 @@ public class GameEngine <T extends Bot> {
         this.gameMap = new Board(mapName);
         this.players = new HashMap<>();
         this.viewOfPlayers = new HashMap<>();
-        //addBotToPlayerMap(players);
+        //addBotBotoPlayerMap(players);
         this.shortDestinationDeck = new Deck<>(TypeOfCards.SHORT_DESTINATION, gameMap);
         this.longDestinationDeck = new Deck<>(TypeOfCards.LONG_DESTINATION, gameMap);
         this.wagonDeck = new Deck<>(TypeOfCards.WAGON, gameMap);
     }
 
-    public void addBotsToPlayerMap(List<T> bots) {
-        for (T bot : bots) {
+    public void addBotsToPlayerMap(List<Bot> bots) {
+        for (Bot bot : bots) {
             Player player = new Player(bot.getName());
             gameView = new GameView(this,bot);
             players.put(bot,player);
@@ -45,7 +45,7 @@ public class GameEngine <T extends Bot> {
         }
     }
 
-    public HashMap<T, Player> getPlayers() { return players; }
+    public HashMap<Bot, Player> getPlayers() { return players; }
     //public Player getPlayerByBot(int id) { return players.get(id); }
     /*
     INFOS RELATIVES AU BOARD
@@ -55,10 +55,10 @@ public class GameEngine <T extends Bot> {
     public Deck<DestinationCard> getLongDestinationDeck() { return longDestinationDeck; }
     public Deck<WagonCard> getWagonDeck() { return wagonDeck; }
     public int getNumberPlayer () {return players.size();}
-    public Player getPlayerByBot (T bot) {return players.get(bot);}
+    public Player getPlayerByBot (Bot bot) {return players.get(bot);}
 
 
-    public void addDestinationCardToDeck(T player, DestinationCard destinationCard) throws PaquetPleinException {
+    public void addDestinationCardToDeck(Bot player, DestinationCard destinationCard) throws PaquetPleinException {
         getPlayerByBot(player).removeDestinationCard(destinationCard);
         if(destinationCard.getType()==TypeOfCards.SHORT_DESTINATION) {
             shortDestinationDeck.addCard(destinationCard);
@@ -68,7 +68,7 @@ public class GameEngine <T extends Bot> {
         }
     }
 
-    public ArrayList<DestinationCard> getDestinationCard(T bot) throws WrongPlayerException {
+    public ArrayList<DestinationCard> getDestinationCard(Bot bot) throws WrongPlayerException {
         if(confirmId(bot)){
             ArrayList<DestinationCard> res = getPlayerByBot(bot).getCartesDestination();
             return res;
@@ -76,14 +76,14 @@ public class GameEngine <T extends Bot> {
         return null;
     }
 
-    public int getNumberColor(T bot, Colors color) throws WrongPlayerException {
+    public int getNumberColor(Bot bot, Colors color) throws WrongPlayerException {
         if(confirmId(bot)){
             return getPlayerByBot(bot).getNumberColor(color);
         }
         return 0;
     }
 
-    public boolean buyRail(T bot, Connection connection, Board board, int number) throws PaquetVideException, WrongPlayerException {
+    public boolean buyRail(Bot bot, Connection connection, Board board, int number) throws PaquetVideException, WrongPlayerException {
         if(confirmId(bot)) {
             getPlayerByBot(bot).buyRail(connection, board, number);
             return true;
@@ -91,7 +91,7 @@ public class GameEngine <T extends Bot> {
         return false;
     }
 
-    public boolean takeMeeples(T bot, City city, Colors color) throws WrongPlayerException {
+    public boolean takeMeeples(Bot bot, City city, Colors color) throws WrongPlayerException {
         if(confirmId(bot)){
             getPlayerByBot(bot).takeMeeples(city, color);
             return true;
@@ -99,28 +99,28 @@ public class GameEngine <T extends Bot> {
         return false;
     }
 
-    public boolean addWagonCard(T bot, WagonCard wagonCard) throws PaquetVideException, WrongPlayerException {
+    public boolean addWagonCard(Bot bot, WagonCard wagonCard) throws PaquetVideException, WrongPlayerException {
         if(confirmId(bot)){
             getPlayerByBot(bot).addCardWagon(wagonCard);
         }
         return false;
     }
 
-    public boolean addDestinationCard(T bot, DestinationCard destinationCard) throws PaquetVideException, WrongPlayerException {
+    public boolean addDestinationCard(Bot bot, DestinationCard destinationCard) throws PaquetVideException, WrongPlayerException {
         if(confirmId(bot)){
             getPlayerByBot(bot).addCardDestination(destinationCard);
         }
         return false;
     }
 
-    public boolean addScore(T bot, int score) throws WrongPlayerException {
+    public boolean addScore(Bot bot, int score) throws WrongPlayerException {
         if(confirmId(bot)){
             getPlayerByBot(bot).addScore(score);
         }
         return false;
     }
 
-    private boolean confirmId(T bot) throws WrongPlayerException {
+    private boolean confirmId(Bot bot) throws WrongPlayerException {
         if (bot.getId()!=currentBot.getId()) {
             throw new WrongPlayerException("Wrong player");
         }
@@ -140,7 +140,7 @@ public class GameEngine <T extends Bot> {
     }
 
     private Player playRound(Player lastPlayer) throws WrongPlayerException {
-        for (Map.Entry<T, Player> entry : players.entrySet()) {
+        for (Map.Entry<Bot, Player> entry : players.entrySet()) {
             currentBot = entry.getKey();
             Player currentPlayer = entry.getValue();
             currentBot.playTurn(gameView);
@@ -153,7 +153,7 @@ public class GameEngine <T extends Bot> {
     }
 
     private void lastRound(Player lastPlayer) throws WrongPlayerException {
-        for (Map.Entry<T, Player> entry : players.entrySet()) {
+        for (Map.Entry<Bot, Player> entry : players.entrySet()) {
             currentBot = entry.getKey();
             Player currentPlayer = entry.getValue();
             currentBot.playTurn(gameView);
