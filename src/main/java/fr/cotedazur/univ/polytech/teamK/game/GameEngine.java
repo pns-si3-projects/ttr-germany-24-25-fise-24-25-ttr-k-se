@@ -144,7 +144,7 @@ public class GameEngine{
         for (Map.Entry<Bot, Player> entry : players.entrySet()) {
             currentBot = entry.getKey();
             Player currentPlayer = entry.getValue();
-            currentBot.playTurn(gameView);
+            currentBot.playTurn();
             displayBotInfo(currentBot);
             if (lastPlayer == null && gameOver(currentPlayer)) {
                 lastPlayer = currentPlayer;
@@ -157,7 +157,7 @@ public class GameEngine{
         for (Map.Entry<Bot, Player> entry : players.entrySet()) {
             currentBot = entry.getKey();
             Player currentPlayer = entry.getValue();
-            currentBot.playTurn(gameView);
+            currentBot.playTurn();
             if (lastPlayer.equals(currentPlayer)) {
                 break;
             }

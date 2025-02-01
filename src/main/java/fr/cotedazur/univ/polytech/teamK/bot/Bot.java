@@ -185,7 +185,7 @@ public abstract class Bot{
      * The main fonction who run the bot
      * @return true if the bot did something
      */
-    public abstract boolean playTurn(GameView gameView) throws WrongPlayerException ;
+    public abstract boolean playTurn() throws WrongPlayerException ;
 
 
 

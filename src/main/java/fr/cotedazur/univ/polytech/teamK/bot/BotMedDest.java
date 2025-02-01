@@ -18,7 +18,7 @@ public class BotMedDest extends Bot{
     }
 
     @Override
-    public boolean playTurn(GameView gameView) throws PaquetVideException, WrongPlayerException {
+    public boolean playTurn() throws PaquetVideException, WrongPlayerException {
         try {
             if (buyConnection(null)) {
                 return true;

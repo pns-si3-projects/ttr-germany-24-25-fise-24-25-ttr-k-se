@@ -20,7 +20,7 @@ public class DumbBot extends Bot {
     }
 
     @Override
-    public boolean playTurn(GameView gameView) throws WrongPlayerException
+    public boolean playTurn() throws WrongPlayerException
     {
         //look at city 0 and purchase a connection. if not possible, look at a random neighbor etc
         //once you find yourself on a city you've already seen, pull cards.

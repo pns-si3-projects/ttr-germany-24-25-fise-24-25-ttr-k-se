@@ -16,7 +16,7 @@ public class MidBot extends Bot{
     }
 
     @Override
-    public boolean playTurn(GameView gameView) {
+    public boolean playTurn() {
         try {
             if (gameEngine.getDestinationCard(this).isEmpty()) {
                 return drawDestinationCard();
