@@ -78,8 +78,7 @@ public class GameEngine{
 
     public boolean buyRail(Bot bot, Connection connection, Board board, int number) throws PaquetVideException, WrongPlayerException {
         if(confirmId(bot)) {
-            getPlayerByBot(bot).buyRail(connection, board, number);
-            return true;
+            return getPlayerByBot(bot).buyRail(connection, board, number);
         }
         return false;
     }
@@ -162,9 +161,10 @@ public class GameEngine{
 
     public void displayBotInfo(Bot bot) {
         System.out.println(bot.getName() +
-                "Score :" +bot.gameView.getMyScore() +
-                "Connections :" +bot.gameView.getMyConnections() +
-                "Meeples :" +bot.gameView.getMyMeeples());
+                " Score : " +bot.gameView.getMyScore() +
+                " Connections : " +bot.gameView.getMyConnections() +
+                " Meeples : " +bot.gameView.getMyMeeples() +
+                " WagonCard : " +bot.gameView.getMyWagonCards());
     }
 
 

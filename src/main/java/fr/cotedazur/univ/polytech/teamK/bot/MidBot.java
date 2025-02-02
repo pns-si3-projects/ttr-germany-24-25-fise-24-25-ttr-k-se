@@ -73,14 +73,11 @@ public class MidBot extends Bot {
 
     @Override
     public boolean buyConnection(ArrayList<Connection> path) throws WrongPlayerException {
-        try {
-            for(Connection connection : path) {
-                if(connection.claimAttempt(gameEngine.getNumberColor(this, connection.getColor()),gameEngine.getPlayerByBot(this),gameEngine.getGameMap(), gameEngine.getNumberPlayer())) {
-                    return true;
-                }
+        for(Connection connection : path) {
+            if(gameEngine.buyRail(this,connection,gameEngine.getGameMap(), gameEngine.getNumberPlayer())) {
+                ArrayList<WagonCard> deck = gameView.getMyWagonCards();
+                return true;
             }
-        } catch (WrongPlayerException e) {
-            throw e;
         }
         return false;
     }

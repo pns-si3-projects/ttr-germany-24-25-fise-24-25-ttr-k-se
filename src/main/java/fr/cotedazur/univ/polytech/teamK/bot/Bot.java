@@ -149,7 +149,7 @@ public abstract class Bot{
         //COnvertion city -> Connection
 
         ArrayList<Connection> res = new ArrayList<>();
-        for(int i=0 ; i<resCity.size()-2 ; i++) {
+        for(int i=0 ; i<resCity.size()-1 ; i++) {
             List<Connection> cityConnection = gameEngine.getGameMap().getCitiesConnections(resCity.get(i).getName());
             for(Connection connection : cityConnection) {
                 if(connection.getOtherCity(resCity.get(i)) == resCity.get(i+1)){
