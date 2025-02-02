@@ -85,8 +85,8 @@ public class Meeple {
 
     @Override
     public String toString() {
-        return "Red=" + listOfOwnedMeeples[0] + ", Black=" + listOfOwnedMeeples[1] +
-                ", Green=" + listOfOwnedMeeples[2] + ", Yellow=" + listOfOwnedMeeples[3] +
-                ", Blue=" + listOfOwnedMeeples[4] + ", White=" + listOfOwnedMeeples[5];
+        return "Black=" + listOfOwnedMeeples[0] + ", Blue=" + listOfOwnedMeeples[1] +
+                ", Red=" + listOfOwnedMeeples[2] + ", White=" + listOfOwnedMeeples[3] +
+                ", Yellow=" + listOfOwnedMeeples[4] + ", Green=" + listOfOwnedMeeples[5];
     }
 }

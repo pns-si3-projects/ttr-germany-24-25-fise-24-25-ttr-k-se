@@ -3,12 +3,14 @@ package fr.cotedazur.univ.polytech.teamK.bot;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
+import fr.cotedazur.univ.polytech.teamK.board.player.PlayerSeenException;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Random;
 
 public class MidBot extends Bot {
 
@@ -75,7 +77,23 @@ public class MidBot extends Bot {
     public boolean buyConnection(ArrayList<Connection> path) throws WrongPlayerException {
         for(Connection connection : path) {
             if(gameEngine.buyRail(this,connection,gameEngine.getGameMap(), gameEngine.getNumberPlayer())) {
-                ArrayList<WagonCard> deck = gameView.getMyWagonCards();
+                int index;
+                Colors meepleColor;
+                Random rand = new Random();
+                int[] res = gameView.getMyMeeples().getListOfOwnedMeeples();
+                try {
+                    do {
+                        index = rand.nextInt(6);
+                        meepleColor = Colors.GRAY.getColorById(index);
+                    } while (!gameEngine.takeMeeples(this,connection.getCityOne(),meepleColor));
+                } catch (PlayerSeenException ignored){
+                }
+                try {
+                    do {
+                        index = rand.nextInt(6);
+                        meepleColor = Colors.GRAY.getColorById(index);
+                    } while (!gameEngine.takeMeeples(this,connection.getCityTwo(),meepleColor));
+                } catch (PlayerSeenException ignored) {}
                 return true;
             }
         }

@@ -5,6 +5,7 @@ import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
+import fr.cotedazur.univ.polytech.teamK.board.player.PlayerSeenException;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 import fr.cotedazur.univ.polytech.teamK.bot.DumbBot;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
@@ -83,10 +84,9 @@ public class GameEngine{
         return false;
     }
 
-    public boolean takeMeeples(Bot bot, City city, Colors color) throws WrongPlayerException {
+    public boolean takeMeeples(Bot bot, City city, Colors color) throws WrongPlayerException, PlayerSeenException{
         if(confirmId(bot)){
-            getPlayerByBot(bot).takeMeeples(city, color);
-            return true;
+            return getPlayerByBot(bot).takeMeeples(city, color);
         }
         return false;
     }

@@ -175,7 +175,7 @@ public class Player {
      * @param city the city to take the neeples from
      * @param colorChoice a list with the order for color choice
      */
-    public boolean takeMeeples(City city, Colors colorChoice) {
+    public boolean takeMeeples(City city, Colors colorChoice) throws IllegalArgumentException, PlayerSeenException {
         if (colorChoice.ordinal() > 5) {
             throw new IllegalArgumentException("Couleur de meeples inconnue");
         }
@@ -184,6 +184,8 @@ public class Player {
                 city.addPlayer(this);
                 return true;
             }
+        } else {
+            throw new PlayerSeenException("Player déjà vu");
         }
         return false;
     }
