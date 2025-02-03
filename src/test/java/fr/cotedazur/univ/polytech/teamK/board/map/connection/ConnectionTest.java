@@ -101,7 +101,7 @@ class ConnectionTest {
 
     @Test
     void testToString() {
-        String expected = "Berlin connected toHannover";
+        String expected = "Berlin connected to Hannover";
         System.out.println(connection.toString());
         assertEquals(expected, connection.toString());
     }
