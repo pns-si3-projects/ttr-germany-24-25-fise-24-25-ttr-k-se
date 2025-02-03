@@ -20,6 +20,9 @@ import java.util.Map;
 public class GameEngine{
     private static final Logger logger = Logger.getLogger(GameEngine.class.getName());
 
+    private final int NUMBER_OF_ROUNDS_WITHOUT_ACTIONS = 5;
+    private int numberOfRoundsWithoutActions = 0;
+
     private Board gameMap;
     private HashMap<Bot,Player> players;
     private HashMap<Bot,GameView> viewOfPlayers;
@@ -118,17 +121,28 @@ public class GameEngine{
     }
 
     public boolean addWagonCard(Bot bot, WagonCard wagonCard) throws PaquetVideException, WrongPlayerException {
-        if(confirmId(bot)){
-            getPlayerByBot(bot).addCardWagon(wagonCard);
+        try {
+            if(confirmId(bot) && wagonCard != null) {
+                getPlayerByBot(bot).addCardWagon(wagonCard);
+            }
+            return false;
         }
-        return false;
+        catch (NullPointerException e) {
+            return false;
+        }
+
     }
 
     public boolean addDestinationCard(Bot bot, DestinationCard destinationCard) throws PaquetVideException, WrongPlayerException {
-        if(confirmId(bot)){
-            getPlayerByBot(bot).addCardDestination(destinationCard);
+        try {
+            if(confirmId(bot) && destinationCard != null) {
+                getPlayerByBot(bot).addCardDestination(destinationCard);
+            }
+            return false;
         }
-        return false;
+        catch (NullPointerException e) {
+            return false;
+        }
     }
 
     public boolean addScore(Bot bot, int score) throws WrongPlayerException {
@@ -157,17 +171,34 @@ public class GameEngine{
         gameView.displayFinalScores();
     }
 
+
     private Player playRound(Player lastPlayer) throws WrongPlayerException {
+        int noMoreActionsCount = 0;
+
         for (Map.Entry<Bot, Player> entry : players.entrySet()) {
             currentBot = entry.getKey();
             Player currentPlayer = entry.getValue();
-            currentBot.playTurn();
-            if (lastPlayer == null && gameOver(currentPlayer)) {
+
+            if (!currentBot.playTurn()) {
+                noMoreActionsCount++;
+            } else {
+                noMoreActionsCount = 0;
+            }
+
+            if ((lastPlayer == null && gameOver(currentPlayer)) || noMoreActionsCheck(noMoreActionsCount,numberOfRoundsWithoutActions)) {
                 lastPlayer = currentPlayer;
             }
         }
+
+        if (noMoreActionsCount == getNumberPlayer()) {
+            numberOfRoundsWithoutActions++;
+        } else {
+            numberOfRoundsWithoutActions = 0;
+        }
+
         return lastPlayer;
     }
+
 
     private void lastRound(Player lastPlayer) throws WrongPlayerException {
         for (Map.Entry<Bot, Player> entry : players.entrySet()) {
@@ -178,6 +209,10 @@ public class GameEngine{
                 break;
             }
         }
+    }
+
+    public boolean noMoreActionsCheck(int numberOfPlayerWithoutActions, int numberOfRoundsWithoutActions) {
+        return (numberOfPlayerWithoutActions == getNumberPlayer()) && (numberOfRoundsWithoutActions == NUMBER_OF_ROUNDS_WITHOUT_ACTIONS);
     }
 
     public boolean gameOver(Player player) {

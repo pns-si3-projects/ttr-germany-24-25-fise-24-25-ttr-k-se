@@ -164,7 +164,13 @@ public class Deck<T extends Card> {
         this.cards.add((T) new DestinationCard(currentMap.getCity("Koln"), currentMap.getCity("Freiburg"), 11));
     }
 
-    public List<T> getVisibleCard () {return visibleCard;}
+    public List<T> getVisibleCard() {
+        if (this.visibleCard.isEmpty()) {
+            throw new PaquetVideException("Il n'y a plus de cartes visibles...");
+        }
+        return visibleCard;
+    }
+
 
     /**
      * Mélange le paquet.
@@ -176,8 +182,10 @@ public class Deck<T extends Card> {
      *
      * @return le dernier élément du paquet.
      */
-    public T draw() {
-        if (cards.isEmpty()) return null;
+    public T draw() throws PaquetVideException {
+        if (this.cards.isEmpty()) {
+            throw new PaquetVideException("Il n'y a plus de cartes wagons.");
+        }
         return cards.removeLast();
     }
 
@@ -192,6 +200,9 @@ public class Deck<T extends Card> {
             throw new IllegalArgumentException("Index invalide");
         }
         T res = visibleCard.remove(index);
+
+        if(cards.isEmpty()) return res;
+
         visibleCard.add(cards.removeFirst());
         return res;
     }
