@@ -1,12 +1,11 @@
 package fr.cotedazur.univ.polytech.teamK.bot;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
+import fr.cotedazur.univ.polytech.teamK.board.cards.DeckEmptyException;
 import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
-import fr.cotedazur.univ.polytech.teamK.board.cards.PaquetVideException;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
-import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
 import java.util.*;
@@ -18,7 +17,7 @@ public class BotMedDest extends Bot{
     }
 
     @Override
-    public boolean playTurn() throws PaquetVideException, WrongPlayerException {
+    public boolean playTurn() throws DeckEmptyException, WrongPlayerException {
         try {
             if (buyConnection(null)) {
                 return true;
@@ -28,10 +27,10 @@ public class BotMedDest extends Bot{
         }
         try {
             drawDestinationCard();
-        } catch (PaquetVideException e) {
+        } catch (DeckEmptyException e) {
             try {
                 drawWagonCard(null);
-            } catch (PaquetVideException ex) {
+            } catch (DeckEmptyException ex) {
                 return false;
             } catch (WrongPlayerException e1) {
                 throw new RuntimeException(e1);
@@ -41,9 +40,9 @@ public class BotMedDest extends Bot{
     }
 
     @Override
-    public boolean drawDestinationCard() throws PaquetVideException, WrongPlayerException {
+    public boolean drawDestinationCard() throws DeckEmptyException, WrongPlayerException {
         if(gameEngine.getShortDestinationDeck().getRemainingCards() <=0 && gameEngine.getLongDestinationDeck().getRemainingCards() <= 0) {
-            throw new PaquetVideException("The 2 deck is empty");
+            throw new DeckEmptyException("The 2 deck is empty");
         }
         int number_short = 2;
         List<DestinationCard> destCardDrawn = drawDestFromNumber(number_short);
@@ -55,22 +54,22 @@ public class BotMedDest extends Bot{
     }
 
     @Override
-    public boolean drawWagonCard(Colors toFocus) throws PaquetVideException, WrongPlayerException {
+    public boolean drawWagonCard(Colors toFocus) throws DeckEmptyException, WrongPlayerException {
         try {
             if (gameEngine.getWagonDeck().getRemainingCards() <= 0) {
-                throw new PaquetVideException("The deck is empty");
+                throw new DeckEmptyException("The deck is empty");
             }
             gameEngine.addWagonCard(this,gameEngine.getWagonDeck().draw());
             gameEngine.addWagonCard(this,gameEngine.getWagonDeck().draw());
             displayDrawWagonCardAction();
             return true;
-        } catch (PaquetVideException e) {
+        } catch (DeckEmptyException e) {
             return false;
         }
     }
 
     @Override
-    public boolean buyConnection(ArrayList<Connection> path) throws PaquetVideException, WrongPlayerException {
+    public boolean buyConnection(ArrayList<Connection> path) throws DeckEmptyException, WrongPlayerException {
         try {
             List<DestinationCard> destinationCards = gameView.getMyDestinationCards();
             for (DestinationCard card : destinationCards) {
@@ -84,7 +83,7 @@ public class BotMedDest extends Bot{
                     }
                 }
             }
-        } catch (PaquetVideException e) {
+        } catch (DeckEmptyException e) {
             return false;
         }
         return true;

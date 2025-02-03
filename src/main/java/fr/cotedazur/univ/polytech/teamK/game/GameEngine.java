@@ -3,15 +3,11 @@ import java.util.logging.Logger;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
-import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.PlayerSeenException;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
-import fr.cotedazur.univ.polytech.teamK.bot.DumbBot;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 
-import java.awt.*;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -90,7 +86,7 @@ public class GameEngine{
     public Player getPlayerByBot (Bot bot) {return players.get(bot);}
 
 
-    public void addDestinationCardToDeck(Bot player, DestinationCard destinationCard) throws PaquetPleinException {
+    public void addDestinationCardToDeck(Bot player, DestinationCard destinationCard) throws DeckFullException {
         getPlayerByBot(player).removeDestinationCard(destinationCard);
         if(destinationCard.getType()==TypeOfCards.SHORT_DESTINATION) {
             shortDestinationDeck.addCard(destinationCard);
@@ -107,7 +103,7 @@ public class GameEngine{
         return 0;
     }
 
-    public boolean buyRail(Bot bot, Connection connection, Board board, int number) throws PaquetVideException, WrongPlayerException {
+    public boolean buyRail(Bot bot, Connection connection, Board board, int number) throws DeckEmptyException, WrongPlayerException {
         if(confirmId(bot)) {
             return getPlayerByBot(bot).buyRail(connection, board, number);
         }
@@ -121,7 +117,7 @@ public class GameEngine{
         return false;
     }
 
-    public boolean addWagonCard(Bot bot, WagonCard wagonCard) throws PaquetVideException, WrongPlayerException {
+    public boolean addWagonCard(Bot bot, WagonCard wagonCard) throws DeckEmptyException, WrongPlayerException {
         try {
             if(confirmId(bot) && wagonCard != null) {
                 getPlayerByBot(bot).addCardWagon(wagonCard);
@@ -134,7 +130,7 @@ public class GameEngine{
 
     }
 
-    public boolean addDestinationCard(Bot bot, DestinationCard destinationCard) throws PaquetVideException, WrongPlayerException {
+    public boolean addDestinationCard(Bot bot, DestinationCard destinationCard) throws DeckEmptyException, WrongPlayerException {
         try {
             if(confirmId(bot) && destinationCard != null) {
                 getPlayerByBot(bot).addCardDestination(destinationCard);

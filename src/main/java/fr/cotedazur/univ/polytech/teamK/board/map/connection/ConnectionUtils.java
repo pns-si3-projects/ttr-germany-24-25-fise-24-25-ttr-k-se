@@ -3,7 +3,6 @@ package fr.cotedazur.univ.polytech.teamK.board.map.connection;
 public class ConnectionUtils {
     /**
      * Calculates the points for a given length.
-     *
      * @param length the length of the connection
      * @return the points for the given length
      * @throws IllegalArgumentException if the length is invalid

@@ -31,7 +31,7 @@ class ConnectionClaimServiceTest {
     void testClaimAttemptSucess(){
         boolean result = connectionClaimService.claimAttempt(connection, 4, player, gameMap, 4);
         assertTrue(result);
-        assertFalse(connection.isFree());
+        assertFalse(connection.getIsFree());
         assertEquals(player, connection.getOwner());
     }
 
@@ -39,7 +39,7 @@ class ConnectionClaimServiceTest {
     void testClaimAttemptNotEnoughCards() {
         boolean result = connectionClaimService.claimAttempt(connection, 2, player, gameMap, 4);
         assertFalse(result);
-        assertTrue(connection.isFree());
+        assertTrue(connection.getIsFree());
         assertNull(connection.getOwner());
     }
 
@@ -48,7 +48,7 @@ class ConnectionClaimServiceTest {
         connection.setFree(false);
         boolean result = connectionClaimService.claimAttempt(connection, 4, player, gameMap, 4);
         assertFalse(result);
-        assertFalse(connection.isFree());
+        assertFalse(connection.getIsFree());
         assertNull(connection.getOwner());
     }
 
@@ -61,10 +61,10 @@ class ConnectionClaimServiceTest {
         Connection connection2 = new Connection(kiel, hamburg, 2, Colors.PINK);
         boolean result = connectionClaimService.claimAttempt(connection2, 2, player, gameMap, 3);
         assertTrue(result);
-        assertFalse(connection2.isFree());
+        assertFalse(connection2.getIsFree());
         assertEquals(player, connection2.getOwner());
-        assertFalse(connection2.isFree());
-        assertTrue(connection1.isFree());
+        assertFalse(connection2.getIsFree());
+        assertTrue(connection1.getIsFree());
     }
 
     @Test

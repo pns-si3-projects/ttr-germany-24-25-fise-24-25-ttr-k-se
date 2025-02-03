@@ -5,15 +5,15 @@ import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import java.util.Objects;
 
 /**
- * Les cartes destinations possèdent les informations que le joueur a besoin pour marquer des points.
- * Il s'agit des trajets "secrets" que le joueur doit accomplir pour gagner des points. Si le joueur
- * ne finit pas la destination avant la fin de la partie, il perdra la quantité de point annoncé par
- * la carte.
+ * Destination cards have the information the player needs to score points.
+ * These are the "secret" routes that the player must complete to earn points. If the player
+ * does not finish the destination before the end of the game, he will lose the amount of points announced by
+ * the map
  */
 public class DestinationCard extends Card {
-    private City startCity;
-    private City endCity;
-    private int value;
+    private final City startCity;
+    private final City endCity;
+    private final int value;
     private boolean isComplete;
 
     public DestinationCard(City startCity, City endCity, int value) {
@@ -29,11 +29,12 @@ public class DestinationCard extends Card {
     public int getValue() { return value; }
 
     /**
-     * @return l'état de complétion de la carte destination.
+     * @return The completion state of a card
      */
     public boolean isComplete() { return isComplete; }
+
     /**
-     * Mets l'état de complétion de la carte en vrai.
+     * Set the completion state to true
      */
     public void setComplete() { this.isComplete = true; }
 

@@ -3,10 +3,10 @@ package fr.cotedazur.univ.polytech.teamK.board.cards;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 
 /**
- * Les cartes wagons représentent les ressources dont le joueur dispose pour construire
- * des trajets sur le plateau de jeu. Chaque carte wagon est associée à une couleur
- * spécifique ou peut être multicolor, utilisable comme substitut pour n'importe quelle
- * couleur.
+ * Wagon cards represent the resources the player has available to build
+ * journeys on the game board. Each wagon card is associated with a color
+ * specific or can be multicolor, usable as a substitute for any
+ * color.
  */
 public class WagonCard extends Card {
     private Colors color;
@@ -16,18 +16,9 @@ public class WagonCard extends Card {
         setColor(color);
     }
 
-    /**
-     * Attribue une couleur à la carte wagon.
-     *
-     * @param color la couleur peut être RAINBOW.
-     */
     public void setColor(Colors color) {
         this.color = color;
     }
-
-    /**
-     * @return la couleur de la carte wagon.
-     */
     public Colors getColor() { return color; }
 
     @Override

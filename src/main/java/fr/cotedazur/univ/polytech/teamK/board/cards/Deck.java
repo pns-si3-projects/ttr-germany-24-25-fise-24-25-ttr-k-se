@@ -29,27 +29,26 @@ public class Deck<T extends Card> {
     }
 
     /**
-     * Creer un paquet de cartes.
-     *
-     * @param type le type de la carte
+     * Create a deck of cards
+     * @param type the cards type
      */
     public void initialize(TypeOfCards type, Board currentMap) {
         this.cards = new ArrayList<>(MAX_CAPACITY);
         if (type == TypeOfCards.SHORT_DESTINATION) {
-            //DESTINATIONS COURTES
             initializeShortDestination(currentMap);
         }
         if (type == TypeOfCards.LONG_DESTINATION) {
-            //DESTINATIONS LONGUES
             initializeLongDestination(currentMap);
         }
-        //créer 12 cartes wagons par couleur et 14 cartes locomotives
         if (type == TypeOfCards.WAGON) {
             initializeWagonCards();
         }
         //shuffle();
     }
 
+    /**
+     * Create the deck of 12 wagons cards per color and 14 locomotives cards
+     */
     private void initializeWagonCards() {
         for (Colors color : Colors.values()) {
             if(color==Colors.RAINBOW) {
@@ -69,6 +68,10 @@ public class Deck<T extends Card> {
         }
     }
 
+    /**
+     * Create longe destination deck
+     * @param currentMap the game map
+     */
     private void initializeLongDestination(Board currentMap) {
         this.cards.add((T) new DestinationCard(currentMap.getCity("Niederlande"), currentMap.getCity("Berlin"), 13));
         this.cards.add((T) new DestinationCard(currentMap.getCity("Dortmund"), currentMap.getCity("Munchen"), 13));
@@ -106,6 +109,10 @@ public class Deck<T extends Card> {
         this.cards.add((T) new DestinationCard(currentMap.getCity("Kiel"), currentMap.getCity("Schweiz"), 20));
     }
 
+    /**
+     * short destination
+     * @param currentMap the game map
+     */
     private void initializeShortDestination(Board currentMap) {
         this.cards.add((T) new DestinationCard(currentMap.getCity("Mannheim"), currentMap.getCity("Stuttgart"), 2));
         this.cards.add((T) new DestinationCard(currentMap.getCity("Mainz"), currentMap.getCity("Stuttgart"), 3));
@@ -164,40 +171,43 @@ public class Deck<T extends Card> {
         this.cards.add((T) new DestinationCard(currentMap.getCity("Koln"), currentMap.getCity("Freiburg"), 11));
     }
 
+    /**
+     * Get all the wagon visible wagon
+     * @return a list of wagons cards
+     */
     public List<T> getVisibleCard() {
         if (this.visibleCard.isEmpty()) {
-            throw new PaquetVideException("Il n'y a plus de cartes visibles...");
+            throw new DeckEmptyException("There is no visible cards remaining");
         }
         return visibleCard;
     }
 
 
     /**
-     * Mélange le paquet.
+     * Shuffle a deck of cards
      */
     public void shuffle() { Collections.shuffle(cards); }
 
     /**
-     * Retire le dernier élément du paquet, equivalent du pop() dans les piles.
-     *
-     * @return le dernier élément du paquet.
+     * draw a card form a deck
+     * @return the top cards of a deck
      */
-    public T draw() throws PaquetVideException {
+    public T draw() throws DeckEmptyException {
         if (this.cards.isEmpty()) {
-            throw new PaquetVideException("Il n'y a plus de cartes dans le paquet.");
+            throw new DeckEmptyException("There is no wagons cards remaining");
         }
         return cards.removeLast();
     }
 
     /**
-     * tire une carte visible, puis la remplace par une du paquet.
-     * @param index la index-ième carte visible
-     * @return la carte visible
-     * @throws IllegalArgumentException
+     * Draw a card from the visible cards
+     * @param index the position of the card
+     * @return the card we wanted
+     * @throws IllegalArgumentException if the position isn't right
      */
     public T drawVisibleCard (int index) throws IllegalArgumentException {
         if (index > 3) {
-            throw new IllegalArgumentException("Index invalide");
+            throw new IllegalArgumentException("Invalide index");
         }
         T res = visibleCard.remove(index);
 
@@ -208,18 +218,18 @@ public class Deck<T extends Card> {
     }
 
     /**
-     * Ajoute une carte au paquet seulement si la capacité maximale n'est pas atteinte.
-     *
-     * @param card La carte à ajouter
+     * Add a card to a deck
+     * @param card the card to add
+     * @throws DeckFullException if the deck is already full
      */
-    public void addCard(T card) throws PaquetPleinException {
+    public void addCard(T card) throws DeckFullException {
         if (cards.size() == MAX_CAPACITY) {
-            throw new PaquetPleinException("Le paquet est plein");
+            throw new DeckFullException("The deck is full");
         }
         cards.add(card);
     }
     /**
-     * @return le nombre de cartes restantes dans le paquet.
+     * @return the number of cards remaining in a deck
      */
     public int getRemainingCards() {
         return cards.size();

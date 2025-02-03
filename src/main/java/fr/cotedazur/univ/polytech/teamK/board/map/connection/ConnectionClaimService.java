@@ -7,7 +7,6 @@ import fr.cotedazur.univ.polytech.teamK.game.Board;
 public class ConnectionClaimService {
     /**
      * Attempts to claim the connection.
-     *
      * @param connection        the connection to be claimed
      * @param numberOfCardsUsed the number of cards used to claim the connection
      * @param player            the player attempting to claim the connection
@@ -34,20 +33,41 @@ public class ConnectionClaimService {
         }
     }
 
+    /**
+     * check if the number of cards is normal
+     * @param numberOfCardsUsed the number of cards
+     */
     private static void validateNumberOfCards(Integer numberOfCardsUsed) {
         if (numberOfCardsUsed < 0) {
             throw new IllegalArgumentException("Number of Cards Used must be greater than 0");
         }
     }
 
+    /**
+     * check if a number of cards is enoough to buy a connection
+     * @param numberOfCardsUsed the number we have
+     * @param connection the connection we want to check
+     * @return true if the number is enough, false otherwise
+     */
     private static boolean hasEnoughCards(Integer numberOfCardsUsed, Connection connection) {
         return numberOfCardsUsed >= connection.getLength();
     }
 
+    /**
+     * check if a connection is free
+     * @param connection the connection to check
+     * @return true if the connection is free, false otherwise
+     */
     private static boolean isConnectionFree(Connection connection) {
-        return connection.isFree();
+        return connection.getIsFree();
     }
 
+    /**
+     * Claim a connection
+     * @param connection the connection to claim
+     * @param player the player who claim it
+     * @param gameMap the map to use
+     */
     private static void claimConnection(Connection connection, Player player, Board gameMap) {
         connection.setFree(false);
         connection.setOwner(player);
@@ -55,7 +75,6 @@ public class ConnectionClaimService {
 
     /**
      * Marks other connections between the same cities as claimed.
-     *
      * @param gameMap the game map
      * @param cityOne the first city
      * @param cityTwo the second city
