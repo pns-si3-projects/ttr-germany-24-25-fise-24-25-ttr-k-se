@@ -1,5 +1,5 @@
 package fr.cotedazur.univ.polytech.teamK.game;
-
+import java.util.logging.Logger;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
@@ -18,6 +18,8 @@ import java.util.List;
 import java.util.Map;
 
 public class GameEngine{
+    private static final Logger logger = Logger.getLogger(GameEngine.class.getName());
+
     private Board gameMap;
     private HashMap<Bot,Player> players;
     private HashMap<Bot,GameView> viewOfPlayers;
@@ -44,6 +46,30 @@ public class GameEngine{
             bot.setGameView(gameView);
             players.put(bot,player);
             viewOfPlayers.put(bot,gameView);
+        }
+    }
+
+    public void logGameStatistics(){
+        int totalGames = 0;
+        int gamesWon = 0;
+        int gamesLost = 0;
+        int gamesEven = 0;
+        Map<Bot, Integer> botScores = new HashMap<>();
+        for(Map.Entry<Bot, Player> entry: players.entrySet()){
+            Bot bot = entry.getKey();
+            Player player = entry.getValue();
+            int score = player.getScore();
+            botScores.put(bot, botScores.getOrDefault(bot, 0)+ score);
+        }
+        logger.info("Total games: " + totalGames);
+        logger.info("Games won: " + (gamesWon * 100.0 / totalGames) + "%");
+        logger.info("Games lost: "+ (gamesLost*100.0 / totalGames) + "%");
+        logger.info("Games even: "+(gamesEven * 100 / totalGames) + "%");
+
+        for(Map.Entry<Bot, Integer> entry : botScores.entrySet()){
+            Bot bot = entry.getKey();
+            int totalScore = entry.getValue();
+            logger.info("Average score for "+ bot.getName() + " is : " + (totalScore / totalGames));
         }
     }
 
