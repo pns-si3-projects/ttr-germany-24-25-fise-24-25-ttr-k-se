@@ -63,6 +63,12 @@ Lancer une classe principale définie par l'utilisateur.
             <version>1.15.3</version>
             <scope>test</scope>
         </dependency>
+        <dependency>
+            <groupId>org.jcommander</groupId>
+            <artifactId>jcommander</artifactId>
+            <version>2.0</version>
+        </dependency>
+
     </dependencies>
 
     <build>
