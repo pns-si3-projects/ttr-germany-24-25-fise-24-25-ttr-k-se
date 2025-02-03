@@ -1,5 +1,5 @@
 package fr.cotedazur.univ.polytech.teamK.game;
-
+import java.util.logging.Logger;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
