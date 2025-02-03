@@ -22,11 +22,12 @@ public class GameEngine{
 
     private final int NUMBER_OF_ROUNDS_WITHOUT_ACTIONS = 5;
     private int numberOfRoundsWithoutActions = 0;
-
+    
     private Board gameMap;
     private HashMap<Bot,Player> players;
     private HashMap<Bot,GameView> viewOfPlayers;
     private Bot currentBot;
+    private Player lastPlayer = null;
     private Deck<DestinationCard> shortDestinationDeck;
     private Deck<DestinationCard> longDestinationDeck;
     private Deck<WagonCard> wagonDeck;
@@ -160,14 +161,12 @@ public class GameEngine{
     }
 
     public void startGame() throws WrongPlayerException {
-        Player lastPlayer = null;
-
         while (lastPlayer==null) {
             lastPlayer = playRound(lastPlayer);
         }
         lastRound(lastPlayer);
         calculateMeeplePoints();
-        System.out.println("Partie terminée !");
+        displayEndGameMessage();
         gameView.displayFinalScores();
     }
 
@@ -191,7 +190,7 @@ public class GameEngine{
         }
 
         if (noMoreActionsCount == getNumberPlayer()) {
-            numberOfRoundsWithoutActions++;
+            ++numberOfRoundsWithoutActions;
         } else {
             numberOfRoundsWithoutActions = 0;
         }
@@ -219,6 +218,14 @@ public class GameEngine{
         return player.getWagonsRemaining() < 3;
     }
 
+    public void displayEndGameMessage(){
+        if(numberOfRoundsWithoutActions==NUMBER_OF_ROUNDS_WITHOUT_ACTIONS+1){
+            System.out.println("La partie est terminée, les bots ne font plus rien depuis " + NUMBER_OF_ROUNDS_WITHOUT_ACTIONS + " rounds");
+        }
+        else{
+            System.out.println("La partie est terminée, il reste à " +lastPlayer.getName() +" " + lastPlayer.getWagonsRemaining() +" wagons.");
+        }
+    }
     public void displayBotInfo(Bot bot) {
         System.out.println(bot.getName() +
                 " Score : " +bot.gameView.getMyScore() +

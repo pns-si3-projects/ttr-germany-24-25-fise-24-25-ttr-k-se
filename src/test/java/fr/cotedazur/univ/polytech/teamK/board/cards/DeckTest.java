@@ -52,7 +52,7 @@ class DeckTest {
         while(shortDestinationDeck.getRemainingCards() > 0){
             shortDestinationDeck.draw();
         }
-        assertNull(shortDestinationDeck.draw());
+        assertThrows(PaquetVideException.class, () -> shortDestinationDeck.draw());
     }
 
     @Test
