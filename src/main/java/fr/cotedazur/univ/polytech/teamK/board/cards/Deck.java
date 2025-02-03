@@ -181,6 +181,12 @@ public class Deck<T extends Card> {
         return cards.removeLast();
     }
 
+    /**
+     * tire une carte visible, puis la remplace par une du paquet.
+     * @param index la index-ième carte visible
+     * @return la carte visible
+     * @throws IllegalArgumentException
+     */
     public T drawVisibleCard (int index) throws IllegalArgumentException {
         if (index > 3) {
             throw new IllegalArgumentException("Index invalide");

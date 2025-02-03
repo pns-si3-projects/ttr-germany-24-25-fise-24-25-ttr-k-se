@@ -65,16 +65,19 @@ public class DumbBot extends Bot {
 
     @Override
     public boolean drawDestinationCard() throws PaquetVideException, WrongPlayerException {
+        displayDrawDestinationCardAction();
         return false;
     }
 
     @Override
     public boolean drawWagonCard(Colors toFocus) throws PaquetVideException, WrongPlayerException {
+        displayDrawWagonCardAction();
         return false;
     }
 
     @Override
     public boolean buyConnection(ArrayList<Connection> path) throws WrongPlayerException {
+        displayBuyConnectionAction();
         return false;
     }
 

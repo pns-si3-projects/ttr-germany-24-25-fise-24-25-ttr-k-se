@@ -47,7 +47,7 @@ public class MidBot extends Bot {
             for (DestinationCard card : selected) {
                 gameEngine.addDestinationCard(this,card);
             }
-
+            displayDrawDestinationCardAction();
             return true;
         } catch (PaquetVideException e) {
             return false;
@@ -58,13 +58,15 @@ public class MidBot extends Bot {
     public boolean drawWagonCard(Colors toFocus) throws PaquetVideException, WrongPlayerException {
         try {
             Deck<WagonCard> wagonDeck = gameEngine.getWagonDeck();
-            for (int i = 0; i < wagonDeck.getVisibleCard().size(); i++) {
+            List<WagonCard> visibleCard = wagonDeck.getVisibleCard();
+            for (int i = 0; i < visibleCard.size(); i++) {
                 if (wagonDeck.getVisibleCard().get(i).getColor() == toFocus) {
                     gameEngine.addWagonCard(this, gameEngine.getWagonDeck().drawVisibleCard(i));
                     return true;
                 }
             }
             gameEngine.addWagonCard(this, gameEngine.getWagonDeck().draw());
+            displayDrawWagonCardAction();
             return true;
         } catch (PaquetVideException e) {
             return false;
@@ -94,6 +96,7 @@ public class MidBot extends Bot {
                         meepleColor = Colors.GRAY.getColorById(index);
                     } while (!gameEngine.takeMeeples(this,connection.getCityTwo(),meepleColor));
                 } catch (PlayerSeenException ignored) {}
+                displayBuyConnectionAction();
                 return true;
             }
         }

@@ -30,7 +30,7 @@ public class Player {
         this.id = COUNT++;
         this.name = name;
         this.score = 0;
-        this.wagonsRemaining = 5;
+        this.wagonsRemaining = 45;
         this.wagonCards = new ArrayList<>();
         this.destinationCards = new ArrayList<>();
         this.connections = new ArrayList<>();

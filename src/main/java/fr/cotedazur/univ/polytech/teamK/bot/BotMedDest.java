@@ -50,6 +50,7 @@ public class BotMedDest extends Bot{
         for(DestinationCard card : destCardDrawn){
             gameEngine.addDestinationCard(this,card);
         }
+        displayDrawDestinationCardAction();
         return true;
     }
 
@@ -61,6 +62,7 @@ public class BotMedDest extends Bot{
             }
             gameEngine.addWagonCard(this,gameEngine.getWagonDeck().draw());
             gameEngine.addWagonCard(this,gameEngine.getWagonDeck().draw());
+            displayDrawWagonCardAction();
             return true;
         } catch (PaquetVideException e) {
             return false;
@@ -77,6 +79,7 @@ public class BotMedDest extends Bot{
                 List<Connection> way = djikstra(startCity, endCity);
                 for (Connection connection : way) {
                     if (gameEngine.buyRail(this, connection, gameEngine.getGameMap(), gameEngine.getNumberPlayer())) {
+                        displayBuyConnectionAction();
                         return true;
                     }
                 }

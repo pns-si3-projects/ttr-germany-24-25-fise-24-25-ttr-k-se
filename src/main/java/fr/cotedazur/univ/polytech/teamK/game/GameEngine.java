@@ -136,7 +136,6 @@ public class GameEngine{
             currentBot = entry.getKey();
             Player currentPlayer = entry.getValue();
             currentBot.playTurn();
-            displayBotInfo(currentBot);
             if (lastPlayer == null && gameOver(currentPlayer)) {
                 lastPlayer = currentPlayer;
             }

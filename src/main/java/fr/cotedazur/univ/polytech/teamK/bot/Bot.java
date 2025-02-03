@@ -169,6 +169,9 @@ public abstract class Bot{
      */
     public abstract boolean drawDestinationCard() throws PaquetVideException, WrongPlayerException;
 
+    public void displayDrawDestinationCardAction(){
+        System.out.println(getName() + " tire des cartes destinations. ");
+    }
     /**
      * The bot will choose the wagon card he want in the deck
      * @return true if the draw succeed
@@ -176,10 +179,18 @@ public abstract class Bot{
      */
     public abstract boolean drawWagonCard(Colors toFocus) throws PaquetVideException, WrongPlayerException ;
 
+    public void displayDrawWagonCardAction(){
+        System.out.println(getName() + " tire des cartes wagons. ");
+    }
+
     /**
      * The bot will choose to buy a connection or not
      */
     public abstract boolean buyConnection(ArrayList<Connection> path) throws WrongPlayerException;
+
+    public void displayBuyConnectionAction(){
+        System.out.println(getName() + " achète une connection. ");
+    }
 
     /**
      * The main fonction who run the bot
