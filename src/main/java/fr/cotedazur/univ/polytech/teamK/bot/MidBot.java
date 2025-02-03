@@ -28,7 +28,13 @@ public class MidBot extends Bot {
             DestinationCard toAchieve = list.getFirst();
             ArrayList<Connection> path = super.djikstra(toAchieve.getStartCity(), toAchieve.getEndCity());
             if (buyConnection(path)) return true;
-            if (drawWagonCard(path.getFirst().getColor())) return true;
+            if (drawWagonCard(path.getFirst().getColor())) {
+                return true;
+            }
+            //else{
+                //lui donner une alternative, ici il ne peut plus récupérer de cartes wagons.
+            //}
+
         } catch (WrongPlayerException e) {
             throw new RuntimeException(e);
         }
