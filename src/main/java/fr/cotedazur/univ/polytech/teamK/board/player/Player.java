@@ -62,6 +62,7 @@ public class Player {
     public ArrayList<Connection> getConnections() {
         return connections;
     }
+    public PlayerOwnedMap getPlayerMap() {return playerMap;}
 
     public static void resetIdCounter() {
         COUNT = 1;
@@ -90,6 +91,9 @@ public class Player {
         return true;
     }
 
+    public boolean isNeighbour (City cityOne, City cityTwo) {
+        return playerMap.isNeighbour(cityOne.getName(),cityTwo.getName());
+    }
 
     public boolean removeCardWagon(Colors color, int count) {
         if (getNumberColor(color) < count) {

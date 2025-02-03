@@ -4,6 +4,7 @@ import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
+import fr.cotedazur.univ.polytech.teamK.board.player.PlayerOwnedMap;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
@@ -106,6 +107,9 @@ public abstract class Bot{
             for(Connection connection : actual.getConnectionList()) {
                 int i1 = djikstraLine.get(actual)+connection.getLength();
                 int i2 = djikstraLine.get(connection.getOtherCity(actual));
+                if(gameEngine.getPlayerByBot(this).isNeighbour(actual,connection.getOtherCity(actual))) {
+                    djikstraLine.replace(connection.getOtherCity(actual),djikstraLine.get(actual));
+                }
                 if (i1< i2 && connection.isFree())
                     djikstraLine.replace(connection.getOtherCity(actual),djikstraLine.get(actual)+connection.getLength());
             }
