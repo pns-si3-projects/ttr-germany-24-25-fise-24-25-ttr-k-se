@@ -22,7 +22,10 @@ public class GameEngine{
 
     private final int NUMBER_OF_ROUNDS_WITHOUT_ACTIONS = 5;
     private int numberOfRoundsWithoutActions = 0;
-    
+    private int totalGames = 0;
+    private int gamesWon = 0;
+    private int gamesLost = 0;
+    private int gamesEven = 0;
     private Board gameMap;
     private HashMap<Bot,Player> players;
     private HashMap<Bot,GameView> viewOfPlayers;
@@ -54,10 +57,7 @@ public class GameEngine{
     }
 
     public void logGameStatistics(){
-        int totalGames = 0;
-        int gamesWon = 0;
-        int gamesLost = 0;
-        int gamesEven = 0;
+        totalGames++;
         Map<Bot, Integer> botScores = new HashMap<>();
         for(Map.Entry<Bot, Player> entry: players.entrySet()){
             Bot bot = entry.getKey();
@@ -66,14 +66,25 @@ public class GameEngine{
             botScores.put(bot, botScores.getOrDefault(bot, 0)+ score);
         }
         logger.info("Total games: " + totalGames);
-        logger.info("Games won: " + (gamesWon * 100.0 / totalGames) + "%");
-        logger.info("Games lost: "+ (gamesLost*100.0 / totalGames) + "%");
-        logger.info("Games even: "+(gamesEven * 100 / totalGames) + "%");
-
+        if(totalGames > 0) {
+            double winPercentage = (double) gamesWon / totalGames * 100;
+            double lossPercentage = (double) gamesLost / totalGames * 100;
+            double evenPercentage = (double) gamesEven / totalGames * 100;
+            logger.info("Games won: " + (gamesWon * 100.0 / totalGames) + "%");
+            logger.info("Games lost: " + (gamesLost * 100.0 / totalGames) + "%");
+            logger.info("Games even: " + (gamesEven * 100 / totalGames) + "%");
+        }else {
+            logger.info("Games won : 0%");
+            logger.info("Games lost : 0%");
+        }
         for(Map.Entry<Bot, Integer> entry : botScores.entrySet()){
             Bot bot = entry.getKey();
             int totalScore = entry.getValue();
-            logger.info("Average score for "+ bot.getName() + " is : " + (totalScore / totalGames));
+            if(totalGames > 0) {
+                logger.info("Average score for " + bot.getName() + " is : " + (totalScore / totalGames));
+            }else {
+                logger.info("Average score for " + bot.getName() + " is : 0");
+            }
         }
     }
 

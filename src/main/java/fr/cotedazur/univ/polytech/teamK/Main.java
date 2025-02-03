@@ -19,5 +19,6 @@ public class Main {
         List<Bot> bots = Arrays.asList(new MidBot("YEETER", gameEngine), new MidBot("WILLER", gameEngine), new MidBot("RAMMER", gameEngine));
         gameEngine.addBotsToPlayerMap(bots);
         gameEngine.startGame();
+        gameEngine.logGameStatistics();
     }
 }
