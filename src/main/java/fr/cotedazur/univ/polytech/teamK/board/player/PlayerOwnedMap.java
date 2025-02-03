@@ -14,23 +14,36 @@ public class PlayerOwnedMap {
         createVirtualConnectionMap();
     }
     /**
+     * getter for the map
+     */
+    public Map<String, Map<String, Integer>> getVirtualConnectionsCreated() {
+        return virtualConnectionsCreated;
+    }
+
+    /**
      * creates the map of cities the player has managed to tie together
-     *
      */
     public void createVirtualConnectionMap(){
         virtualConnectionsCreated = new HashMap<String, Map<String, Integer>>();
     }
     /**
      * adds a city to the map of cities the player has manged to tie together
-     *
      */
     private void addCityToHashmap(City city) {
         virtualConnectionsCreated.put(city.getName(), new HashMap<String, Integer>());
     }
+
+    /**
+     * Ads cityOne as a neighbor of cityTwo and vise versa
+     * @param cityOneName the first city
+     * @param cityTwoName the second city
+     * @param length the length of the connection
+     */
     private void addNeighborToCity(String cityOneName, String cityTwoName, int length) {
         virtualConnectionsCreated.get(cityOneName).put(cityTwoName, length);
         virtualConnectionsCreated.get(cityTwoName).put(cityOneName, length);
     }
+
     /**
      * connects two cities together on the map of connected cities:
      * @param cityOneName name of the first city
@@ -49,6 +62,7 @@ public class PlayerOwnedMap {
             addNeighborToCity(cityOneName, cityTwoName, length);
         }
     }
+
     /**
      * updates the map of connected cities
      * @param c the connection that was just purchased
@@ -76,6 +90,7 @@ public class PlayerOwnedMap {
             }
         }
     }
+
     /**
      * have we found the city yet
      * @param cityName the city we want to see if we have found yet
@@ -84,6 +99,7 @@ public class PlayerOwnedMap {
     public boolean foundCity(String cityName) {
         return virtualConnectionsCreated.containsKey(cityName);
     }
+
     /**
      * test if two cities are connected
      * @param cityTwoName the first city
@@ -98,6 +114,7 @@ public class PlayerOwnedMap {
             return virtualConnectionsCreated.get(cityOneName).containsKey(cityTwoName);
         }
     }
+
     /**
      * distance between two cities
      * @param cityTwoName first city
@@ -107,6 +124,7 @@ public class PlayerOwnedMap {
     public int distance(String cityOneName, String cityTwoName) {
         return virtualConnectionsCreated.get(cityOneName).get(cityTwoName);
     }
+
     /**
      * connects a country and city
      * countries cannot be a link in a chain, they are dead ends
@@ -127,9 +145,16 @@ public class PlayerOwnedMap {
         }
     }
 
+    /**
+     * Give the length between two cities
+     * @param cityOneName first city
+     * @param cityTwoName second city
+     * @return the length
+     */
     private int lengthBetweenCities(String cityOneName, String cityTwoName) {
         return virtualConnectionsCreated.get(cityOneName).get(cityTwoName);
     }
+
     /**
      * connects a city and city
      * countries cannot be a link in a chain, they are dead ends

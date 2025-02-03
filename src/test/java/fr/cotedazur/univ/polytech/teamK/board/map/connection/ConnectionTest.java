@@ -5,12 +5,8 @@ import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
-import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
-
-import java.util.ArrayList;
-import java.util.Arrays;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -36,14 +32,14 @@ class ConnectionTest {
         assertEquals(cityTwo, connection.getCityTwo());
         assertEquals(7, connection.getLength());
         assertEquals(Colors.YELLOW, connection.getColor());
-        assertTrue(connection.isFree());
+        assertTrue(connection.getIsFree());
         assertNull(connection.getOwner());
     }
 
     @Test
     void testSetFree() {
         connection.setFree(false);
-        assertFalse(connection.isFree());
+        assertFalse(connection.getIsFree());
     }
 
     @Test
@@ -56,7 +52,7 @@ class ConnectionTest {
     void testClaimAttemptSuccess() {
         boolean result = connection.claimAttempt(7, player, gameMap, 4);
         assertTrue(result);
-        assertFalse(connection.isFree());
+        assertFalse(connection.getIsFree());
         assertEquals(player, connection.getOwner());
     }
 
@@ -64,7 +60,7 @@ class ConnectionTest {
     void testClaimAttemptNotEnoughCards() {
         boolean result = connection.claimAttempt(2, player, gameMap, 4);
         assertFalse(result);
-        assertTrue(connection.isFree());
+        assertTrue(connection.getIsFree());
         assertNull(connection.getOwner());
     }
 
@@ -73,7 +69,7 @@ class ConnectionTest {
         connection.setFree(false);
         boolean result = connection.claimAttempt(4, player, gameMap, 4);
         assertFalse(result);
-        assertFalse(connection.isFree());
+        assertFalse(connection.getIsFree());
         assertNull(connection.getOwner());
     }
 
@@ -88,9 +84,9 @@ class ConnectionTest {
 
         boolean result = connection.claimAttempt(7, player, gameMap, 5);
         assertTrue(result);
-        assertFalse(connection.isFree());
+        assertFalse(connection.getIsFree());
         assertEquals(player, connection.getOwner());
-        assertFalse(connection2.isFree());
+        assertFalse(connection2.getIsFree());
     }
 
     @Test

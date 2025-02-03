@@ -14,43 +14,27 @@ public class Connection {
     private Player owner;
     private boolean isFree;
     private static int COUNT = 1;
-    private int tag;
 
     private ConnectionClaimService claimService;
     private ConnectionUtils utils;
 
-    /**
-     * Constructs a Connection object for virtual connections.
-     *
-     * @param cityOne the first city
-     * @param cityTwo the second city
-     */
     public Connection(City cityOne, City cityTwo) {
         this(cityOne,cityTwo,0, null);
     }
 
-    /**
-     * Constructs a Connection object for physical connections.
-     *
-     * @param cityOne the first city
-     * @param cityTwo the second city
-     * @param aLength the length of the connection
-     * @param aColor  the color of the connection
-     */
     public Connection(City cityOne, City cityTwo, Integer aLength, Colors aColor)
     {
-        this.cityOne = cityOne;
-        this.cityTwo = cityTwo;
+        setCityOne(cityOne);
+        setCityTwo(cityTwo);
         setLength(aLength);
-        setColor(aColor);
-        setFree(true);
-        setOwner(null);
-        this.tag = COUNT++;
+        this.color = aColor;
+        this.isFree = true;
+        this.owner =null;
+        COUNT++;
     }
 
     /**
      * Sets the first city.
-     *
      * @param cityOne the first city
      * @throws IllegalArgumentException if cityOne is null
      */
@@ -90,70 +74,26 @@ public class Connection {
         this.length = length;
     }
 
-    /**
-     * Sets the color of the connection.
-     *
-     * @param color the color of the connection
-     */
-    private void setColor(Colors color) {
-        this.color = color;
-    }
-
-    /**
-     * Sets whether the connection is free.
-     *
-     * @param free true if the connection is free, false otherwise
-     */
-    public void setFree(boolean free)
-    {
-        isFree = free;
-    }
-
-    /**
-     * Sets the owner of the connection.
-     *
-     * @param owner the owner of the connection
-     */
-    public void setOwner(Player owner) {
-        this.owner = owner;
-    }
-
-    /**
-     * Gets the first city.
-     *
-     * @return the first city
-     */
+    public void setOwner(Player owner) {this.owner = owner;}
+    public void setFree(boolean free) {isFree = free;}
     public City getCityOne() {
         return cityOne;
     }
-
-    /**
-     * Gets the second city.
-     *
-     * @return the second city
-     */
     public City getCityTwo() {
         return cityTwo;
     }
-
-    /**
-     * Gets the length of the connection.
-     *
-     * @return the length of the connection
-     */
     public Integer getLength() {
         return length;
     }
-
-    /**
-     * Gets the color of the connection.
-     *
-     * @return the color of the connection
-     */
     public Colors getColor() {
         return color;
     }
 
+    /**
+     * Get a city we don't know from a connection
+     * @param city the city we know
+     * @return the city we don't know
+     */
     public City getOtherCity(City city) {
         if (city.equals(cityOne)) {
             return cityTwo;
@@ -164,27 +104,15 @@ public class Connection {
         }
     }
 
-    /**
-     * Checks if the connection is free.
-     *
-     * @return true if the connection is free, false otherwise
-     */
-    public boolean isFree() {
+    public boolean getIsFree() {
         return isFree;
     }
-
-    /**
-     * Gets the owner of the connection.
-     *
-     * @return the owner of the connection
-     */
     public Player getOwner() {
         return owner;
     }
 
     /**
      * Attempts to claim the connection.
-     *
      * @param numberOfCardsUsed the number of cards used to claim the connection
      * @param player            the player attempting to claim the connection
      * @param gameMap           the game map
@@ -198,7 +126,6 @@ public class Connection {
 
     /**
      * Calculates the points for the connection's length.
-     *
      * @return the points for the connection's length
      * @throws IllegalArgumentException if the length is invalid
      */

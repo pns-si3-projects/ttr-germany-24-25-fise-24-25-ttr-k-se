@@ -5,7 +5,6 @@ import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.PlayerSeenException;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
-import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
 import java.util.ArrayList;
@@ -42,7 +41,7 @@ public class MidBot extends Bot {
     }
 
     @Override
-    public boolean drawDestinationCard() throws PaquetVideException, WrongPlayerException {
+    public boolean drawDestinationCard() throws DeckEmptyException, WrongPlayerException {
         try {
             List<DestinationCard> draw = drawDestFromNumber(4);
             List<DestinationCard> selected = new ArrayList<>();
@@ -55,13 +54,13 @@ public class MidBot extends Bot {
             }
             displayDrawDestinationCardAction();
             return true;
-        } catch (PaquetVideException e) {
+        } catch (DeckEmptyException e) {
             return false;
         }
     }
 
     @Override
-    public boolean drawWagonCard(Colors toFocus) throws PaquetVideException, WrongPlayerException {
+    public boolean drawWagonCard(Colors toFocus) throws DeckEmptyException, WrongPlayerException {
         try {
             Deck<WagonCard> wagonDeck = gameEngine.getWagonDeck();
             List<WagonCard> visibleCard = wagonDeck.getVisibleCard();
@@ -73,7 +72,7 @@ public class MidBot extends Bot {
             gameEngine.addWagonCard(this, gameEngine.getWagonDeck().draw());
             displayDrawWagonCardAction();
             return true;
-        } catch (PaquetVideException e) {
+        } catch (DeckEmptyException e) {
             return false;
         } catch (WrongPlayerException e) {
             throw e;

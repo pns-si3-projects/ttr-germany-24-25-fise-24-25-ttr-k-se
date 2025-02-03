@@ -91,11 +91,24 @@ public class Player {
         return true;
     }
 
+    /**
+     * Determined if two cities are connected
+     * @param cityOne the first city
+     * @param cityTwo the second city
+     * @return true if the cities are connected, false otherwise
+     */
     public boolean isNeighbour (City cityOne, City cityTwo) {
         return playerMap.isNeighbour(cityOne.getName(),cityTwo.getName());
     }
 
-    public boolean removeCardWagon(Colors color, int count) {
+    /**
+     * Remove some wagon cards from the player deck and the wagon associated to it
+     * @param color the color of cards to remove
+     * @param count the number of cards to remove
+     * @return true if the remove is complete, false otherwise
+     * @throws IllegalArgumentException if the player doesn't have enough cards or enough wagon
+     */
+    public boolean removeCardWagon(Colors color, int count) throws  IllegalArgumentException{
         if (getNumberColor(color) < count) {
             throw new IllegalArgumentException("The player doesn't have enough cards");
         }
@@ -110,12 +123,9 @@ public class Player {
                 count--;
             }
         }
-
         if (count > 0) {
             throw new IllegalArgumentException("Not enough cards to remove");
         }
-
-
         this.wagonCards.removeAll(toRemove);
         return true;
     }
@@ -148,8 +158,6 @@ public class Player {
         return true;
     }
 
-
-
     /**
      * Add DestinationCard points and remove it from the player's hand
      * @param carte the card to check
@@ -170,14 +178,12 @@ public class Player {
         return false;
     }
 
+
     /**
-     * Transfer the neeples from a city to the player
-     * @param city the city to take the neeples from
-     */
-    /**
-     * Transfer the neeples from a city to the player
-     * @param city the city to take the neeples from
+     * Transfer the meeples from a city to the player
+     * @param city the city to take the meeples from
      * @param colorChoice a list with the order for color choice
+     * @throws IllegalArgumentException if the meeple color doesn't exist
      */
     public boolean takeMeeples(City city, Colors colorChoice) throws IllegalArgumentException, PlayerSeenException {
         if (colorChoice.ordinal() > 5) {

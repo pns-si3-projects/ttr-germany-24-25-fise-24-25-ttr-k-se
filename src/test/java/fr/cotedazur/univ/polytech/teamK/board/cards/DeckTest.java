@@ -52,11 +52,11 @@ class DeckTest {
         while(shortDestinationDeck.getRemainingCards() > 0){
             shortDestinationDeck.draw();
         }
-        assertThrows(PaquetVideException.class, () -> shortDestinationDeck.draw());
+        assertThrows(DeckEmptyException.class, () -> shortDestinationDeck.draw());
     }
 
     @Test
-    void testAddCard() throws PaquetPleinException {
+    void testAddCard() throws DeckFullException {
         DestinationCard lastCard = longDestinationDeck.draw();
         assertEquals(33, longDestinationDeck.getRemainingCards());
         longDestinationDeck.addCard(lastCard);
@@ -67,7 +67,7 @@ class DeckTest {
     void testAddCardToFullDeck() {
         assertEquals(34, longDestinationDeck.getRemainingCards());
         DestinationCard card = new DestinationCard(map.getCity("Berlin"), map.getCity("Munchen"), 10);
-        assertThrows(PaquetPleinException.class, () -> longDestinationDeck.addCard(card));
+        assertThrows(DeckFullException.class, () -> longDestinationDeck.addCard(card));
     }
 
     @Test

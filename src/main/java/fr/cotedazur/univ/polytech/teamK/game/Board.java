@@ -14,6 +14,9 @@ public class Board {
         {
             cities = buildReichMap();
         }
+        if (name.equals("testMap")){
+            cities = buildTestMap();
+        }
     }
 
     public HashMap<String, City> getCity()
@@ -21,6 +24,10 @@ public class Board {
         return cities;
     }
 
+    /**
+     * Build the map for the TTR in germany
+     * @return the map of the game
+     */
     private HashMap<String,City> buildReichMap()
     {
         HashMap<String, City> reichMap = new HashMap<String, City>();
@@ -539,6 +546,12 @@ public class Board {
         return reichMap;
     }
 
+    /**
+     * Calculate the number of connection between two cities
+     * @param cityOne the first city
+     * @param cityTwo the second city
+     * @return a int for the number of connections
+     */
     public int countConnectionsBetweenCities(City cityOne, City cityTwo){
         int count = 0;
         List<Connection> connections = cities.get(cityOne.getName()).getConnectionList();
@@ -550,10 +563,22 @@ public class Board {
         return count;
     }
 
+    /**
+     * Determine if two cities are neighbour
+     * @param cityOne the first city
+     * @param cityTwo the second city
+     * @return true if they are neighbour, false otherwise
+     */
     public Boolean isNeighbour(City cityOne, City cityTwo){
         return (cities.get(cityOne.getName()).getConnectionList().contains(cityTwo));
     }
 
+    /**
+     * Give the connection between two neighbour cities
+     * @param cityOne the first one
+     * @param cityTwo the second
+     * @return the connection
+     */
     public Connection getNeighbourConnection(City cityOne, City cityTwo) {
         List<Connection> connections = cityOne.getConnectionList();
         for(Connection connection : connections) {
@@ -564,13 +589,44 @@ public class Board {
         return null;
     }
 
+    /**
+     * Get a city from is name
+     * @param cityName the name of the city
+     * @return the city
+     */
     public City getCity(String cityName)
     {
         return cities.get(cityName);
     }
 
+    /**
+     * Give all the connection of a city from it name
+     * @param cityName the name of the city
+     * @return all the connection
+     */
     public List<Connection> getCitiesConnections(String cityName){
         City inputCity = cities.get(cityName);
         return inputCity.getConnectionList();
+    }
+
+    private HashMap<String,City> buildTestMap() {
+        HashMap<String, City> testMap = new HashMap<String, City>();
+
+        testMap.put("Danemark", new City("Danemark", 1, true));
+        testMap.put("Kiel", new City("Kiel", 1));
+        testMap.put("Rostock", new City("Rostock", 1));
+
+        testMap.put("Munchen", new City("Munchen", 1));
+
+
+        Connection freiburgToSchweiz = new Connection(testMap.get("Danemark"), testMap.get("Kiel"), 1,Colors.ORANGE);
+        testMap.get("Danemark").addConnection(freiburgToSchweiz);
+        testMap.get("Kiel").addConnection(freiburgToSchweiz);
+
+        Connection freiburgToKonstanz = new Connection(testMap.get("Kiel"), testMap.get("Rostock"), 1, Colors.BLACK);
+        testMap.get("Kiel").addConnection(freiburgToKonstanz);
+        testMap.get("Rostock").addConnection(freiburgToKonstanz);
+
+        return testMap;
     }
 }

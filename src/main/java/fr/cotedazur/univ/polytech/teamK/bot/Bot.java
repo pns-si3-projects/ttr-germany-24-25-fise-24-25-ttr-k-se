@@ -4,7 +4,6 @@ import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
-import fr.cotedazur.univ.polytech.teamK.board.player.PlayerOwnedMap;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
@@ -76,7 +75,7 @@ public abstract class Bot{
             for (DestinationCard card : cards) {
                 gameEngine.addDestinationCardToDeck(this,card);
             }
-        } catch (PaquetPleinException e) {
+        } catch (DeckFullException e) {
             System.out.println("you gave too much cards");
             return false;
         }
@@ -84,8 +83,7 @@ public abstract class Bot{
     }
 
     /**
-     * Djikstra algorithm who find the shortest path between two cities
-     *
+     * Dijkstra algorithm who find the shortest path between two cities
      * @param cityOne the first cities
      * @param cityTwo the second cities
      * @return a arrayList with the path
@@ -110,7 +108,7 @@ public abstract class Bot{
                 if(gameEngine.getPlayerByBot(this).isNeighbour(actual,connection.getOtherCity(actual))) {
                     djikstraLine.replace(connection.getOtherCity(actual),djikstraLine.get(actual));
                 }
-                if (i1< i2 && connection.isFree())
+                if (i1< i2 && connection.getIsFree())
                     djikstraLine.replace(connection.getOtherCity(actual),djikstraLine.get(actual)+connection.getLength());
             }
             HashMap<City,Integer> djikstraLineToAdd = new HashMap<>();
@@ -169,9 +167,9 @@ public abstract class Bot{
     /**
      * The Bot will choose the number of short dest card to draw and give back the one he doesn't want
      * @return true if the draw succeed
-     * @throws PaquetVideException if the destination deck is empty
+     * @throws DeckEmptyException if the destination deck is empty
      */
-    public abstract boolean drawDestinationCard() throws PaquetVideException, WrongPlayerException;
+    public abstract boolean drawDestinationCard() throws DeckEmptyException, WrongPlayerException;
 
     public void displayDrawDestinationCardAction(){
         System.out.println(getName() + " tire des cartes destinations ! " + "("+gameView.getMyDestinationCards().getLast()+")");
@@ -179,9 +177,9 @@ public abstract class Bot{
     /**
      * The bot will choose the wagon card he want in the deck
      * @return true if the draw succeed
-     * @throws PaquetVideException if the wagon deck is empty
+     * @throws DeckEmptyException if the wagon deck is empty
      */
-    public abstract boolean drawWagonCard(Colors toFocus) throws PaquetVideException, WrongPlayerException ;
+    public abstract boolean drawWagonCard(Colors toFocus) throws DeckEmptyException, WrongPlayerException ;
 
     public void displayDrawWagonCardAction(){
         System.out.println(getName() + " tire des cartes wagons ! " + "("+gameView.getMyWagonCards().getLast()+")");
@@ -201,7 +199,5 @@ public abstract class Bot{
      * @return true if the bot did something
      */
     public abstract boolean playTurn() throws WrongPlayerException ;
-
-
 
 }

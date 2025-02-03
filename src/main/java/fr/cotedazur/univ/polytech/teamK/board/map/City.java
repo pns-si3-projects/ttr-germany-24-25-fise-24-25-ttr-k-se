@@ -11,9 +11,6 @@ import java.util.*;
  */
 
 public class City {
-    //has a name
-    //has a number of meeples, and their color
-    //has a list of virtual connections, per player, going out.
     private int id;
     private static int COUNT = 1;
     private String name;
@@ -21,18 +18,12 @@ public class City {
     private List<Connection> connectionList;
     private List<Player> playersThatPickedUpMeeples;
     private boolean isCountry;
-    /**
-     * Constructs a new City with the specified name and number of meeples.
-     *
-     * @param name the name of the city
-     * @param numberOfMeeples the number of meeples in the city
-     */
+
+
     public City(String name, int numberOfMeeples) {
         this(name, numberOfMeeples, new Random(), false);
     }
-    public City(String name, int numberOfMeeples, boolean isCountry) {
-        this(name, numberOfMeeples, new Random(), isCountry);
-    }
+    public City(String name, int numberOfMeeples, boolean isCountry) {this(name, numberOfMeeples, new Random(), isCountry);}
     public City(String name, int numberOfMeeples, Random rand, boolean isCountry) {
         this.id = COUNT++;
         setName(name);
@@ -45,60 +36,25 @@ public class City {
     public boolean isCountry() {
         return isCountry;
     }
-
-    /**
-     * Returns the ID of the city.
-     *
-     * @return the ID of the city
-     */
     public int getId() {
         return id;
     }
-
-    /**
-     * Returns the name of the city.
-     *
-     * @return the name of the city
-     */
     public String getName() {
         return name;
     }
-
-    /**
-     * Returns the meeples in the city.
-     *
-     * @return the meeples in the city
-     */
     public Meeple getMeeples() {
         return meeples;
     }
-
-    /**
-     * Returns the list of  connections of the city.
-     *
-     * @return the list of  connections
-     */
     public List<Connection> getConnectionList() {return connectionList;}
-
-    /**
-     * Initializes the list of  connections.
-     */
     public void setConnectionList() {
         this.connectionList = new ArrayList<>();
     }
-
-    /**
-     * Sets the name of the city.
-     *
-     * @param name the new name of the city
-     */
     public void setName(String name){
         this.name = name;
     }
 
     /**
      * Adds a  connection to the city's list of  connections.
-     *
      * @param connection the connection to add
      */
     public void addConnection(Connection connection){
@@ -107,7 +63,6 @@ public class City {
 
     /**
      * Returns the list of players that picked up meeples from the city.
-     *
      * @return the list of players that picked up meeples
      */
     public List<Player> getPlayersThatPickedUpMeeples() {
@@ -116,7 +71,6 @@ public class City {
 
     /**
      * Adds a player to the list of players that picked up meeples from the city.
-     *
      * @param player the player to add
      */
     public void addPlayer(Player player) {
