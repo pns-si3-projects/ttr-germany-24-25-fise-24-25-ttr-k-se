@@ -14,6 +14,9 @@ public class Board {
         {
             cities = buildReichMap();
         }
+        if (name.equals("testMap")){
+            cities = buildTestMap();
+        }
     }
 
     public HashMap<String, City> getCity()
@@ -604,5 +607,26 @@ public class Board {
     public List<Connection> getCitiesConnections(String cityName){
         City inputCity = cities.get(cityName);
         return inputCity.getConnectionList();
+    }
+
+    private HashMap<String,City> buildTestMap() {
+        HashMap<String, City> testMap = new HashMap<String, City>();
+
+        testMap.put("Danemark", new City("Danemark", 1, true));
+        testMap.put("Kiel", new City("Kiel", 1));
+        testMap.put("Rostock", new City("Rostock", 1));
+
+        testMap.put("Munchen", new City("Munchen", 1));
+
+
+        Connection freiburgToSchweiz = new Connection(testMap.get("Danemark"), testMap.get("Kiel"), 1,Colors.ORANGE);
+        testMap.get("Danemark").addConnection(freiburgToSchweiz);
+        testMap.get("Kiel").addConnection(freiburgToSchweiz);
+
+        Connection freiburgToKonstanz = new Connection(testMap.get("Kiel"), testMap.get("Rostock"), 1, Colors.BLACK);
+        testMap.get("Kiel").addConnection(freiburgToKonstanz);
+        testMap.get("Rostock").addConnection(freiburgToKonstanz);
+
+        return testMap;
     }
 }
