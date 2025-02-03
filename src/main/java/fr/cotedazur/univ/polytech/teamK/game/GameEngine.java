@@ -28,6 +28,8 @@ public class GameEngine{
     private Deck<DestinationCard> longDestinationDeck;
     private Deck<WagonCard> wagonDeck;
     private GameView gameView;
+    private Integer round;
+
 
     public GameEngine(String mapName) {
         this.gameMap = new Board(mapName);
@@ -78,6 +80,7 @@ public class GameEngine{
     /*
     INFOS RELATIVES AU BOARD
      */
+    public Integer getRound() { return round; }
     public Board getGameMap() { return gameMap; }
     public Deck<DestinationCard> getShortDestinationDeck() { return shortDestinationDeck; }
     public Deck<DestinationCard> getLongDestinationDeck() { return longDestinationDeck; }
@@ -159,6 +162,7 @@ public class GameEngine{
     public void startGame() throws WrongPlayerException {
         while (lastPlayer==null) {
             lastPlayer = playRound(lastPlayer);
+            round += 1;
         }
         lastRound(lastPlayer);
         calculateMeeplePoints();

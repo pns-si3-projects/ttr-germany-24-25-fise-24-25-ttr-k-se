@@ -7,7 +7,7 @@ import java.util.Objects;
 import java.util.Random;
 
 public class Meeple {
-    private static int[] total = {10,10,10,10,10,10}; //black, blue, red,white,yellow, green
+    private static int[] total = {10,10,10,10,10,10}; //black, blue, red, white,yellow, green
     private static int totalMeeples = 60;
 
     private int [] listOfOwnedMeeples; //black, blue, red,white,yellow, green

@@ -14,6 +14,13 @@ public class PlayerOwnedMap {
         createVirtualConnectionMap();
     }
     /**
+     * getter for the map
+     */
+    public Map<String, Map<String, Integer>> getVirtualConnectionsCreated() {
+        return virtualConnectionsCreated;
+    }
+
+    /**
      * creates the map of cities the player has managed to tie together
      */
     public void createVirtualConnectionMap(){
