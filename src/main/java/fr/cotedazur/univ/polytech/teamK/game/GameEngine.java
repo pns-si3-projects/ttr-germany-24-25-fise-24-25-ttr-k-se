@@ -171,6 +171,7 @@ public class GameEngine{
     }
 
     public void startGame() throws WrongPlayerException {
+        round=0;
         while (lastPlayer==null) {
             lastPlayer = playRound(lastPlayer);
             round += 1;
