@@ -170,7 +170,7 @@ public abstract class Bot{
     public abstract boolean drawDestinationCard() throws PaquetVideException, WrongPlayerException;
 
     public void displayDrawDestinationCardAction(){
-        System.out.println(getName() + " tire des cartes destinations. ");
+        System.out.println(getName() + " tire des cartes destinations ! " + "("+gameView.getMyDestinationCards().getLast()+")");
     }
     /**
      * The bot will choose the wagon card he want in the deck
@@ -180,7 +180,7 @@ public abstract class Bot{
     public abstract boolean drawWagonCard(Colors toFocus) throws PaquetVideException, WrongPlayerException ;
 
     public void displayDrawWagonCardAction(){
-        System.out.println(getName() + " tire des cartes wagons. ");
+        System.out.println(getName() + " tire des cartes wagons ! " + "("+gameView.getMyWagonCards().getLast()+")");
     }
 
     /**
@@ -189,7 +189,7 @@ public abstract class Bot{
     public abstract boolean buyConnection(ArrayList<Connection> path) throws WrongPlayerException;
 
     public void displayBuyConnectionAction(){
-        System.out.println(getName() + " achète une connection. ");
+        System.out.println(getName() + " achète une connection ! "+"("+gameView.getMyConnections().getLast()+")");
     }
 
     /**

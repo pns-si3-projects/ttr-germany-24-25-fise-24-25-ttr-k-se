@@ -209,7 +209,6 @@ public class Connection {
     @Override
     public String toString()
     {
-        String base = "" + this.getCityOne() + " connected to" + this.getCityTwo();
-        return base;
+        return this.getCityOne() + " connected to " + this.getCityTwo();
     }
 }
