@@ -61,8 +61,7 @@ public class MidBot extends Bot {
             List<WagonCard> visibleCard = wagonDeck.getVisibleCard();
             for (int i = 0; i < visibleCard.size(); i++) {
                 if (wagonDeck.getVisibleCard().get(i).getColor() == toFocus) {
-                    gameEngine.addWagonCard(this, gameEngine.getWagonDeck().drawVisibleCard(i));
-                    return true;
+                    return gameEngine.addWagonCard(this, gameEngine.getWagonDeck().drawVisibleCard(i));
                 }
             }
             gameEngine.addWagonCard(this, gameEngine.getWagonDeck().draw());

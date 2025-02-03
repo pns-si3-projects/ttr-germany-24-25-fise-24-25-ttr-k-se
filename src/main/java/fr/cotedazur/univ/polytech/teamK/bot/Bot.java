@@ -106,7 +106,7 @@ public abstract class Bot{
             for(Connection connection : actual.getConnectionList()) {
                 int i1 = djikstraLine.get(actual)+connection.getLength();
                 int i2 = djikstraLine.get(connection.getOtherCity(actual));
-                if (i1< i2)
+                if (i1< i2 && connection.isFree())
                     djikstraLine.replace(connection.getOtherCity(actual),djikstraLine.get(actual)+connection.getLength());
             }
             HashMap<City,Integer> djikstraLineToAdd = new HashMap<>();
@@ -132,13 +132,13 @@ public abstract class Bot{
             if(line.get(resCity.getLast()) == -1);
             else if(line.get(resCity.getLast()) == Integer.MAX_VALUE ||line.get(resCity.getLast()) > lenght ) {
                 City min = resCity.getLast();
+                int value = Integer.MAX_VALUE;
                 for (City city : line.keySet()) {
-                    Integer value = Integer.MAX_VALUE;
                     if(line.get(city) <= line.get(min) && line.get(city) != -1 && !city.isCountry()) {
                         Connection connection = gameEngine.getGameMap().getNeighbourConnection(resCity.getLast() , city);
-                        if(connection != null && connection.getLength() < value) {
+                        if(connection != null && line.get(city) + connection.getLength() < value && line.get(city)!= Integer.MAX_VALUE) {
                             min = city;
-                            value = connection.getLength();
+                            value = line.get(city) + connection.getLength();
                         }
                     }
                 }
