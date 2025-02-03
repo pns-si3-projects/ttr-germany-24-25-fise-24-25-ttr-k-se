@@ -1,6 +1,6 @@
-package fr.cotedazur.univ.polytech.teamK.board.Cards;
+package fr.cotedazur.univ.polytech.teamK.board.cards;
 
-import fr.cotedazur.univ.polytech.teamK.game.MapHash;
+import fr.cotedazur.univ.polytech.teamK.game.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -11,11 +11,12 @@ class DeckTest {
     private Deck<DestinationCard> shortDestinationDeck;
     private Deck<DestinationCard> longDestinationDeck;
     private Deck<WagonCard> wagonDeck;
-    private MapHash map = new MapHash("Reich");
+    private Board map;
 
     @BeforeEach
     void setUp() {
         // Initialisation des paquets avant chaque test
+        map = new Board("Reich");
         shortDestinationDeck = new Deck<>(TypeOfCards.SHORT_DESTINATION,map);
         longDestinationDeck = new Deck<>(TypeOfCards.LONG_DESTINATION, map);
         wagonDeck = new Deck<>(TypeOfCards.WAGON, map);
@@ -31,7 +32,7 @@ class DeckTest {
     @Test
     void testInitializeWagonDeck() {
         assertNotNull(wagonDeck);
-        assertEquals(110,wagonDeck.getRemainingCards());
+        assertEquals(106,wagonDeck.getRemainingCards());
     }
 
 
@@ -47,7 +48,15 @@ class DeckTest {
     }
 
     @Test
-    void testAddCard() throws PaquetPleinException {
+    void testDrawCardFromEmptyDeck(){
+        while(shortDestinationDeck.getRemainingCards() > 0){
+            shortDestinationDeck.draw();
+        }
+        assertThrows(DeckEmptyException.class, () -> shortDestinationDeck.draw());
+    }
+
+    @Test
+    void testAddCard() throws DeckFullException {
         DestinationCard lastCard = longDestinationDeck.draw();
         assertEquals(33, longDestinationDeck.getRemainingCards());
         longDestinationDeck.addCard(lastCard);
@@ -55,13 +64,30 @@ class DeckTest {
     }
 
     @Test
-    void testEmptyDeck() {
-        // Vérifier que le paquet est vide après avoir tiré toutes les cartes
-        while (longDestinationDeck.getRemainingCards() > 0) {
-            longDestinationDeck.draw();
-        }
-
-        // Le paquet devrait être vide
-        assertNull(longDestinationDeck.draw()); // Aucun élément à tirer
+    void testAddCardToFullDeck() {
+        assertEquals(34, longDestinationDeck.getRemainingCards());
+        DestinationCard card = new DestinationCard(map.getCity("Berlin"), map.getCity("Munchen"), 10);
+        assertThrows(DeckFullException.class, () -> longDestinationDeck.addCard(card));
     }
+
+    @Test
+    void testDrawVisibleCardWithInvalidIndex(){
+        assertThrows(IllegalArgumentException.class, ()->wagonDeck.drawVisibleCard(5));
+    }
+
+    @Test
+    void testDrawVisibleCard() throws IllegalArgumentException {
+        WagonCard drawnCard = wagonDeck.drawVisibleCard(0);
+        assertNotNull(drawnCard);
+        assertEquals(105, wagonDeck.getRemainingCards());
+        assertEquals(4, wagonDeck.getVisibleCard().size());
+    }
+
+    @Test
+    void testShuffleDeck() {
+        Deck<WagonCard> deck = new Deck<>(TypeOfCards.WAGON, map);
+        deck.shuffle();
+        assertEquals(106, deck.getRemainingCards());
+    }
+
 }

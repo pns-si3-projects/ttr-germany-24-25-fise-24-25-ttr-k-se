@@ -1,8 +1,9 @@
 package fr.cotedazur.univ.polytech.teamK.board.map;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
+import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
-import fr.cotedazur.univ.polytech.teamK.game.MapHash;
+import fr.cotedazur.univ.polytech.teamK.game.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,26 +17,21 @@ class CityTest {
 
     private City city;
     private Player player;
-    private MapHash map = new MapHash("Reich");
+    private Board map = new Board("Reich");
     private Random trickedRandom = mock(Random.class);
 
     @BeforeEach
     void setUp(){
         when(trickedRandom.nextInt(6)).thenReturn(4);
-        city = new City("Kiel", 5, trickedRandom);
-        player = new Player("DaTutelBoss", map);
+        city = new City("Kiel", 5, trickedRandom, false);
+        player = new Player("DaTutelBoss");
     }
 
     @Test
     void testConstructor(){
         assertEquals("Kiel", city.getName());
         assertEquals(5, city.getMeeples().getNumber());
-        assertNotNull(city.getPhysicalConnectionList());
-    }
-
-    @Test
-    void testGetId(){
-        assertEquals(1, city.getId());
+        assertNotNull(city.getConnectionList());
     }
 
     @Test
@@ -49,29 +45,29 @@ class CityTest {
     }
 
     @Test
-    void testGetPhysicalConnectionList(){
-        assertNotNull(city.getPhysicalConnectionList());
-        assertTrue(city.getPhysicalConnectionList().isEmpty());
+    void testGetConnectionList(){
+        assertNotNull(city.getConnectionList());
+        assertTrue(city.getConnectionList().isEmpty());
     }
 
     @Test
-    void testSetPhysicalConnectionList(){
-        city.setPhysicalConnectionList();
-        assertNotNull(city.getPhysicalConnectionList());
-        assertTrue(city.getPhysicalConnectionList().isEmpty());
+    void testSetConnectionList(){
+        city.setConnectionList();
+        assertNotNull(city.getConnectionList());
+        assertTrue(city.getConnectionList().isEmpty());
     }
 
     @Test
-    void testAddPhysicalConnection(){
-        PhysicalConnection connection = new PhysicalConnection(city, new City("Hamburg", 3), 5, Colors.RED);
-        city.addPhysicalConnection(connection);
-        assertEquals(1, city.getPhysicalConnectionList().size());
-        assertEquals(connection, city.getPhysicalConnectionList().get(0));
+    void testAddConnection(){
+        Connection connection = new Connection(city, new City("Hamburg", 3), 5, Colors.RED);
+        city.addConnection(connection);
+        assertEquals(1, city.getConnectionList().size());
+        assertEquals(connection, city.getConnectionList().get(0));
     }
 
     @Test
     void testGetPlayersThatPickedUpMeeples(){
-        assertNull(city.getPlayersThatPickedUpMeeples());
+        assertTrue(city.getPlayersThatPickedUpMeeples().isEmpty());
         player.takeMeeples(city, Colors.YELLOW);
         assertNotNull(city.getPlayersThatPickedUpMeeples());
     }
@@ -81,4 +77,12 @@ class CityTest {
         city.addPlayer(player);
         assertTrue(city.getPlayersThatPickedUpMeeples().contains(player));
     }
+
+    @Test
+    void testCoutry(){
+        assertFalse(city.isCountry());
+        City countryCity = new City("Berlin", 5, true);
+        assertTrue(countryCity.isCountry());
+    }
+
 }

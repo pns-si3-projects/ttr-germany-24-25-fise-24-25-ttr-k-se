@@ -24,7 +24,7 @@ Lancer une classe principale définie par l'utilisateur.
         <maven.compiler.source>${java.version}</maven.compiler.source>
         <maven.compiler.target>${java.version}</maven.compiler.target>
         <junit.bom.version>5.11.2</junit.bom.version>
-        <mockito.bom.version>5.14.1</mockito.bom.version>
+        <mockito.bom.version>5.14.2</mockito.bom.version>
     </properties>
 
     <dependencyManagement> <!-- helps maven to resolve conflicting transitive dependencies -->
@@ -55,6 +55,12 @@ Lancer une classe principale définie par l'utilisateur.
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>net.bytebuddy</groupId>
+            <artifactId>byte-buddy-agent</artifactId>
+            <version>1.15.3</version>
             <scope>test</scope>
         </dependency>
     </dependencies>

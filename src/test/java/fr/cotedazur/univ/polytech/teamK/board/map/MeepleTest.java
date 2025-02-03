@@ -20,7 +20,7 @@ class MeepleTest {
     @BeforeEach
     void setUp () {
         Player.resetIdCounter();
-        trickedRandom = mock(Random.class);
+        trickedRandom = spy(Random.class);
         player = new Meeple();
     }
 

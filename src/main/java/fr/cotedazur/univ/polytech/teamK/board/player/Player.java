@@ -1,54 +1,53 @@
 package fr.cotedazur.univ.polytech.teamK.board.player;
 
-import fr.cotedazur.univ.polytech.teamK.board.Cards.DestinationCard;
-import fr.cotedazur.univ.polytech.teamK.board.Cards.WagonCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.*;
-import fr.cotedazur.univ.polytech.teamK.game.MapHash;
-import org.w3c.dom.css.Counter;
+import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
+import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameView;
 
 import java.util.*;
 
 public class Player {
-    private int id ;
+    private final int id ;
     private static int COUNT = 1;
     private String name ;
     private int score;
     private Meeple meeples;
     private int wagonsRemaining;
+    private PlayerOwnedMap playerMap;
 
-    private Map<String, Map<String, Integer>> virtualConnectionsCreated;
-    private MapHash gameMap;
+    //private Board gameMap;
 
     private ArrayList<Connection> connections;
     private ArrayList<WagonCard> wagonCards;
     private ArrayList<DestinationCard> destinationCards;
 
 
-    public Player(String name, MapHash gameMap) {
+    public Player(String name) {
         this.id = COUNT++;
         this.name = name;
         this.score = 0;
-        this.wagonsRemaining = 5;
+        this.wagonsRemaining = 45;
         this.wagonCards = new ArrayList<>();
         this.destinationCards = new ArrayList<>();
         this.connections = new ArrayList<>();
         this.meeples = new Meeple();
-        createVirtualConnectionMap();
-        this.gameMap = gameMap;
+        playerMap = new PlayerOwnedMap();
+        //this.gameMap = gameMap;
 
     }
 
-    public Player(int id, String name, ArrayList<WagonCard> wagonCards, ArrayList<DestinationCard> destinationCards, MapHash gameMap) {
-        this(name, gameMap);
+    public Player(int id, String name, ArrayList<WagonCard> wagonCards, ArrayList<DestinationCard> destinationCards) {
+        this(name);
         this.wagonCards = wagonCards;
         this.destinationCards = destinationCards;
     }
 
     // Getteur and Setteur
     public int getId() {return id;}
-    public void setId(int id) {this.id = id;}
-    public void resetId() {this.id = 0;}
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
     public int getScore() {return score;}
@@ -63,16 +62,24 @@ public class Player {
     public ArrayList<Connection> getConnections() {
         return connections;
     }
+    public PlayerOwnedMap getPlayerMap() {return playerMap;}
 
     public static void resetIdCounter() {
         COUNT = 1;
     }
+
     /**
      * Modify the score of the player by adding a value
      * @param value the value to add to the score
      */
     public void addScore(int value) {
         this.score += value;
+    }
+    public void removeDestinationCard(DestinationCard destinationCard) {
+        getCartesDestination().remove(destinationCard);
+    }
+    public void removeWagonCard(WagonCard wagonCard) {
+        getCartesWagon().remove(wagonCard);
     }
 
     /**
@@ -84,8 +91,24 @@ public class Player {
         return true;
     }
 
+    /**
+     * Determined if two cities are connected
+     * @param cityOne the first city
+     * @param cityTwo the second city
+     * @return true if the cities are connected, false otherwise
+     */
+    public boolean isNeighbour (City cityOne, City cityTwo) {
+        return playerMap.isNeighbour(cityOne.getName(),cityTwo.getName());
+    }
 
-    public boolean removeCardWagon(Colors color, int count) {
+    /**
+     * Remove some wagon cards from the player deck and the wagon associated to it
+     * @param color the color of cards to remove
+     * @param count the number of cards to remove
+     * @return true if the remove is complete, false otherwise
+     * @throws IllegalArgumentException if the player doesn't have enough cards or enough wagon
+     */
+    public boolean removeCardWagon(Colors color, int count) throws  IllegalArgumentException{
         if (getNumberColor(color) < count) {
             throw new IllegalArgumentException("The player doesn't have enough cards");
         }
@@ -100,12 +123,9 @@ public class Player {
                 count--;
             }
         }
-
         if (count > 0) {
             throw new IllegalArgumentException("Not enough cards to remove");
         }
-
-
         this.wagonCards.removeAll(toRemove);
         return true;
     }
@@ -144,24 +164,28 @@ public class Player {
      * @return true if the card was removed, false otherwise
      */
     public boolean validDestinationCard(DestinationCard carte) {
-        if (destinationCards.contains(carte)) {
+        String cityOne = carte.getEndCity().getName();
+        String cityTwo = carte.getStartCity().getName();
+        Boolean connected = false;
+        if (playerMap.isNeighbour(cityOne, cityTwo) && destinationCards.contains(carte)) {
             this.score += carte.getValue();
             this.destinationCards.remove(carte);
             return true;
         }
-        throw new IllegalArgumentException("The player doesn't have this card");
+        if (!destinationCards.contains(carte)) {
+            throw new IllegalArgumentException("The player doesn't have this card");
+        }
+        return false;
     }
 
+
     /**
-     * Transfer the neeples from a city to the player
-     * @param city the city to take the neeples from
-     */
-    /**
-     * Transfer the neeples from a city to the player
-     * @param city the city to take the neeples from
+     * Transfer the meeples from a city to the player
+     * @param city the city to take the meeples from
      * @param colorChoice a list with the order for color choice
+     * @throws IllegalArgumentException if the meeple color doesn't exist
      */
-    public boolean takeMeeples(City city, Colors colorChoice) {
+    public boolean takeMeeples(City city, Colors colorChoice) throws IllegalArgumentException, PlayerSeenException {
         if (colorChoice.ordinal() > 5) {
             throw new IllegalArgumentException("Couleur de meeples inconnue");
         }
@@ -170,6 +194,8 @@ public class Player {
                 city.addPlayer(this);
                 return true;
             }
+        } else {
+            throw new PlayerSeenException("Player déjà vu");
         }
         return false;
     }
@@ -179,85 +205,35 @@ public class Player {
      * @param connectionToBuy the connection we want to buy
      * @return true if we bought it, false otherwise
      */
-    public boolean buyRail(PhysicalConnection connectionToBuy)
+    public boolean buyRail(Connection connectionToBuy, Board gameMap, int numberOfPlayers)
     {
-        if (connectionToBuy.claimAttempt(getNumberColor(connectionToBuy.getColor())))
+        Colors connectionColor = connectionToBuy.getColor();
+        int cardsOfCorrectColor = getNumberColor(connectionColor);
+        int lengthOfRail = connectionToBuy.getLength();
+        int rainbowCards = getNumberColor(Colors.RAINBOW);
+
+        if (connectionToBuy.claimAttempt(cardsOfCorrectColor + rainbowCards, this, gameMap, numberOfPlayers))
         {
             this.connections.add(connectionToBuy);
-            removeCardWagon(connectionToBuy.getColor(), connectionToBuy.getLength());
+
+            if (lengthOfRail >= cardsOfCorrectColor)
+            {
+                int rainbowsUsed = lengthOfRail - cardsOfCorrectColor;
+                removeCardWagon(Colors.RAINBOW, rainbowsUsed);
+                removeCardWagon(connectionColor, cardsOfCorrectColor);
+            }
+            else
+            {
+                removeCardWagon(connectionColor, lengthOfRail);
+            }
+            //removeCardWagon(connectonColor, min(lengthOfRail, cardsOfCorrectColor)
             connectionToBuy.setOwner(this);
-            updateMap(connectionToBuy);
-            score += connectionToBuy.calculatePoints(connectionToBuy.getLength());
+            playerMap.updateMap(connectionToBuy, gameMap);
+            score += connectionToBuy.calculatePoints(lengthOfRail);
             return true;
         }
         return false;
     }
-
-    //hashmap of (city, Hashmap of (cities, distance))
-
-    public void createVirtualConnectionMap(){
-        virtualConnectionsCreated = new HashMap<String, Map<String, Integer>>();
-    }
-    private void addCityToHashmap(City city) {
-        virtualConnectionsCreated.put(city.getName(), new HashMap<String, Integer>());
-    }
-
-    public void connectTwoCities(String cityOneName, String cityTwoName, Integer length) {
-        //add the two cities to the virtualconnections map if they arent in it already
-        if (!virtualConnectionsCreated.containsKey(cityOneName)) {
-            addCityToHashmap(gameMap.getCities().get(cityOneName));
-        }
-        if (!virtualConnectionsCreated.containsKey(cityTwoName)) {
-            addCityToHashmap(gameMap.getCities().get(cityTwoName));
-        }
-
-        //test if there already is a connection: if yes, keep the longest one ; WE LOOSE INFO
-        Map<String, Integer> cityOneMap = virtualConnectionsCreated.get(cityOneName);
-        if ((!cityOneMap.containsKey(cityTwoName)) || (cityOneMap.containsKey(cityTwoName) && cityOneMap.get(cityTwoName) <= length)) {
-            //only replace if length is greater than previous length VERIFY
-            virtualConnectionsCreated.get(cityOneName).put(cityTwoName, length);
-            virtualConnectionsCreated.get(cityTwoName).put(cityOneName, length);
-        }
-
-    }
-    //i start with two cities A and B
-    //in every city connected to A, i connect it to every city connected to city B
-    public void updateMap(Connection c) {
-        City cityA = c.getCityOne();
-        String temp = "testing";
-        City cityB = c.getCityTwo();
-        Integer lengthToAdd = c.getLength();
-        //update map only if the lengthToAdd is longer than the existing distance between A and B (originally -infinity)
-        if ((virtualConnectionsCreated.get(cityA.getName()) == null) || (virtualConnectionsCreated.get(cityA.getName()).get(cityB.getName()) == null) || (lengthToAdd > virtualConnectionsCreated.get(cityA.getName()).get(cityB.getName()))) {
-            //here I have ensured that either there was no previous path from A to B, or that the new connection is Longer
-            //so I want to connect all neighbors of A to all neigbors of B (just need to avoid connecting a city to itself
-            //loop over all neighbors of A
-
-            //current issue: when there are no neigbors, the for loop breaks
-            //solution: connect A to B, and then loop over all neighbors
-            //upcoming problems: B becomes a neighbor of A: needs to be excluded
-            //A becomes a neighbor of B: needs to be excluded
-            connectTwoCities(cityA.getName(), cityB.getName(), lengthToAdd);
-            for (var cityOne : (virtualConnectionsCreated.get(cityA.getName())).entrySet()) {
-                String cityOneName = cityOne.getKey();
-                //loop over all neighbors of B
-                if (!cityOneName.equals(cityB.getName())) {
-                    for (var cityTwo : (virtualConnectionsCreated.get(cityB.getName())).entrySet()) {
-                        String cityTwoName = cityTwo.getKey();
-                        //ensure I dont connect cityOne to cityTwo.
-                        //otherwise, connect cityOne to cityTwo with length(1-A) + length (A-B) + length(B-2)
-                        if (!cityOneName.equals(cityTwoName) && !cityTwoName.equals(cityA.getName())) {
-                            lengthToAdd += virtualConnectionsCreated.get(cityOneName).get(cityA.getName());
-                            lengthToAdd += virtualConnectionsCreated.get(cityTwoName).get(cityB.getName());
-                            connectTwoCities(cityOneName, cityTwoName, lengthToAdd);
-                        }
-                    }
-                }
-            }
-        }
-    }
-
-
 
     @Override
     public String toString() {
