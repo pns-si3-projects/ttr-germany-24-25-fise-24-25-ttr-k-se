@@ -1,5 +1,5 @@
 package fr.cotedazur.univ.polytech.teamK.game;
-
+import java.util.logging.Logger;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
@@ -18,13 +18,16 @@ import java.util.List;
 import java.util.Map;
 
 public class GameEngine{
+    private static final Logger logger = Logger.getLogger(GameEngine.class.getName());
+
     private final int NUMBER_OF_ROUNDS_WITHOUT_ACTIONS = 5;
     private int numberOfRoundsWithoutActions = 0;
-
+    
     private Board gameMap;
     private HashMap<Bot,Player> players;
     private HashMap<Bot,GameView> viewOfPlayers;
     private Bot currentBot;
+    private Player lastPlayer = null;
     private Deck<DestinationCard> shortDestinationDeck;
     private Deck<DestinationCard> longDestinationDeck;
     private Deck<WagonCard> wagonDeck;
@@ -47,6 +50,30 @@ public class GameEngine{
             bot.setGameView(gameView);
             players.put(bot,player);
             viewOfPlayers.put(bot,gameView);
+        }
+    }
+
+    public void logGameStatistics(){
+        int totalGames = 0;
+        int gamesWon = 0;
+        int gamesLost = 0;
+        int gamesEven = 0;
+        Map<Bot, Integer> botScores = new HashMap<>();
+        for(Map.Entry<Bot, Player> entry: players.entrySet()){
+            Bot bot = entry.getKey();
+            Player player = entry.getValue();
+            int score = player.getScore();
+            botScores.put(bot, botScores.getOrDefault(bot, 0)+ score);
+        }
+        logger.info("Total games: " + totalGames);
+        logger.info("Games won: " + (gamesWon * 100.0 / totalGames) + "%");
+        logger.info("Games lost: "+ (gamesLost*100.0 / totalGames) + "%");
+        logger.info("Games even: "+(gamesEven * 100 / totalGames) + "%");
+
+        for(Map.Entry<Bot, Integer> entry : botScores.entrySet()){
+            Bot bot = entry.getKey();
+            int totalScore = entry.getValue();
+            logger.info("Average score for "+ bot.getName() + " is : " + (totalScore / totalGames));
         }
     }
 
@@ -134,14 +161,12 @@ public class GameEngine{
     }
 
     public void startGame() throws WrongPlayerException {
-        Player lastPlayer = null;
-
         while (lastPlayer==null) {
             lastPlayer = playRound(lastPlayer);
         }
         lastRound(lastPlayer);
         calculateMeeplePoints();
-        System.out.println("Partie terminée !");
+        displayEndGameMessage();
         gameView.displayFinalScores();
     }
 
@@ -165,7 +190,7 @@ public class GameEngine{
         }
 
         if (noMoreActionsCount == getNumberPlayer()) {
-            numberOfRoundsWithoutActions++;
+            ++numberOfRoundsWithoutActions;
         } else {
             numberOfRoundsWithoutActions = 0;
         }
@@ -193,6 +218,14 @@ public class GameEngine{
         return player.getWagonsRemaining() < 3;
     }
 
+    public void displayEndGameMessage(){
+        if(numberOfRoundsWithoutActions==NUMBER_OF_ROUNDS_WITHOUT_ACTIONS+1){
+            System.out.println("La partie est terminée, les bots ne font plus rien depuis " + NUMBER_OF_ROUNDS_WITHOUT_ACTIONS + " rounds");
+        }
+        else{
+            System.out.println("La partie est terminée, il reste à " +lastPlayer.getName() +" " + lastPlayer.getWagonsRemaining() +" wagons.");
+        }
+    }
     public void displayBotInfo(Bot bot) {
         System.out.println(bot.getName() +
                 " Score : " +bot.gameView.getMyScore() +

@@ -184,7 +184,7 @@ public class Deck<T extends Card> {
      */
     public T draw() throws PaquetVideException {
         if (this.cards.isEmpty()) {
-            throw new PaquetVideException("Il n'y a plus de cartes wagons.");
+            throw new PaquetVideException("Il n'y a plus de cartes dans le paquet.");
         }
         return cards.removeLast();
     }
