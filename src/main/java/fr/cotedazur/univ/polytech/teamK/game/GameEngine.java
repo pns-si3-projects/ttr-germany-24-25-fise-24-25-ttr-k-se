@@ -171,7 +171,6 @@ public class GameEngine{
         catch (NullPointerException e) {
             return false;
         }
-
     }
 
     /**
