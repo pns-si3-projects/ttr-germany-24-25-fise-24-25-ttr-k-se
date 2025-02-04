@@ -19,6 +19,7 @@ class MeepleTest {
 
     @BeforeEach
     void setUp () {
+        Meeple.resetMeeples();
         Player.resetIdCounter();
         trickedRandom = spy(Random.class);
         player = new Meeple();

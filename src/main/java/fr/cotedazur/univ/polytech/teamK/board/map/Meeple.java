@@ -44,6 +44,11 @@ public class Meeple {
     public int[] getListOfOwnedMeeples() {return listOfOwnedMeeples;}
     public int getNumberOfAColor(Colors colors) {return listOfOwnedMeeples[colors.ordinal()];}
 
+    public static void resetMeeples () {
+        total = new int[]{10, 10, 10, 10, 10, 10}; //black, blue, red, white,yellow, green
+        totalMeeples = 60;
+    }
+
     /**
      * Transfer one meeple of a choosen color from a Meeple class to this one
      * @param cityMeeples the Meeple class where we pick one meeples

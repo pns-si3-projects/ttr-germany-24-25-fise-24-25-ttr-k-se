@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.teamK.board.cards;
 
+import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -15,6 +16,7 @@ class DeckTest {
 
     @BeforeEach
     void setUp() {
+        Meeple.resetMeeples();
         // Initialisation des paquets avant chaque test
         map = new Board("Reich");
         shortDestinationDeck = new Deck<>(TypeOfCards.SHORT_DESTINATION,map);

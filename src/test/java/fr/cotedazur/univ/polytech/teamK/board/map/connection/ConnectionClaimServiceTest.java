@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.teamK.board.map.connection;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
+import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
 import org.junit.jupiter.api.BeforeEach;
@@ -19,6 +20,7 @@ class ConnectionClaimServiceTest {
 
     @BeforeEach
     void setUp(){
+        Meeple.resetMeeples();
         city1 = new City("Nurnberg", 1);
         city2 = new City("Regensburg", 1);
         connection = new Connection(city1, city2, 3, Colors.GREEN);
