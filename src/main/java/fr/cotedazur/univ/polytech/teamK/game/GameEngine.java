@@ -4,6 +4,8 @@ import java.io.IOException;
 import java.util.*;
 
 import com.opencsv.exceptions.CsvValidationException;
+import java.util.*;
+import java.util.logging.Logger;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;

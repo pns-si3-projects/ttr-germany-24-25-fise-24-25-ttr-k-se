@@ -1,9 +1,9 @@
 package fr.cotedazur.univ.polytech.teamK;
 
+import com.opencsv.exceptions.CsvValidationException;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 import fr.cotedazur.univ.polytech.teamK.bot.MidBot;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
-import com.opencsv.exceptions.CsvValidationException;
 import fr.cotedazur.univ.polytech.teamK.game.StatsAnalyse;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
