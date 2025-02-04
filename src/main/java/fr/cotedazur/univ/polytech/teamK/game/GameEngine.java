@@ -12,6 +12,7 @@ import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class GameEngine{
 
@@ -67,6 +68,7 @@ public class GameEngine{
     protected Deck<DestinationCard> getLongDestinationDeck() { return longDestinationDeck; }
     protected Deck<WagonCard> getWagonDeck() { return wagonDeck; }
     protected int getNumberPlayer () {return players.size();}
+    protected Set<Bot> getAllBot () {return players.keySet();}
     protected Player getPlayerByBot (Bot bot) {return players.get(bot);}
 
 
