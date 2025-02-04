@@ -28,10 +28,6 @@ public class GameView{
                 .collect(Collectors.toList());
     }
 
-    public Integer getRound () {
-        return gameEngine.getRound();
-    }
-
     public Board getGameMap () {
         Board res = new Board("");
         res = gameEngine.getGameMap();
@@ -135,6 +131,15 @@ public class GameView{
                 .map(entry -> entry.getKey())
                 .findFirst()
                 .orElse(null);
+    }
+
+    public Player getPlayerByBot(Bot bot) {
+        return gameEngine.getPlayerByBot(bot);
+    }
+
+    public Integer getRound()
+    {
+        return gameEngine.getRound();
     }
 
     public List<WagonCard> getVisibleWagonCards() {
