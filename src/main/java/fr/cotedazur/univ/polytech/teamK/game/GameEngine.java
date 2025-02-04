@@ -85,7 +85,6 @@ public class GameEngine{
     protected Deck<DestinationCard> getLongDestinationDeck() { return longDestinationDeck; }
     protected Deck<WagonCard> getWagonDeck() { return wagonDeck; }
     protected int getNumberPlayer () {return players.size();}
-    public Player getPlayerByBot(Bot bot) {return players.get(bot);}
     protected Set<Bot> getAllBot () {return players.keySet();}
     protected Player getPlayerByBot (Bot bot) {return players.get(bot);}
 

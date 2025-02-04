@@ -12,7 +12,6 @@ import fr.cotedazur.univ.polytech.teamK.game.loggers.GamesStatisticsLogger;
 import fr.cotedazur.univ.polytech.teamK.game.loggers.LoggerControlCenter;
 
 import java.io.IOException;
-import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
 
