@@ -86,18 +86,18 @@ public class GameEngine{
         }
     }
 
-    public HashMap<Bot, Player> getPlayers() { return players; }
+    protected HashMap<Bot, Player> getPlayers() { return players; }
     //public Player getPlayerByBot(int id) { return players.get(id); }
     /*
     INFOS RELATIVES AU BOARD
      */
-    public Integer getRound() { return round; }
-    public Board getGameMap() { return gameMap; }
-    public Deck<DestinationCard> getShortDestinationDeck() { return shortDestinationDeck; }
-    public Deck<DestinationCard> getLongDestinationDeck() { return longDestinationDeck; }
-    public Deck<WagonCard> getWagonDeck() { return wagonDeck; }
-    public int getNumberPlayer () {return players.size();}
-    public Player getPlayerByBot (Bot bot) {return players.get(bot);}
+    protected Integer getRound() { return round; }
+    protected Board getGameMap() { return gameMap; }
+    protected Deck<DestinationCard> getShortDestinationDeck() { return shortDestinationDeck; }
+    protected Deck<DestinationCard> getLongDestinationDeck() { return longDestinationDeck; }
+    protected Deck<WagonCard> getWagonDeck() { return wagonDeck; }
+    protected int getNumberPlayer () {return players.size();}
+    protected Player getPlayerByBot (Bot bot) {return players.get(bot);}
 
 
     public void addDestinationCardToDeck(Bot player, DestinationCard destinationCard) throws DeckFullException {
@@ -117,6 +117,14 @@ public class GameEngine{
         return 0;
     }
 
+    public DestinationCard drawShortDestination () {
+        return shortDestinationDeck.draw();
+    }
+
+    public DestinationCard drawLongueDestination () {
+        return longDestinationDeck.draw();
+    }
+
     public boolean buyRail(Bot bot, Connection connection) throws WrongPlayerException {
         if (confirmId(bot))
         {
@@ -124,13 +132,6 @@ public class GameEngine{
             Colors connectionColor = connection.getColor();
             Integer numberOfColorOwned = this.getPlayerByBot(bot).getNumberColor(connectionColor);
             return getPlayerByBot(bot).buyRail(connection, gameBoard, numberOfColorOwned);
-        }
-        return false;
-    }
-
-    public boolean buyRail(Bot bot, Connection connection, Board board, int number) throws DeckEmptyException, WrongPlayerException {
-        if(confirmId(bot)) {
-            return getPlayerByBot(bot).buyRail(connection, board, number);
         }
         return false;
     }
@@ -152,7 +153,6 @@ public class GameEngine{
         catch (NullPointerException e) {
             return false;
         }
-
     }
 
     public boolean addDestinationCard(Bot bot, DestinationCard destinationCard) throws DeckEmptyException, WrongPlayerException {
@@ -182,7 +182,7 @@ public class GameEngine{
     }
 
     public void startGame() throws WrongPlayerException {
-        round = 1;
+        round = 0;
         while (lastPlayer==null) {
             lastPlayer = playRound(lastPlayer);
             round += 1;

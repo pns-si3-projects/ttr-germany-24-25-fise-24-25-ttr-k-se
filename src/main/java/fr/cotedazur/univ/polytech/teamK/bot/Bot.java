@@ -44,23 +44,20 @@ public abstract class Bot{
     public List<DestinationCard> drawDestFromNumber (int number_short) {
         List<DestinationCard> destCardDrawn = new ArrayList<>(4) ;
         DestinationCard toAddCard;
-        Deck<DestinationCard> shortDestinationDeck = gameEngine.getShortDestinationDeck();
-        Deck<DestinationCard> longDestinationDeck = gameEngine.getLongDestinationDeck();
-        try {
-            for (int i = 0; i < 4; i++) {
-                if (i < number_short) {
-                    toAddCard = shortDestinationDeck.draw();
-                    if (toAddCard != null)
-                        destCardDrawn.add(toAddCard);
-                    else
-                        destCardDrawn.add(longDestinationDeck.draw());
-                } else {
-                    toAddCard = longDestinationDeck.draw();
-                    if (toAddCard != null)
-                        destCardDrawn.add(toAddCard);
-                    else
-                        destCardDrawn.add(shortDestinationDeck.draw());
-                }
+
+        for (int i = 0 ; i < 4 ; i++) {
+            if (i < number_short) {
+                toAddCard = gameEngine.drawShortDestination();
+                if(toAddCard != null)
+                    destCardDrawn.add(toAddCard);
+                else
+                    destCardDrawn.add(gameEngine.drawLongueDestination());
+            } else {
+                toAddCard = gameEngine.drawLongueDestination();
+                if (toAddCard != null)
+                    destCardDrawn.add(toAddCard);
+                else
+                    destCardDrawn.add(gameEngine.drawShortDestination());
             }
         }
         catch (DeckEmptyException e)
@@ -109,7 +106,7 @@ public abstract class Bot{
         ArrayList<HashMap<City,Integer>> djikstraTable = new ArrayList<>();
         HashMap<City,Integer> djikstraLine = new HashMap<>();
         ArrayList<City> seen = new ArrayList<>();
-        for (City c : gameEngine.getGameMap().getCity().values()) {
+        for (City c : gameView.getGameMap().getCity().values()) {
             djikstraLine.put(c,Integer.MAX_VALUE);
         }
 
@@ -122,7 +119,7 @@ public abstract class Bot{
             for(Connection connection : actual.getConnectionList()) {
                 int i1 = djikstraLine.get(actual)+connection.getLength();
                 int i2 = djikstraLine.get(connection.getOtherCity(actual));
-                if(gameEngine.getPlayerByBot(this).isNeighbour(actual,connection.getOtherCity(actual))) {
+                if(gameView.getPlayerByBot(this).isNeighbour(actual,connection.getOtherCity(actual))) {
                     djikstraLine.replace(connection.getOtherCity(actual),djikstraLine.get(actual));
                 }
                 if (i1< i2 && connection.getIsFree())
@@ -154,7 +151,7 @@ public abstract class Bot{
                 int value = Integer.MAX_VALUE;
                 for (City city : line.keySet()) {
                     if(line.get(city) <= line.get(min) && line.get(city) != -1 && !city.isCountry()) {
-                        Connection connection = gameEngine.getGameMap().getNeighbourConnection(resCity.getLast() , city);
+                        Connection connection = gameView.getGameMap().getNeighbourConnection(resCity.getLast() , city);
                         if(connection != null && line.get(city) + connection.getLength() < value && line.get(city)!= Integer.MAX_VALUE) {
                             min = city;
                             value = line.get(city) + connection.getLength();
@@ -169,7 +166,7 @@ public abstract class Bot{
 
         ArrayList<Connection> res = new ArrayList<>();
         for(int i=0 ; i<resCity.size()-1 ; i++) {
-            List<Connection> cityConnection = gameEngine.getGameMap().getCitiesConnections(resCity.get(i).getName());
+            List<Connection> cityConnection = gameView.getGameMap().getCitiesConnections(resCity.get(i).getName());
             for(Connection connection : cityConnection) {
                 if(connection.getOtherCity(resCity.get(i)) == resCity.get(i+1)){
                     res.add(connection);
@@ -180,10 +177,6 @@ public abstract class Bot{
 
         return res;
     }
-
-
-
-
 
     /**
      * The Bot will choose the number of short dest card to draw and give back the one he doesn't want

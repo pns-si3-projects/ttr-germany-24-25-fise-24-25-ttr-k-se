@@ -1,16 +1,14 @@
 package fr.cotedazur.univ.polytech.teamK.game;
 
+import fr.cotedazur.univ.polytech.teamK.board.cards.Deck;
 import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
 import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 
-import javax.swing.text.View;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -23,15 +21,49 @@ public class GameView{
         this.currentBot = player;
     }
 
-    public Board getGameMap() {
-        return gameEngine.getGameMap();
-    }
-
     public List<String> getPlayerNames() {
         return gameEngine.getPlayers().values()
                 .stream()
                 .map(Player::getName)
                 .collect(Collectors.toList());
+    }
+
+    public Integer getRound () {
+        return gameEngine.getRound();
+    }
+
+    public Board getGameMap () {
+        Board res = new Board("");
+        res = gameEngine.getGameMap();
+        return res;
+    }
+
+    public Deck<DestinationCard> getShortDestination() {
+        Deck<DestinationCard> res= new Deck<>(null,null);
+        res = gameEngine.getShortDestinationDeck();
+        return res;
+    }
+
+    public Deck<DestinationCard> getLongueDestination() {
+        Deck<DestinationCard> res= new Deck<>(null,null);
+        res = gameEngine.getLongDestinationDeck();
+        return res;
+    }
+
+    public Deck<WagonCard> getWagonDeck() {
+        Deck<WagonCard> res = new Deck<>(null,null);
+        res = gameEngine.getWagonDeck();
+        return res;
+    }
+
+    public Integer getNumberPlayer () {
+        return gameEngine.getNumberPlayer();
+    }
+
+    public Player getPlayerByBot (Bot bot) {
+        Player res =new Player("");
+        res = gameEngine.getPlayerByBot(bot);
+        return res;
     }
 
     public String getMyName() {return gameEngine.getPlayerByBot(currentBot)
@@ -46,6 +78,10 @@ public class GameView{
     public ArrayList<WagonCard> getMyWagonCards() {return gameEngine.getPlayerByBot(currentBot)
             .getCartesWagon();
     }
+    public int getNumberShortDest () {return gameEngine.getShortDestinationDeck().getRemainingCards();}
+
+    public int getNumberLongueDest () {return gameEngine.getLongDestinationDeck().getRemainingCards();}
+
     public int getMyWagonsRemaining() {return gameEngine.getPlayerByBot(currentBot)
             .getWagonsRemaining();
     }

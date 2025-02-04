@@ -19,6 +19,7 @@ class MeepleTest {
 
     @BeforeEach
     void setUp () {
+        Meeple.resetMeeples();
         Player.resetIdCounter();
         trickedRandom = spy(Random.class);
         player = new Meeple();
@@ -29,6 +30,7 @@ class MeepleTest {
         when(trickedRandom.nextInt(6)).thenReturn(4);
         city = new Meeple(2, trickedRandom);
         assertEquals(2, city.getNumber());
+        System.out.println(city.getListOfOwnedMeeples());
         assertArrayEquals(new int[]{0, 0, 0, 0, 2, 0}, city.getListOfOwnedMeeples());
         assertEquals(0, player.getNumber());
         assertArrayEquals(new int[] {0,0,0,0,0,0}, player.getListOfOwnedMeeples());

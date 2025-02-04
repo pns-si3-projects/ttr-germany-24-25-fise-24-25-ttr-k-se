@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.teamK.board.cards;
 
 
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
+import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,6 +16,7 @@ class DestinationCardTest {
 
     @BeforeEach
     void setUp() {
+        Meeple.resetMeeples();
         cities1 = new City("Danemark", 1);
         cities2 = new City("Kiel", 1);
        cities3 =  new City("Rostock", 1);
