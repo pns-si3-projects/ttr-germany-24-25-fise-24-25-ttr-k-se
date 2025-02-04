@@ -341,7 +341,6 @@ public class GameEngine{
                 scoreManager.recordWin(bot);
             } else {
                 scoreManager.recordLoss(bot);
-
             }
         }
     }
