@@ -8,8 +8,8 @@ import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.security.InvalidParameterException;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class GameView{
@@ -35,6 +35,14 @@ public class GameView{
     public Board getGameMap () {
         Board res = new Board("");
         res = gameEngine.getGameMap();
+        return res;
+    }
+
+    public ArrayList<String> getAllBotName () {
+        ArrayList<String> res = new ArrayList<>();
+        for(Bot bot : gameEngine.getAllBot()) {
+            res.add(bot.getName());
+        }
         return res;
     }
 
@@ -64,6 +72,21 @@ public class GameView{
         Player res =new Player("");
         res = gameEngine.getPlayerByBot(bot);
         return res;
+    }
+
+    public Set<Bot> getAllBot () {
+        Set<Bot> res = new HashSet<>();
+        res =gameEngine.getAllBot();
+        return res;
+    }
+
+    public Bot getBotByName (String name) {
+        for(Bot bot : gameEngine.getAllBot()) {
+            if(Objects.equals(bot.getName(), name)) {
+                return bot;
+            }
+        }
+        throw new InvalidParameterException();
     }
 
     public String getMyName() {return gameEngine.getPlayerByBot(currentBot)

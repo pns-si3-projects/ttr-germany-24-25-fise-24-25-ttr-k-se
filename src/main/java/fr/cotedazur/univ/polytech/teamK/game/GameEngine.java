@@ -82,6 +82,8 @@ public class GameEngine{
     protected Deck<WagonCard> getWagonDeck() { return wagonDeck; }
     protected int getNumberPlayer () {return players.size();}
     public Player getPlayerByBot(Bot bot) {return players.get(bot);}
+    protected Set<Bot> getAllBot () {return players.keySet();}
+    protected Player getPlayerByBot (Bot bot) {return players.get(bot);}
 
     /**
      * Adds a destination card to the deck.
