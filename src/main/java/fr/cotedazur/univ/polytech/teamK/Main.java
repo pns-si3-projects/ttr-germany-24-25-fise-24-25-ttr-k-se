@@ -24,6 +24,5 @@ public class Main {
         gameEngine.startGame();
         gameEngine.startGame();
         gameEngine.logGameStatistics();
-        StatsAnalyse.analyse();
     }
 }

@@ -28,10 +28,6 @@ public class GameView{
                 .collect(Collectors.toList());
     }
 
-    public Integer getRound () {
-        return gameEngine.getRound();
-    }
-
     public Board getGameMap () {
         Board res = new Board("");
         res = gameEngine.getGameMap();
@@ -124,11 +120,6 @@ public class GameView{
             .getConnections();
     }
 
-
-
-    public Player getPlayerByBot(Bot bot) {
-        return gameEngine.getPlayerByBot(bot);
-    }
     public Integer getRound()
     {
         return gameEngine.getRound();

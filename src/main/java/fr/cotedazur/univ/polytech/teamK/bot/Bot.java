@@ -44,20 +44,21 @@ public abstract class Bot{
     public List<DestinationCard> drawDestFromNumber (int number_short) {
         List<DestinationCard> destCardDrawn = new ArrayList<>(4) ;
         DestinationCard toAddCard;
-
-        for (int i = 0 ; i < 4 ; i++) {
-            if (i < number_short) {
-                toAddCard = gameEngine.drawShortDestination();
-                if(toAddCard != null)
-                    destCardDrawn.add(toAddCard);
-                else
-                    destCardDrawn.add(gameEngine.drawLongueDestination());
-            } else {
-                toAddCard = gameEngine.drawLongueDestination();
-                if (toAddCard != null)
-                    destCardDrawn.add(toAddCard);
-                else
-                    destCardDrawn.add(gameEngine.drawShortDestination());
+        try {
+            for (int i = 0; i < 4; i++) {
+                if (i < number_short) {
+                    toAddCard = gameEngine.drawShortDestination();
+                    if (toAddCard != null)
+                        destCardDrawn.add(toAddCard);
+                    else
+                        destCardDrawn.add(gameEngine.drawLongueDestination());
+                } else {
+                    toAddCard = gameEngine.drawLongueDestination();
+                    if (toAddCard != null)
+                        destCardDrawn.add(toAddCard);
+                    else
+                        destCardDrawn.add(gameEngine.drawShortDestination());
+                }
             }
         }
         catch (DeckEmptyException e)
