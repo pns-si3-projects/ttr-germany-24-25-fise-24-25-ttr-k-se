@@ -3,6 +3,7 @@ import java.util.logging.Logger;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
+import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.PlayerSeenException;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
@@ -15,6 +16,7 @@ import java.util.Map;
 
 public class GameEngine{
 
+    private String mapName;
     private final int NUMBER_OF_ROUNDS_WITHOUT_ACTIONS = 5;
     private int numberOfRoundsWithoutActions = 0;
     private Board gameMap;
@@ -33,18 +35,23 @@ public class GameEngine{
 
 
     public GameEngine(String mapName) {
-        this.gameMap = new Board(mapName);
+        this.mapName = mapName;
         this.players = new HashMap<>();
         this.viewOfPlayers = new HashMap<>();
         this.round = 0;
-        this.shortDestinationDeck = new Deck<>(TypeOfCards.SHORT_DESTINATION, gameMap);
-        this.longDestinationDeck = new Deck<>(TypeOfCards.LONG_DESTINATION, gameMap);
-        this.wagonDeck = new Deck<>(TypeOfCards.WAGON, gameMap);
         this.scoreManager = new ScoreManager(this);
         this.statisticsLogger = new GamesStatisticsLogger(this);
     }
 
+    public void initializeBoard(String mapName){
+        this.gameMap = new Board(mapName);
+        this.shortDestinationDeck = new Deck<>(TypeOfCards.SHORT_DESTINATION, gameMap);
+        this.longDestinationDeck = new Deck<>(TypeOfCards.LONG_DESTINATION, gameMap);
+        this.wagonDeck = new Deck<>(TypeOfCards.WAGON, gameMap);
+    }
+
     public void addBotsToPlayerMap(List<Bot> bots) {
+        players.clear();
         for (Bot bot : bots) {
             Player player = new Player(bot.getName());
             gameView = new GameView(this,bot);
@@ -142,6 +149,8 @@ public class GameEngine{
     }
 
     public void startGame() throws WrongPlayerException {
+        initializeBoard(mapName);
+
         totalGames++;
         while (lastPlayer==null) {
             lastPlayer = playRound(lastPlayer);
@@ -152,6 +161,7 @@ public class GameEngine{
         recordGameResults();
         displayEndGameMessage();
         gameView.displayFinalScores();
+        lastPlayer = null;
     }
 
 

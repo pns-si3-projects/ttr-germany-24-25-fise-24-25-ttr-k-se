@@ -36,11 +36,24 @@ public class Main {
 
     public void run() throws WrongPlayerException {
         if(thousands){
-            System.out.println("Thousands");
+            runThousands();
         }
         if(demo){
             runDemo();
         }
+    }
+
+    public void runThousands() throws WrongPlayerException {
+        GameEngine gameEngine = new GameEngine("Reich");
+        int compteur = 0;
+        while(compteur < 1000){
+            List<Bot> bots = Arrays.asList(new MidBot("YEETER", gameEngine), new MidBot("WILLER", gameEngine));
+            gameEngine.addBotsToPlayerMap(bots);
+            gameEngine.startGame();
+            compteur++;
+        }
+        gameEngine.logGameStatistics();
+
     }
 
     public void runDemo() throws WrongPlayerException {
@@ -48,6 +61,5 @@ public class Main {
         List<Bot> bots = Arrays.asList(new MidBot("YEETER", gameEngine), new MidBot("WILLER", gameEngine), new MidBot("RAMMER", gameEngine));
         gameEngine.addBotsToPlayerMap(bots);
         gameEngine.startGame();
-        gameEngine.logGameStatistics();
     }
 }
