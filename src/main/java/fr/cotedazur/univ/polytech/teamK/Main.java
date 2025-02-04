@@ -43,6 +43,10 @@ public class Main {
         }
     }
 
+    public void runThousands() throws WrongPlayerException {
+
+    }
+
     public void runDemo() throws WrongPlayerException {
         GameEngine gameEngine = new GameEngine("Reich");
         List<Bot> bots = Arrays.asList(new MidBot("YEETER", gameEngine), new MidBot("WILLER", gameEngine), new MidBot("RAMMER", gameEngine));

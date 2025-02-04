@@ -94,7 +94,7 @@ Lancer une classe principale définie par l'utilisateur.
             <!--Plugin utilisé pour executer les tests Junit-->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.1</version>
+                <version>3.5.2</version>
             </plugin>
 
             <!--Permet d'exécuter des applications Java directement via Maven-->
