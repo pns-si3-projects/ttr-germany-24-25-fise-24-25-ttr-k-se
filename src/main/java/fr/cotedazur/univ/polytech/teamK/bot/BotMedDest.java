@@ -41,7 +41,7 @@ public class BotMedDest extends Bot{
 
     @Override
     public boolean drawDestinationCard() throws DeckEmptyException, WrongPlayerException {
-        if(gameEngine.getShortDestinationDeck().getRemainingCards() <=0 && gameEngine.getLongDestinationDeck().getRemainingCards() <= 0) {
+        if(gameView.getNumberShortDest() <=0 && gameView.getNumberLongueDest() <= 0) {
             throw new DeckEmptyException("The 2 deck is empty");
         }
         int number_short = 2;
@@ -56,11 +56,11 @@ public class BotMedDest extends Bot{
     @Override
     public boolean drawWagonCard(Colors toFocus) throws DeckEmptyException, WrongPlayerException {
         try {
-            if (gameEngine.getWagonDeck().getRemainingCards() <= 0) {
+            if (gameView.getWagonDeck().getRemainingCards() <= 0) {
                 throw new DeckEmptyException("The deck is empty");
             }
-            gameEngine.addWagonCard(this,gameEngine.getWagonDeck().draw());
-            gameEngine.addWagonCard(this,gameEngine.getWagonDeck().draw());
+            gameEngine.addWagonCard(this,gameView.getWagonDeck().draw());
+            gameEngine.addWagonCard(this,gameView.getWagonDeck().draw());
             displayDrawWagonCardAction();
             return true;
         } catch (DeckEmptyException e) {
@@ -77,7 +77,7 @@ public class BotMedDest extends Bot{
                 City endCity = card.getEndCity();
                 List<Connection> way = djikstra(startCity, endCity);
                 for (Connection connection : way) {
-                    if (gameEngine.buyRail(this, connection, gameEngine.getGameMap(), gameEngine.getNumberPlayer())) {
+                    if (gameEngine.buyRail(this, connection, gameView.getGameMap(), gameView.getNumberPlayer())) {
                         displayBuyConnectionAction();
                         return true;
                     }

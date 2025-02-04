@@ -19,6 +19,7 @@ class PlayerTest {
 
     @BeforeEach
     void setUp () {
+        Meeple.resetMeeples();
         Player.resetIdCounter();
         map = new Board("Reich");
         player1 = new Player("Deyann");

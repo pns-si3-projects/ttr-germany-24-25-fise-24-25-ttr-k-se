@@ -64,11 +64,10 @@ Lancer une classe principale définie par l'utilisateur.
             <scope>test</scope>
         </dependency>
         <dependency>
-            <groupId>org.jcommander</groupId>
-            <artifactId>jcommander</artifactId>
-            <version>2.0</version>
+            <groupId>com.opencsv</groupId>
+            <artifactId>opencsv</artifactId>
+            <version>5.9</version>
         </dependency>
-
     </dependencies>
 
     <build>
@@ -84,7 +83,6 @@ Lancer une classe principale définie par l'utilisateur.
                 <artifactId>sonar-maven-plugin</artifactId>
                 <version>5.0.0.4389</version>
             </plugin>
-
             <plugin>
                 <groupId>org.jacoco</groupId>
                 <artifactId>jacoco-maven-plugin</artifactId>
@@ -94,7 +92,7 @@ Lancer une classe principale définie par l'utilisateur.
             <!--Plugin utilisé pour executer les tests Junit-->
             <plugin>
                 <artifactId>maven-surefire-plugin</artifactId>
-                <version>3.5.2</version>
+                <version>3.5.1</version>
             </plugin>
 
             <!--Permet d'exécuter des applications Java directement via Maven-->
