@@ -65,6 +65,19 @@ public class GameView{
             .getConnections();
     }
 
+
+
+    public Player getPlayerByBot(Bot bot) {
+        return gameEngine.getPlayerByBot(bot);
+    }
+    public Integer getRound()
+    {
+        return gameEngine.getRound();
+    }
+
+    public List<WagonCard> getVisibleWagonCards() {
+        return gameEngine.getWagonDeck().getVisibleCard();
+    }
     public void displayFinalScores() {
         System.out.println("Scores finaux :");
         gameEngine.getPlayers().values().forEach(player -> System.out.println(player.getName() + " : " + player.getScore() + " points"));

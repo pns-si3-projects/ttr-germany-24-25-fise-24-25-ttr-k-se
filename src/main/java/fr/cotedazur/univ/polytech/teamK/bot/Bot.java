@@ -65,6 +65,18 @@ public abstract class Bot{
         return destCardDrawn;
     }
 
+
+    public boolean giveBackCard(DestinationCard card)
+    {
+        try {gameEngine.addDestinationCardToDeck(this, card);}
+        catch (DeckFullException e)
+        {
+            System.out.println("deck full cannot give back card");
+            return false;
+        }
+        return true;
+    }
+
     /**
      The player give a list of the dest Card he doesn't want
      @param cards the cards he doesn't want
@@ -76,7 +88,7 @@ public abstract class Bot{
                 gameEngine.addDestinationCardToDeck(this,card);
             }
         } catch (DeckFullException e) {
-            System.out.println("you gave too much cards");
+            System.out.println("you gave too many cards");
             return false;
         }
         return true;
@@ -163,6 +175,10 @@ public abstract class Bot{
 
         return res;
     }
+
+
+
+
 
     /**
      * The Bot will choose the number of short dest card to draw and give back the one he doesn't want

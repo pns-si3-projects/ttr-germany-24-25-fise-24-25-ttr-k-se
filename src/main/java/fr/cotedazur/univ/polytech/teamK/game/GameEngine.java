@@ -117,6 +117,17 @@ public class GameEngine{
         return 0;
     }
 
+    public boolean buyRail(Bot bot, Connection connection) throws WrongPlayerException {
+        if (confirmId(bot))
+        {
+            Board gameBoard = this.gameMap;
+            Colors connectionColor = connection.getColor();
+            Integer numberOfColorOwned = this.getPlayerByBot(bot).getNumberColor(connectionColor);
+            return getPlayerByBot(bot).buyRail(connection, gameBoard, numberOfColorOwned);
+        }
+        return false;
+    }
+
     public boolean buyRail(Bot bot, Connection connection, Board board, int number) throws DeckEmptyException, WrongPlayerException {
         if(confirmId(bot)) {
             return getPlayerByBot(bot).buyRail(connection, board, number);

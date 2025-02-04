@@ -42,7 +42,18 @@ public class Meeple {
 
     public int getNumber () {return number;}
     public int[] getListOfOwnedMeeples() {return listOfOwnedMeeples;}
-    public int getNumberOfAColor(Colors colors) {return listOfOwnedMeeples[colors.ordinal()];}
+    public int getNumberOfAColor(Colors colors)
+    {
+        int pos = colors.ordinal();
+        if (listOfOwnedMeeples.length > pos)
+        {
+            return listOfOwnedMeeples[pos];
+        }
+        else
+        {
+            return -1;
+        }
+    }
 
     /**
      * Transfer one meeple of a choosen color from a Meeple class to this one
