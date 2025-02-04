@@ -182,6 +182,11 @@ public class Deck<T extends Card> {
         return visibleCard;
     }
 
+    public boolean isEmpty()
+    {
+        return this.cards.isEmpty();
+    }
+
     public boolean containsCard(T card) {
         return this.cards.contains(card);
     }
@@ -197,7 +202,7 @@ public class Deck<T extends Card> {
      */
     public T draw() throws DeckEmptyException {
         if (this.cards.isEmpty()) {
-            throw new DeckEmptyException("There is no wagons cards remaining");
+            throw new DeckEmptyException("There is no wagons or deck cards remaining");
         }
         return cards.removeLast();
     }
