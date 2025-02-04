@@ -1,5 +1,6 @@
 package fr.cotedazur.univ.polytech.teamK.game;
-
+import fr.cotedazur.univ.polytech.teamK.game.ScoreManager;
+import fr.cotedazur.univ.polytech.teamK.game.GGamesStatisticsLogger;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
@@ -69,7 +70,6 @@ public class GameEngine{
     protected Player getPlayerByBot (Bot bot) {return players.get(bot);}
 
 
-
     public void addDestinationCardToDeck(Bot player, DestinationCard destinationCard) throws DeckFullException {
         getPlayerByBot(player).removeDestinationCard(destinationCard);
         if(destinationCard.getType()==TypeOfCards.SHORT_DESTINATION) {
@@ -123,6 +123,7 @@ public class GameEngine{
         catch (NullPointerException e) {
             return false;
         }
+
     }
 
     public boolean addDestinationCard(Bot bot, DestinationCard destinationCard) throws DeckEmptyException, WrongPlayerException {
@@ -136,8 +137,6 @@ public class GameEngine{
             return false;
         }
     }
-
-
 
     public boolean confirmId(Bot bot) throws WrongPlayerException {
         if (bot.getId()!=currentBot.getId()) {
