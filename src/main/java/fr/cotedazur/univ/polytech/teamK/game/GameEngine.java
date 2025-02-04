@@ -39,6 +39,9 @@ public class GameEngine{
      * game rounds, and scoring. It interacts with the ScoreManager and GamesStatisticsLogger
      * to handle scoring and logging game statistics.
      */
+    private StatsAnalyse statsAnalyse;
+
+
     public GameEngine(String mapName) {
         this.gameMap = new Board(mapName);
         this.players = new HashMap<>();
@@ -66,6 +69,7 @@ public class GameEngine{
             players.put(bot,player);
             viewOfPlayers.put(bot,gameView);
         }
+        statsAnalyse = new StatsAnalyse(gameView, scoreManager);
     }
 
 
@@ -278,6 +282,7 @@ public class GameEngine{
                 break;
             }
         }
+        statsAnalyse.analyse();
     }
 
     /**

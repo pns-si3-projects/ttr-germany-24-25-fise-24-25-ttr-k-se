@@ -11,36 +11,56 @@ import java.io.IOException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Objects;
+
+import static java.lang.Integer.parseInt;
 
 public class StatsAnalyse {
-    GameView gameView;
-    public StatsAnalyse (GameView gameView) {
+    private GameView gameView;
+    private ScoreManager scoreManager;
+
+    public StatsAnalyse (GameView gameView, ScoreManager scoreManager) {
+        this.scoreManager = scoreManager;
         this.gameView = gameView;
     }
+
     public void analyse() throws CsvValidationException, IOException {
         CSVReader reader = new CSVReader(new FileReader("stats/gameStats.csv"));
-        CSVWriter writer = new CSVWriter(new FileWriter("stats/gameStats.csv"));
+
+        String nameWinner = scoreManager.getHighestScoreAndWinner().getKey().getName();
         ArrayList<Bot> seenBot = new ArrayList<>();
-        String [] nextLine = reader.readNext();
+        String [] nextLine ;
+        ArrayList<String> allBot = gameView.getAllBotName();
+
+       //save the file
+        ArrayList<String []> file = new ArrayList<>();
         while ((nextLine = reader.readNext()) != null) {
-            // nextLine[] is an array of values from the line
-            if(gameView.getAllBotName().contains(nextLine[0])) {
-                updateLine(nextLine);
-                seenBot.add(gameView.getBotByName(nextLine[0]));
-            }
+            file.add(nextLine);
         }
         reader.close();
-        for(Bot bot : gameView.getAllBot()){
-            if(!seenBot.contains(bot)) {
-                String[] record = "2,Rahul,Vaidya,India,35".split(",");
-                writer.writeNext(record, false);
+
+        CSVWriter writer = new CSVWriter(new FileWriter("stats/gameStats.csv",false));
+        String[] record = "BOT_NAME, NUMBER_GAME, NUMBER_WIN, RATIO, AVERAGE_SCORE, AVERAGE_CONNECTION_BOUGHT".split(",");
+        writer.writeNext(record, false);
+
+        for(String [] line : file) {
+            if(allBot.contains(line[0])) {
+                line[1] = "" + (parseInt(line[1]) + 1);
+                if(Objects.equals(line[0], nameWinner)) line[2] = "" + (parseInt(line[2]) + 1);
+                line[3] = "" + (parseInt(line[2])/ parseInt(line[1]) * 100) ;
+                line[4] = "" + ((gameView.getMyScore() + (parseInt(line[4]))));
+                allBot.remove(line[0]);
+                writer.writeNext(line);
             }
         }
+        for (String bot : allBot) {
+            String info = bot + ",1,";
+            if (Objects.equals(bot, nameWinner)) info += "1,100,";
+            else info += "0,0,";
+            info += gameView.getMyScore();
+            record = info.split(",");
+            writer.writeNext(record);
+        }
         writer.close();
-    }
-
-    public String [] updateLine (String [] line) {
-
-        return line;
     }
 }
