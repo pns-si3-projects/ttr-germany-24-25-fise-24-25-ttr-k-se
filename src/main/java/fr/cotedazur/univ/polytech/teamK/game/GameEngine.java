@@ -1,11 +1,6 @@
 package fr.cotedazur.univ.polytech.teamK.game;
-
-import java.io.IOException;
-import java.util.*;
-
-import com.opencsv.exceptions.CsvValidationException;
-import java.util.*;
-import java.util.logging.Logger;
+import fr.cotedazur.univ.polytech.teamK.game.ScoreManager;
+import fr.cotedazur.univ.polytech.teamK.game.GamesStatisticsLogger;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
@@ -13,6 +8,11 @@ import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.PlayerSeenException;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
+
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+import java.util.Set;
 
 public class GameEngine{
 
@@ -54,12 +54,11 @@ public class GameEngine{
             players.put(bot,player);
             viewOfPlayers.put(bot,gameView);
         }
-        statsAnalyse = new StatsAnalyse(gameView, scoreManager);
     }
 
 
-    protected HashMap<Bot, Player> getPlayers() { return players; }
     public int getNumberOfTotalGames() { return this.totalGames; }
+    public HashMap<Bot, Player> getPlayers() { return players; }
     //public Player getPlayerByBot(int id) { return players.get(id); }
     /*
     INFOS RELATIVES AU BOARD
@@ -99,9 +98,13 @@ public class GameEngine{
         return longDestinationDeck.draw();
     }
 
-    public boolean buyRail(Bot bot, Connection connection, Board board, int number) throws DeckEmptyException, WrongPlayerException {
-        if(confirmId(bot)) {
-            return getPlayerByBot(bot).buyRail(connection, board, number);
+    public boolean buyRail(Bot bot, Connection connection) throws WrongPlayerException {
+        if (confirmId(bot))
+        {
+            Board gameBoard = this.gameMap;
+            Colors connectionColor = connection.getColor();
+            Integer numberOfColorOwned = this.getPlayerByBot(bot).getNumberColor(connectionColor);
+            return getPlayerByBot(bot).buyRail(connection, gameBoard, numberOfColorOwned);
         }
         return false;
     }
@@ -145,7 +148,8 @@ public class GameEngine{
         return true;
     }
 
-    public void startGame() throws WrongPlayerException, CsvValidationException, IOException {
+    public void startGame() throws WrongPlayerException {
+        round = 0;
         totalGames++;
         while (lastPlayer==null) {
             lastPlayer = playRound(lastPlayer);

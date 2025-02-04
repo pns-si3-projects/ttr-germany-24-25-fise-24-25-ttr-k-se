@@ -44,23 +44,40 @@ public abstract class Bot{
     public List<DestinationCard> drawDestFromNumber (int number_short) {
         List<DestinationCard> destCardDrawn = new ArrayList<>(4) ;
         DestinationCard toAddCard;
-
-        for (int i = 0 ; i < 4 ; i++) {
-            if (i < number_short) {
-                toAddCard = gameEngine.drawShortDestination();
-                if(toAddCard != null)
-                    destCardDrawn.add(toAddCard);
-                else
-                    destCardDrawn.add(gameEngine.drawLongueDestination());
-            } else {
-                toAddCard = gameEngine.drawLongueDestination();
-                if (toAddCard != null)
-                    destCardDrawn.add(toAddCard);
-                else
-                    destCardDrawn.add(gameEngine.drawShortDestination());
+        try {
+            for (int i = 0; i < 4; i++) {
+                if (i < number_short) {
+                    toAddCard = gameEngine.drawShortDestination();
+                    if (toAddCard != null)
+                        destCardDrawn.add(toAddCard);
+                    else
+                        destCardDrawn.add(gameEngine.drawLongueDestination());
+                } else {
+                    toAddCard = gameEngine.drawLongueDestination();
+                    if (toAddCard != null)
+                        destCardDrawn.add(toAddCard);
+                    else
+                        destCardDrawn.add(gameEngine.drawShortDestination());
+                }
             }
         }
+        catch (DeckEmptyException e)
+        {
+            return destCardDrawn;
+        }
         return destCardDrawn;
+    }
+
+
+    public boolean giveBackCard(DestinationCard card)
+    {
+        try {gameEngine.addDestinationCardToDeck(this, card);}
+        catch (DeckFullException e)
+        {
+            System.out.println("deck full cannot give back card");
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -74,7 +91,7 @@ public abstract class Bot{
                 gameEngine.addDestinationCardToDeck(this,card);
             }
         } catch (DeckFullException e) {
-            System.out.println("you gave too much cards");
+            System.out.println("you gave too many cards");
             return false;
         }
         return true;
