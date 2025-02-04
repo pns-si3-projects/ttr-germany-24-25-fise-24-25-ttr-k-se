@@ -56,6 +56,7 @@ public class GameEngine{
             players.put(bot,player);
             viewOfPlayers.put(bot,gameView);
         }
+        statsAnalyse = new StatsAnalyse(gameView,scoreManager);
     }
 
 

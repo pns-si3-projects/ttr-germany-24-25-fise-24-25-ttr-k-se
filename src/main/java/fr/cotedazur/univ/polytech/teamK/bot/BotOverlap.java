@@ -308,13 +308,13 @@ public class BotOverlap extends Bot {
 
     private boolean drawVisibleSingleColorSingleCard(Colors colorWanted)
     {
-        for (int visibleWagoncardIndex = 0; visibleWagoncardIndex < gameEngine.getWagonDeck().getVisibleCard().size(); visibleWagoncardIndex++)
+        for (int visibleWagoncardIndex = 0; visibleWagoncardIndex < gameView.getWagonDeck().getVisibleCard().size(); visibleWagoncardIndex++)
         {
-            Colors currentVisibleCardColor = gameEngine.getWagonDeck().getVisibleCard().get(visibleWagoncardIndex).getColor();
+            Colors currentVisibleCardColor = gameView.getWagonDeck().getVisibleCard().get(visibleWagoncardIndex).getColor();
             if (colorWanted.equals(currentVisibleCardColor))
             {
-                WagonCard drawnCard = gameEngine.getWagonDeck().drawVisibleCard(visibleWagoncardIndex);
-                gameEngine.getPlayerByBot(this).addCardWagon(drawnCard);
+                WagonCard drawnCard = gameView.getWagonDeck().drawVisibleCard(visibleWagoncardIndex);
+                gameView.getPlayerByBot(this).addCardWagon(drawnCard);
                 return true;
             }
         }
@@ -343,8 +343,8 @@ public class BotOverlap extends Bot {
     {
         for (int cardsDrawn = 0; cardsDrawn < numberToDraw; cardsDrawn++)
         {
-            WagonCard drawnCard = gameEngine.getWagonDeck().draw();
-            gameEngine.getPlayerByBot(this).addCardWagon(drawnCard);
+            WagonCard drawnCard = gameView.getWagonDeck().draw();
+            gameView.getPlayerByBot(this).addCardWagon(drawnCard);
         }
         return true;
     }
@@ -417,7 +417,7 @@ public class BotOverlap extends Bot {
     }
 
     public boolean drawWagonCard() throws WrongPlayerException {
-        if ((this.currentPathAndDest == null) || (gameEngine.getWagonDeck().isEmpty()))
+        if ((this.currentPathAndDest == null) || (gameView.getWagonDeck().isEmpty()))
         {
             return false;
         }
@@ -444,7 +444,7 @@ public class BotOverlap extends Bot {
         }
         for (Connection connection : currentConnectionsInPath)
         {
-            if (!(connection.getOwner() == null || connection.getOwner().equals(gameEngine.getPlayerByBot(this))))
+            if (!(connection.getOwner() == null || connection.getOwner().equals(gameView.getPlayerByBot(this))))
             {
                 return 1; //a path has been bought by someone else
             }
@@ -502,7 +502,7 @@ public class BotOverlap extends Bot {
     private List<Colors> sortedMeepleColors()
     {
         List<Colors> sortedMeeplesList = new ArrayList<Colors>();
-        Player myPlayer = gameEngine.getPlayerByBot(this);
+        Player myPlayer = gameView.getPlayerByBot(this);
         for (Colors newColor : sortedMeeplesList)
         {
             int amountOfNew = myPlayer.getMeeples().getNumberOfAColor(newColor);
@@ -527,14 +527,14 @@ public class BotOverlap extends Bot {
 
         for (Colors newColor : sortedMeeplesList)
         {
-            if (this.gameEngine.getPlayerByBot(this).takeMeeples(cityOne, newColor))
+            if (this.gameView.getPlayerByBot(this).takeMeeples(cityOne, newColor))
             {
                 break;
             }
         }
         for (Colors newColor : sortedMeeplesList)
         {
-            if (this.gameEngine.getPlayerByBot(this).takeMeeples(cityTwo, newColor))
+            if (this.gameView.getPlayerByBot(this).takeMeeples(cityTwo, newColor))
             {
                 break;
             }

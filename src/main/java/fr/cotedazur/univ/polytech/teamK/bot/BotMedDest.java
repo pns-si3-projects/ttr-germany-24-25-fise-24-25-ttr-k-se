@@ -77,7 +77,7 @@ public class BotMedDest extends Bot{
                 City endCity = card.getEndCity();
                 List<Connection> way = djikstra(startCity, endCity);
                 for (Connection connection : way) {
-                    if (gameEngine.buyRail(this, connection, gameView.getGameMap(), gameView.getNumberPlayer())) {
+                    if (gameEngine.buyRail(this, connection)) {
                         displayBuyConnectionAction();
                         return true;
                     }

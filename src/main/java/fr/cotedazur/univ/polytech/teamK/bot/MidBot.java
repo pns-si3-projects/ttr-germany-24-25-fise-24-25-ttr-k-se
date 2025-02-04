@@ -82,7 +82,7 @@ public class MidBot extends Bot {
     @Override
     public boolean buyConnection(ArrayList<Connection> path) throws WrongPlayerException {
         for(Connection connection : path) {
-            if(gameEngine.buyRail(this,connection,gameView.getGameMap(), gameView.getNumberPlayer())) {
+            if(gameEngine.buyRail(this,connection)) {
                 int index;
                 Colors meepleColor;
                 Random rand = new Random();
