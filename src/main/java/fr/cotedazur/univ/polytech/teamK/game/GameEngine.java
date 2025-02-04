@@ -34,11 +34,6 @@ public class GameEngine{
     private MeeplePointsManager meeplePointsManager;
     private GamesStatisticsLogger statisticsLogger;
     private DetailedLogger detailedLogger;
-    /**
-     * The GameEngine class is responsible for managing the game logic, including player actions,
-     * game rounds, and scoring. It interacts with the ScoreManager and GamesStatisticsLogger
-     * to handle scoring and logging game statistics.
-     */
     private StatsAnalyse statsAnalyse;
 
 
@@ -176,6 +171,7 @@ public class GameEngine{
         catch (NullPointerException e) {
             return false;
         }
+
     }
 
     /**
