@@ -1,5 +1,11 @@
 package fr.cotedazur.univ.polytech.teamK.game;
 
+import java.io.IOException;
+import java.util.*;
+
+import com.opencsv.exceptions.CsvValidationException;
+import java.util.*;
+import java.util.logging.Logger;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
@@ -7,11 +13,6 @@ import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.PlayerSeenException;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 public class GameEngine{
 
@@ -30,6 +31,7 @@ public class GameEngine{
     private Integer round;
     private ScoreManager scoreManager;
     private GamesStatisticsLogger statisticsLogger;
+    private StatsAnalyse statsAnalyse;
 
 
     public GameEngine(String mapName) {
@@ -52,6 +54,7 @@ public class GameEngine{
             players.put(bot,player);
             viewOfPlayers.put(bot,gameView);
         }
+        statsAnalyse = new StatsAnalyse(gameView, scoreManager);
     }
 
 
@@ -67,6 +70,7 @@ public class GameEngine{
     protected Deck<DestinationCard> getLongDestinationDeck() { return longDestinationDeck; }
     protected Deck<WagonCard> getWagonDeck() { return wagonDeck; }
     protected int getNumberPlayer () {return players.size();}
+    protected Set<Bot> getAllBot () {return players.keySet();}
     protected Player getPlayerByBot (Bot bot) {return players.get(bot);}
 
 
@@ -141,7 +145,7 @@ public class GameEngine{
         return true;
     }
 
-    public void startGame() throws WrongPlayerException {
+    public void startGame() throws WrongPlayerException, CsvValidationException, IOException {
         totalGames++;
         while (lastPlayer==null) {
             lastPlayer = playRound(lastPlayer);
@@ -183,7 +187,7 @@ public class GameEngine{
     }
 
 
-    private void lastRound(Player lastPlayer) throws WrongPlayerException {
+    private void lastRound(Player lastPlayer) throws WrongPlayerException, CsvValidationException, IOException {
         for (Map.Entry<Bot, Player> entry : players.entrySet()) {
             currentBot = entry.getKey();
             Player currentPlayer = entry.getValue();
@@ -192,6 +196,7 @@ public class GameEngine{
                 break;
             }
         }
+        statsAnalyse.analyse();
     }
 
     public boolean noMoreActionsCheck(int numberOfPlayerWithoutActions, int numberOfRoundsWithoutActions) {
