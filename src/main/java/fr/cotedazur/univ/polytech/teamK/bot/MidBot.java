@@ -62,14 +62,14 @@ public class MidBot extends Bot {
     @Override
     public boolean drawWagonCard(Colors toFocus) throws DeckEmptyException, WrongPlayerException {
         try {
-            Deck<WagonCard> wagonDeck = gameEngine.getWagonDeck();
+            Deck<WagonCard> wagonDeck = gameView.getWagonDeck();
             List<WagonCard> visibleCard = wagonDeck.getVisibleCard();
             for (int i = 0; i < visibleCard.size(); i++) {
                 if (wagonDeck.getVisibleCard().get(i).getColor() == toFocus) {
-                    return gameEngine.addWagonCard(this, gameEngine.getWagonDeck().drawVisibleCard(i));
+                    return gameEngine.addWagonCard(this, gameView.getWagonDeck().drawVisibleCard(i));
                 }
             }
-            gameEngine.addWagonCard(this, gameEngine.getWagonDeck().draw());
+            gameEngine.addWagonCard(this, gameView.getWagonDeck().draw());
             displayDrawWagonCardAction();
             return true;
         } catch (DeckEmptyException e) {
@@ -82,7 +82,7 @@ public class MidBot extends Bot {
     @Override
     public boolean buyConnection(ArrayList<Connection> path) throws WrongPlayerException {
         for(Connection connection : path) {
-            if(gameEngine.buyRail(this,connection,gameEngine.getGameMap(), gameEngine.getNumberPlayer())) {
+            if(gameEngine.buyRail(this,connection,gameView.getGameMap(), gameView.getNumberPlayer())) {
                 int index;
                 Colors meepleColor;
                 Random rand = new Random();

@@ -22,6 +22,7 @@ class CityTest {
 
     @BeforeEach
     void setUp(){
+        Meeple.resetMeeples();
         when(trickedRandom.nextInt(6)).thenReturn(4);
         city = new City("Kiel", 5, trickedRandom, false);
         player = new Player("DaTutelBoss");
