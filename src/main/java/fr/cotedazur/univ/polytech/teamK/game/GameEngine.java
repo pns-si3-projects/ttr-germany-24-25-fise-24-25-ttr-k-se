@@ -1,4 +1,5 @@
 package fr.cotedazur.univ.polytech.teamK.game;
+import com.opencsv.exceptions.CsvValidationException;
 import fr.cotedazur.univ.polytech.teamK.game.ScoreManager;
 import fr.cotedazur.univ.polytech.teamK.game.GamesStatisticsLogger;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
@@ -9,6 +10,7 @@ import fr.cotedazur.univ.polytech.teamK.board.player.PlayerSeenException;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -148,7 +150,7 @@ public class GameEngine{
         return true;
     }
 
-    public void startGame() throws WrongPlayerException {
+    public void startGame() throws WrongPlayerException, CsvValidationException, IOException {
         round = 0;
         totalGames++;
         while (lastPlayer==null) {
