@@ -221,10 +221,11 @@ public class GameEngine{
      * @throws WrongPlayerException if the bot is not the current bot
      */
     public void startGame() throws WrongPlayerException {
+        round = 1;
         totalGames++;
         while (lastPlayer==null) {
             lastPlayer = playRound(lastPlayer);
-            round += 1;
+            round ++;
         }
         lastRound(lastPlayer);
         meeplePointsManager.calculateMeeplePoints();
