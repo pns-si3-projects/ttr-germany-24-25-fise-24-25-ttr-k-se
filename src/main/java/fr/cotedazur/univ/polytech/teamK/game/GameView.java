@@ -114,6 +114,9 @@ public class GameView{
                 .orElse(null);
     }
 
+    public List<WagonCard> getVisibleWagonCards() {
+        return gameEngine.getWagonDeck().getVisibleCard();
+    }
     public void displayFinalScores() {
         System.out.println("Scores finaux :");
         gameEngine.getPlayers().values().forEach(player -> System.out.println(player.getName() + " : " + player.getScore() + " points"));

@@ -115,6 +115,17 @@ public class GameEngine{
         return 0;
     }
 
+    public boolean buyRail(Bot bot, Connection connection) throws WrongPlayerException {
+        if (confirmId(bot))
+        {
+            Board gameBoard = this.gameMap;
+            Colors connectionColor = connection.getColor();
+            Integer numberOfColorOwned = this.getPlayerByBot(bot).getNumberColor(connectionColor);
+            return getPlayerByBot(bot).buyRail(connection, gameBoard, numberOfColorOwned);
+        }
+        return false;
+    }
+
     public DestinationCard drawShortDestination () {
         return shortDestinationDeck.draw();
     }
@@ -123,23 +134,6 @@ public class GameEngine{
         return longDestinationDeck.draw();
     }
 
-    /**
-     * Buys a rail for the specified bot.
-     *
-     * @param bot the bot buying the rail
-     * @param connection the connection to be bought
-     * @param board the game board
-     * @param number the number of cards to be used
-     * @return true if the rail was successfully bought, false otherwise
-     * @throws DeckEmptyException if the deck is empty
-     * @throws WrongPlayerException if the bot is not the current bot
-     */
-    public boolean buyRail(Bot bot, Connection connection, Board board, int number) throws DeckEmptyException, WrongPlayerException {
-        if(confirmId(bot)) {
-            return getPlayerByBot(bot).buyRail(connection, board, number);
-        }
-        return false;
-    }
 
     /**
      * Takes meeples for the specified bot.
