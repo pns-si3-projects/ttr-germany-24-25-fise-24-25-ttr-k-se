@@ -177,10 +177,6 @@ public abstract class Bot{
         return res;
     }
 
-
-
-
-
     /**
      * The Bot will choose the number of short dest card to draw and give back the one he doesn't want
      * @return true if the draw succeed

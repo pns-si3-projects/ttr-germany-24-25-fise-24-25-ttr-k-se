@@ -115,6 +115,14 @@ public class GameEngine{
         return 0;
     }
 
+    public DestinationCard drawShortDestination () {
+        return shortDestinationDeck.draw();
+    }
+
+    public DestinationCard drawLongueDestination () {
+        return longDestinationDeck.draw();
+    }
+
     public boolean buyRail(Bot bot, Connection connection) throws WrongPlayerException {
         if (confirmId(bot))
         {
@@ -126,15 +134,6 @@ public class GameEngine{
         return false;
     }
 
-    public DestinationCard drawShortDestination () {
-        return shortDestinationDeck.draw();
-    }
-
-    public DestinationCard drawLongueDestination () {
-        return longDestinationDeck.draw();
-    }
-
-
     /**
      * Takes meeples for the specified bot.
      *
@@ -145,6 +144,7 @@ public class GameEngine{
      * @throws WrongPlayerException if the bot is not the current bot
      * @throws PlayerSeenException if the player has already been seen
      */
+
     public boolean takeMeeples(Bot bot, City city, Colors color) throws WrongPlayerException, PlayerSeenException{
         if(confirmId(bot)){
             return getPlayerByBot(bot).takeMeeples(city, color);
@@ -171,7 +171,6 @@ public class GameEngine{
         catch (NullPointerException e) {
             return false;
         }
-
     }
 
     /**
