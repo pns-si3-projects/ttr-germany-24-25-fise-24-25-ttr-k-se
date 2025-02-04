@@ -46,21 +46,26 @@ public abstract class Bot{
         DestinationCard toAddCard;
         Deck<DestinationCard> shortDestinationDeck = gameEngine.getShortDestinationDeck();
         Deck<DestinationCard> longDestinationDeck = gameEngine.getLongDestinationDeck();
-
-        for (int i = 0 ; i < 4 ; i++) {
-            if (i < number_short) {
-                toAddCard = shortDestinationDeck.draw();
-                if(toAddCard != null)
-                    destCardDrawn.add(toAddCard);
-                else
-                    destCardDrawn.add(longDestinationDeck.draw());
-            } else {
-                toAddCard = longDestinationDeck.draw();
-                if (toAddCard != null)
-                    destCardDrawn.add(toAddCard);
-                else
-                    destCardDrawn.add(shortDestinationDeck.draw());
+        try {
+            for (int i = 0; i < 4; i++) {
+                if (i < number_short) {
+                    toAddCard = shortDestinationDeck.draw();
+                    if (toAddCard != null)
+                        destCardDrawn.add(toAddCard);
+                    else
+                        destCardDrawn.add(longDestinationDeck.draw());
+                } else {
+                    toAddCard = longDestinationDeck.draw();
+                    if (toAddCard != null)
+                        destCardDrawn.add(toAddCard);
+                    else
+                        destCardDrawn.add(shortDestinationDeck.draw());
+                }
             }
+        }
+        catch (DeckEmptyException e)
+        {
+            return destCardDrawn;
         }
         return destCardDrawn;
     }

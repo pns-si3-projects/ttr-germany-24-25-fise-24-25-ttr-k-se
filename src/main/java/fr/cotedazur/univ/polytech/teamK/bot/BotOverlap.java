@@ -140,7 +140,7 @@ public class BotOverlap extends Bot {
             {
                 PathValues pathValues = costOfPath(djikstra(destCard.getEndCity(), destCard.getStartCity()));
                 pathValues.setDestCardOfpath(destCard);
-                if ((pathValues == null) || (pathValues.getCost() < bestPathValues.getCost()))
+                if ((bestPathValues == null) || (pathValues.getCost() < bestPathValues.getCost()))
                 {
                     bestPathValues = pathValues;
 
@@ -417,7 +417,7 @@ public class BotOverlap extends Bot {
     }
 
     public boolean drawWagonCard() throws WrongPlayerException {
-        if (this.currentPathAndDest == null)
+        if ((this.currentPathAndDest == null) || (gameEngine.getWagonDeck().isEmpty()))
         {
             return false;
         }
@@ -433,6 +433,10 @@ public class BotOverlap extends Bot {
 
     private Integer verifyUnchangedPath()
     {
+        if (this.currentPathAndDest == null)
+        {
+            return -1;
+        }
         List<Connection> currentConnectionsInPath = this.currentPathAndDest.getConnectionsForCurrentDestCard();
         if (currentConnectionsInPath == null)
         {
@@ -551,18 +555,6 @@ public class BotOverlap extends Bot {
         {
             return false;
         }
-        /*
-        if (!buyRail())
-        {
-            if(!drawWagonCard())
-            {
-                if (!drawDestinationCard())
-                {
-                    return false;
-                }
-            }
-        }
-        return true;
-        */
+
     }
 }
