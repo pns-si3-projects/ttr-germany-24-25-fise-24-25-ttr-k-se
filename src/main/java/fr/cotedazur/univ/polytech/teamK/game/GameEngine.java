@@ -134,7 +134,7 @@ public class GameEngine{
         }
     }
 
-    private boolean confirmId(Bot bot) throws WrongPlayerException {
+    public boolean confirmId(Bot bot) throws WrongPlayerException {
         if (bot.getId()!=currentBot.getId()) {
             throw new WrongPlayerException("Wrong player");
         }
