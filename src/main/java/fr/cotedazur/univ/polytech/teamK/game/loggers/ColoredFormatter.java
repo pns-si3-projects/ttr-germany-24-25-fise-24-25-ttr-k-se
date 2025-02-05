@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.teamK.game;
+package fr.cotedazur.univ.polytech.teamK.game.loggers;
 
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;

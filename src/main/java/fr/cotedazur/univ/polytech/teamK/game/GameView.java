@@ -101,6 +101,19 @@ public class GameView{
             .getConnections();
     }
 
+    public List<Player> getPlayers() {
+        return new ArrayList<>(gameEngine.getPlayers().values());
+    }
+
+    public Bot getBotByName(String name) {
+        return gameEngine.getPlayers().entrySet()
+                .stream()
+                .filter(entry -> entry.getValue().getName().equals(name))
+                .map(entry -> entry.getKey())
+                .findFirst()
+                .orElse(null);
+    }
+
     public void displayFinalScores() {
         System.out.println("Scores finaux :");
         gameEngine.getPlayers().values().forEach(player -> System.out.println(player.getName() + " : " + player.getScore() + " points"));

@@ -1,41 +1,28 @@
-package fr.cotedazur.univ.polytech.teamK.game;
+package fr.cotedazur.univ.polytech.teamK.game.scores;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
+import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ScoreManager {
+/**
+ * The MeeplePointsManager class is responsible for calculating and awarding meeple points
+ * to players based on the number of meeples they have of each color.
+ */
+public class MeeplePointsManager {
     private final GameEngine gameEngine;
-    private final Map<Bot, Integer> gamesWon = new HashMap<>();
-    private final Map<Bot, Integer> gamesLost = new HashMap<>();
 
-    public ScoreManager(GameEngine gameEngine) {
+    public MeeplePointsManager(GameEngine gameEngine) {
         this.gameEngine = gameEngine;
     }
 
-
-    public boolean addScore(Bot bot, int score) throws WrongPlayerException {
-        if(gameEngine.confirmId(bot)){
-            gameEngine.getPlayerByBot(bot).addScore(score);
-        }
-        return false;
-    }
-
-    public HashMap<Bot, Integer> getScores(){
-        HashMap<Bot, Integer> scores = new HashMap<>();
-        for(Map.Entry<Bot, Player> entry: gameEngine.getPlayers().entrySet()){
-            Bot bot = entry.getKey();
-            int score = entry.getValue().getScore();
-            scores.put(bot, score);
-        }
-        return scores;
-    }
-
+    /**
+     * Calculates and awards meeple points to players.
+     */
     public void calculateMeeplePoints() {
         for (Colors meepleColor : Colors.values()) {
             processMeepleColorPoints(meepleColor);
@@ -44,7 +31,9 @@ public class ScoreManager {
     }
 
     /**
-     * Traite le calcul des points pour une couleur de meeples spécifique.
+     * Processes the calculation of points for a specific meeple color.
+     *
+     * @param meepleColor the color of the meeples to be processed
      */
     private void processMeepleColorPoints(Colors meepleColor) {
         List<Player> firstWinners = new ArrayList<>();
@@ -55,13 +44,17 @@ public class ScoreManager {
     }
 
     /**
-     * Détermine les joueurs ayant le plus et le deuxième plus grand nombre de meeples d'une couleur donnée.
+     * Determines the players with the most and second most meeples of a given color.
+     *
+     * @param meepleColor the color of the meeples to be counted
+     * @param firstWinners the list of players with the most meeples
+     * @param secondWinners the list of players with the second most meeples
      */
     private void determineMeepleWinners(Colors meepleColor, List<Player> firstWinners, List<Player> secondWinners) {
         Map<Bot, Player> players = gameEngine.getPlayers();
         if (players.isEmpty()) return;
 
-        // Récupère un joueur arbitraire pour l'initialisation
+        // Get an arbitrary player for initialization
         Player first = players.values().iterator().next();
         firstWinners.add(first);
         secondWinners.add(first);
@@ -73,7 +66,13 @@ public class ScoreManager {
     }
 
     /**
-     * Met à jour les listes des premiers et deuxièmes gagnants en fonction du nombre de meeples.
+     * Updates the lists of first and second winners based on the number of meeples.
+     *
+     * @param player the player being evaluated
+     * @param playerMeeples the number of meeples the player has
+     * @param meepleColor the color of the meeples being counted
+     * @param firstWinners the list of players with the most meeples
+     * @param secondWinners the list of players with the second most meeples
      */
     private void updateWinners(Player player, int playerMeeples, Colors meepleColor, List<Player> firstWinners, List<Player> secondWinners) {
         int firstMeeples = firstWinners.get(0).getMeeples().getNumberOfAColor(meepleColor);
@@ -95,7 +94,10 @@ public class ScoreManager {
     }
 
     /**
-     * Attribue les points aux joueurs en fonction des gagnants déterminés.
+     * Awards points to players based on the determined winners.
+     *
+     * @param firstWinners the list of players with the most meeples
+     * @param secondWinners the list of players with the second most meeples
      */
     private void awardMeeplePoints(List<Player> firstWinners, List<Player> secondWinners) {
         for (Player winner : firstWinners) {
@@ -107,35 +109,5 @@ public class ScoreManager {
                 winner.addScore(10);
             }
         }
-    }
-
-    public void recordWin(Bot bot) {
-        gamesWon.put(bot, gamesWon.getOrDefault(bot, 0) + 1);
-    }
-
-    public void recordLoss(Bot bot) {
-        gamesLost.put(bot, gamesLost.getOrDefault(bot, 0) + 1);
-    }
-
-    public int getGamesWon(Bot bot) {
-        return gamesWon.getOrDefault(bot, 0);
-    }
-
-    public int getGamesLost(Bot bot) {
-        return gamesLost.getOrDefault(bot, 0);
-    }
-
-    public Map.Entry<Player, Integer> getHighestScoreAndWinner() {
-        Player highestScoringPlayer = null;
-        int highestScore = 0;
-        for (Map.Entry<Bot, Player> entry : gameEngine.getPlayers().entrySet()) {
-            Player player = entry.getValue();
-            int score = player.getScore();
-            if (score > highestScore) {
-                highestScore = score;
-                highestScoringPlayer = player;
-            }
-        }
-        return new HashMap.SimpleEntry<>(highestScoringPlayer, highestScore);
     }
 }
