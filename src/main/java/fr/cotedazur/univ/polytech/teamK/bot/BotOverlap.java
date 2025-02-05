@@ -157,7 +157,7 @@ public class BotOverlap extends Bot {
         List<DestinationCard> destCardDrawn = drawDestFromNumber(number_of_short_dests);
         if (destCardDrawn.isEmpty())
         {
-            System.out.println("No destination card drawn");
+            System.out.println("No destination card drawn: round is " + gameView.getRound());
             drawDestFromNumber(number_of_short_dests);
 
         }
@@ -260,20 +260,20 @@ public class BotOverlap extends Bot {
         }
 
         Integer cost = 0;
-        Colors maximalColor = null;
+        Colors minimalColor = null;
         for (Colors color : Colors.values())
         {
-            if ((maximalColor == null) || (costOfPath.get(color) > costOfPath.get(maximalColor)))
+            if ((costOfPath.get(color) > 0) && ((minimalColor == null) || (costOfPath.get(color) < costOfPath.get(minimalColor))))
             {
-                maximalColor = color;
+                minimalColor = color;
             }
             cost += costOfPath.get(color);
         }
-        if (maximalColor == null)
+        if (minimalColor == null)
         {
             throw new NoSuchElementException("no colors in the colors enum");
         }
-        return new PathValues(maximalColor, cost, costOfPath);
+        return new PathValues(minimalColor, cost, costOfPath);
     }
 
     /*
@@ -675,7 +675,6 @@ public class BotOverlap extends Bot {
     if there are no more colors we want, that means we have no more unfinished destinations, so we draw a new destination card
      */
     public boolean playTurn() throws WrongPlayerException {
-        //this should work, otherwise code in comments might be clearer
         if (gameView.getRound() == 0)
         {
             drawBeginningDest();
