@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.teamK.board.map;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 
+import java.security.SecureRandom;
 import java.util.*;
 
 /**
@@ -21,10 +22,10 @@ public class City {
 
 
     public City(String name, int numberOfMeeples) {
-        this(name, numberOfMeeples, new Random(), false);
+        this(name, numberOfMeeples, new SecureRandom(), false);
     }
-    public City(String name, int numberOfMeeples, boolean isCountry) {this(name, numberOfMeeples, new Random(), isCountry);}
-    public City(String name, int numberOfMeeples, Random rand, boolean isCountry) {
+    public City(String name, int numberOfMeeples, boolean isCountry) {this(name, numberOfMeeples, new SecureRandom(), isCountry);}
+    public City(String name, int numberOfMeeples, SecureRandom rand, boolean isCountry) {
         this.id = COUNT++;
         setName(name);
         this.meeples = new Meeple(numberOfMeeples, rand);

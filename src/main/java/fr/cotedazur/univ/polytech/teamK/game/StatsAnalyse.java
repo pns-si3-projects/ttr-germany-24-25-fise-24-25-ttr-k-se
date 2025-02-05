@@ -40,7 +40,7 @@ public class StatsAnalyse {
         reader.close();
 
         CSVWriter writer = new CSVWriter(new FileWriter("stats/gameStats.csv",false));
-        String[] record = "BOT_NAME, NUMBER_GAME, NUMBER_WIN, RATIO, AVERAGE_SCORE, AVERAGE_CONNECTION_BOUGHT".split(",");
+        String[] record = "BOT_NAME, NUMBER_GAME, NUMBER_WIN, RATIO, AVERAGE_SCORE".split(",");
         writer.writeNext(record, false);
 
         for(String [] line : file) {
@@ -48,7 +48,7 @@ public class StatsAnalyse {
                 line[1] = "" + (parseInt(line[1]) + 1);
                 if(Objects.equals(line[0], nameWinner)) line[2] = "" + (parseInt(line[2]) + 1);
                 line[3] = "" + (parseInt(line[2])/ parseInt(line[1]) * 100) ;
-                line[4] = "" + ((gameView.getMyScore() + (parseInt(line[4]))));
+                line[4] = "" + ((gameView.getMyScore() + (parseInt(line[4])) * (parseInt(line[1]) - 1)) / parseInt(line[1]));
                 allBot.remove(line[0]);
                 writer.writeNext(line);
             }
@@ -57,7 +57,7 @@ public class StatsAnalyse {
             String info = bot + ",1,";
             if (Objects.equals(bot, nameWinner)) info += "1,100,";
             else info += "0,0,";
-            info += gameView.getMyScore();
+            info += "" + gameView.getMyScore();
             record = info.split(",");
             writer.writeNext(record);
         }

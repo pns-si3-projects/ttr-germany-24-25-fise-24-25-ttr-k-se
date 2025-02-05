@@ -2,9 +2,9 @@ package fr.cotedazur.univ.polytech.teamK.board.map;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Objects;
-import java.util.Random;
 
 public class Meeple {
     private static int[] total = {10,10,10,10,10,10}; //black, blue, red, white,yellow, green
@@ -13,7 +13,7 @@ public class Meeple {
     private int [] listOfOwnedMeeples; //black, blue, red,white,yellow, green
     private int number;
 
-    public Meeple(int number, Random rand) {
+    public Meeple(int number, SecureRandom rand) {
         listOfOwnedMeeples = new int[]{0, 0, 0, 0, 0, 0};
         int index;
         this.number = number;
@@ -37,7 +37,7 @@ public class Meeple {
 
     //pour les city
     public Meeple(int number) {
-        this(number, new Random());
+        this(number, new SecureRandom());
     }
 
     public int getNumber () {return number;}
