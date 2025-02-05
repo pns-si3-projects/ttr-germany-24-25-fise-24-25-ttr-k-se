@@ -325,7 +325,7 @@ public class GameEngine{
 
     public Map.Entry<Player, Integer> getHighestScoreAndWinner() {
         return scoreManager.getHighestScoreAndWinner();
-        }
+    }
 
     /**
      * Records the game results by updating the win/loss records for each bot.
@@ -346,5 +346,6 @@ public class GameEngine{
     }
 
 
-    public ScoreManager getScoreManager() { return scoreManager;}
+    public ScoreManager getScoreManager() {
+        return scoreManager;}
 }
