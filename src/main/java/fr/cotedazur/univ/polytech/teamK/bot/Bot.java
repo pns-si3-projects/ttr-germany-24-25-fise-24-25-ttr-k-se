@@ -22,7 +22,7 @@ public abstract class Bot{
     public final int id;
     public DetailedLogger logger;
 
-    public Bot(String name, GameEngine gameEngine)
+    protected Bot(String name, GameEngine gameEngine)
     {
         this.name = name;
         this.id = COUNT++;
@@ -73,7 +73,6 @@ public abstract class Bot{
         try {gameEngine.addDestinationCardToDeck(this, card);}
         catch (DeckFullException e)
         {
-            System.out.println("deck full cannot give back card");
             return false;
         }
         return true;
@@ -90,7 +89,6 @@ public abstract class Bot{
                 gameEngine.addDestinationCardToDeck(this,card);
             }
         } catch (DeckFullException e) {
-            System.out.println("you gave too many cards");
             return false;
         }
         return true;

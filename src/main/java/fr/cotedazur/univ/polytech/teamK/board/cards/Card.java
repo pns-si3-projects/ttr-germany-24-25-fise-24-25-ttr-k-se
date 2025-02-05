@@ -2,12 +2,12 @@ package fr.cotedazur.univ.polytech.teamK.board.cards;
 
 public abstract class Card {
     private final TypeOfCards type;
-    private static int COUNT = 0; // Compteur partagé et statique
+    private static int NUMBER_OF_CARDS = 0; // Compteur partagé et statique
     private final int id;
 
-    public Card(TypeOfCards type) {
+    protected Card(TypeOfCards type) {
         this.type = type;
-        this.id = COUNT++;
+        this.id = NUMBER_OF_CARDS++;
     }
 
     public int getId() { return id; }

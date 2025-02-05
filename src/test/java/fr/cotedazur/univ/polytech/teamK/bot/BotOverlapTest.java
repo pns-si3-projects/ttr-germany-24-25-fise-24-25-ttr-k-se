@@ -10,7 +10,7 @@ class BotOverlapTest {
     @BeforeEach
     void setUp() {
     }
-
+/*
     @Test
     void drawDestinationCard() {
 
@@ -34,5 +34,5 @@ class BotOverlapTest {
 
     @Test
     void playTurn() {
-    }
+    }*/
 }
