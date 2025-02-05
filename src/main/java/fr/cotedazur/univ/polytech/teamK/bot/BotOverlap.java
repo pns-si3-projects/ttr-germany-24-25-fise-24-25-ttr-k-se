@@ -2,14 +2,11 @@ package fr.cotedazur.univ.polytech.teamK.bot;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
-//import fr.cotedazur.univ.polytech.teamK.board.cards.PaquetVideException;
 import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
-import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
-import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
 import java.nio.file.Path;
@@ -123,6 +120,7 @@ public class BotOverlap extends Bot {
 
             for (DestinationCard destCard : destCardDrawn)
             {
+                assert maxValueDestCombo != null;
                 if (!maxValueDestCombo.contains(destCard))
                 {
                     giveBackCard(destCard);
@@ -130,7 +128,7 @@ public class BotOverlap extends Bot {
             }
             return true;
         }
-        //----------------------------------------------------------------------------------------------------------
+
         else
         {
             //iterate over destCardDrawn: choose the one with smallest cost
@@ -215,7 +213,6 @@ public class BotOverlap extends Bot {
         {
             Integer previousColorCost = costOfPath.get(connection.getColor());
             costOfPath.put(connection.getColor(), previousColorCost + connection.getLength());
-            //costOfPath.compute(connection.getColor(), (k, previousColorCost) -> previousColorCost + connection.getLength());
         }
 
         Integer cost = 0;
@@ -234,7 +231,6 @@ public class BotOverlap extends Bot {
         }
         return new PathValues(maximalColor, cost, costOfPath);
     }
-    //---------------------------------------------------------------------------------------------------------------
 
 
     private PathValues djikstraPathValues(DestinationCard destCard)
@@ -426,7 +422,6 @@ public class BotOverlap extends Bot {
         {
             return false;
         }
-        //PathValues nextPath = nextCardToDo();
         drawWagonCardsForPath(this.currentPathAndDest);
         return true;
     }
@@ -542,19 +537,8 @@ public class BotOverlap extends Bot {
 
     }
 
-
-
-
     public boolean playTurn() throws WrongPlayerException {
         //this should work, otherwise code in comments might be clearer
-        if (buyRail() || drawWagonCard() || drawDestinationCard())
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
-
+        return buyRail() || drawWagonCard() || drawDestinationCard();
     }
 }

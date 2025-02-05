@@ -15,9 +15,6 @@ public class Connection {
     private boolean isFree;
     private static int COUNT = 1;
 
-    private ConnectionClaimService claimService;
-    private ConnectionUtils utils;
-
     public Connection(City cityOne, City cityTwo) {
         this(cityOne,cityTwo,0, null);
     }
@@ -121,7 +118,7 @@ public class Connection {
      * @throws IllegalArgumentException if the number of cards used is less than 0
      */
     public boolean claimAttempt(Integer numberOfCardsUsed, Player player, Board gameMap, int numberOfPlayers) {
-        return claimService.claimAttempt(this, numberOfCardsUsed, player, gameMap, numberOfPlayers);
+        return ConnectionClaimService.claimAttempt(this, numberOfCardsUsed, player, gameMap, numberOfPlayers);
     }
 
     /**
@@ -130,7 +127,7 @@ public class Connection {
      * @throws IllegalArgumentException if the length is invalid
      */
     public int calculatePoints(int length) {
-        return utils.calculatePoints(length);
+        return ConnectionUtils.calculatePoints(length);
     }
 
     @Override

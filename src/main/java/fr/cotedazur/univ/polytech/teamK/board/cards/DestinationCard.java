@@ -41,7 +41,6 @@ public class DestinationCard extends Card {
 
     @Override
     public String toString() {
-        //return "johnny";
         return super.toString() +" "+ getStartCity()+"->"+getEndCity() +" ("+getValue()+" points)";
     }
 
