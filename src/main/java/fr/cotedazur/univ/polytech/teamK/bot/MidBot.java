@@ -7,7 +7,7 @@ import fr.cotedazur.univ.polytech.teamK.board.player.PlayerSeenException;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
-import java.awt.*;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -19,43 +19,39 @@ public class MidBot extends Bot {
     }
 
     @Override
-    public boolean playTurn() {
-        try {
-            if (gameView.getMyDestinationCards().isEmpty()) {
-                return drawDestinationCard();
-            }
-            ArrayList<Connection> path;
-            ArrayList<DestinationCard> list = gameView.getMyDestinationCards();
-            DestinationCard toAchieve;
-            do {
-                toAchieve = list.getFirst();
-                list.removeFirst();
-                path = super.djikstra(toAchieve.getStartCity(), toAchieve.getEndCity());
-            } while (path.isEmpty() && !list.isEmpty());
-            if (list.isEmpty()) {
-                return drawDestinationCard();
-            }
-            if (buyConnection(path)) {
-                gameView.getPlayerByBot(this).validDestinationCard(toAchieve);
-                return true;
-            }
-            if (drawWagonCard(path.getFirst().getColor())) {
-                return true;
-            }
-            //else{
-                //lui donner une alternative, ici il ne peut plus récupérer de cartes wagons.
-            //}
+    public boolean playTurn() throws WrongPlayerException {
 
-        } catch (WrongPlayerException e) {
-            throw new RuntimeException(e);
+        if (gameView.getMyDestinationCards().isEmpty()) {
+            return drawDestinationCard();
         }
+        ArrayList<Connection> path;
+        ArrayList<DestinationCard> list = gameView.getMyDestinationCards();
+        DestinationCard toAchieve;
+        do {
+            toAchieve = list.getFirst();
+            list.removeFirst();
+            path = super.djikstra(toAchieve.getStartCity(), toAchieve.getEndCity());
+        } while (path.isEmpty() && !list.isEmpty());
+        if (list.isEmpty()) {
+            return drawDestinationCard();
+        }
+        if (buyConnection(path)) {
+            gameView.getPlayerByBot(this).validDestinationCard(toAchieve);
+            return true;
+        }
+        if (drawWagonCard(path.getFirst().getColor())) {
+            return true;
+        }
+        //else{
+        //lui donner une alternative, ici il ne peut plus récupérer de cartes wagons.
+        //}
         return false;
     }
 
     @Override
     public boolean drawDestinationCard() throws DeckEmptyException, WrongPlayerException {
         try {
-            List<DestinationCard> draw = drawDestFromNumber(4);
+            List<DestinationCard> draw = drawDestFromNumber(2);
             List<DestinationCard> selected = new ArrayList<>();
 
                 selected.add(draw.get(0).getValue() < draw.get(1).getValue() ? draw.get(1) : draw.get(0));
@@ -94,10 +90,10 @@ public class MidBot extends Bot {
     @Override
     public boolean buyConnection(ArrayList<Connection> path) throws WrongPlayerException {
         for(Connection connection : path) {
-            if(gameEngine.buyRail(this,connection,gameView.getGameMap(), gameView.getNumberPlayer())) {
+            if(gameEngine.buyRail(this,connection)) {
                 int index;
                 Colors meepleColor;
-                Random rand = new Random();
+                SecureRandom rand = new SecureRandom();
                 int[] res = gameView.getMyMeeples().getListOfOwnedMeeples();
                 try {
                     do {

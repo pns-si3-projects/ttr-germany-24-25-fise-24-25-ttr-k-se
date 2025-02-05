@@ -6,7 +6,6 @@ import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
-import fr.cotedazur.univ.polytech.teamK.game.GameView;
 
 import java.util.*;
 
@@ -21,12 +20,9 @@ public class Player {
     private int gamesWon;
     private int gameLost;
 
-    //private Board gameMap;
-
     private ArrayList<Connection> connections;
     private ArrayList<WagonCard> wagonCards;
     private ArrayList<DestinationCard> destinationCards;
-
 
     public Player(String name) {
         this.id = COUNT++;
@@ -38,11 +34,10 @@ public class Player {
         this.connections = new ArrayList<>();
         this.meeples = new Meeple();
         playerMap = new PlayerOwnedMap();
-        //this.gameMap = gameMap;
 
     }
 
-    public Player(int id, String name, ArrayList<WagonCard> wagonCards, ArrayList<DestinationCard> destinationCards) {
+    public Player(String name, ArrayList<WagonCard> wagonCards, ArrayList<DestinationCard> destinationCards) {
         this(name);
         this.wagonCards = wagonCards;
         this.destinationCards = destinationCards;

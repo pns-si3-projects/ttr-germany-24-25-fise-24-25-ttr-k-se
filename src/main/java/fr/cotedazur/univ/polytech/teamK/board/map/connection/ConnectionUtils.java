@@ -1,6 +1,8 @@
 package fr.cotedazur.univ.polytech.teamK.board.map.connection;
 
 public class ConnectionUtils {
+    private ConnectionUtils () {}
+
     /**
      * Calculates the points for a given length.
      * @param length the length of the connection

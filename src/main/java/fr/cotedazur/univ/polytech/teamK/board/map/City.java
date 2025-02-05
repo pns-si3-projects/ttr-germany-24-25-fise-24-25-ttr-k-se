@@ -3,6 +3,7 @@ package fr.cotedazur.univ.polytech.teamK.board.map;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 
+import java.security.SecureRandom;
 import java.util.*;
 
 /**
@@ -11,8 +12,6 @@ import java.util.*;
  */
 
 public class City {
-    private int id;
-    private static int COUNT = 1;
     private String name;
     private Meeple meeples;
     private List<Connection> connectionList;
@@ -21,11 +20,10 @@ public class City {
 
 
     public City(String name, int numberOfMeeples) {
-        this(name, numberOfMeeples, new Random(), false);
+        this(name, numberOfMeeples, new SecureRandom(), false);
     }
-    public City(String name, int numberOfMeeples, boolean isCountry) {this(name, numberOfMeeples, new Random(), isCountry);}
-    public City(String name, int numberOfMeeples, Random rand, boolean isCountry) {
-        this.id = COUNT++;
+    public City(String name, int numberOfMeeples, boolean isCountry) {this(name, numberOfMeeples, new SecureRandom(), isCountry);}
+    public City(String name, int numberOfMeeples, SecureRandom rand, boolean isCountry) {
         setName(name);
         this.meeples = new Meeple(numberOfMeeples, rand);
         setConnectionList();
@@ -35,9 +33,6 @@ public class City {
 
     public boolean isCountry() {
         return isCountry;
-    }
-    public int getId() {
-        return id;
     }
     public String getName() {
         return name;
@@ -90,11 +85,11 @@ public class City {
         if (this == obj) return true;
         if (obj == null || getClass() != obj.getClass()) return false;
         City city = (City) obj;
-        return id == city.id && Objects.equals(name, city.name);
+        return Objects.equals(name, city.name);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(id, name);
+        return Objects.hash(name);
     }
 }

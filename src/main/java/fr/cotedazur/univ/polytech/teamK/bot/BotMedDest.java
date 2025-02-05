@@ -1,5 +1,5 @@
 package fr.cotedazur.univ.polytech.teamK.bot;
-
+/*
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.DeckEmptyException;
 import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
@@ -77,7 +77,7 @@ public class BotMedDest extends Bot{
                 City endCity = card.getEndCity();
                 List<Connection> way = djikstra(startCity, endCity);
                 for (Connection connection : way) {
-                    if (gameEngine.buyRail(this, connection, gameView.getGameMap(), gameView.getNumberPlayer())) {
+                    if (gameEngine.buyRail(this, connection)) {
                         displayBuyConnectionAction();
                         return true;
                     }
@@ -90,7 +90,7 @@ public class BotMedDest extends Bot{
     }
 
 
-/*
+
     private List<Connection> findShortestPath(Board currentMap, String startCity, String endCity) {
         Map<String, Integer> distances = new HashMap<>();
         Map<String, Connection> previous = new HashMap<>();
@@ -124,5 +124,6 @@ public class BotMedDest extends Bot{
         }
         Collections.reverse(path);
         return path;
-    }*/
+    }
 }
+*/

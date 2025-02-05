@@ -5,6 +5,8 @@ import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.game.Board;
 
 public class ConnectionClaimService {
+    private ConnectionClaimService () {}
+
     /**
      * Attempts to claim the connection.
      * @param connection        the connection to be claimed
@@ -24,10 +26,10 @@ public class ConnectionClaimService {
             return false;
         }
         if (numberOfPlayers > 3) {
-            claimConnection(connection, player, gameMap);
+            claimConnection(connection, player);
             return true;
         }else{
-            claimConnection(connection, player, gameMap);
+            claimConnection(connection, player);
             markOtherConnectionsAsClaimed(gameMap, connection.getCityOne(), connection.getCityTwo(), connection);
             return true;
         }
@@ -66,9 +68,8 @@ public class ConnectionClaimService {
      * Claim a connection
      * @param connection the connection to claim
      * @param player the player who claim it
-     * @param gameMap the map to use
      */
-    private static void claimConnection(Connection connection, Player player, Board gameMap) {
+    private static void claimConnection(Connection connection, Player player) {
         connection.setFree(false);
         connection.setOwner(player);
     }

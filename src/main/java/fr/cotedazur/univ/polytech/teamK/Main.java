@@ -2,16 +2,12 @@ package fr.cotedazur.univ.polytech.teamK;
 
 import com.beust.jcommander.JCommander;
 import com.beust.jcommander.Parameter;
-import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
-import fr.cotedazur.univ.polytech.teamK.bot.BotMedDest;
-import fr.cotedazur.univ.polytech.teamK.bot.DumbBot;
 import fr.cotedazur.univ.polytech.teamK.bot.MidBot;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
+
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 

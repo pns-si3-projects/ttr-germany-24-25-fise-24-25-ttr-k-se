@@ -6,6 +6,7 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 
+import java.security.SecureRandom;
 import java.util.Arrays;
 import java.util.Random;
 
@@ -15,13 +16,13 @@ import static org.mockito.Mockito.*;
 class MeepleTest {
     Meeple city;
     Meeple player;
-    Random trickedRandom;
+    SecureRandom trickedRandom;
 
     @BeforeEach
     void setUp () {
         Meeple.resetMeeples();
         Player.resetIdCounter();
-        trickedRandom = spy(Random.class);
+        trickedRandom = spy(SecureRandom.class);
         player = new Meeple();
     }
 

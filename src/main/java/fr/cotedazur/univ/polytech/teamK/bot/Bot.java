@@ -7,6 +7,7 @@ import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
+import fr.cotedazur.univ.polytech.teamK.game.loggers.DetailedLogger;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -19,8 +20,9 @@ public abstract class Bot{
     public final GameEngine gameEngine;
     public String name;
     public final int id;
+    public DetailedLogger logger;
 
-    public Bot(String name, GameEngine gameEngine)
+    protected Bot(String name, GameEngine gameEngine)
     {
         this.name = name;
         this.id = COUNT++;
@@ -35,6 +37,7 @@ public abstract class Bot{
     }
     public void setGameView(GameView gameView){
         this.gameView = gameView;
+        this.logger = new DetailedLogger(gameView);
     }
     /**
      * Method who will draw the 4 dest Cards with the number of short dest the player chose
@@ -44,23 +47,39 @@ public abstract class Bot{
     public List<DestinationCard> drawDestFromNumber (int number_short) {
         List<DestinationCard> destCardDrawn = new ArrayList<>(4) ;
         DestinationCard toAddCard;
-
-        for (int i = 0 ; i < 4 ; i++) {
-            if (i < number_short) {
-                toAddCard = gameEngine.drawShortDestination();
-                if(toAddCard != null)
-                    destCardDrawn.add(toAddCard);
-                else
-                    destCardDrawn.add(gameEngine.drawLongueDestination());
-            } else {
-                toAddCard = gameEngine.drawLongueDestination();
-                if (toAddCard != null)
-                    destCardDrawn.add(toAddCard);
-                else
-                    destCardDrawn.add(gameEngine.drawShortDestination());
+        try {
+            for (int i = 0; i < 4; i++) {
+                if (i < number_short) {
+                    toAddCard = gameEngine.drawShortDestination();
+                    if (toAddCard != null)
+                        destCardDrawn.add(toAddCard);
+                    else
+                        destCardDrawn.add(gameEngine.drawLongueDestination());
+                } else {
+                    toAddCard = gameEngine.drawLongueDestination();
+                    if (toAddCard != null)
+                        destCardDrawn.add(toAddCard);
+                    else
+                        destCardDrawn.add(gameEngine.drawShortDestination());
+                }
             }
         }
+        catch (DeckEmptyException e)
+        {
+            return destCardDrawn;
+        }
         return destCardDrawn;
+    }
+
+
+    public boolean giveBackCard(DestinationCard card)
+    {
+        try {gameEngine.addDestinationCardToDeck(this, card);}
+        catch (DeckFullException e)
+        {
+            return false;
+        }
+        return true;
     }
 
     /**
@@ -74,7 +93,6 @@ public abstract class Bot{
                 gameEngine.addDestinationCardToDeck(this,card);
             }
         } catch (DeckFullException e) {
-            System.out.println("you gave too much cards");
             return false;
         }
         return true;
@@ -121,7 +139,6 @@ public abstract class Bot{
                     actual = city;
                 }
             }
-
             djikstraTable.addFirst(djikstraLineToAdd);
         }
 
@@ -165,15 +182,6 @@ public abstract class Bot{
         return res;
     }
 
-    public boolean checkDestinationComplete (DestinationCard card, ArrayList<Connection> path) {
-        for(Connection connection : path) {
-            if(connection.getOwner() != gameView.getPlayerByBot(this)) {
-                return false;
-            }
-        }
-        return true;
-    }
-
     /**
      * The Bot will choose the number of short dest card to draw and give back the one he doesn't want
      * @return true if the draw succeed
@@ -182,7 +190,7 @@ public abstract class Bot{
     public abstract boolean drawDestinationCard() throws DeckEmptyException, WrongPlayerException;
 
     public void displayDrawDestinationCardAction(){
-        System.out.println(getName() + " tire des cartes destinations ! " + "("+gameView.getMyDestinationCards().getLast()+")");
+        logger.logDrawDestinationCard(this);
     }
     /**
      * The bot will choose the wagon card he want in the deck
@@ -192,7 +200,7 @@ public abstract class Bot{
     public abstract boolean drawWagonCard(Colors toFocus) throws DeckEmptyException, WrongPlayerException ;
 
     public void displayDrawWagonCardAction(){
-        System.out.println(getName() + " tire des cartes wagons ! " + "("+gameView.getMyWagonCards().getLast()+")");
+        logger.logDrawWagonCard(this);
     }
 
     /**
@@ -201,7 +209,7 @@ public abstract class Bot{
     public abstract boolean buyConnection(ArrayList<Connection> path) throws WrongPlayerException;
 
     public void displayBuyConnectionAction(){
-        System.out.println(getName() + " achète une connection ! "+"("+gameView.getMyConnections().getLast()+")");
+        logger.buyConnection(this);
     }
 
     /**

@@ -8,6 +8,7 @@ import fr.cotedazur.univ.polytech.teamK.game.Board;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
+import java.security.SecureRandom;
 import java.util.*;
 
 public class DumbBot extends Bot {
@@ -26,15 +27,12 @@ public class DumbBot extends Bot {
 
         //find the city with the ID corresponding to player ID
 
-        try {
-            if(buyConnection(new ArrayList<>())) {
-                return true;
-            }
-        } catch (WrongPlayerException e) {
-            throw new RuntimeException(e);
+        if(buyConnection(new ArrayList<>())) {
+            return true;
         }
 
-        Random rand = new Random();
+
+        SecureRandom rand = new SecureRandom();
         int rand_int = rand.nextInt(100);
         if (rand_int < 20) {
             try {
@@ -78,21 +76,6 @@ public class DumbBot extends Bot {
     public boolean buyConnection(ArrayList<Connection> path) throws WrongPlayerException {
         displayBuyConnectionAction();
         return false;
-    }
-
-    private String findCityWithID(Board currentMap, String currentCityID) {
-        for (Map.Entry<String, City> entry : currentMap.getCity().entrySet())
-        {
-            if (currentCityID.equals(""))
-            {
-                currentCityID = entry.getValue().getName();
-            }
-            if (entry.getValue().getId() == super.getId())
-            {
-                currentCityID = entry.getValue().getName();
-            }
-        }
-        return currentCityID;
     }
 /*
     @Override
