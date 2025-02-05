@@ -16,6 +16,7 @@ import java.util.*;
 public class BotOverlap extends Bot {
     private PathValues currentPathAndDest = null;
 
+    //stores two destination cards and their combined value
     private class DestDestValue {
         private DestinationCard destCard1;
         private DestinationCard destCard2;
@@ -39,6 +40,12 @@ public class BotOverlap extends Bot {
             return destCard1.equals(destCard) || destCard2.equals(destCard);
         }
     }
+    /*stored information on a path to complete a destination card:
+    has the primary color to purchase (need to fix)
+    has the connection in the shortest path
+    has the destination card itself
+    has the cost of all the path combined, and the cost per color
+     */
     private class PathValues {
         private Colors primaryColor;
         private Integer cost;
@@ -81,20 +88,26 @@ public class BotOverlap extends Bot {
 
 
 
-
+    //the move in which the bot draws destination cards: it always tries to draw 4 long destinations
     public boolean drawDestinationCard() throws WrongPlayerException {
         return drawDestinationCardWithNumber(0);
     }
-
+    //the logic for choosing the first 2 dest cards:
+    /*
+    the logic is: we create DestDestValue tuples, so we can compare the values of them
+     */
     private boolean drawBeginningDest() throws WrongPlayerException {
         List<DestinationCard> destCardDrawn = drawDestFromNumber(0);
         List<DestDestValue> chosenCommonCardsWithValue = new ArrayList<DestDestValue>();
         List<DestDestValue> chosenSeperateCardsWithValue = new ArrayList<DestDestValue>();
+        //loop over all combos of destination cards (contains duplicates) to create the tuples
         for (DestinationCard destCardOne : destCardDrawn)
         {
             for (DestinationCard destCardTwo : destCardDrawn)
             {
                 DestDestValue comboToAdd = new DestDestValue(destCardOne, destCardTwo, combinedValue(destCardOne, destCardTwo));
+                //adds the tuple to either the list that indicates it has cities in common, or the other list
+                //for two identical destination cards, the cityInCommon method treats that case and returns false
                 if (cityInCommon(destCardOne, destCardTwo))
                 {
                     chosenCommonCardsWithValue.add(comboToAdd);
@@ -107,6 +120,7 @@ public class BotOverlap extends Bot {
             }
         }
         DestDestValue maxValueDestCombo;
+        //finds the maximum value tuple, either with cities in common if they exist or in the other list if no paired cities
         if (chosenCommonCardsWithValue.size() > 0)
         {
             maxValueDestCombo = findMaxWithinList(chosenCommonCardsWithValue);
@@ -115,7 +129,7 @@ public class BotOverlap extends Bot {
         {
             maxValueDestCombo = findMaxWithinList(chosenSeperateCardsWithValue);
         }
-
+        //loops over the destination cards, to remove the ones we dont want to choose, and keep the others
         for (DestinationCard destCard : destCardDrawn)
         {
             assert maxValueDestCombo != null;
@@ -143,6 +157,14 @@ public class BotOverlap extends Bot {
 
         return true;
     }
+
+    //destination card draw logic
+    /*
+    draws 4 long cards preferably
+    chooses the card with the least remaining rails to buy
+    if a second card is also quite cheap, choose that one (not implemented: the commented lines choose that card, but we still return it
+    only ever choose maximum 2 cards
+     */
     private boolean drawDestinationCardWithNumber(Integer number_of_short_dests) throws WrongPlayerException {
         List<DestinationCard> destCardDrawn = drawDestFromNumber(number_of_short_dests);
         if (destCardDrawn.isEmpty())
@@ -153,7 +175,7 @@ public class BotOverlap extends Bot {
         }
         //iterate over destCardDrawn: choose the one with smallest cost
         PathValues bestPathValues = null;
-        PathValues secondBestPathValues = null;
+        //PathValues secondBestPathValues = null;
         for (DestinationCard destCard : destCardDrawn)
         {
             PathValues pathValues = costOfPath(djikstra(destCard.getEndCity(), destCard.getStartCity()));
@@ -162,16 +184,18 @@ public class BotOverlap extends Bot {
             {
                 bestPathValues = pathValues;
             }
-           else if ((pathValues.getCost() < 5) && ((secondBestPathValues == null) || (pathValues.getCost() < secondBestPathValues.getCost())))
-           {
-               secondBestPathValues = pathValues;
-           }
+           //else if ((pathValues.getCost() < 5) && ((secondBestPathValues == null) || (pathValues.getCost() < secondBestPathValues.getCost())))
+           //{
+           //    secondBestPathValues = pathValues;
+           //}
         }
+        //test, in case no dest cards were found:
         if (bestPathValues == null) {
-            System.out.println("No path found, as if no destination cards were drawn");
+            //System.out.println("No path found, as if no destination cards were drawn");
             return false;
         }
 
+        //returns all the other destination cards
         for (DestinationCard destCard : destCardDrawn)
         {
             if (!destCard.equals(bestPathValues.getDestCardOfpath()))
@@ -186,7 +210,9 @@ public class BotOverlap extends Bot {
         return true;
     }
 
-
+    /*
+    function to determine if two destination cards have a city in common
+     */
     private Boolean cityInCommon (DestinationCard dest1, DestinationCard dest2)
     {
         City dest1StartCity = dest1.getStartCity();
@@ -200,11 +226,17 @@ public class BotOverlap extends Bot {
         return false;
     }
 
+    /*
+    function to sum the point value of two destination cards
+     */
     private Integer combinedValue (DestinationCard dest1, DestinationCard dest2)
     {
         return dest1.getValue() + dest2.getValue();
     }
 
+    /*
+    function to find the maximal tuple (based on its value element) in a list of destdestvalues
+     */
     private DestDestValue findMaxWithinList(List<DestDestValue> tupleList)
     {
         if (tupleList.size() == 0)
@@ -222,6 +254,9 @@ public class BotOverlap extends Bot {
         return maxValueTuple;
     }
 
+    /*
+    
+     */
     private PathValues costOfPath(List<Connection> connectionsInPath)
     {
         HashMap<Colors, Integer> costOfPath = new HashMap<Colors, Integer>();
