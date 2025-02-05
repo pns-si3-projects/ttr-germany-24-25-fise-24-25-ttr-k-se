@@ -234,6 +234,7 @@ public class GameEngine{
 
     public void logGameStatistics() {
         statisticsLogger.logGameStatistics();
+        totalGames=0;
     }
 
     public Map.Entry<Player, Integer> getHighestScoreAndWinner() {

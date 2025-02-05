@@ -53,6 +53,14 @@ public class Main {
             compteur++;
         }
         gameEngine.logGameStatistics();
+        compteur=0;
+        while(compteur < 1000){
+            List<Bot> bots = Arrays.asList(new MidBot("YEETER", gameEngine),new MidBot("WILLER", gameEngine));
+            gameEngine.addBotsToPlayerMap(bots);
+            gameEngine.startGame();
+            compteur++;
+        }
+        gameEngine.logGameStatistics();
 
     }
 

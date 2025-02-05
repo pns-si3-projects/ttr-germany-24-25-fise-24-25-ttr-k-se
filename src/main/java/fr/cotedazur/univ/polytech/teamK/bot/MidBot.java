@@ -27,7 +27,6 @@ public class MidBot extends Bot {
             ArrayList<Connection> path;
             ArrayList<DestinationCard> list = gameView.getMyDestinationCards();
             DestinationCard toAchieve;
-            System.out.println("Destination cards : " + list);
             do {
                 toAchieve = list.getFirst();
                 list.removeFirst();
