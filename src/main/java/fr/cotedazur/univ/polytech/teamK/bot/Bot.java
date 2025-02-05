@@ -136,7 +136,6 @@ public abstract class Bot{
                     actual = city;
                 }
             }
-
             djikstraTable.addFirst(djikstraLineToAdd);
         }
 
