@@ -24,21 +24,25 @@ public class MidBot extends Bot {
             if (gameView.getMyDestinationCards().isEmpty()) {
                 return drawDestinationCard();
             }
+            ArrayList<Connection> path;
             ArrayList<DestinationCard> list = gameView.getMyDestinationCards();
-            ArrayList<Connection> path = new ArrayList<>();
-            DestinationCard toAchieve = null;
-            for(DestinationCard destinationCard : list) {
-                toAchieve = destinationCard;
+            DestinationCard toAchieve;
+            System.out.println("Destination cards : " + list);
+            do {
+                toAchieve = list.getFirst();
+                list.removeFirst();
                 path = super.djikstra(toAchieve.getStartCity(), toAchieve.getEndCity());
-                if(!checkDestinationComplete(toAchieve,path)) {
-                    break;
-                }
+            } while (path.isEmpty() && !list.isEmpty());
+            if (list.isEmpty()) {
+                return drawDestinationCard();
             }
-            System.out.println("Destination cards : " + gameView.getMyDestinationCards());
             System.out.println(toAchieve);
             System.out.println("path : " + path);
             System.out.println(gameView.getMyConnections());
-            if (buyConnection(path)) return true;
+            if (buyConnection(path)) {
+                gameView.getPlayerByBot(this).validDestinationCard(toAchieve);
+                return true;
+            }
             if (drawWagonCard(path.getFirst().getColor())) {
                 return true;
             }

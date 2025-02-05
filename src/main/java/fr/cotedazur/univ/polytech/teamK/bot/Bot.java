@@ -103,7 +103,7 @@ public abstract class Bot{
             for(Connection connection : actual.getConnectionList()) {
                 int i1 = djikstraLine.get(actual)+connection.getLength();
                 int i2 = djikstraLine.get(connection.getOtherCity(actual));
-                if(gameView.getPlayerByBot(this).isNeighbour(actual,connection.getOtherCity(actual)) && connection.getIsFree()) {
+                if(gameView.getPlayerByBot(this).isNeighbour(actual,connection.getOtherCity(actual))) {
                     djikstraLine.replace(connection.getOtherCity(actual),djikstraLine.get(actual));
                 }
                 else if (i1< i2 && connection.getIsFree())
@@ -157,6 +157,9 @@ public abstract class Bot{
                     break;
                 }
             }
+        }
+        if(res.isEmpty()) {
+            return res;
         }
 
         return res;
