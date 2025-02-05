@@ -64,6 +64,10 @@ public abstract class Bot{
                 }
             }
         }
+        catch (DeckEmptyException e)
+        {
+            return destCardDrawn;
+        }
         return destCardDrawn;
     }
 

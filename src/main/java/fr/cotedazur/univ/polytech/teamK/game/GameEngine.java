@@ -1,5 +1,5 @@
 package fr.cotedazur.univ.polytech.teamK.game;
-
+import com.opencsv.exceptions.CsvValidationException;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
@@ -12,9 +12,11 @@ import fr.cotedazur.univ.polytech.teamK.game.loggers.GamesStatisticsLogger;
 import fr.cotedazur.univ.polytech.teamK.game.scores.MeeplePointsManager;
 import fr.cotedazur.univ.polytech.teamK.game.scores.ScoreManager;
 
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 
 public class GameEngine{
 
@@ -64,12 +66,12 @@ public class GameEngine{
             players.put(bot,player);
             viewOfPlayers.put(bot,gameView);
         }
-        statsAnalyse = new StatsAnalyse(gameView, scoreManager);
+        statsAnalyse = new StatsAnalyse(gameView,scoreManager);
     }
 
 
-    public HashMap<Bot, Player> getPlayers() { return players; }
     public int getNumberOfTotalGames() { return this.totalGames; }
+    public HashMap<Bot, Player> getPlayers() { return players; }
     //public Player getPlayerByBot(int id) { return players.get(id); }
     /*
     INFOS RELATIVES AU BOARD

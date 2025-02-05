@@ -124,19 +124,6 @@ public class GameView{
         return new ArrayList<>(gameEngine.getPlayers().values());
     }
 
-    public Bot getBotByName(String name) {
-        return gameEngine.getPlayers().entrySet()
-                .stream()
-                .filter(entry -> entry.getValue().getName().equals(name))
-                .map(entry -> entry.getKey())
-                .findFirst()
-                .orElse(null);
-    }
-
-    public Player getPlayerByBot(Bot bot) {
-        return gameEngine.getPlayerByBot(bot);
-    }
-
     public Integer getRound()
     {
         return gameEngine.getRound();
@@ -149,9 +136,4 @@ public class GameView{
         System.out.println("Scores finaux :");
         gameEngine.getPlayers().values().forEach(player -> System.out.println(player.getName() + " : " + player.getScore() + " points"));
     }
-
-    /**
-     * savoir le score des autres
-     * savoir le nombre de carte
-     */
 }
