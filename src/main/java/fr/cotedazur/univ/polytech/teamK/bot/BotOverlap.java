@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.teamK.bot;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
+import fr.cotedazur.univ.polytech.teamK.board.cards.DeckFullException;
 import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
 import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
@@ -81,91 +82,110 @@ public class BotOverlap extends Bot {
 
 
 
-    public boolean drawDestinationCard()
-    {
+    public boolean drawDestinationCard() throws WrongPlayerException {
         return drawDestinationCardWithNumber(0);
     }
 
-    private boolean drawDestinationCardWithNumber(Integer number_of_short_dests) {
-        List<DestinationCard> destCardDrawn = drawDestFromNumber(number_of_short_dests);
-        if (gameView.getRound() == 1)
+    private boolean drawBeginningDest() throws WrongPlayerException {
+        List<DestinationCard> destCardDrawn = drawDestFromNumber(0);
+        List<DestDestValue> chosenCommonCardsWithValue = new ArrayList<DestDestValue>();
+        List<DestDestValue> chosenSeperateCardsWithValue = new ArrayList<DestDestValue>();
+        for (DestinationCard destCardOne : destCardDrawn)
         {
-            List<DestDestValue> chosenCommonCardsWithValue = new ArrayList<DestDestValue>();
-            List<DestDestValue> chosenSeperateCardsWithValue = new ArrayList<DestDestValue>();
-            for (DestinationCard destCardOne : destCardDrawn)
+            for (DestinationCard destCardTwo : destCardDrawn)
             {
-                for (DestinationCard destCardTwo : destCardDrawn)
+                DestDestValue comboToAdd = new DestDestValue(destCardOne, destCardTwo, combinedValue(destCardOne, destCardTwo));
+                if (cityInCommon(destCardOne, destCardTwo))
                 {
-                    DestDestValue comboToAdd = new DestDestValue(destCardOne, destCardTwo, combinedValue(destCardOne, destCardTwo));
-                    if (cityInCommon(destCardOne, destCardTwo))
-                    {
-                        chosenCommonCardsWithValue.add(comboToAdd);
-                    }
-                    else
-                    if (!destCardOne.equals(destCardTwo))
-                    {
-                        chosenSeperateCardsWithValue.add(comboToAdd);
-                    }
+                    chosenCommonCardsWithValue.add(comboToAdd);
+                }
+                else
+                if (!destCardOne.equals(destCardTwo))
+                {
+                    chosenSeperateCardsWithValue.add(comboToAdd);
                 }
             }
-            DestDestValue maxValueDestCombo;
-            if (chosenCommonCardsWithValue.size() > 0)
+        }
+        DestDestValue maxValueDestCombo;
+        if (chosenCommonCardsWithValue.size() > 0)
+        {
+            maxValueDestCombo = findMaxWithinList(chosenCommonCardsWithValue);
+        }
+        else
+        {
+            maxValueDestCombo = findMaxWithinList(chosenSeperateCardsWithValue);
+        }
+
+        for (DestinationCard destCard : destCardDrawn)
+        {
+            assert maxValueDestCombo != null;
+            if (!maxValueDestCombo.contains(destCard))
             {
-                maxValueDestCombo = findMaxWithinList(chosenCommonCardsWithValue);
+                giveBackCard(destCard);
             }
             else
             {
-                maxValueDestCombo = findMaxWithinList(chosenSeperateCardsWithValue);
-            }
-
-            for (DestinationCard destCard : destCardDrawn)
-            {
-                assert maxValueDestCombo != null;
-                if (!maxValueDestCombo.contains(destCard))
+                if (this.currentPathAndDest == null)
                 {
-                    giveBackCard(destCard);
+                    this.currentPathAndDest = djikstraPathValues(destCard);
                 }
+                else
+                {
+                    PathValues secondcard = djikstraPathValues(destCard);
+                    if (secondcard.getDestCardOfpath().getValue() > this.currentPathAndDest.getDestCardOfpath().getValue())
+                    {
+                        this.currentPathAndDest = secondcard;
+                    }
+                }
+                gameEngine.addDestinationCard(this, destCard);
             }
-            return true;
         }
 
-        else
-        {
-            //iterate over destCardDrawn: choose the one with smallest cost
-            PathValues bestPathValues = null;
-            PathValues secondBestPathValues = null;
-            for (DestinationCard destCard : destCardDrawn)
-            {
-                PathValues pathValues = costOfPath(djikstra(destCard.getEndCity(), destCard.getStartCity()));
-                pathValues.setDestCardOfpath(destCard);
-                if ((bestPathValues == null) || (pathValues.getCost() < bestPathValues.getCost()))
-                {
-                    bestPathValues = pathValues;
-
-                }
-                else if ((pathValues.getCost() < 5) && ((secondBestPathValues == null) || (pathValues.getCost() < secondBestPathValues.getCost())))
-                {
-                    secondBestPathValues = pathValues;
-                }
-            }
-            if (bestPathValues == null) {
-                System.out.println("No path found, as if no destination cards were drawn");
-                return false;
-            }
-
-            for (DestinationCard destCard : destCardDrawn)
-            {
-                if (!destCard.equals(bestPathValues.getDestCardOfpath()))
-                {
-                    giveBackCard(destCard);
-                }
-            }
-            return true;
-
-
-
-        }
+        return true;
     }
+    private boolean drawDestinationCardWithNumber(Integer number_of_short_dests) throws WrongPlayerException {
+        List<DestinationCard> destCardDrawn = drawDestFromNumber(number_of_short_dests);
+        if (destCardDrawn.isEmpty())
+        {
+            System.out.println("No destination card drawn");
+            drawDestFromNumber(number_of_short_dests);
+
+        }
+        //iterate over destCardDrawn: choose the one with smallest cost
+        PathValues bestPathValues = null;
+        PathValues secondBestPathValues = null;
+        for (DestinationCard destCard : destCardDrawn)
+        {
+            PathValues pathValues = costOfPath(djikstra(destCard.getEndCity(), destCard.getStartCity()));
+            pathValues.setDestCardOfpath(destCard);
+            if ((bestPathValues == null) || (pathValues.getCost() < bestPathValues.getCost()))
+            {
+                bestPathValues = pathValues;
+            }
+           else if ((pathValues.getCost() < 5) && ((secondBestPathValues == null) || (pathValues.getCost() < secondBestPathValues.getCost())))
+           {
+               secondBestPathValues = pathValues;
+           }
+        }
+        if (bestPathValues == null) {
+            System.out.println("No path found, as if no destination cards were drawn");
+            return false;
+        }
+
+        for (DestinationCard destCard : destCardDrawn)
+        {
+            if (!destCard.equals(bestPathValues.getDestCardOfpath()))
+            {
+                giveBackCard(destCard);
+            }
+            else
+            {
+                gameEngine.addDestinationCard(this, destCard);
+            }
+        }
+        return true;
+    }
+
 
     private Boolean cityInCommon (DestinationCard dest1, DestinationCard dest2)
     {
@@ -360,37 +380,47 @@ public class BotOverlap extends Bot {
     }
     private boolean drawWagonDualColorFocus(Colors firstColor, Colors secondColor)
     {
+        int cardsToDraw = 2;
         boolean foundPrimary = drawVisibleSingleColorSingleCard(firstColor);
+        if (foundPrimary)
+        {
+            cardsToDraw -= 1;
+        }
         boolean foundRainbow = false;
-        if (!foundPrimary)
+        if (cardsToDraw == 2)
         {
             foundRainbow = drawVisibleRainbow();
         }
-
-        if (!foundRainbow)
+        if (foundRainbow)
+        {
+            cardsToDraw = 0;
+        }
+        if (cardsToDraw > 0)
         {
             boolean foundSecondary = drawVisibleSingleColorSingleCard(secondColor);
-            boolean retryPrimary = drawVisibleSingleColorSingleCard(firstColor);
+            if (foundSecondary)
+            {
+                cardsToDraw -= 1;
+            }
+            boolean retryPrimary = false;
+            if (cardsToDraw > 0)
+            {
+                retryPrimary = drawVisibleSingleColorSingleCard(firstColor);
+            }
+            if (retryPrimary)
+            {
+                cardsToDraw -= 1;
+            }
             boolean foundTwoSecondary = false;
-            if (!retryPrimary)
+            if (cardsToDraw > 0)
             {
                 foundTwoSecondary = drawVisibleSingleColorSingleCard(secondColor);
             }
-
-            int cardsToDraw;
-            if (!foundSecondary)
+            if (foundTwoSecondary)
             {
-                cardsToDraw = 2;
+                cardsToDraw -= 1;
             }
-            if ((foundSecondary) && !(foundPrimary || foundTwoSecondary))
-            {
-                cardsToDraw = 1;
-            }
-            else
-            {
-                cardsToDraw = 0;
-            }
-            boolean drewFromHidden = drawFromWagonDeck(cardsToDraw);
+            drawFromWagonDeck(cardsToDraw);
         }
         return true;
     }
@@ -418,7 +448,7 @@ public class BotOverlap extends Bot {
             return false;
         }
         DestinationCard currentDest = this.currentPathAndDest.destCardOfpath;
-        if (!gameView.getPlayerByBot(this).validDestinationCard(currentDest))
+        if (gameView.getPlayerByBot(this).validDestinationCard(currentDest))
         {
             return false;
         }
@@ -539,6 +569,12 @@ public class BotOverlap extends Bot {
 
     public boolean playTurn() throws WrongPlayerException {
         //this should work, otherwise code in comments might be clearer
-        return buyRail() || drawWagonCard() || drawDestinationCard();
+        if (gameView.getRound() == 0)
+        {
+            drawBeginningDest();
+        }
+        boolean value =  buyRail() || drawWagonCard() || drawDestinationCard();
+        String test = "test";
+        return value;
     }
 }

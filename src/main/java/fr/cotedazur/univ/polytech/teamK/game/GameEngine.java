@@ -201,7 +201,7 @@ public class GameEngine{
                 break;
             }
         }
-        statsAnalyse.analyse();
+        //statsAnalyse.analyse();
     }
 
     public boolean noMoreActionsCheck(int numberOfPlayerWithoutActions, int numberOfRoundsWithoutActions) {

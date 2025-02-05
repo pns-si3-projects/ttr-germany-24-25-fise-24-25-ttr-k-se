@@ -44,6 +44,52 @@ public abstract class Bot{
     public List<DestinationCard> drawDestFromNumber (int number_short) {
         List<DestinationCard> destCardDrawn = new ArrayList<>(4) ;
         DestinationCard toAddCard;
+
+        for (int i = 0; i < 4; i++)
+        {
+            if (i < number_short)
+            {
+                try
+                {
+                    toAddCard = gameEngine.drawShortDestination();
+                    destCardDrawn.add(toAddCard);
+                }
+                catch (DeckEmptyException e)
+                {
+                    try
+                    {
+                        toAddCard = gameEngine.drawLongueDestination();
+                        destCardDrawn.add(toAddCard);
+                    }
+                    catch (DeckEmptyException e1)
+                    {
+                        return destCardDrawn;
+                    }
+                }
+            }
+            else
+            {
+                try
+                {
+                    toAddCard = gameEngine.drawLongueDestination();
+                    destCardDrawn.add(toAddCard);
+                }
+                catch (DeckEmptyException e)
+                {
+                    try
+                    {
+                        toAddCard = gameEngine.drawShortDestination();
+                        destCardDrawn.add(toAddCard);
+                    }
+                    catch (DeckEmptyException e1)
+                    {
+                        return destCardDrawn;
+                    }
+                }
+            }
+        }
+
+        /*
         try {
             for (int i = 0; i < 4; i++) {
                 if (i < number_short) {
@@ -64,7 +110,7 @@ public abstract class Bot{
         catch (DeckEmptyException e)
         {
             return destCardDrawn;
-        }
+        }*/
         return destCardDrawn;
     }
 
