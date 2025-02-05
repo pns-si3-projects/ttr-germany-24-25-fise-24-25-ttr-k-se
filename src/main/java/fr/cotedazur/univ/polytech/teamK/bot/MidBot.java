@@ -36,9 +36,6 @@ public class MidBot extends Bot {
             if (list.isEmpty()) {
                 return drawDestinationCard();
             }
-            System.out.println(toAchieve);
-            System.out.println("path : " + path);
-            System.out.println(gameView.getMyConnections());
             if (buyConnection(path)) {
                 gameView.getPlayerByBot(this).validDestinationCard(toAchieve);
                 return true;
