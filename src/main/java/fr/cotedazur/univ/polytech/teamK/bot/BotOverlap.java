@@ -139,22 +139,10 @@ public class BotOverlap extends Bot {
             }
             else
             {
-                if (this.currentPathAndDest == null)
-                {
-                    this.currentPathAndDest = djikstraPathValues(destCard);
-                }
-                else
-                {
-                    PathValues secondcard = djikstraPathValues(destCard);
-                    if (secondcard.getDestCardOfpath().getValue() > this.currentPathAndDest.getDestCardOfpath().getValue())
-                    {
-                        this.currentPathAndDest = secondcard;
-                    }
-                }
                 gameEngine.addDestinationCard(this, destCard);
             }
         }
-
+        this.currentPathAndDest = nextDestCardToDo();
         return true;
     }
 
@@ -255,7 +243,8 @@ public class BotOverlap extends Bot {
     }
 
     /*
-    
+    determines the total cost of a path to complete a destination card:
+    it returns a PathValues tuple, which also stores the colors needed, how many of them, etc
      */
     private PathValues costOfPath(List<Connection> connectionsInPath)
     {
@@ -287,7 +276,9 @@ public class BotOverlap extends Bot {
         return new PathValues(maximalColor, cost, costOfPath);
     }
 
-
+    /*
+    calls djikstra on a destination card, and returns the pathvalues tuple associated to it
+     */
     private PathValues djikstraPathValues(DestinationCard destCard)
     {
         List<Connection> djikstraPath = djikstra(destCard.getEndCity(), destCard.getStartCity());
@@ -297,6 +288,10 @@ public class BotOverlap extends Bot {
         return bestPathValues;
     }
 
+    /*
+    loops over all the dest cards someone has: finds the next noncomplete one to do
+    does the one that is cheapest to do next
+     */
     private PathValues nextDestCardToDo ()
     {
         List<DestinationCard> allDestCardOwned = gameView.getMyDestinationCards();
@@ -315,6 +310,12 @@ public class BotOverlap extends Bot {
         return cheapestPath;
     }
 
+    /*
+    looks at all connections in a path
+    returns a list of maximum size 2 of colors
+    if the size is two, we need 1 card of the first color, and an unknown amount of the second color
+    if the size is 1, we need at least 2 of the first color
+     */
     private List<Colors> colorToDrawForPath(PathValues path) throws WrongPlayerException {
         List<Colors> colorsWanted = new ArrayList<Colors>();
         for (Map.Entry <Colors, Integer> entry: path.getColorsRequired().entrySet())
@@ -352,11 +353,17 @@ public class BotOverlap extends Bot {
         return colorsWanted;
     }
 
+    /*
+    this is because of bad abstract class making
+     */
     public boolean drawWagonCard(Colors colorWanted)
     {
         return false;
     }
 
+    /*
+    looks over the visible cards, for a single color we want, and draws a single version of it
+     */
     private boolean drawVisibleSingleColorSingleCard(Colors colorWanted)
     {
         for (int visibleWagoncardIndex = 0; visibleWagoncardIndex < gameView.getWagonDeck().getVisibleCard().size(); visibleWagoncardIndex++)
@@ -371,10 +378,16 @@ public class BotOverlap extends Bot {
         }
         return false;
     }
+    /*
+    looks for a rainbow
+     */
     private boolean drawVisibleRainbow()
     {
         return drawVisibleSingleColorSingleCard(Colors.RAINBOW);
     }
+    /*
+    looks over visible for two versions of the same color
+     */
     private Integer drawTwoFromVisibleWithColor(Colors colorWanted)
     {
         boolean foundColorOnce = drawVisibleSingleColorSingleCard(colorWanted);
@@ -390,6 +403,10 @@ public class BotOverlap extends Bot {
         return 0;
 
     }
+
+    /*
+    draws from face down wagon deck
+     */
     private boolean drawFromWagonDeck(Integer numberToDraw)
     {
         for (int cardsDrawn = 0; cardsDrawn < numberToDraw; cardsDrawn++)
@@ -399,6 +416,12 @@ public class BotOverlap extends Bot {
         }
         return true;
     }
+
+    /*
+    method to draw two of a focused color: we try to draw 2 of the proper color
+    if we find none, we try for a rainbow
+    if there arent any, we draw two from facedown
+     */
     private boolean drawWagonSingleColorFocus(Colors colorWanted)
     {
         Integer correctFound = drawTwoFromVisibleWithColor(colorWanted);
@@ -413,6 +436,19 @@ public class BotOverlap extends Bot {
         }
         return true;
     }
+
+    /*
+    we want to try and find two colors
+    we look for the primary color: if we find it cool
+    if not we look for rainbow
+
+    if no rainbow, we look for secondary color
+    finding one might unveil a new primary color card, so we look for that again
+    if none, we look for another secondary color
+    if none, we draw the remaining cards needed from the deck
+
+    could probably be rewritten with a while
+     */
     private boolean drawWagonDualColorFocus(Colors firstColor, Colors secondColor)
     {
         int cardsToDraw = 2;
@@ -459,6 +495,11 @@ public class BotOverlap extends Bot {
         }
         return true;
     }
+
+    /*
+    combination method: draws the cards required for the path
+    returns true if the draw was successful (ie we drew cards)
+     */
     private boolean drawWagonCardsForPath(PathValues currentpath) throws WrongPlayerException {
         List<Colors> colorsWanted = colorToDrawForPath(currentpath);
         if (colorsWanted.size() < 1 || colorsWanted.size() > 2)
@@ -477,6 +518,11 @@ public class BotOverlap extends Bot {
         return true;
     }
 
+    /*
+    the method used to draw cards: combines the logic of the other stuff
+    if we have no path we are looking for, or no wagondeck cards left to draw, we dont draw
+    otherwise we draw the cards wanted for the current deck
+     */
     public boolean drawWagonCard() throws WrongPlayerException {
         if ((this.currentPathAndDest == null) || (gameView.getWagonDeck().isEmpty()))
         {
@@ -491,8 +537,12 @@ public class BotOverlap extends Bot {
         return true;
     }
 
+    /*
+    verifies that a path is unchanged (avoids recalculating djikstra every time someone else plays
+     */
     private Integer verifyUnchangedPath()
     {
+
         if (this.currentPathAndDest == null)
         {
             return -1;
@@ -512,6 +562,10 @@ public class BotOverlap extends Bot {
         return 0;
     }
 
+    /*
+    looks at all the connections in a path, and finds the connection we want to buy
+    ie the one we are the closest to successfully purchasing
+     */
     private Connection findConnectionToBuy(PathValues currentpath) throws WrongPlayerException {
         List<Connection> connectionsInPath = currentpath.getConnectionsForCurrentDestCard();
         for (Connection connection : connectionsInPath)
@@ -526,6 +580,10 @@ public class BotOverlap extends Bot {
         }
         return null;
     }
+
+    /*
+    the combination method that buys a rail
+     */
     public boolean buyRail() throws WrongPlayerException {
         Integer pathChanged = verifyUnchangedPath();
         PathValues valuesForPath = this.currentPathAndDest;
@@ -555,10 +613,17 @@ public class BotOverlap extends Bot {
         return pathPurchased;
     }
 
+    /*
+    bad abstract class creation
+     */
     public boolean buyConnection(ArrayList<Connection> connections) throws WrongPlayerException {
         return false;
     }
 
+    /*
+    sorts the meeples by color, so we know which ones we have the most of
+    then, chooses that one if possible, descending until either no meeples or we found one
+     */
     private List<Colors> sortedMeepleColors()
     {
         List<Colors> sortedMeeplesList = new ArrayList<Colors>();
@@ -579,6 +644,9 @@ public class BotOverlap extends Bot {
         return sortedMeeplesList;
     }
 
+    /*
+    combination method: finds the meeples we want, and then picks the best color possible
+     */
     private void pickMeeplesFromConnection(Connection connection) throws WrongPlayerException
     {
         City cityOne = connection.getCityOne();
@@ -602,6 +670,10 @@ public class BotOverlap extends Bot {
 
     }
 
+    /*
+    combination method: tries to purchase a connection wanted: if impossible draws a wagon for the connection we want
+    if there are no more colors we want, that means we have no more unfinished destinations, so we draw a new destination card
+     */
     public boolean playTurn() throws WrongPlayerException {
         //this should work, otherwise code in comments might be clearer
         if (gameView.getRound() == 0)
