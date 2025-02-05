@@ -39,7 +39,7 @@ public class MidBot extends Bot {
     @Override
     public boolean drawDestinationCard() throws DeckEmptyException, WrongPlayerException {
         try {
-            List<DestinationCard> draw = drawDestFromNumber(4);
+            List<DestinationCard> draw = drawDestFromNumber(2);
             List<DestinationCard> selected = new ArrayList<>();
 
                 selected.add(draw.get(0).getValue() < draw.get(1).getValue() ? draw.get(1) : draw.get(0));

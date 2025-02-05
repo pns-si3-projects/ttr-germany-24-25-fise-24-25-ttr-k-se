@@ -27,6 +27,7 @@ class DeckTest {
     @Test
     void testInitializeDestinationDeck() {
         assertNotNull(shortDestinationDeck);
+        assertFalse(shortDestinationDeck.isEmpty());
         assertEquals(55, shortDestinationDeck.getRemainingCards());
         assertEquals(34, longDestinationDeck.getRemainingCards());
     }

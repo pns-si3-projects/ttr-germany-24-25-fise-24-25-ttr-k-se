@@ -227,10 +227,6 @@ public class Deck<T extends Card> {
         return this.cards.isEmpty();
     }
 
-    public boolean containsCard(T card) {
-        return this.cards.contains(card);
-    }
-
     /**
      * Shuffle a deck of cards
      */
