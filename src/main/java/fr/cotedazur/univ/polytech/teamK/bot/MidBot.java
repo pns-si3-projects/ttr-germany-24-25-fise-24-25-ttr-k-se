@@ -7,6 +7,7 @@ import fr.cotedazur.univ.polytech.teamK.board.player.PlayerSeenException;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -85,7 +86,7 @@ public class MidBot extends Bot {
             if(gameEngine.buyRail(this,connection)) {
                 int index;
                 Colors meepleColor;
-                Random rand = new Random();
+                SecureRandom rand = new SecureRandom();
                 int[] res = gameView.getMyMeeples().getListOfOwnedMeeples();
                 try {
                     do {

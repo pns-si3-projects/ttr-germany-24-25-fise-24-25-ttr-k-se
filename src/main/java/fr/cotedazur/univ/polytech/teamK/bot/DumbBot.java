@@ -8,6 +8,7 @@ import fr.cotedazur.univ.polytech.teamK.game.Board;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
+import java.security.SecureRandom;
 import java.util.*;
 
 public class DumbBot extends Bot {
@@ -34,7 +35,7 @@ public class DumbBot extends Bot {
             throw new RuntimeException(e);
         }
 
-        Random rand = new Random();
+        SecureRandom rand = new SecureRandom();
         int rand_int = rand.nextInt(100);
         if (rand_int < 20) {
             try {

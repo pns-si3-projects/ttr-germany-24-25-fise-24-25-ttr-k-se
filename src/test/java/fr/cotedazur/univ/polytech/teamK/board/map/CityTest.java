@@ -7,6 +7,7 @@ import fr.cotedazur.univ.polytech.teamK.game.Board;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import java.security.SecureRandom;
 import java.util.Random;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -18,7 +19,7 @@ class CityTest {
     private City city;
     private Player player;
     private Board map = new Board("Reich");
-    private Random trickedRandom = mock(Random.class);
+    private SecureRandom trickedRandom = mock(SecureRandom.class);
 
     @BeforeEach
     void setUp(){
