@@ -49,6 +49,15 @@ public class Meeple {
         totalMeeples = 60;
     }
 
+    public boolean isEmpty() {
+        for (int i = 0; i < number; i++) {
+            if (listOfOwnedMeeples[i] != 0) {
+                return false;
+            }
+        }
+        return true;
+    }
+
     /**
      * Transfer one meeple of a choosen color from a Meeple class to this one
      * @param cityMeeples the Meeple class where we pick one meeples
@@ -66,7 +75,6 @@ public class Meeple {
         this.number++;
         return true;
         }
-
 
     @Override
     public boolean equals(Object obj) {

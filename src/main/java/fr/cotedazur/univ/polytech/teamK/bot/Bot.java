@@ -103,10 +103,10 @@ public abstract class Bot{
             for(Connection connection : actual.getConnectionList()) {
                 int i1 = djikstraLine.get(actual)+connection.getLength();
                 int i2 = djikstraLine.get(connection.getOtherCity(actual));
-                if(gameView.getPlayerByBot(this).isNeighbour(actual,connection.getOtherCity(actual))) {
+                if(gameView.getPlayerByBot(this).isNeighbour(actual,connection.getOtherCity(actual)) && connection.getIsFree()) {
                     djikstraLine.replace(connection.getOtherCity(actual),djikstraLine.get(actual));
                 }
-                if (i1< i2 && connection.getIsFree())
+                else if (i1< i2 && connection.getIsFree())
                     djikstraLine.replace(connection.getOtherCity(actual),djikstraLine.get(actual)+connection.getLength());
             }
             HashMap<City,Integer> djikstraLineToAdd = new HashMap<>();
@@ -160,6 +160,15 @@ public abstract class Bot{
         }
 
         return res;
+    }
+
+    public boolean checkDestinationComplete (DestinationCard card, ArrayList<Connection> path) {
+        for(Connection connection : path) {
+            if(connection.getOwner() != gameView.getPlayerByBot(this)) {
+                return false;
+            }
+        }
+        return true;
     }
 
     /**

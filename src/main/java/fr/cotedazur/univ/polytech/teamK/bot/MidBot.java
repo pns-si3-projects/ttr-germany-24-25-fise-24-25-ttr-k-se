@@ -7,6 +7,7 @@ import fr.cotedazur.univ.polytech.teamK.board.player.PlayerSeenException;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
+import java.awt.*;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
@@ -24,8 +25,19 @@ public class MidBot extends Bot {
                 return drawDestinationCard();
             }
             ArrayList<DestinationCard> list = gameView.getMyDestinationCards();
-            DestinationCard toAchieve = list.getFirst();
-            ArrayList<Connection> path = super.djikstra(toAchieve.getStartCity(), toAchieve.getEndCity());
+            ArrayList<Connection> path = new ArrayList<>();
+            DestinationCard toAchieve = null;
+            for(DestinationCard destinationCard : list) {
+                toAchieve = destinationCard;
+                path = super.djikstra(toAchieve.getStartCity(), toAchieve.getEndCity());
+                if(!checkDestinationComplete(toAchieve,path)) {
+                    break;
+                }
+            }
+            System.out.println("Destination cards : " + gameView.getMyDestinationCards());
+            System.out.println(toAchieve);
+            System.out.println("path : " + path);
+            System.out.println(gameView.getMyConnections());
             if (buyConnection(path)) return true;
             if (drawWagonCard(path.getFirst().getColor())) {
                 return true;

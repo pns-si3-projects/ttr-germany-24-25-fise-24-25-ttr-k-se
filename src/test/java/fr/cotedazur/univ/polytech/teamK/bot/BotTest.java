@@ -26,7 +26,7 @@ class BotTest {
     @BeforeEach
     void setUp () {
         Meeple.resetMeeples();
-        //gameEngine = new GameEngine<>("Reich");
+        gameEngine = new GameEngine("Reich");
         bot = new DumbBot("Dumb", gameEngine);
         listBot = new ArrayList<>();
         listBot.add(bot);
@@ -36,13 +36,13 @@ class BotTest {
 
     @Test
     public void testFindBestPath() {
-        City cityOne = gameView.getGameMap().getCity("Kiel");
-        City cityTwo = gameView.getGameMap().getCity("Freiburg");
+        City cityOne = gameView.getGameMap().getCity("Dusseldorf");
+        City cityTwo = gameView.getGameMap().getCity("Konstanz");
         City cityThree = gameView.getGameMap().getCity("Karlsruhe");
         City cityFour = gameView.getGameMap().getCity("Hannover");
         Player player1 = gameView.getPlayerByBot(bot);
         ArrayList<Connection> way = bot.djikstra(cityOne, cityTwo);
-        //System.out.println(way);
+        System.out.println(way);
         assertEquals(11, way.size());
         gameView.getGameMap().getNeighbourConnection(cityTwo,cityThree).setFree(false);
         way = bot.djikstra(cityOne, cityTwo);

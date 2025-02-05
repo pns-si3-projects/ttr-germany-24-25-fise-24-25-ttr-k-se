@@ -41,6 +41,7 @@ public class GameEngine{
         this.round = 0;
         this.scoreManager = new ScoreManager(this);
         this.statisticsLogger = new GamesStatisticsLogger(this);
+        initializeBoard("Reich");
     }
 
     public void initializeBoard(String mapName){

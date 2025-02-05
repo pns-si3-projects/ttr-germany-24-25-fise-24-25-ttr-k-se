@@ -12,7 +12,6 @@ public class Board {
     private HashMap<String, City> cities;
     public Board(String name) {
         Meeple.resetMeeples();
-
         if (name.equals("Reich"))
         {
             cities = buildReichMap();
@@ -33,7 +32,7 @@ public class Board {
      */
     private HashMap<String,City> buildReichMap()
     {
-        HashMap<String, City> reichMap = new HashMap<String, City>();
+        HashMap<String, City> reichMap = new HashMap<>();
 
         reichMap.put("Danemark", new City("Danemark", 1, true));
         reichMap.put("Kiel", new City("Kiel", 1));

@@ -47,7 +47,7 @@ public class Main {
         GameEngine gameEngine = new GameEngine("Reich");
         int compteur = 0;
         while(compteur < 1000){
-            List<Bot> bots = Arrays.asList(new MidBot("YEETER", gameEngine), new MidBot("WILLER", gameEngine));
+            List<Bot> bots = Arrays.asList(new MidBot("YEETER", gameEngine),new MidBot("WILLER", gameEngine));
             gameEngine.addBotsToPlayerMap(bots);
             gameEngine.startGame();
             compteur++;
