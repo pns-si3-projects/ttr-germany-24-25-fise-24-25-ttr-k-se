@@ -5,7 +5,7 @@ import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameBoard;
 
 import java.util.*;
 
@@ -203,7 +203,7 @@ public class Player {
      * @param connectionToBuy the connection we want to buy
      * @return true if we bought it, false otherwise
      */
-    public boolean buyRail(Connection connectionToBuy, Board gameMap, int numberOfPlayers)
+    public boolean buyRail(Connection connectionToBuy, GameBoard gameMap, int numberOfPlayers)
     {
         Colors connectionColor = connectionToBuy.getColor();
         int cardsOfCorrectColor = getNumberColor(connectionColor);

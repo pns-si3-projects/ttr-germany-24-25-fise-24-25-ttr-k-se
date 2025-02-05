@@ -1,22 +1,17 @@
-package fr.cotedazur.univ.polytech.teamK.game.scores;
+package fr.cotedazur.univ.polytech.teamK.game;
 
-import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
-import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
-import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
-public class ScoreManager {
+public class ScoreGeneralManager {
     private final GameEngine gameEngine;
     private final Map<String, Integer> gamesWon = new HashMap<>();
     private final Map<String, Integer> gamesLost = new HashMap<>();
 
-    public ScoreManager(GameEngine gameEngine) {
+    public ScoreGeneralManager(GameEngine gameEngine) {
         this.gameEngine = gameEngine;
     }
 

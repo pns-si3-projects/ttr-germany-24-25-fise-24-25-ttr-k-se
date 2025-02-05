@@ -4,25 +4,23 @@ import com.opencsv.*;
 import com.opencsv.exceptions.CsvValidationException;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
-import java.net.URL;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Objects;
 
 import static java.lang.Integer.parseInt;
 
 public class StatsAnalyse {
     private GameView gameView;
-    private ScoreManager scoreManager;
+    private ScoreGeneralManager scoreManager;
 
-    public StatsAnalyse (GameView gameView, ScoreManager scoreManager) {
+    public StatsAnalyse (GameView gameView, ScoreGeneralManager scoreManager) {
         this.scoreManager = scoreManager;
         this.gameView = gameView;
     }
+
 
     public void analyse() throws CsvValidationException, IOException {
         CSVReader reader = new CSVReader(new FileReader("stats/gameStats.csv"));

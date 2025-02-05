@@ -1,9 +1,8 @@
-package fr.cotedazur.univ.polytech.teamK.game.scores;
+package fr.cotedazur.univ.polytech.teamK.game;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
-import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +12,10 @@ import java.util.Map;
  * The MeeplePointsManager class is responsible for calculating and awarding meeple points
  * to players based on the number of meeples they have of each color.
  */
-public class MeeplePointsManager {
+public class ScoreMeepleManager {
     private final GameEngine gameEngine;
 
-    public MeeplePointsManager(GameEngine gameEngine) {
+    public ScoreMeepleManager(GameEngine gameEngine) {
         this.gameEngine = gameEngine;
     }
 

@@ -3,15 +3,10 @@ import com.opencsv.exceptions.CsvValidationException;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
-import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.PlayerSeenException;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
-import fr.cotedazur.univ.polytech.teamK.game.loggers.DetailedLogger;
-import fr.cotedazur.univ.polytech.teamK.game.loggers.GamesStatisticsLogger;
-import fr.cotedazur.univ.polytech.teamK.game.scores.MeeplePointsManager;
-import fr.cotedazur.univ.polytech.teamK.game.ScoreManager;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -21,9 +16,11 @@ import java.util.Set;
 
 public class GameEngine{
 
+    private final int NUMBER_OF_ROUNDS_WITHOUT_ACTIONS = 5;
+
     private String mapName;
     private int numberOfRoundsWithoutActions = 0;
-    private Board gameMap;
+    private GameBoard gameMap;
     private int totalGames;
     private HashMap<Bot,Player> players;
     private HashMap<Bot,GameView> viewOfPlayers;
@@ -34,23 +31,25 @@ public class GameEngine{
     private Deck<WagonCard> wagonDeck;
     private GameView gameView;
     private Integer round;
-    private ScoreManager scoreManager;
-    private MeeplePointsManager meeplePointsManager;
+    private ScoreGeneralManager scoreManager;
+    private ScoreMeepleManager scoreMeepleManager;
     private GamesStatisticsLogger statisticsLogger;
-    private DetailedLogger detailedLogger;
+    private LoggerDetailed detailedLogger;
     private StatsAnalyse statsAnalyse;
 
 
     public GameEngine(String mapName) {
         this.mapName = mapName;
         this.round = 0;
-        this.scoreManager = new ScoreManager(this);
+        this.scoreManager = new ScoreGeneralManager(this);
+        this.scoreMeepleManager = new ScoreMeepleManager(this);
         this.statisticsLogger = new GamesStatisticsLogger(this);
+        this.detailedLogger = new LoggerDetailed(this);
         initializeBoard("Reich");
     }
 
     public void initializeBoard(String mapName){
-        this.gameMap = new Board(mapName);
+        this.gameMap = new GameBoard(mapName);
         this.shortDestinationDeck = new Deck<>(TypeOfCards.SHORT_DESTINATION, gameMap);
         this.longDestinationDeck = new Deck<>(TypeOfCards.LONG_DESTINATION, gameMap);
         this.wagonDeck = new Deck<>(TypeOfCards.WAGON, gameMap);
@@ -82,7 +81,7 @@ public class GameEngine{
     INFOS RELATIVES AU BOARD
      */
     protected Integer getRound() { return round; }
-    protected Board getGameMap() { return gameMap; }
+    protected GameBoard getGameMap() { return gameMap; }
     protected Deck<DestinationCard> getShortDestinationDeck() { return shortDestinationDeck; }
     protected Deck<DestinationCard> getLongDestinationDeck() { return longDestinationDeck; }
     protected Deck<WagonCard> getWagonDeck() { return wagonDeck; }
@@ -133,7 +132,7 @@ public class GameEngine{
     public boolean buyRail(Bot bot, Connection connection) throws WrongPlayerException {
         if (confirmId(bot))
         {
-            Board gameBoard = this.gameMap;
+            GameBoard gameBoard = this.gameMap;
             Colors connectionColor = connection.getColor();
             Integer numberOfColorOwned = this.getPlayerByBot(bot).getNumberColor(connectionColor);
             return getPlayerByBot(bot).buyRail(connection, gameBoard, numberOfColorOwned);
@@ -220,7 +219,7 @@ public class GameEngine{
      *
      * @throws WrongPlayerException if the bot is not the current bot
      */
-    public void startGame() throws WrongPlayerException {
+    public void startGame() throws WrongPlayerException, CsvValidationException, IOException {
         initializeBoard(mapName);
 
         totalGames++;
@@ -229,10 +228,9 @@ public class GameEngine{
             round ++;
         }
         lastRound(lastPlayer);
-        meeplePointsManager.calculateMeeplePoints();
+        scoreMeepleManager.calculateMeeplePoints();
         recordGameResults();
         displayEndGameMessage();
-        gameView.displayFinalScores();
         lastPlayer = null;
     }
 
@@ -311,14 +309,14 @@ public class GameEngine{
     }
 
     public void displayEndGameMessage(){
-        int NUMBER_OF_ROUNDS_WITHOUT_ACTIONS = 5;
-        if(numberOfRoundsWithoutActions==NUMBER_OF_ROUNDS_WITHOUT_ACTIONS+1){
-            detailedLogger.logNoMoreWagons();
-        }
+        if(numberOfRoundsWithoutActions==NUMBER_OF_ROUNDS_WITHOUT_ACTIONS+1) {
+            detailedLogger.logNoMoreWagons();}
         else{
             detailedLogger.logGameEndWagonsCardsLeft(lastPlayer.getName(), lastPlayer.getWagonsRemaining());
         }
+        detailedLogger.logGameDetails();
     }
+
 
     /**
      * Returns the scores of all bots.
@@ -327,10 +325,6 @@ public class GameEngine{
      */
     public Map<Bot, Integer> getScores() {
         return scoreManager.getScores();
-    }
-
-    public void logGameStatistics() {
-        statisticsLogger.logGameStatistics();
     }
 
     public Map.Entry<Player, Integer> getHighestScoreAndWinner() {
@@ -354,5 +348,5 @@ public class GameEngine{
         }
     }
 
-    public ScoreManager getScoreManager() { return scoreManager;}
+    public ScoreGeneralManager getScoreManager() { return scoreManager;}
 }

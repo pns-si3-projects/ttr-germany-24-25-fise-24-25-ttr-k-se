@@ -4,7 +4,7 @@ import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,7 +15,7 @@ class ConnectionClaimServiceTest {
     private City city2;
     private Connection connection;
     private Player player;
-    private Board gameMap;
+    private GameBoard gameMap;
 
     @BeforeEach
     void setUp(){
@@ -24,7 +24,7 @@ class ConnectionClaimServiceTest {
         city2 = new City("Regensburg", 1);
         connection = new Connection(city1, city2, 3, Colors.GREEN);
         player = new Player("Zaynab");
-        gameMap = new Board("Reich");
+        gameMap = new GameBoard("Reich");
     }
 
     @Test
