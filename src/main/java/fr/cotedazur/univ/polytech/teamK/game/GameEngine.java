@@ -3,6 +3,7 @@ import com.opencsv.exceptions.CsvValidationException;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
+import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.PlayerSeenException;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
@@ -10,7 +11,7 @@ import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.game.loggers.DetailedLogger;
 import fr.cotedazur.univ.polytech.teamK.game.loggers.GamesStatisticsLogger;
 import fr.cotedazur.univ.polytech.teamK.game.scores.MeeplePointsManager;
-import fr.cotedazur.univ.polytech.teamK.game.scores.ScoreManager;
+import fr.cotedazur.univ.polytech.teamK.game.ScoreManager;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -20,6 +21,7 @@ import java.util.Set;
 
 public class GameEngine{
 
+    private String mapName;
     private int numberOfRoundsWithoutActions = 0;
     private Board gameMap;
     private int totalGames;
@@ -40,17 +42,18 @@ public class GameEngine{
 
 
     public GameEngine(String mapName) {
-        this.gameMap = new Board(mapName);
-        this.players = new HashMap<>();
-        this.viewOfPlayers = new HashMap<>();
+        this.mapName = mapName;
         this.round = 0;
+        this.scoreManager = new ScoreManager(this);
+        this.statisticsLogger = new GamesStatisticsLogger(this);
+        initializeBoard("Reich");
+    }
+
+    public void initializeBoard(String mapName){
+        this.gameMap = new Board(mapName);
         this.shortDestinationDeck = new Deck<>(TypeOfCards.SHORT_DESTINATION, gameMap);
         this.longDestinationDeck = new Deck<>(TypeOfCards.LONG_DESTINATION, gameMap);
         this.wagonDeck = new Deck<>(TypeOfCards.WAGON, gameMap);
-        this.scoreManager = new ScoreManager(this);
-        this.meeplePointsManager = new MeeplePointsManager(this);
-        this.statisticsLogger = new GamesStatisticsLogger(this);
-        this.detailedLogger = new DetailedLogger(gameView);
     }
 
     /**
@@ -59,6 +62,8 @@ public class GameEngine{
      * @param bots the list of bots to be added to the game
      */
     public void addBotsToPlayerMap(List<Bot> bots) {
+        players = new HashMap<>();
+        viewOfPlayers = new HashMap<>();
         for (Bot bot : bots) {
             Player player = new Player(bot.getName());
             gameView = new GameView(this,bot);
@@ -70,8 +75,8 @@ public class GameEngine{
     }
 
 
+    protected HashMap<Bot, Player> getPlayers() { return players; }
     public int getNumberOfTotalGames() { return this.totalGames; }
-    public HashMap<Bot, Player> getPlayers() { return players; }
     //public Player getPlayerByBot(int id) { return players.get(id); }
     /*
     INFOS RELATIVES AU BOARD
@@ -216,7 +221,8 @@ public class GameEngine{
      * @throws WrongPlayerException if the bot is not the current bot
      */
     public void startGame() throws WrongPlayerException {
-        round = 1;
+        initializeBoard(mapName);
+
         totalGames++;
         while (lastPlayer==null) {
             lastPlayer = playRound(lastPlayer);
@@ -227,6 +233,7 @@ public class GameEngine{
         recordGameResults();
         displayEndGameMessage();
         gameView.displayFinalScores();
+        lastPlayer = null;
     }
 
     /**
@@ -269,7 +276,7 @@ public class GameEngine{
      * @param lastPlayer the last player to play in the previous round
      * @throws WrongPlayerException if the bot is not the current bot
      */
-    private void lastRound(Player lastPlayer) throws WrongPlayerException {
+    private void lastRound(Player lastPlayer) throws WrongPlayerException, CsvValidationException, IOException {
         for (Map.Entry<Bot, Player> entry : players.entrySet()) {
             currentBot = entry.getKey();
             Player currentPlayer = entry.getValue();
@@ -347,7 +354,5 @@ public class GameEngine{
         }
     }
 
-
-    public ScoreManager getScoreManager() {
-        return scoreManager;}
+    public ScoreManager getScoreManager() { return scoreManager;}
 }

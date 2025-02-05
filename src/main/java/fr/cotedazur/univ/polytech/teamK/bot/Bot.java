@@ -124,7 +124,7 @@ public abstract class Bot{
                 if(gameView.getPlayerByBot(this).isNeighbour(actual,connection.getOtherCity(actual))) {
                     djikstraLine.replace(connection.getOtherCity(actual),djikstraLine.get(actual));
                 }
-                if (i1< i2 && connection.getIsFree())
+                else if (i1< i2 && connection.getIsFree())
                     djikstraLine.replace(connection.getOtherCity(actual),djikstraLine.get(actual)+connection.getLength());
             }
             HashMap<City,Integer> djikstraLineToAdd = new HashMap<>();
@@ -174,6 +174,9 @@ public abstract class Bot{
                     break;
                 }
             }
+        }
+        if(res.isEmpty()) {
+            return res;
         }
 
         return res;

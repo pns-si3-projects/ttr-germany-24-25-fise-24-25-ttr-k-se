@@ -26,7 +26,7 @@ class BotTest {
     @BeforeEach
     void setUp () {
         Meeple.resetMeeples();
-        //gameEngine = new GameEngine<>("Reich");
+        gameEngine = new GameEngine("Reich");
         bot = new DumbBot("Dumb", gameEngine);
         listBot = new ArrayList<>();
         listBot.add(bot);

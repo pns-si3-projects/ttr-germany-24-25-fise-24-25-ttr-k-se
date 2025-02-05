@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.teamK.game;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
+import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 
 import java.util.HashMap;
@@ -51,6 +52,7 @@ public class Board {
 
     private HashMap<String, City> cities;
     public Board(String name) {
+        Meeple.resetMeeples();
         if (name.equals("Reich"))
         {
             cities = buildReichMap();
@@ -71,7 +73,7 @@ public class Board {
      */
     private HashMap<String,City> buildReichMap()
     {
-        HashMap<String, City> reichMap = new HashMap<String, City>();
+        HashMap<String, City> reichMap = new HashMap<>();
 
         reichMap.put(DANEMARK, new City(DANEMARK, 1, true));
         reichMap.put(KIEL, new City(KIEL, 1));

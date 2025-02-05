@@ -17,6 +17,8 @@ public class Player {
     private Meeple meeples;
     private int wagonsRemaining;
     private PlayerOwnedMap playerMap;
+    private int gamesWon;
+    private int gameLost;
 
     private ArrayList<Connection> connections;
     private ArrayList<WagonCard> wagonCards;
@@ -181,6 +183,7 @@ public class Player {
      * @throws IllegalArgumentException if the meeple color doesn't exist
      */
     public boolean takeMeeples(City city, Colors colorChoice) throws IllegalArgumentException, PlayerSeenException {
+        if (city.getMeeples().isEmpty()) return true;
         if (colorChoice.ordinal() > 5) {
             throw new IllegalArgumentException("Couleur de meeples inconnue");
         }

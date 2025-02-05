@@ -91,8 +91,10 @@ public class GameView{
     public int getMyScore() {return gameEngine.getPlayerByBot(currentBot)
             .getScore();
     }
-    public ArrayList<DestinationCard> getMyDestinationCards() {return gameEngine.getPlayerByBot(currentBot)
-            .getCartesDestination();
+    public ArrayList<DestinationCard> getMyDestinationCards() {
+        ArrayList<DestinationCard> res = new ArrayList<>();
+        res.addAll(gameEngine.getPlayerByBot(currentBot).getCartesDestination());
+        return res;
     }
     public ArrayList<WagonCard> getMyWagonCards() {return gameEngine.getPlayerByBot(currentBot)
             .getCartesWagon();
