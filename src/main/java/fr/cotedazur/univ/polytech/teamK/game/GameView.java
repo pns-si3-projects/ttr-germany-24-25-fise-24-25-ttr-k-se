@@ -120,6 +120,10 @@ public class GameView{
             .getConnections();
     }
 
+    public List<Player> getPlayers() {
+        return new ArrayList<>(gameEngine.getPlayers().values());
+    }
+
     public Integer getRound()
     {
         return gameEngine.getRound();
@@ -132,9 +136,4 @@ public class GameView{
         System.out.println("Scores finaux :");
         gameEngine.getPlayers().values().forEach(player -> System.out.println(player.getName() + " : " + player.getScore() + " points"));
     }
-
-    /**
-     * savoir le score des autres
-     * savoir le nombre de carte
-     */
 }
