@@ -36,8 +36,6 @@ public class GameEngine{
 
     public GameEngine(String mapName) {
         this.mapName = mapName;
-        this.players = new HashMap<>();
-        this.viewOfPlayers = new HashMap<>();
         this.round = 0;
         this.scoreManager = new ScoreManager(this);
         this.statisticsLogger = new GamesStatisticsLogger(this);
@@ -52,7 +50,8 @@ public class GameEngine{
     }
 
     public void addBotsToPlayerMap(List<Bot> bots) {
-        players.clear();
+        players = new HashMap<>();
+        viewOfPlayers = new HashMap<>();
         for (Bot bot : bots) {
             Player player = new Player(bot.getName());
             gameView = new GameView(this,bot);
