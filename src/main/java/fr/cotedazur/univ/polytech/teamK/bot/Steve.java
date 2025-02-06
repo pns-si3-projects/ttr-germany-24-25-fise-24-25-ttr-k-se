@@ -14,7 +14,7 @@ import java.util.*;
 
 public class Steve extends Bot {
 
-    protected Steve(String name, GameEngine gameEngine) {
+    public Steve(String name, GameEngine gameEngine) {
         super(name, gameEngine);
     }
 
@@ -114,6 +114,7 @@ public class Steve extends Bot {
                         meepleColor = Colors.GRAY.getColorById(index);
                     } while (!gameEngine.takeMeeples(this, connection.getCityTwo(), meepleColor));
                 } catch (PlayerSeenException ignored) {
+                    throw new PlayerSeenException("Player already passed by this city. Can no longer take Meeples.");
                 }
                 displayBuyConnectionAction();
                 return true;
