@@ -59,8 +59,8 @@ public class MidBot extends Bot {
 
             for (DestinationCard card : selected) {
                 gameEngine.addDestinationCard(this,card);
+                displayDrawDestinationCardAction();
             }
-            displayDrawDestinationCardAction();
             return true;
         } catch (DeckEmptyException e) {
             return false;
