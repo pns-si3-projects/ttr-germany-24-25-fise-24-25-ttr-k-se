@@ -164,7 +164,7 @@ public class Player {
         Boolean connected = false;
         if (playerMap.isNeighbour(cityOne, cityTwo) && destinationCards.contains(carte)) {
             this.score += carte.getValue();
-            this.destinationCards.remove(carte);
+            //this.destinationCards.remove(carte);
             return true;
         }
         if (!destinationCards.contains(carte)) {
