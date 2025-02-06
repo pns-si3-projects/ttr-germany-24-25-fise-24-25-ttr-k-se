@@ -65,10 +65,8 @@ public class MidBot extends Bot {
     @Override
     public boolean drawWagonCard(Colors toFocus) throws DeckEmptyException, WrongPlayerException {
         try {
-            Deck<WagonCard> wagonDeck = gameView.getWagonDeck();
-            List<WagonCard> visibleCard = wagonDeck.getVisibleCard();
-            for (int i = 0; i < visibleCard.size(); i++) {
-                if (wagonDeck.getVisibleCard().get(i).getColor() == toFocus) {
+            for (int i = 0; i < gameView.getWagonDeck().getVisibleCard().size(); i++) {
+                if (gameView.getWagonDeck().getVisibleCard().get(i).getColor() == toFocus) {
                     return gameEngine.addWagonCard(this, gameEngine.drawVisibleWagonCard(i));
                 }
             }

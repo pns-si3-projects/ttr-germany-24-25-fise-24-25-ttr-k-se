@@ -81,12 +81,11 @@ public class BotOverlap extends Bot {
 
 
 
-    public boolean drawDestinationCard()
-    {
+    public boolean drawDestinationCard() throws WrongPlayerException {
         return drawDestinationCardWithNumber(0);
     }
 
-    private boolean drawDestinationCardWithNumber(Integer number_of_short_dests) {
+    private boolean drawDestinationCardWithNumber(Integer number_of_short_dests) throws WrongPlayerException {
         List<DestinationCard> destCardDrawn = drawDestFromNumber(number_of_short_dests);
         if (gameView.getRound() == 1)
         {
