@@ -39,7 +39,6 @@ public class Main {
     }
 
     public void run() throws WrongPlayerException, CsvValidationException, IOException {
-        initialise();
         if(thousands){
             run2Thousands();
         }
@@ -49,29 +48,28 @@ public class Main {
     }
 
     public void run2Thousands() throws WrongPlayerException, CsvValidationException, IOException {
-        int compteur = 0;
-        runThousand(gameEngine, compteur);
-        runThousand(gameEngine, compteur);
+        initialise();
+        runThousand(gameEngine);
+        initialise();
+        runThousand(gameEngine);
 
     }
 
-    private void runThousand(GameEngine gameEngine, int compteur) throws WrongPlayerException, CsvValidationException, IOException {
+    private void runThousand(GameEngine gameEngine) throws WrongPlayerException, CsvValidationException, IOException {
+        int compteur = 0;
         logger.showOnlyInfo();
-
         while(compteur < 1000){
             List<Bot> bots = Arrays.asList(new MidBot("YEETER", gameEngine),new MidBot("WILLER", gameEngine));
             gameEngine.addBotsToPlayerMap(bots);
             gameEngine.startGame();
             compteur++;
         }
-
         statisticsLogger.logGameStatistics();
-
     }
 
     public void runDemo() throws WrongPlayerException, CsvValidationException, IOException {
+        initialise();
         logger.showInfoAndFineAndFiner();
-
         List<Bot> bots = Arrays.asList(new MidBot("YEETER", gameEngine), new MidBot("WILLER", gameEngine));
         gameEngine.addBotsToPlayerMap(bots);
         gameEngine.startGame();

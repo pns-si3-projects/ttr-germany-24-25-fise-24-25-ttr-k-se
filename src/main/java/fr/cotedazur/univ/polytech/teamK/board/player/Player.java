@@ -17,8 +17,6 @@ public class Player {
     private Meeple meeples;
     private int wagonsRemaining;
     private PlayerOwnedMap playerMap;
-    private int gamesWon;
-    private int gameLost;
 
     private ArrayList<Connection> connections;
     private ArrayList<WagonCard> wagonCards;

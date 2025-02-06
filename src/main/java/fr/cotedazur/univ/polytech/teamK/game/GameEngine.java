@@ -317,14 +317,21 @@ public class GameEngine{
         detailedLogger.logGameDetails();
     }
 
+    public void resetTotalGames(){
+        totalGames = 0;
+    }
 
     /**
      * Returns the scores of all bots.
      *
      * @return the scores of all bots
      */
-    public Map<Bot, Integer> getScores() {
+    public Map<Player, Integer> getScores() {
         return scoreManager.getScores();
+    }
+
+    public Map<String,Integer>getTotalScores() {
+        return scoreManager.getTotalScores();
     }
 
     public Map.Entry<Player, Integer> getHighestScoreAndWinner() {
@@ -337,14 +344,13 @@ public class GameEngine{
     public void recordGameResults() {
         Map.Entry<Player, Integer> highestScoreAndWinner = scoreManager.getHighestScoreAndWinner();
         Player winner = highestScoreAndWinner.getKey();
-        for (Map.Entry<Bot, Player> entry : players.entrySet()) {
-            Bot bot = entry.getKey();
-            Player player = entry.getValue();
+        for (Player player : players.values()) {
             if (player.equals(winner)) {
-                scoreManager.recordWin(bot);
+                scoreManager.recordWin(player);
             } else {
-                scoreManager.recordLoss(bot);
+                scoreManager.recordLoss(player);
             }
+            scoreManager.recordScore(player);
         }
     }
 

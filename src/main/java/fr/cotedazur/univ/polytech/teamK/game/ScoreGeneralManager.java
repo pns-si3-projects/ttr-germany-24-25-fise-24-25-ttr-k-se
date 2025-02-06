@@ -8,6 +8,8 @@ import java.util.Map;
 
 public class ScoreGeneralManager {
     private final GameEngine gameEngine;
+
+    private final Map<String, Integer> totalScores = new HashMap<>();
     private final Map<String, Integer> gamesWon = new HashMap<>();
     private final Map<String, Integer> gamesLost = new HashMap<>();
 
@@ -23,30 +25,40 @@ public class ScoreGeneralManager {
         return false;
     }
 
-    public HashMap<Bot, Integer> getScores(){
-        HashMap<Bot, Integer> scores = new HashMap<>();
-        for(Map.Entry<Bot, Player> entry: gameEngine.getPlayers().entrySet()){
-            Bot bot = entry.getKey();
-            int score = entry.getValue().getScore();
-            scores.put(bot, score);
+    public Map<Player, Integer> getScores(){
+        HashMap<Player, Integer> scores = new HashMap<>();
+        for(Player player : gameEngine.getPlayers().values()){
+            int score = player.getScore();
+            scores.put(player, score);
         }
         return scores;
     }
 
-    public void recordWin(Bot bot) {
-        gamesWon.put(bot.getName(), gamesWon.getOrDefault(bot, 0) + 1);
+    public Map<String, Integer> getTotalScores(){
+        return totalScores;
     }
 
-    public void recordLoss(Bot bot) {
-        gamesLost.put(bot.getName(), gamesLost.getOrDefault(bot, 0) + 1);
+    public void recordScore(Player player) {
+        String nomPlayer = player.getName();
+        totalScores.put(nomPlayer, totalScores.getOrDefault(nomPlayer, 0) + player.getScore());
     }
 
-    public int getGamesWon(Bot bot) {
-        return gamesWon.getOrDefault(bot, 0);
+    public void recordWin(Player player) {
+        String nomPlayer = player.getName();
+        gamesWon.put(nomPlayer, gamesWon.getOrDefault(nomPlayer, 0) + 1);
     }
 
-    public int getGamesLost(Bot bot) {
-        return gamesLost.getOrDefault(bot, 0);
+    public void recordLoss(Player player) {
+        String nomPlayer = player.getName();
+        gamesLost.put(nomPlayer, gamesLost.getOrDefault(nomPlayer, 0) + 1);
+    }
+
+    public int getGamesWon(Player player) {
+        return gamesWon.get(player.getName());
+    }
+
+    public int getGamesLost(Player player) {
+        return gamesLost.get(player.getName());
     }
 
     public Map.Entry<Player, Integer> getHighestScoreAndWinner() {
