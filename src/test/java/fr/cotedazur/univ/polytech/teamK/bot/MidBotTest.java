@@ -3,6 +3,8 @@ package fr.cotedazur.univ.polytech.teamK.bot;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.Deck;
 import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.TypeOfCards;
+import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
@@ -49,19 +51,6 @@ class MidBotTest {
         if (drawLong.getValue() < secondDraw.getValue()) drawLong = secondDraw;
         assertTrue(gameView.getMyDestinationCards().contains(drawLong));
         assertTrue(gameView.getMyDestinationCards().contains(drawShort));
-    }
-
-    @Test
-    public void testDrawWagon () throws WrongPlayerException {
-        Deck<WagonCard> wagonCardDeck =  gameView.getWagonDeck();
-        WagonCard wagonCard = new WagonCard(Colors.BLUE);
-        List<WagonCard> listWagon = new ArrayList<>();
-        listWagon.add(wagonCard);
-        listWagon.add(wagonCard);
-        gameEngine.setCurrentBot(bot);
-        bot.drawWagonCard(Colors.BLUE);
-        if(wagonCardDeck.getVisibleCard().contains(wagonCard))  gameView.getMyWagonCards().contains(wagonCard);
-        assertEquals(1, gameView.getMyWagonCards().size());
     }
 
     @Test
@@ -116,6 +105,22 @@ class MidBotTest {
         assertTrue(bot.giveBackCard(draw));
         assertEquals(55, gameView.getShortDestination().getRemainingCards());
         assertEquals(34, gameView.getLongueDestination().getRemainingCards());
+    }
+
+    @Test
+    public void testDrawWagon () throws WrongPlayerException {
+        Deck<WagonCard> wagonCardDeck =  gameView.getWagonDeck();
+        WagonCard wagonCard = new WagonCard(Colors.BLUE);
+        List<WagonCard> listWagon = new ArrayList<>();
+        listWagon.add(wagonCard);
+        listWagon.add(wagonCard);
+        gameEngine.setCurrentBot(bot);
+        bot.drawWagonCard(Colors.BLUE);
+        if(wagonCardDeck.getVisibleCard().contains(wagonCard)) {
+            if(wagonCardDeck.draw() == wagonCard) assertTrue(gameView.getMyWagonCards().containsAll(listWagon));
+            else gameView.getMyWagonCards().contains(wagonCard);
+        }
+        assertEquals(2, gameView.getMyWagonCards().size());
     }
 
     @Test

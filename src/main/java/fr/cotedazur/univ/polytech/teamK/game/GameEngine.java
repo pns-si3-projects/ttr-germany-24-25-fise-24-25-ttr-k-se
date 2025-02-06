@@ -254,6 +254,7 @@ public class GameEngine{
      */
     private Player playRound(Player lastPlayer) throws WrongPlayerException {
         int noMoreActionsCount = 0;
+
         for (Map.Entry<Bot, Player> entry : players.entrySet()) {
             currentBot = entry.getKey();
             Player currentPlayer = entry.getValue();
