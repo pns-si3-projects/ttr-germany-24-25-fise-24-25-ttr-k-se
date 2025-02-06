@@ -7,7 +7,7 @@ import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
-import fr.cotedazur.univ.polytech.teamK.game.loggers.DetailedLogger;
+import fr.cotedazur.univ.polytech.teamK.game.DetailedLogger;
 
 import java.util.HashMap;
 import java.util.ArrayList;

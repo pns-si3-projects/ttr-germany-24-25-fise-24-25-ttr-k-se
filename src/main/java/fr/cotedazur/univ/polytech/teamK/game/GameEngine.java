@@ -3,15 +3,10 @@ import com.opencsv.exceptions.CsvValidationException;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
-import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.PlayerSeenException;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
-import fr.cotedazur.univ.polytech.teamK.game.loggers.DetailedLogger;
-import fr.cotedazur.univ.polytech.teamK.game.loggers.GamesStatisticsLogger;
-import fr.cotedazur.univ.polytech.teamK.game.scores.MeeplePointsManager;
-import fr.cotedazur.univ.polytech.teamK.game.ScoreManager;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -220,7 +215,7 @@ public class GameEngine{
      *
      * @throws WrongPlayerException if the bot is not the current bot
      */
-    public void startGame() throws WrongPlayerException {
+    public void startGame() throws WrongPlayerException, CsvValidationException, IOException {
         initializeBoard(mapName);
 
         totalGames++;

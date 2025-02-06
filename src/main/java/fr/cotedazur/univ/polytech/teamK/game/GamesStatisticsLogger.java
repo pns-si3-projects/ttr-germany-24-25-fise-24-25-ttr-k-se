@@ -3,8 +3,6 @@ package fr.cotedazur.univ.polytech.teamK.game;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 
-import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
@@ -24,6 +22,11 @@ public class GamesStatisticsLogger {
         this.gameEngine = gameEngine;
     }
 
+    /**
+     * Logs the game statistics including the total number of games, the percentage of games won
+     * and lost by each bot, and the average score for each bot. It also logs the highest score
+     * and the winner of the game.
+     */
     public void logGameStatistics() {
         int totalRounds = gameEngine.getNumberOfTotalGames();
         Map<Bot, Player> players = gameEngine.getPlayers();

@@ -1,7 +1,6 @@
-package fr.cotedazur.univ.polytech.teamK.game.loggers;
+package fr.cotedazur.univ.polytech.teamK.game;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
-import fr.cotedazur.univ.polytech.teamK.game.GameView;
 
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
