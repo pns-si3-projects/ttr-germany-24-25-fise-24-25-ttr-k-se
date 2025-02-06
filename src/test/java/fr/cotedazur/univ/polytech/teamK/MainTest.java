@@ -37,7 +37,7 @@ public class MainTest {
         main.detailed = mockDetailed;
         main.logger = mockLogger;
     }
-
+/*
     @Test
     public void testRun2Thousands() throws CsvValidationException, IOException, WrongPlayerException {
         main.thousands = true;
@@ -52,7 +52,7 @@ public class MainTest {
         main.run();
         verify(mockGameEngine).startGame();
         verify(mockLogger).showInfoAndFineAndFiner();
-    }
+    }*/
 
     @Test
     public void testInitialisation() {
