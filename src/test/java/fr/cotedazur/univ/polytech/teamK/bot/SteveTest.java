@@ -9,6 +9,7 @@ import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.board.player.PlayerSeenException;
+import fr.cotedazur.univ.polytech.teamK.game.GameBoard;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
@@ -65,15 +66,16 @@ public class SteveTest {
         ArrayList<Connection> path = new ArrayList<>();
         Connection connection = mock(Connection.class);
         path.add(connection);
-        when(gameView.getGameMap()).thenReturn(mock(Board.class));
+        when(gameView.getGameMap()).thenReturn(mock(GameBoard.class));
         when(gameView.getNumberPlayer()).thenReturn(2);
-        when(steve.djikstra(anyString(), anyString())).thenReturn(path);
+
+        //when(steve.djikstra(anyString(), anyString())).thenReturn(path);
 
         boolean result = steve.playTurn();
 
         assertTrue(result);
         verify(gameView, times(1)).getMyDestinationCards();
-        verify(gameEngine, times(1)).buyRail(any(Bot.class), any(Connection.class), any(), anyInt());
+        verify(gameEngine, times(1)).buyRail(any(Bot.class), any(Connection.class));
     }
 
     @Test
@@ -125,7 +127,7 @@ public class SteveTest {
         path.add(connection);
 
         when(gameEngine.buyRail(any(Bot.class), any(Connection.class))).thenReturn(true);
-        when(gameView.getGameMap()).thenReturn(mock(Board.class));
+        when(gameView.getGameMap()).thenReturn(mock(GameBoard.class));
         when(gameView.getNumberPlayer()).thenReturn(2);
 
         boolean result = steve.buyConnection(path);

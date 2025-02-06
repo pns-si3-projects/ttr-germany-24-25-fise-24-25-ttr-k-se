@@ -82,16 +82,14 @@ public class Steve extends Bot {
                 if (wagonDeck.getVisibleCard().get(i).getColor() == toFocus) {
                     return gameEngine.addWagonCard(this, gameView.getWagonDeck().drawVisibleCard(i));
                 }
-                gameEngine.addWagonCard(this, gameView.getWagonDeck().drawVisibleCard(i));
-                displayDrawWagonCardAction();
-                return true;
+
             }
+            gameEngine.addWagonCard(this, gameEngine.drawWagonCard());
+            displayDrawWagonCardAction();
+            return true;
         }catch (DeckEmptyException e){
             return false;
-        }catch(WrongPlayerException z){
-            throw z;
         }
-        return false;
     }
 
     @Override
