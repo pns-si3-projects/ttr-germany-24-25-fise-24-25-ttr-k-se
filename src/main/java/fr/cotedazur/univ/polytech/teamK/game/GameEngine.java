@@ -105,7 +105,7 @@ public class GameEngine{
             Board gameBoard = this.gameMap;
             Colors connectionColor = connection.getColor();
             Integer numberOfColorOwned = this.getPlayerByBot(bot).getNumberColor(connectionColor);
-            return getPlayerByBot(bot).buyRail(connection, gameBoard, numberOfColorOwned);
+            return getPlayerByBot(bot).buyRail(connection, gameBoard, this.getNumberPlayer());
         }
         return false;
     }

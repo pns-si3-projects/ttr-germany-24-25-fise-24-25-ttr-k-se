@@ -203,6 +203,9 @@ public class Player {
     public boolean buyRail(Connection connectionToBuy, Board gameMap, int numberOfPlayers)
     {
         Colors connectionColor = connectionToBuy.getColor();
+        if (connectionColor.equals(Colors.GRAY)) {
+            connectionColor = getMaxColor();
+        }
         int cardsOfCorrectColor = getNumberColor(connectionColor);
         int lengthOfRail = connectionToBuy.getLength();
         int rainbowCards = getNumberColor(Colors.RAINBOW);
@@ -236,6 +239,20 @@ public class Player {
             return "";
         }
         return "\nNom: " + getName() + "\nScore: " + getScore() + "\nCartes Destination: " + getCartesDestination() + "\nCartes Wagons: " + getCartesWagon() + "\nMeeples: " + getMeeples() + "\nConnections Owned" + getConnections();
+    }
+
+    public Colors getMaxColor () {
+        int [] listOfOwnedMeeples = new int[]{0, 0, 0, 0, 0, 0,0,0,0};
+        for (WagonCard card : wagonCards) {
+            if (!card.getColor().equals(Colors.RAINBOW)) {
+                listOfOwnedMeeples[card.getColor().ordinal()] ++;
+            }
+        }
+        Colors res = Colors.YELLOW.getColorById(0);
+        for (int i=1 ; i< listOfOwnedMeeples.length ; i++) {
+            if(listOfOwnedMeeples[i] > listOfOwnedMeeples[res.ordinal()]) res = Colors.YELLOW.getColorById(i);
+        }
+        return res;
     }
 }
 

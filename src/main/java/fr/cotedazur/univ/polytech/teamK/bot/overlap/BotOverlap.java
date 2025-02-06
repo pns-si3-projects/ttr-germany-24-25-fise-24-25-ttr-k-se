@@ -57,13 +57,27 @@ public class BotOverlap extends Bot {
         {
             return false;
         }
+        //this gives me a connection I can buy, ie I have enough wagons
         Connection toPurchase =  currentPath.connectionToPurchase();
-        Boolean success = gameEngine.buyRail(this, toPurchase);
-        if (success)
+        if (toPurchase != null)
         {
-            this.currentPath = nextDestinationToDo();
+            boolean success = gameEngine.buyRail(this, toPurchase);
+            if (!success)
+            {
+                //System.out.println("Failed to buy the rail, error in verificaiton problably");
+                if (!toPurchase.getColor().equals(Colors.GRAY))
+                {
+                    System.out.println("Failed to buy the rail, error in verificaiton problably, the color is" + toPurchase.getColor());
+                }
+                //System.out.println(toPurchase.getColor());
+            }
+            if (this.gameView.getPlayerByBot(this).validDestinationCard(this.currentPath.getDestCardOfpath()))
+            {
+                this.currentPath = nextDestinationToDo();
+            }
+            return success;
         }
-        return success;
+        return false;
     }
 
     public boolean drawWagonCard()

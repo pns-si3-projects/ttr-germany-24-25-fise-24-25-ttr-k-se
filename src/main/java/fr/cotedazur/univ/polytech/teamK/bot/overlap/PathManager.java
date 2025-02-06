@@ -78,14 +78,17 @@ public class PathManager{
     private HashMap<Colors, Integer> cardsOwnedPerColor() {
         ArrayList<WagonCard> myWagonCards = gameView.getMyWagonCards();
         HashMap<Colors, Integer> cardsOwnedPerColor = new HashMap<>();
+        for (Colors currentColor : Colors.values()) {
+            cardsOwnedPerColor.put(currentColor, 0);
+        }
         for (WagonCard wagonCard : myWagonCards) {
             Colors currentColor = wagonCard.getColor();
             if (cardsOwnedPerColor.containsKey(currentColor)) {
                 Integer previousAmount = cardsOwnedPerColor.get(currentColor);
                 cardsOwnedPerColor.put(currentColor, previousAmount + 1);
-            } else {
+            } /*else {
                 cardsOwnedPerColor.put(currentColor, 1);
-            }
+            }*/
         }
         return cardsOwnedPerColor;
     }
@@ -101,18 +104,21 @@ public class PathManager{
         HashMap<Colors, Integer> amountOwnedPerColor = cardsOwnedPerColor();
         //loop over all connections to find the first we can purchase
             for (Connection c : connectionsForCurrentDestCard) {
-                Colors currentColor = c.getColor();
-                Integer currentCost = c.getLength();
-                Integer amountOwned;
-                if (currentColor.equals(Colors.GRAY)) {
-                    amountOwned = findMaximumSingleColorOwned();
+                if (c.getIsFree()) {
+                    Colors currentColor = c.getColor();
+                    Integer currentCost = c.getLength();
+                    Integer amountOwned;
+                    if (currentColor.equals(Colors.GRAY)) {
+                        amountOwned = findMaximumSingleColorOwned() + amountOwnedPerColor.get(Colors.RAINBOW);
+                    }
+                    else {
+                        amountOwned = amountOwnedPerColor.get(currentColor) + amountOwnedPerColor.get(Colors.RAINBOW);
+                    }
+                    if (amountOwned - currentCost >= 0) {
+                        return c;
+                    }
                 }
-                else {
-                    amountOwned = amountOwnedPerColor.get(currentColor) + amountOwnedPerColor.get(Colors.RAINBOW);
-                }
-                if (amountOwned - currentCost >= 0) {
-                    return c;
-                }
+
             }
             return null;
     }
@@ -129,13 +135,16 @@ public class PathManager{
         Colors minColor = null;
         //find the amount needed per color, and the min color with its amount
         for (Colors color : Colors.values()) {
-            Integer amountNeededForShortestConnectionOfThisColor = costPerColorPerConnection.get(color).get(0) - amountOwnedPerColor.get(color);
-            if (amountNeededForShortestConnectionOfThisColor < 0) {
-                //TODO SOMEHOW GO TO PURCHASE A RAIL INSTEAD OF DRAW A WAGON
-            } else if (amountNeededForShortestConnectionOfThisColor < minimalReq) {
-                minimalReq = amountNeededForShortestConnectionOfThisColor;
-                minColor = color;
+            if (costPerColorPerConnection.containsKey(color) && costPerColorPerConnection.get(color).size() > 0) {
+                Integer amountNeededForShortestConnectionOfThisColor = costPerColorPerConnection.get(color).get(0) - amountOwnedPerColor.get(color);
+                if (amountNeededForShortestConnectionOfThisColor < 0) {
+                    //TODO SOMEHOW GO TO PURCHASE A RAIL INSTEAD OF DRAW A WAGON
+                } else if (amountNeededForShortestConnectionOfThisColor < minimalReq) {
+                    minimalReq = amountNeededForShortestConnectionOfThisColor;
+                    minColor = color;
+                }
             }
+
         }
         if (minimalReq > 1) {
             return Arrays.asList(minColor);
@@ -145,10 +154,12 @@ public class PathManager{
             Integer secondMin = Integer.MAX_VALUE;
             Colors secondMinColor = null;
             for (Colors color : Colors.values()) {
-                Integer amountNeededForShortestConnectionOfThisColor = costPerColorPerConnection.get(color).get(0) - amountOwnedPerColor.get(color);
-                if ((amountNeededForShortestConnectionOfThisColor < minimalReq) && (amountNeededForShortestConnectionOfThisColor > 0)) {
-                    secondMin = amountNeededForShortestConnectionOfThisColor;
-                    secondMinColor = color;
+                if ((costPerColorPerConnection.containsKey(color)) && (costPerColorPerConnection.get(color).size() > 0)) {
+                    Integer amountNeededForShortestConnectionOfThisColor = costPerColorPerConnection.get(color).get(0) - amountOwnedPerColor.get(color);
+                    if ((amountNeededForShortestConnectionOfThisColor < minimalReq) && (amountNeededForShortestConnectionOfThisColor > 0)) {
+                        secondMin = amountNeededForShortestConnectionOfThisColor;
+                        secondMinColor = color;
+                    }
                 }
             }
             return Arrays.asList(minColor, secondMinColor);

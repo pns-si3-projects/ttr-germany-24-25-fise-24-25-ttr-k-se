@@ -29,6 +29,14 @@ public class WagonDrawManager{
     }
 
     private boolean lookForTwoOfSame(Colors colorWanted) {
+        if (gameView.getWagonDeck().getRemainingCards() < 8)
+        {
+            String hooooooolyShit = "yup";
+        }
+
+
+
+
         //try to find the color once
         if (lookForSingleColorInVisible(colorWanted)) {
             //found one, try to find it again
