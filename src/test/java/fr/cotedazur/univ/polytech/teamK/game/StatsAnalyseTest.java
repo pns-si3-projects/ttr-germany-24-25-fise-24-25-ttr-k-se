@@ -42,10 +42,10 @@ class StatsAnalyseTest {
         CSVReader reader = new CSVReader(new FileReader("stats/gameStats.csv"));
         String [] nextLine  = reader.readNext();
         ArrayList<String []> file = new ArrayList<>();
-        String winnerName = gameEngine.getScoreManager().getHighestScoreAndWinner().getKey().getName();
+        String winnerName = gameEngine.getHighestScoreAndWinner().getKey().getName();
         while ((nextLine = reader.readNext()) != null) {
             assertEquals(1,parseInt(nextLine[1]));
-            if(Objects.equals(nextLine[2], "1")){
+            if(Objects.equals( "1",nextLine[2])){
                 assertEquals(winnerName, nextLine[0]);
                 assertEquals("100", nextLine[3]);
             }

@@ -70,7 +70,6 @@ public class GameEngine{
             players.put(bot,player);
             viewOfPlayers.put(bot,gameView);
         }
-        statsAnalyse = new StatsAnalyse(gameView,scoreManager);
     }
 
 
@@ -201,7 +200,6 @@ public class GameEngine{
         try {
             if(confirmId(bot) && destinationCard != null) {
                 getPlayerByBot(bot).addCardDestination(destinationCard);
-                return true;
             }
         }
         catch (NullPointerException ignored) {
@@ -240,6 +238,8 @@ public class GameEngine{
         lastRound(lastPlayer);
         scoreMeepleManager.calculateMeeplePoints();
         recordGameResults();
+        statsAnalyse = new StatsAnalyse(this, gameView);
+        statsAnalyse.analyse();
         displayEndGameMessage();
         lastPlayer = null;
     }
@@ -293,7 +293,6 @@ public class GameEngine{
                 break;
             }
         }
-        statsAnalyse.analyse();
     }
 
     /**

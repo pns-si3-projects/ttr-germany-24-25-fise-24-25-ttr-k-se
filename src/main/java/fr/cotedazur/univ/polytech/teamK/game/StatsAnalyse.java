@@ -13,12 +13,12 @@ import java.util.Objects;
 import static java.lang.Integer.parseInt;
 
 public class StatsAnalyse {
-    private GameView gameView;
     private ScoreGeneralManager scoreManager;
+    private ArrayList<String> allBot ;
 
-    public StatsAnalyse (GameView gameView, ScoreGeneralManager scoreManager) {
-        this.scoreManager = scoreManager;
-        this.gameView = gameView;
+    public StatsAnalyse (GameEngine gameEngine, GameView gameView) {
+        this.scoreManager = gameEngine.getScoreManager();
+        this.allBot = gameView.getAllBotName();
     }
 
 
@@ -28,14 +28,13 @@ public class StatsAnalyse {
         String nameWinner = scoreManager.getHighestScoreAndWinner().getKey().getName();
         ArrayList<Bot> seenBot = new ArrayList<>();
         String [] nextLine ;
-        ArrayList<String> allBot = gameView.getAllBotName();
+
 
        //save the file
         ArrayList<String []> file = new ArrayList<>();
         while ((nextLine = reader.readNext()) != null) {
             file.add(nextLine);
         }
-        reader.close();
 
         CSVWriter writer = new CSVWriter(new FileWriter("stats/gameStats.csv",false));
         String[] record = "BOT_NAME, NUMBER_GAME, NUMBER_WIN, RATIO, TOTAL_SCORE".split(",");
@@ -46,7 +45,7 @@ public class StatsAnalyse {
                 line[1] = "" + (parseInt(line[1]) + 1);
                 if(Objects.equals(line[0], nameWinner)) line[2] = "" + (parseInt(line[2]) + 1);
                 line[3] = "" + ((float) (parseInt(line[2]) / (float) parseInt(line[1])) * 100) ;
-                line[4] = "" + (gameView.getMyScore() + parseInt(line[4]) );
+                line[4] = "" + (scoreManager.getPlayerScore(line[0]) + parseInt(line[4]) );
                 allBot.remove(line[0]);
                 writer.writeNext(line);
             }
@@ -55,10 +54,11 @@ public class StatsAnalyse {
             String info = bot + ",1,";
             if (Objects.equals(bot, nameWinner)) info += "1,100,";
             else info += "0,0,";
-            info += "" + gameView.getMyScore();
+            info += "" + scoreManager.getPlayerScore(bot);
             record = info.split(",");
             writer.writeNext(record);
         }
+        reader.close();
         writer.close();
     }
 }

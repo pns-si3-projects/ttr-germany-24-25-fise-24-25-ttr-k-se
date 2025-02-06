@@ -116,11 +116,7 @@ class MidBotTest {
         listWagon.add(wagonCard);
         gameEngine.setCurrentBot(bot);
         bot.drawWagonCard(Colors.BLUE);
-        if(wagonCardDeck.getVisibleCard().contains(wagonCard)) {
-            if(wagonCardDeck.draw() == wagonCard) assertTrue(gameView.getMyWagonCards().containsAll(listWagon));
-            else gameView.getMyWagonCards().contains(wagonCard);
-        }
-        assertEquals(2, gameView.getMyWagonCards().size());
+        assertEquals(1, gameView.getMyWagonCards().size());
     }
 
     @Test

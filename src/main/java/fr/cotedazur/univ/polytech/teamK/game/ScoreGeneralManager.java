@@ -5,6 +5,7 @@ import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 
 public class ScoreGeneralManager {
     private final GameEngine gameEngine;
@@ -32,6 +33,16 @@ public class ScoreGeneralManager {
             scores.put(player, score);
         }
         return scores;
+    }
+
+    public Integer getPlayerScore (String name) {
+        Map<Player, Integer> scores = getScores();
+        for (Map.Entry<Player, Integer> entry  : scores.entrySet()) {
+            if(Objects.equals(entry.getKey().getName(), name)) {
+                return entry.getValue();
+            }
+        }
+        return 0;
     }
 
     public Map<String, Integer> getTotalScores(){

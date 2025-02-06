@@ -53,7 +53,6 @@ public class Main {
         runThousand(gameEngine);
         initialise();
         runThousand(gameEngine);
-
     }
 
     private void runThousand(GameEngine gameEngine) throws WrongPlayerException, CsvValidationException, IOException {
