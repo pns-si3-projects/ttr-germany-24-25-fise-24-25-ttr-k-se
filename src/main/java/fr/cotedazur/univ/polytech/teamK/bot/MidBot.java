@@ -39,13 +39,7 @@ public class MidBot extends Bot {
             gameView.getPlayerByBot(this).validDestinationCard(toAchieve);
             return true;
         }
-        if (drawWagonCard(path.getFirst().getColor())) {
-            return true;
-        }
-        //else{
-        //lui donner une alternative, ici il ne peut plus récupérer de cartes wagons.
-        //}
-        return false;
+        return drawWagonCard(path.getFirst().getColor()) && drawWagonCard(path.getFirst().getColor());
     }
 
     @Override
@@ -54,13 +48,14 @@ public class MidBot extends Bot {
             List<DestinationCard> draw = drawDestFromNumber(2);
             List<DestinationCard> selected = new ArrayList<>();
 
-                selected.add(draw.get(0).getValue() < draw.get(1).getValue() ? draw.get(1) : draw.get(0));
-                selected.add(draw.get(2).getValue() < draw.get(3).getValue() ? draw.get(3) : draw.get(2));
+                selected.add(draw.get(0).getValue() < draw.get(1).getValue() ? draw.remove(1) : draw.remove(0));
+                selected.add(draw.get(1).getValue() < draw.get(2).getValue() ? draw.remove(2) : draw.remove(1));
 
             for (DestinationCard card : selected) {
                 gameEngine.addDestinationCard(this,card);
-                displayDrawDestinationCardAction();
             }
+            displayDrawDestinationCardAction();
+            giveBackCard(draw);
             return true;
         } catch (DeckEmptyException e) {
             return false;
@@ -74,16 +69,14 @@ public class MidBot extends Bot {
             List<WagonCard> visibleCard = wagonDeck.getVisibleCard();
             for (int i = 0; i < visibleCard.size(); i++) {
                 if (wagonDeck.getVisibleCard().get(i).getColor() == toFocus) {
-                    return gameEngine.addWagonCard(this, gameView.getWagonDeck().drawVisibleCard(i));
+                    return gameEngine.addWagonCard(this, gameEngine.drawVisibleWagonCard(i));
                 }
             }
-            gameEngine.addWagonCard(this, gameView.getWagonDeck().draw());
+            gameEngine.addWagonCard(this, gameEngine.drawWagonCard());
             displayDrawWagonCardAction();
             return true;
         } catch (DeckEmptyException e) {
             return false;
-        } catch (WrongPlayerException e) {
-            throw e;
         }
     }
 
@@ -94,7 +87,6 @@ public class MidBot extends Bot {
                 int index;
                 Colors meepleColor;
                 SecureRandom rand = new SecureRandom();
-                int[] res = gameView.getMyMeeples().getListOfOwnedMeeples();
                 try {
                     do {
                         index = rand.nextInt(6);

@@ -70,7 +70,6 @@ public class GameEngine{
             players.put(bot,player);
             viewOfPlayers.put(bot,gameView);
         }
-        statsAnalyse = new StatsAnalyse(gameView,scoreManager);
     }
 
 
@@ -88,6 +87,8 @@ public class GameEngine{
     protected int getNumberPlayer () {return players.size();}
     protected Set<Bot> getAllBot () {return players.keySet();}
     protected Player getPlayerByBot (Bot bot) {return players.get(bot);}
+
+    public void setCurrentBot (Bot bot) {this.currentBot = bot;}
 
     /**
      * Adds a destination card to the deck.
@@ -127,6 +128,14 @@ public class GameEngine{
 
     public DestinationCard drawLongueDestination () {
         return longDestinationDeck.draw();
+    }
+
+    public WagonCard drawWagonCard () {
+        return wagonDeck.draw();
+    }
+
+    public WagonCard drawVisibleWagonCard (int i) {
+        return wagonDeck.drawVisibleCard(i);
     }
 
     public boolean buyRail(Bot bot, Connection connection) throws WrongPlayerException {
@@ -187,7 +196,7 @@ public class GameEngine{
      * @throws DeckEmptyException   if the deck is empty
      * @throws WrongPlayerException if the bot is not the current bot
      */
-    public void addDestinationCard(Bot bot, DestinationCard destinationCard) throws DeckEmptyException, WrongPlayerException {
+    public boolean addDestinationCard(Bot bot, DestinationCard destinationCard) throws DeckEmptyException, WrongPlayerException {
         try {
             if(confirmId(bot) && destinationCard != null) {
                 getPlayerByBot(bot).addCardDestination(destinationCard);
@@ -196,6 +205,7 @@ public class GameEngine{
         catch (NullPointerException ignored) {
             throw new NullPointerException("You can't add this card");
         }
+        return false;
     }
 
     /**
@@ -231,6 +241,8 @@ public class GameEngine{
         scoreMeepleManager.calculateMeeplePoints();
         detailedLogger.logPlayerScoresAfterMeeples();
         recordGameResults();
+        statsAnalyse = new StatsAnalyse(this, gameView);
+        statsAnalyse.analyse();
         displayEndGameMessage();
         lastPlayer = null;
     }
@@ -284,7 +296,6 @@ public class GameEngine{
                 break;
             }
         }
-        statsAnalyse.analyse();
     }
 
     /**
@@ -311,7 +322,7 @@ public class GameEngine{
 
     public void displayEndGameMessage(){
         if(numberOfRoundsWithoutActions==NUMBER_OF_ROUNDS_WITHOUT_ACTIONS+1) {
-            detailedLogger.logNoMoreWagons();}
+            detailedLogger.logFiveNoActionRounds();}
         else{
             detailedLogger.logGameEndWagonsCardsLeft(lastPlayer.getName(), lastPlayer.getWagonsRemaining());
         }

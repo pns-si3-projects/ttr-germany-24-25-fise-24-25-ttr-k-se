@@ -6,7 +6,6 @@ import com.opencsv.exceptions.CsvValidationException;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 import fr.cotedazur.univ.polytech.teamK.bot.MidBot;
 
-import fr.cotedazur.univ.polytech.teamK.bot.Steve;
 import fr.cotedazur.univ.polytech.teamK.game.*;
 
 
@@ -53,10 +52,9 @@ public class Main {
         runThousand(gameEngine);
         initialise();
         runThousand(gameEngine);
-
     }
 
-    private void runThousand(GameEngine gameEngine) throws WrongPlayerException, CsvValidationException, IOException {
+    void runThousand(GameEngine gameEngine) throws WrongPlayerException, CsvValidationException, IOException {
         int compteur = 0;
         logger.showOnlyInfo();
         while(compteur < 1000){
@@ -70,13 +68,13 @@ public class Main {
 
     public void runDemo() throws WrongPlayerException, CsvValidationException, IOException {
         initialise();
-        logger.showInfoAndFineAndFiner();
-        List<Bot> bots = Arrays.asList(new Steve("STEVE", gameEngine), new MidBot("WILLER", gameEngine));
+        logger.showInfoAndFineToFinest();
+        List<Bot> bots = Arrays.asList(new MidBot("STEVE", gameEngine), new MidBot("WILLER", gameEngine));
         gameEngine.addBotsToPlayerMap(bots);
         gameEngine.startGame();
     }
 
-    private void initialise() {
+    void initialise() {
         gameEngine = new GameEngine("Reich");
         statisticsLogger = new GamesStatisticsLogger(gameEngine);
         detailed = new LoggerDetailed(gameEngine);

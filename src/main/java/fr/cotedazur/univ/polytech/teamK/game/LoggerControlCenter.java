@@ -29,8 +29,8 @@ public class LoggerControlCenter {
     /**
      * Sets the logger level to show INFO, FINE, and FINER messages.
      */
-    public void showInfoAndFineAndFiner() {
-        setLoggerLevel(Level.FINER);
+    public void showInfoAndFineToFinest() {
+        setLoggerLevel(Level.FINEST);
     }
 
     /**

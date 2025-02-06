@@ -147,6 +147,7 @@ public class Deck<T extends Card> {
         this.cards.add((T) new DestinationCard(currentMap.getCity(ROSTOCK), currentMap.getCity(OSTERREICH), 22));
         this.cards.add((T) new DestinationCard(currentMap.getCity(DANEMARK), currentMap.getCity(LINDAU), 22));
         this.cards.add((T) new DestinationCard(currentMap.getCity(KIEL), currentMap.getCity(SCHWEIZ), 20));
+        shuffle();
     }
 
     /**
@@ -209,6 +210,7 @@ public class Deck<T extends Card> {
         this.cards.add((T) new DestinationCard(currentMap.getCity(KOLN), currentMap.getCity(MUNCHEN), 11));
         this.cards.add((T) new DestinationCard(currentMap.getCity(MAGDEBURG), currentMap.getCity(KOLN), 11));
         this.cards.add((T) new DestinationCard(currentMap.getCity(KOLN), currentMap.getCity(FREIBURG), 11));
+        shuffle();
     }
 
     /**
@@ -227,6 +229,9 @@ public class Deck<T extends Card> {
         return this.cards.isEmpty();
     }
 
+    public int size(){
+        return this.cards.size();
+    }
     /**
      * Shuffle a deck of cards
      */
@@ -240,7 +245,16 @@ public class Deck<T extends Card> {
         if (this.cards.isEmpty()) {
             throw new DeckEmptyException("There is no wagons or deck cards remaining");
         }
-        return cards.removeLast();
+        return this.cards.removeLast();
+    }
+
+    public void putAll (Deck<T> deck) {
+        this.cards.clear();
+        this.cards.addAll(deck.cards);
+        if(!(this.visibleCard == null)) {
+            this.visibleCard.clear();
+            this.visibleCard.addAll(deck.visibleCard);
+        }
     }
 
     /**

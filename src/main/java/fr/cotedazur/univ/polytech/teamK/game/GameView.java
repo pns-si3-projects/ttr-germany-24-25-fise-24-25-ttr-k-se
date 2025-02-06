@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.teamK.game;
 
 import fr.cotedazur.univ.polytech.teamK.board.cards.Deck;
 import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.TypeOfCards;
 import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
@@ -43,20 +44,22 @@ public class GameView{
     }
 
     public Deck<DestinationCard> getShortDestination() {
-        Deck<DestinationCard> res= new Deck<>(null,null);
-        res = gameEngine.getShortDestinationDeck();
+        Deck<DestinationCard> res= new Deck<>(TypeOfCards.SHORT_DESTINATION,gameEngine.getGameMap());
+        res.putAll(gameEngine.getShortDestinationDeck());
         return res;
     }
 
+
+
     public Deck<DestinationCard> getLongueDestination() {
-        Deck<DestinationCard> res= new Deck<>(null,null);
-        res = gameEngine.getLongDestinationDeck();
+        Deck<DestinationCard> res= new Deck<>(TypeOfCards.LONG_DESTINATION,gameEngine.getGameMap());
+        res.putAll(gameEngine.getLongDestinationDeck());
         return res;
     }
 
     public Deck<WagonCard> getWagonDeck() {
-        Deck<WagonCard> res = new Deck<>(null,null);
-        res = gameEngine.getWagonDeck();
+        Deck<WagonCard> res = new Deck<>(TypeOfCards.WAGON,gameEngine.getGameMap());
+        res.putAll(gameEngine.getWagonDeck());
         return res;
     }
 
