@@ -1,6 +1,7 @@
 package fr.cotedazur.univ.polytech.teamK.bot.overlap;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
+import fr.cotedazur.univ.polytech.teamK.board.cards.DeckEmptyException;
 import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
@@ -69,8 +70,10 @@ public class BotOverlap extends Bot {
             }
 
             return success;
-        } else {
-            if (this.gameView.getPlayerByBot(this).validDestinationCardOverlap(this.currentPath.getDestCardOfpath(), gameView.getGameMap())) {
+        }
+        else {
+            while (this.gameView.getPlayerByBot(this).validDestinationCardOverlap(this.currentPath.getDestCardOfpath(), gameView.getGameMap()))
+            {
                 this.currentPath = nextDestinationToDo();
             }
         }
@@ -79,8 +82,15 @@ public class BotOverlap extends Bot {
 
     public boolean drawWagonCard()
     {
-        List<Colors> colorsToDraw = this.currentPath.colorsToDraw();
-        return this.wagonDrawManager.drawWagonsOnList(colorsToDraw);
+        if (this.currentPath != null) {
+            List<Colors> colorsToDraw = this.currentPath.colorsToDraw();
+            if (colorsToDraw == null)
+            {
+                return false;
+            }
+            return this.wagonDrawManager.drawWagonsOnList(colorsToDraw);
+        }
+        return false;
     }
 
     public boolean drawDestinationCard() throws WrongPlayerException {
@@ -98,6 +108,13 @@ public class BotOverlap extends Bot {
 
 
     public boolean playTurn() throws WrongPlayerException {
+        if (gameView.getRound() > 38)
+        {
+            System.out.println("round is " + gameView.getRound());
+            System.out.println("Bot name is " + this.getName() + " number of wagons and destination cards" + gameView.getMyWagonCards() + gameView.getMyDestinationCards());
+            System.out.println("my score is " + gameView.getMyScore() + "\n");
+
+        }
         //first turn, you need to draw at first
         if (gameView.getRound() == 0)
         {
@@ -108,11 +125,26 @@ public class BotOverlap extends Bot {
         {
             if (this.currentPath == null)
             {
-                return drawDestinationCard();
+                try
+                {
+                    return drawDestinationCard();
+                }
+                catch (DeckEmptyException e)
+                {
+                    //return drawWagonCard();
+                }
             }
             else
             {
-                return drawWagonCard();
+                try
+                {
+                    return drawWagonCard();
+                }
+                catch (DeckEmptyException e)
+                {
+                    drawDestinationCard();
+                    //this.currentPath = new PathManager()
+                }
             }
         }
         /*

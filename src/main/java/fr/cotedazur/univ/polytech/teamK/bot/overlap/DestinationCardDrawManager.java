@@ -100,7 +100,7 @@ public class DestinationCardDrawManager {
             {
                 cheapestNullDest = currentDestPathManager;
             }
-            else if (currentDestCost < minimalRoadCost) {
+            else if (currentDestCost != null && currentDestCost < minimalRoadCost) {
                 minimalRoadCost = currentDestCost;
                 bestDestinationCardPathmanager = currentDestPathManager;
             }
@@ -126,7 +126,7 @@ public class DestinationCardDrawManager {
         }
     }
     public PathManager chooseOriginalDestCards() throws WrongPlayerException {
-        List<DestinationCard> destCardDrawn = owner.drawDestFromNumber(4);
+        List<DestinationCard> destCardDrawn = owner.drawDestFromNumber(0);
         List<DestDestValueTuple> tupleListCommonCities = new ArrayList<DestDestValueTuple>();
         List<DestDestValueTuple> tupleListSeperateCities = new ArrayList<DestDestValueTuple>();
         Integer n = destCardDrawn.size();
