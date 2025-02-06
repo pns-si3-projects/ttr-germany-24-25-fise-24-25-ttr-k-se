@@ -131,6 +131,14 @@ public class GameEngine{
         return longDestinationDeck.draw();
     }
 
+    public WagonCard drawWagonCard () {
+        return wagonDeck.draw();
+    }
+
+    public WagonCard drawVisibleWagonCard (int i) {
+        return wagonDeck.drawVisibleCard(i);
+    }
+
     public boolean buyRail(Bot bot, Connection connection) throws WrongPlayerException {
         if (confirmId(bot))
         {
@@ -193,7 +201,8 @@ public class GameEngine{
     public boolean addDestinationCard(Bot bot, DestinationCard destinationCard) throws DeckEmptyException, WrongPlayerException {
         try {
             if(confirmId(bot) && destinationCard != null) {
-                return getPlayerByBot(bot).addCardDestination(destinationCard);
+                getPlayerByBot(bot).addCardDestination(destinationCard);
+                return true;
             }
             return false;
         }
@@ -225,7 +234,6 @@ public class GameEngine{
         initializeBoard(mapName);
 
         totalGames++;
-        System.out.println(totalGames);
         while (lastPlayer==null) {
             lastPlayer = playRound(lastPlayer);
             round ++;

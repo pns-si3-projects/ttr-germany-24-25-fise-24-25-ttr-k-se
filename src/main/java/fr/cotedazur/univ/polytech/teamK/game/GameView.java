@@ -49,6 +49,8 @@ public class GameView{
         return res;
     }
 
+
+
     public Deck<DestinationCard> getLongueDestination() {
         Deck<DestinationCard> res= new Deck<>(TypeOfCards.LONG_DESTINATION,gameEngine.getGameMap());
         res.putAll(gameEngine.getLongDestinationDeck());

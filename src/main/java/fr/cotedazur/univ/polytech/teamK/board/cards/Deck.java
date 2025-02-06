@@ -147,6 +147,7 @@ public class Deck<T extends Card> {
         this.cards.add((T) new DestinationCard(currentMap.getCity(ROSTOCK), currentMap.getCity(OSTERREICH), 22));
         this.cards.add((T) new DestinationCard(currentMap.getCity(DANEMARK), currentMap.getCity(LINDAU), 22));
         this.cards.add((T) new DestinationCard(currentMap.getCity(KIEL), currentMap.getCity(SCHWEIZ), 20));
+        shuffle();
     }
 
     /**
@@ -209,6 +210,7 @@ public class Deck<T extends Card> {
         this.cards.add((T) new DestinationCard(currentMap.getCity(KOLN), currentMap.getCity(MUNCHEN), 11));
         this.cards.add((T) new DestinationCard(currentMap.getCity(MAGDEBURG), currentMap.getCity(KOLN), 11));
         this.cards.add((T) new DestinationCard(currentMap.getCity(KOLN), currentMap.getCity(FREIBURG), 11));
+        shuffle();
     }
 
     /**
