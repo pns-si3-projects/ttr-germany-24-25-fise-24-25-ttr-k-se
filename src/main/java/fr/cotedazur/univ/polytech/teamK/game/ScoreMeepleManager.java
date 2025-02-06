@@ -5,6 +5,7 @@ import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -27,6 +28,7 @@ public class ScoreMeepleManager {
             processMeepleColorPoints(meepleColor);
             if (meepleColor.ordinal() == 5) break; // Stop après la 6e couleur
         }
+
     }
 
     /**
@@ -37,7 +39,6 @@ public class ScoreMeepleManager {
     private void processMeepleColorPoints(Colors meepleColor) {
         List<Player> firstWinners = new ArrayList<>();
         List<Player> secondWinners = new ArrayList<>();
-
         determineMeepleWinners(meepleColor, firstWinners, secondWinners);
         awardMeeplePoints(firstWinners, secondWinners);
     }
@@ -109,4 +110,11 @@ public class ScoreMeepleManager {
             }
         }
     }
+
+    /*method to return scores before addition of meeples
+    public Map<Player, Integer> getScoreBeforeMeeple(){
+        Map<Player, Integer> scoresBeforeMeeples;
+        scoresBeforeMeeples = gameEngine.getScoreManager().getScores();
+        return scoresBeforeMeeples;
+    }*/
 }

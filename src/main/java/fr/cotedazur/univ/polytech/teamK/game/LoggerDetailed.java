@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.teamK.game;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 
+import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 
@@ -45,6 +46,7 @@ public class LoggerDetailed {
 
     }
 
+
     //Called by GameEngine
     public void logNoMoreWagons(){
         logger.fine("The game is over, the bots have ran out of wagon cards.");
@@ -67,20 +69,29 @@ public class LoggerDetailed {
         logger.finer(bot.getName() + " buys the connection " + bot.gameView.getMyConnections().getLast());
     }
 
-
-
     //Used by the GameEngine to log the game details
+    public void logPlayerScoresBeforeMeeples(){
+        logger.fine("The game has ended.");
+        logger.fine("The scores before Meeple bonus are : ");
+        for(Player player : gameEngine.getPlayers().values()){
+            logger.fine(player.getName() + " : " + player.getScore());
+        }
+    }
+
+    public void logPlayerScoresAfterMeeples(){
+        logger.fine("The scores after Meeple bonus are : ");
+        for(Player player : gameEngine.getPlayers().values()){
+            logger.fine(player.getName() + " gained bonus meeple points. His new score is " + player.getScore());
+        }
+    }
+
     public void logGameResults(){
         logger.fine("Game Results: ");
         logger.fine("The game lasted " + gameEngine.getRound() + " rounds.");
-        logger.fine("The finall scores are : ");
+        logger.fine("The final scores are : ");
         for(Player player: gameEngine.getPlayers().values()){
             logger.fine(player.getName() + " : " + player.getScore());
         }
         logger.fine("The winner is : " + gameEngine.getHighestScoreAndWinner().getKey().getName());
     }
-
-
-
-
 }

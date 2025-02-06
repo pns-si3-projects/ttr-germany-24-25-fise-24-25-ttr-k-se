@@ -227,7 +227,9 @@ public class GameEngine{
             detailedLogger.logRound();
         }
         lastRound(lastPlayer);
+        detailedLogger.logPlayerScoresBeforeMeeples();
         scoreMeepleManager.calculateMeeplePoints();
+        detailedLogger.logPlayerScoresAfterMeeples();
         recordGameResults();
         displayEndGameMessage();
         lastPlayer = null;
