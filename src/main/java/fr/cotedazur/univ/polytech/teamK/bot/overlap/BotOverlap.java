@@ -18,10 +18,16 @@ public class BotOverlap extends Bot {
     private DestinationCardDrawManager destinationCardDrawManager;
     public BotOverlap(String name, GameEngine gameEngine) throws WrongPlayerException {
         super(name, gameEngine);
+
+    }
+
+
+    private void createRestOfBot() throws WrongPlayerException {
         this.meepleSelector = new MeepleSelectorManager(this, gameView);
         this.wagonDrawManager = new WagonDrawManager(gameView, this);
         this.destinationCardDrawManager = new DestinationCardDrawManager(this, gameView);
         this.currentPath = destinationCardDrawManager.chooseOriginalDestCards();
+
     }
 
     public PathManager nextDestinationToDo()
@@ -81,6 +87,12 @@ public class BotOverlap extends Bot {
 
 
     public boolean playTurn() throws WrongPlayerException {
+        //first turn, you need to draw at first
+        if (gameView.getRound() == 0)
+        {
+            createRestOfBot();
+        }
+        //real turns (the actual ones, not the fake invented one played above
         if (!buyRail())
         {
             if (this.currentPath == null)
