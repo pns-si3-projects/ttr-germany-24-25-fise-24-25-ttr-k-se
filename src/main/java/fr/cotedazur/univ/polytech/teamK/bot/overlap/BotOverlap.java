@@ -53,29 +53,26 @@ public class BotOverlap extends Bot {
     }
 
     public boolean buyRail() throws WrongPlayerException {
-        if (this.currentPath == null)
-        {
+        if (this.currentPath == null) {
             return false;
         }
         //this gives me a connection I can buy, ie I have enough wagons
-        Connection toPurchase =  currentPath.connectionToPurchase();
-        if (toPurchase != null)
-        {
+        Connection toPurchase = currentPath.connectionToPurchase();
+        if (toPurchase != null) {
             boolean success = gameEngine.buyRail(this, toPurchase);
-            if (!success)
-            {
+            if (!success) {
                 //System.out.println("Failed to buy the rail, error in verificaiton problably");
-                if (!toPurchase.getColor().equals(Colors.GRAY))
-                {
+                if (!toPurchase.getColor().equals(Colors.GRAY)) {
                     System.out.println("Failed to buy the rail, error in verificaiton problably, the color is" + toPurchase.getColor());
                 }
                 //System.out.println(toPurchase.getColor());
             }
-            if (this.gameView.getPlayerByBot(this).validDestinationCardOverlap(this.currentPath.getDestCardOfpath(),gameView.getGameMap()))
-            {
+
+            return success;
+        } else {
+            if (this.gameView.getPlayerByBot(this).validDestinationCardOverlap(this.currentPath.getDestCardOfpath(), gameView.getGameMap())) {
                 this.currentPath = nextDestinationToDo();
             }
-            return success;
         }
         return false;
     }

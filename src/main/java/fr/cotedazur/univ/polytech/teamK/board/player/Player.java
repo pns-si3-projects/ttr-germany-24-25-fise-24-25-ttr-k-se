@@ -318,7 +318,7 @@ public class Player {
             }
             //removeCardWagon(connectonColor, min(lengthOfRail, cardsOfCorrectColor)
             connectionToBuy.setOwner(this);
-            playerMap.updateMap(connectionToBuy, gameMap);
+            //playerMap.updateMap(connectionToBuy, gameMap);
             score += connectionToBuy.calculatePoints(lengthOfRail);
             return true;
         }
