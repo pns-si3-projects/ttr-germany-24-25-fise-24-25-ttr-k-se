@@ -37,7 +37,7 @@ public class BotOverlap extends Bot {
         PathManager bestDestinationCardWithpath = null;
         for (DestinationCard destCard : allDestCardOwned)
         {
-            if (!gameView.getPlayerByBot(this).validDestinationCard(destCard))
+            if (!gameView.getPlayerByBot(this).validDestinationCardOverlap(destCard,gameView.getGameMap()))
             {
                 PathManager currentDestPath = new PathManager(destCard, this, gameView);
                 Integer length = currentDestPath.findTotalCostRemaining();
@@ -71,7 +71,7 @@ public class BotOverlap extends Bot {
                 }
                 //System.out.println(toPurchase.getColor());
             }
-            if (this.gameView.getPlayerByBot(this).validDestinationCard(this.currentPath.getDestCardOfpath()))
+            if (this.gameView.getPlayerByBot(this).validDestinationCardOverlap(this.currentPath.getDestCardOfpath(),gameView.getGameMap()))
             {
                 this.currentPath = nextDestinationToDo();
             }

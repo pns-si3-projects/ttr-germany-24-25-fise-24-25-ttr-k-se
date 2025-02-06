@@ -178,7 +178,7 @@ public class PathManager{
         {
             //all connections on path should be ours or free
             assert(c.getIsFree() || c.getOwner().equals(gameView.getPlayerByBot(owner)));
-            if (!c.getOwner().equals(gameView.getPlayerByBot(owner))) {
+            if (c.getIsFree() || !c.getOwner().equals(gameView.getPlayerByBot(owner))) {
                 totalCost += c.getLength();
             }
         }
