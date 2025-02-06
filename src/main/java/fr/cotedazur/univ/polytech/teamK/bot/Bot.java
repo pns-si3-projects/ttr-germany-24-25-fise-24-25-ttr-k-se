@@ -175,8 +175,8 @@ public abstract class Bot{
                 }
             }
         }
-        if(res.isEmpty()) {
-            return res;
+        if(lenght == 0) {
+            return null;
         }
 
         return res;

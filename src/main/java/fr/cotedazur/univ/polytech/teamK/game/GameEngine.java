@@ -295,6 +295,9 @@ public class GameEngine{
             if (lastPlayer.equals(currentPlayer)) {
                 break;
             }
+            for(DestinationCard destinationCard : entry.getValue().getCartesDestination()) {
+                entry.getValue().addScore(-destinationCard.getValue());
+            }
         }
     }
 
@@ -322,7 +325,8 @@ public class GameEngine{
 
     public void displayEndGameMessage(){
         if(numberOfRoundsWithoutActions==NUMBER_OF_ROUNDS_WITHOUT_ACTIONS+1) {
-            detailedLogger.logFiveNoActionRounds();}
+            //detailedLogger.logFiveNoActionRounds();
+        }
         else{
             detailedLogger.logGameEndWagonsCardsLeft(lastPlayer.getName(), lastPlayer.getWagonsRemaining());
         }
@@ -331,6 +335,17 @@ public class GameEngine{
 
     public void resetTotalGames(){
         totalGames = 0;
+    }
+
+    public void valideDestination(DestinationCard card, Bot bot) throws WrongPlayerException {
+        if(currentBot == bot) {
+            City cityOne = card.getStartCity();
+            City cityTwo = card.getEndCity();
+            if(currentBot.djikstra(cityOne,cityTwo) == null) {
+                gameView.getPlayerByBot(currentBot).validDestinationCard(card);
+            }
+        } else throw new WrongPlayerException("Wrong bot");
+
     }
 
     /**

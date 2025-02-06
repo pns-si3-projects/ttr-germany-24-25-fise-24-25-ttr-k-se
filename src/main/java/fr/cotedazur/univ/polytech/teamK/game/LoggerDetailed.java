@@ -90,7 +90,7 @@ public class LoggerDetailed {
         logger.fine("The game lasted " + gameEngine.getRound() + " rounds.");
         logger.fine("The final scores are : ");
         for(Player player: gameEngine.getPlayers().values()){
-            logger.fine(player.getName() + " : " + player.getScore());
+            logger.fine(player.getName() + " : " + player.getScore() + player.getAchieveDestination());
         }
         logger.fine("The winner is : " + gameEngine.getHighestScoreAndWinner().getKey().getName());
     }

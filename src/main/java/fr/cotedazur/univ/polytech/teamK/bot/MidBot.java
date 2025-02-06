@@ -36,7 +36,7 @@ public class MidBot extends Bot {
             return drawDestinationCard();
         }
         if (buyConnection(path)) {
-            gameView.getPlayerByBot(this).validDestinationCard(toAchieve);
+            gameEngine.valideDestination(toAchieve,this);
             return true;
         }
         return drawWagonCard(path.getFirst().getColor()) && drawWagonCard(path.getFirst().getColor());

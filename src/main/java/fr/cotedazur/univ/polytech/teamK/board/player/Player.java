@@ -21,6 +21,7 @@ public class Player {
     private final ArrayList<Connection> connections;
     private ArrayList<WagonCard> wagonCards;
     private ArrayList<DestinationCard> destinationCards;
+    private ArrayList<DestinationCard> achieveDestination;
 
     public Player(String name) {
         this.id = count++;
@@ -29,6 +30,7 @@ public class Player {
         this.wagonsRemaining = 45;
         this.wagonCards = new ArrayList<>();
         this.destinationCards = new ArrayList<>();
+        this.achieveDestination = new ArrayList<>();
         this.connections = new ArrayList<>();
         this.meeples = new Meeple();
         playerMap = new PlayerOwnedMap();
@@ -51,6 +53,7 @@ public class Player {
     public int getWagonsRemaining() {return wagonsRemaining;}
     public int getNumberWagon() {return wagonCards.size();}
     public int getNumberDestination () {return destinationCards.size();}
+    public ArrayList<DestinationCard> getAchieveDestination () {return achieveDestination;}
     public Meeple getMeeples() {return meeples;}
     public void setMeeples(Meeple meeples) {this.meeples = meeples;}
     public int getNumberOfMeeples() {return meeples.getNumber();}
@@ -139,6 +142,18 @@ public class Player {
         return numWagonCardOfXColor;
     }
 
+    public Colors getMaxColor () {
+        int [] listOfOwnedMeeples = new int[]{0, 0, 0, 0, 0, 0,0,0,0,0};
+        for (WagonCard card : wagonCards) {
+            listOfOwnedMeeples[card.getColor().ordinal()] ++;
+        }
+        Colors res = Colors.YELLOW.getColorById(0);
+        for (int i=1 ; i< listOfOwnedMeeples.length-1 ; i++) {
+            if(listOfOwnedMeeples[i] > listOfOwnedMeeples[res.ordinal()]) res = Colors.YELLOW.getColorById(i);
+        }
+        return res;
+    }
+
     /**
      * Add a DestinationCard to the player's hand
      * @param carte the card to add
@@ -154,22 +169,22 @@ public class Player {
 
     /**
      * Add DestinationCard points and remove it from the player's hand
-     * @param carte the card to check
+     * @param card the card to check
      * @return true if the card was removed, false otherwise
      */
-    public boolean validDestinationCard(DestinationCard carte) {
-        String cityOne = carte.getEndCity().getName();
-        String cityTwo = carte.getStartCity().getName();
-        if (playerMap.isNeighbour(cityOne, cityTwo) && destinationCards.contains(carte)) {
-            this.score += carte.getValue();
-            this.destinationCards.remove(carte);
+    public boolean validDestinationCard(DestinationCard card) {
+        String cityOne = card.getEndCity().getName();
+        String cityTwo = card.getStartCity().getName();
+        if (destinationCards.contains(card)) {
+            this.score += card.getValue();
+            this.destinationCards.remove(card);
+            this.achieveDestination.add(card);
             return true;
         }
-        if (!destinationCards.contains(carte)) {
+        else
             throw new IllegalArgumentException("The player doesn't have this card");
         }
-        return false;
-    }
+
 
 
     /**
@@ -202,6 +217,7 @@ public class Player {
     public boolean buyRail(Connection connectionToBuy, GameBoard gameMap, int numberOfPlayers)
     {
         Colors connectionColor = connectionToBuy.getColor();
+        if(connectionColor == Colors.GRAY) connectionColor = getMaxColor();
         int cardsOfCorrectColor = getNumberColor(connectionColor);
         int lengthOfRail = connectionToBuy.getLength();
         int rainbowCards = getNumberColor(Colors.RAINBOW);
