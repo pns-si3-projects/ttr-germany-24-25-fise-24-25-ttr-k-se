@@ -54,7 +54,7 @@ public class Main {
         runThousand(gameEngine);
     }
 
-    private void runThousand(GameEngine gameEngine) throws WrongPlayerException, CsvValidationException, IOException {
+    void runThousand(GameEngine gameEngine) throws WrongPlayerException, CsvValidationException, IOException {
         int compteur = 0;
         logger.showOnlyInfo();
         while(compteur < 1000){
@@ -74,7 +74,7 @@ public class Main {
         gameEngine.startGame();
     }
 
-    private void initialise() {
+    void initialise() {
         gameEngine = new GameEngine("Reich");
         statisticsLogger = new GamesStatisticsLogger(gameEngine);
         detailed = new LoggerDetailed(gameEngine);

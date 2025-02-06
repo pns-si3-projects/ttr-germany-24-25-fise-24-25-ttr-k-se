@@ -229,6 +229,9 @@ public class Deck<T extends Card> {
         return this.cards.isEmpty();
     }
 
+    public int size(){
+        return this.cards.size();
+    }
     /**
      * Shuffle a deck of cards
      */

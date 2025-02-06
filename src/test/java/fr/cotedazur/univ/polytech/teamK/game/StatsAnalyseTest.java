@@ -25,7 +25,6 @@ class StatsAnalyseTest {
     LoggerDetailed detailed;
     LoggerControlCenter logger;
 
-    @BeforeEach
     void setUp () throws IOException {
         CSVWriter writer = new CSVWriter(new FileWriter("stats/gameStats.csv",false));
         gameEngine = new GameEngine("Reich");
@@ -38,6 +37,7 @@ class StatsAnalyseTest {
 
     @Test
     void testAnalyse () throws CsvValidationException, IOException, WrongPlayerException {
+        setUp();
         gameEngine.startGame();
         CSVReader reader = new CSVReader(new FileReader("stats/gameStats.csv"));
         String [] nextLine  = reader.readNext();
@@ -54,7 +54,27 @@ class StatsAnalyseTest {
                 assertEquals("0", nextLine[3]);
             }
         }
-
         reader.close();
+        setUp();
+        gameEngine.startGame();
+        CSVReader reader2 = new CSVReader(new FileReader("stats/gameStats.csv"));
+        nextLine = reader2.readNext();
+        while ((nextLine = reader.readNext()) != null) {
+            assertEquals(2,parseInt(nextLine[1]));
+            if(winnerName == gameEngine.getHighestScoreAndWinner().getKey().getName()){
+                if(Objects.equals( "2",nextLine[2])){
+                    assertEquals(winnerName, nextLine[0]);
+                    assertEquals("100", nextLine[3]);
+                }
+                else {
+                    assertEquals("0",nextLine[2]);
+                    assertEquals("0", nextLine[3]);
+                }
+            } else {
+                assertEquals("1", nextLine[2]);
+                assertEquals("50", nextLine[3]);
+            }
+        }
+        reader2.close();
     }
 }
