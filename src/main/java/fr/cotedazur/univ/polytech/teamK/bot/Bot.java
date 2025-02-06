@@ -44,23 +44,23 @@ public abstract class Bot{
      * @param number_short the number of short dest to draw
      * @return a list of the cards
      */
-    public List<DestinationCard> drawDestFromNumber (int number_short) {
+    public List<DestinationCard> drawDestFromNumber (int number_short) throws WrongPlayerException {
         List<DestinationCard> destCardDrawn = new ArrayList<>(4) ;
         DestinationCard toAddCard;
         try {
             for (int i = 0; i < 4; i++) {
                 if (i < number_short) {
-                    toAddCard = gameEngine.drawShortDestination();
+                    toAddCard = gameEngine.drawShortDestination(this);
                     if (toAddCard != null)
                         destCardDrawn.add(toAddCard);
                     else
-                        destCardDrawn.add(gameEngine.drawLongueDestination());
+                        destCardDrawn.add(gameEngine.drawLongueDestination(this));
                 } else {
-                    toAddCard = gameEngine.drawLongueDestination();
+                    toAddCard = gameEngine.drawLongueDestination(this);
                     if (toAddCard != null)
                         destCardDrawn.add(toAddCard);
                     else
-                        destCardDrawn.add(gameEngine.drawShortDestination());
+                        destCardDrawn.add(gameEngine.drawShortDestination(this));
                 }
             }
         }

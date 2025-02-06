@@ -109,7 +109,7 @@ public class GameView{
     public int getMyWagonsRemaining() {return gameEngine.getPlayerByBot(currentBot)
             .getWagonsRemaining();
     }
-    public int getMyNumberWagon() {return gameEngine.getPlayerByBot(currentBot)
+    public int getMyNumberWagonCards() {return gameEngine.getPlayerByBot(currentBot)
             .getCartesWagon().size();
     }
     public int getMyNumberDestination () {return gameEngine.getPlayerByBot(currentBot)

@@ -122,12 +122,18 @@ public class GameEngine{
         return 0;
     }
 
-    public DestinationCard drawShortDestination () {
-        return shortDestinationDeck.draw();
+    public DestinationCard drawShortDestination (Bot bot) throws WrongPlayerException {
+        if(confirmId(bot)) {
+            return shortDestinationDeck.draw();
+        }
+        return null;
     }
 
-    public DestinationCard drawLongueDestination () {
-        return longDestinationDeck.draw();
+    public DestinationCard drawLongueDestination (Bot bot) throws WrongPlayerException {
+        if(confirmId(bot)) {
+            return longDestinationDeck.draw();
+        }
+        return null;
     }
 
     public WagonCard drawWagonCard () {
@@ -233,7 +239,6 @@ public class GameEngine{
         totalGames++;
         while (lastPlayer==null) {
             lastPlayer = playRound(null);
-            round ++;
             detailedLogger.logRound();
         }
         lastRound(lastPlayer);
@@ -254,7 +259,7 @@ public class GameEngine{
      * @return the last player to play in the current round
      * @throws WrongPlayerException if the bot is not the current bot
      */
-    private Player playRound(Player lastPlayer) throws WrongPlayerException {
+    public Player playRound(Player lastPlayer) throws WrongPlayerException {
         int noMoreActionsCount = 0;
 
         for (Map.Entry<Bot, Player> entry : players.entrySet()) {
@@ -277,7 +282,7 @@ public class GameEngine{
         } else {
             numberOfRoundsWithoutActions = 0;
         }
-
+        round ++;
         return lastPlayer;
     }
 

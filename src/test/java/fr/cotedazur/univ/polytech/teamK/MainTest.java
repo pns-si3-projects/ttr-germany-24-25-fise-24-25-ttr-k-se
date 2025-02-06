@@ -3,16 +3,15 @@ package fr.cotedazur.univ.polytech.teamK;
 import static org.mockito.Mockito.*;
 
 import fr.cotedazur.univ.polytech.teamK.game.*;
-import fr.cotedazur.univ.polytech.teamK.bot.MidBot;
-import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 
 import com.opencsv.exceptions.CsvValidationException;
+import fr.cotedazur.univ.polytech.teamK.game.GamesStatisticsLogger;
+import fr.cotedazur.univ.polytech.teamK.game.LoggerControlCenter;
+import fr.cotedazur.univ.polytech.teamK.game.LoggerDetailed;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import java.io.IOException;
-import java.util.Arrays;
-import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 

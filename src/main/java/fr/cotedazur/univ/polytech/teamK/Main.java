@@ -7,6 +7,9 @@ import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 import fr.cotedazur.univ.polytech.teamK.bot.MidBot;
 
 import fr.cotedazur.univ.polytech.teamK.game.*;
+import fr.cotedazur.univ.polytech.teamK.game.GamesStatisticsLogger;
+import fr.cotedazur.univ.polytech.teamK.game.LoggerControlCenter;
+import fr.cotedazur.univ.polytech.teamK.game.LoggerDetailed;
 
 
 import java.io.IOException;
