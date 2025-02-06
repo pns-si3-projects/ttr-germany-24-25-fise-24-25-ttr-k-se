@@ -16,9 +16,11 @@ import java.util.Set;
 
 public class GameEngine{
 
+    private final int NUMBER_OF_ROUNDS_WITHOUT_ACTIONS = 5;
+
     private String mapName;
     private int numberOfRoundsWithoutActions = 0;
-    private Board gameMap;
+    private GameBoard gameMap;
     private int totalGames;
     private HashMap<Bot,Player> players;
     private HashMap<Bot,GameView> viewOfPlayers;
@@ -29,23 +31,25 @@ public class GameEngine{
     private Deck<WagonCard> wagonDeck;
     private GameView gameView;
     private Integer round;
-    private ScoreManager scoreManager;
-    private MeeplePointsManager meeplePointsManager;
+    private ScoreGeneralManager scoreManager;
+    private ScoreMeepleManager scoreMeepleManager;
     private GamesStatisticsLogger statisticsLogger;
-    private DetailedLogger detailedLogger;
+    private LoggerDetailed detailedLogger;
     private StatsAnalyse statsAnalyse;
 
 
     public GameEngine(String mapName) {
         this.mapName = mapName;
         this.round = 0;
-        this.scoreManager = new ScoreManager(this);
+        this.scoreManager = new ScoreGeneralManager(this);
+        this.scoreMeepleManager = new ScoreMeepleManager(this);
         this.statisticsLogger = new GamesStatisticsLogger(this);
+        this.detailedLogger = new LoggerDetailed(this);
         initializeBoard("Reich");
     }
 
     public void initializeBoard(String mapName){
-        this.gameMap = new Board(mapName);
+        this.gameMap = new GameBoard(mapName);
         this.shortDestinationDeck = new Deck<>(TypeOfCards.SHORT_DESTINATION, gameMap);
         this.longDestinationDeck = new Deck<>(TypeOfCards.LONG_DESTINATION, gameMap);
         this.wagonDeck = new Deck<>(TypeOfCards.WAGON, gameMap);
@@ -77,7 +81,7 @@ public class GameEngine{
     INFOS RELATIVES AU BOARD
      */
     protected Integer getRound() { return round; }
-    protected Board getGameMap() { return gameMap; }
+    protected GameBoard getGameMap() { return gameMap; }
     protected Deck<DestinationCard> getShortDestinationDeck() { return shortDestinationDeck; }
     protected Deck<DestinationCard> getLongDestinationDeck() { return longDestinationDeck; }
     protected Deck<WagonCard> getWagonDeck() { return wagonDeck; }
@@ -128,7 +132,7 @@ public class GameEngine{
     public boolean buyRail(Bot bot, Connection connection) throws WrongPlayerException {
         if (confirmId(bot))
         {
-            Board gameBoard = this.gameMap;
+            GameBoard gameBoard = this.gameMap;
             Colors connectionColor = connection.getColor();
             Integer numberOfColorOwned = this.getPlayerByBot(bot).getNumberColor(connectionColor);
             return getPlayerByBot(bot).buyRail(connection, gameBoard, numberOfColorOwned);
@@ -178,21 +182,19 @@ public class GameEngine{
     /**
      * Adds a destination card to the specified bot's hand.
      *
-     * @param bot the bot adding the destination card
+     * @param bot             the bot adding the destination card
      * @param destinationCard the destination card to be added
-     * @return true if the destination card was successfully added, false otherwise
-     * @throws DeckEmptyException if the deck is empty
+     * @throws DeckEmptyException   if the deck is empty
      * @throws WrongPlayerException if the bot is not the current bot
      */
-    public boolean addDestinationCard(Bot bot, DestinationCard destinationCard) throws DeckEmptyException, WrongPlayerException {
+    public void addDestinationCard(Bot bot, DestinationCard destinationCard) throws DeckEmptyException, WrongPlayerException {
         try {
             if(confirmId(bot) && destinationCard != null) {
                 getPlayerByBot(bot).addCardDestination(destinationCard);
             }
-            return false;
         }
-        catch (NullPointerException e) {
-            return false;
+        catch (NullPointerException ignored) {
+            throw new NullPointerException("You can't add this card");
         }
     }
 
@@ -217,17 +219,17 @@ public class GameEngine{
      */
     public void startGame() throws WrongPlayerException, CsvValidationException, IOException {
         initializeBoard(mapName);
-
+        detailedLogger.logGameStart();
         totalGames++;
         while (lastPlayer==null) {
-            lastPlayer = playRound(lastPlayer);
+            lastPlayer = playRound(null);
             round ++;
+            detailedLogger.logRound();
         }
         lastRound(lastPlayer);
-        meeplePointsManager.calculateMeeplePoints();
+        scoreMeepleManager.calculateMeeplePoints();
         recordGameResults();
         displayEndGameMessage();
-        gameView.displayFinalScores();
         lastPlayer = null;
     }
 
@@ -306,13 +308,16 @@ public class GameEngine{
     }
 
     public void displayEndGameMessage(){
-        int NUMBER_OF_ROUNDS_WITHOUT_ACTIONS = 5;
-        if(numberOfRoundsWithoutActions==NUMBER_OF_ROUNDS_WITHOUT_ACTIONS+1){
-            detailedLogger.logNoMoreWagons();
-        }
+        if(numberOfRoundsWithoutActions==NUMBER_OF_ROUNDS_WITHOUT_ACTIONS+1) {
+            detailedLogger.logNoMoreWagons();}
         else{
             detailedLogger.logGameEndWagonsCardsLeft(lastPlayer.getName(), lastPlayer.getWagonsRemaining());
         }
+        detailedLogger.logGameResults();
+    }
+
+    public void resetTotalGames(){
+        totalGames = 0;
     }
 
     /**
@@ -320,12 +325,12 @@ public class GameEngine{
      *
      * @return the scores of all bots
      */
-    public Map<Bot, Integer> getScores() {
+    public Map<Player, Integer> getScores() {
         return scoreManager.getScores();
     }
 
-    public void logGameStatistics() {
-        statisticsLogger.logGameStatistics();
+    public Map<String,Integer>getTotalScores() {
+        return scoreManager.getTotalScores();
     }
 
     public Map.Entry<Player, Integer> getHighestScoreAndWinner() {
@@ -338,16 +343,15 @@ public class GameEngine{
     public void recordGameResults() {
         Map.Entry<Player, Integer> highestScoreAndWinner = scoreManager.getHighestScoreAndWinner();
         Player winner = highestScoreAndWinner.getKey();
-        for (Map.Entry<Bot, Player> entry : players.entrySet()) {
-            Bot bot = entry.getKey();
-            Player player = entry.getValue();
+        for (Player player : players.values()) {
             if (player.equals(winner)) {
-                scoreManager.recordWin(bot);
+                scoreManager.recordWin(player);
             } else {
-                scoreManager.recordLoss(bot);
+                scoreManager.recordLoss(player);
             }
+            scoreManager.recordScore(player);
         }
     }
 
-    public ScoreManager getScoreManager() { return scoreManager;}
+    public ScoreGeneralManager getScoreManager() { return scoreManager;}
 }

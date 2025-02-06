@@ -6,7 +6,7 @@ import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,13 +15,13 @@ import static org.junit.jupiter.api.Assertions.*;
 public class PlayerTest {
     Player player1;
     Player player2;
-    Board map;
+    GameBoard map;
 
     @BeforeEach
     void setUp () {
         Meeple.resetMeeples();
         Player.resetIdCounter();
-        map = new Board("Reich");
+        map = new GameBoard("Reich");
         player1 = new Player("Deyann");
         player2 = new Player("Tom");
     }

@@ -28,8 +28,8 @@ public class GameView{
                 .collect(Collectors.toList());
     }
 
-    public Board getGameMap () {
-        Board res = new Board("");
+    public GameBoard getGameMap () {
+        GameBoard res = new GameBoard("");
         res = gameEngine.getGameMap();
         return res;
     }
@@ -134,8 +134,5 @@ public class GameView{
     public List<WagonCard> getVisibleWagonCards() {
         return gameEngine.getWagonDeck().getVisibleCard();
     }
-    public void displayFinalScores() {
-        System.out.println("Scores finaux :");
-        gameEngine.getPlayers().values().forEach(player -> System.out.println(player.getName() + " : " + player.getScore() + " points"));
-    }
+
 }

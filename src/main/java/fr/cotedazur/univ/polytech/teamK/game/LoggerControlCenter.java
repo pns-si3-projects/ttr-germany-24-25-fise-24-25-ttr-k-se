@@ -6,7 +6,7 @@ import java.util.logging.Logger;
 
 public class LoggerControlCenter {
     private GamesStatisticsLogger statisticsLogger;
-    private DetailedLogger detailedLogger;
+    private LoggerDetailed detailedLogger;
 
     /**
      * Constructs a LoggerControlCenter with the specified loggers.
@@ -14,7 +14,7 @@ public class LoggerControlCenter {
      * @param statisticsLogger the GamesStatisticsLogger instance
      * @param detailedLogger the DetailedLogger instance
      */
-    public LoggerControlCenter(GamesStatisticsLogger statisticsLogger, DetailedLogger detailedLogger) {
+    public LoggerControlCenter(GamesStatisticsLogger statisticsLogger, LoggerDetailed detailedLogger) {
         this.statisticsLogger = statisticsLogger;
         this.detailedLogger = detailedLogger;
     }
@@ -39,7 +39,7 @@ public class LoggerControlCenter {
      * @param level the logging level to be set
      */
     private void setLoggerLevel(Level level) {
-        Logger[] loggers = {Logger.getLogger(GamesStatisticsLogger.class.getName()), Logger.getLogger(DetailedLogger.class.getName())};
+        Logger[] loggers = {Logger.getLogger(GamesStatisticsLogger.class.getName()), Logger.getLogger(LoggerDetailed.class.getName())};
         for (Logger logger : loggers) {
             logger.setLevel(level);
             for (Handler handler : logger.getHandlers()) {

@@ -12,10 +12,10 @@ import java.util.Map;
  * The MeeplePointsManager class is responsible for calculating and awarding meeple points
  * to players based on the number of meeples they have of each color.
  */
-public class MeeplePointsManager {
+public class ScoreMeepleManager {
     private final GameEngine gameEngine;
 
-    public MeeplePointsManager(GameEngine gameEngine) {
+    public ScoreMeepleManager(GameEngine gameEngine) {
         this.gameEngine = gameEngine;
     }
 

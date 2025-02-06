@@ -3,7 +3,7 @@ package fr.cotedazur.univ.polytech.teamK.board.map.connection;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameBoard;
 
 public class Connection {
     private City cityOne;
@@ -117,7 +117,7 @@ public class Connection {
      * @return true if the connection is successfully claimed, false otherwise
      * @throws IllegalArgumentException if the number of cards used is less than 0
      */
-    public boolean claimAttempt(Integer numberOfCardsUsed, Player player, Board gameMap, int numberOfPlayers) {
+    public boolean claimAttempt(Integer numberOfCardsUsed, Player player, GameBoard gameMap, int numberOfPlayers) {
         return ConnectionClaimService.claimAttempt(this, numberOfCardsUsed, player, gameMap, numberOfPlayers);
     }
 
@@ -133,6 +133,6 @@ public class Connection {
     @Override
     public String toString()
     {
-        return this.getCityOne() + " connected to " + this.getCityTwo();
+        return this.getCityOne() + " -> " + this.getCityTwo();
     }
 }

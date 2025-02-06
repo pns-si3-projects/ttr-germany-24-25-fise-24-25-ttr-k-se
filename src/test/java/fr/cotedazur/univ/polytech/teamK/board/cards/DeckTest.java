@@ -1,7 +1,7 @@
 package fr.cotedazur.univ.polytech.teamK.board.cards;
 
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -12,13 +12,13 @@ class DeckTest {
     private Deck<DestinationCard> shortDestinationDeck;
     private Deck<DestinationCard> longDestinationDeck;
     private Deck<WagonCard> wagonDeck;
-    private Board map;
+    private GameBoard map;
 
     @BeforeEach
     void setUp() {
         Meeple.resetMeeples();
         // Initialisation des paquets avant chaque test
-        map = new Board("Reich");
+        map = new GameBoard("Reich");
         shortDestinationDeck = new Deck<>(TypeOfCards.SHORT_DESTINATION,map);
         longDestinationDeck = new Deck<>(TypeOfCards.LONG_DESTINATION, map);
         wagonDeck = new Deck<>(TypeOfCards.WAGON, map);

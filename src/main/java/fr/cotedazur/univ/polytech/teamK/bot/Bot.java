@@ -7,7 +7,7 @@ import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
-import fr.cotedazur.univ.polytech.teamK.game.DetailedLogger;
+import fr.cotedazur.univ.polytech.teamK.game.LoggerDetailed;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -20,7 +20,7 @@ public abstract class Bot{
     public final GameEngine gameEngine;
     public String name;
     public final int id;
-    public DetailedLogger logger;
+    public LoggerDetailed logger;
 
     protected Bot(String name, GameEngine gameEngine)
     {
@@ -37,7 +37,7 @@ public abstract class Bot{
     }
     public void setGameView(GameView gameView){
         this.gameView = gameView;
-        this.logger = new DetailedLogger(gameView);
+        this.logger = new LoggerDetailed(gameEngine);
     }
     /**
      * Method who will draw the 4 dest Cards with the number of short dest the player chose

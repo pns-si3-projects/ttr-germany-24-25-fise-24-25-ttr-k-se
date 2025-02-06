@@ -8,6 +8,7 @@ import fr.cotedazur.univ.polytech.teamK.bot.MidBot;
 
 import fr.cotedazur.univ.polytech.teamK.game.*;
 
+
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.List;
@@ -22,7 +23,13 @@ public class Main {
     @Parameter(names = "--demo", description = "Partie classique avec tous les logs pour la soutenance")
     boolean demo;
 
+    GameEngine gameEngine;
+    GamesStatisticsLogger statisticsLogger;
+    LoggerDetailed detailed;
+    LoggerControlCenter logger;
+
     public static void main(String[] args) throws WrongPlayerException, CsvValidationException, IOException {
+
         Main main = new Main();
         JCommander.newBuilder()
                 .addObject(main)
@@ -32,56 +39,46 @@ public class Main {
     }
 
     public void run() throws WrongPlayerException, CsvValidationException, IOException {
-        if (thousands) {
-            runThousands();
+        if(thousands){
+            run2Thousands();
         }
-        if (demo) {
+        if(demo){
             runDemo();
         }
     }
 
-    public void runThousands() throws WrongPlayerException, CsvValidationException, IOException {
-        GameEngine gameEngine = new GameEngine("Reich");
-        GamesStatisticsLogger statisticsLogger = new GamesStatisticsLogger(gameEngine);
-        LoggerControlCenter loggerControlCenter = new LoggerControlCenter(statisticsLogger, null);
-        loggerControlCenter.showOnlyInfo();
+    public void run2Thousands() throws WrongPlayerException, CsvValidationException, IOException {
+        initialise();
+        runThousand(gameEngine);
+        initialise();
+        runThousand(gameEngine);
 
+    }
+
+    private void runThousand(GameEngine gameEngine) throws WrongPlayerException, CsvValidationException, IOException {
         int compteur = 0;
-        while (compteur < 1000) {
-            List<Bot> bots = Arrays.asList(new MidBot("YEETER", gameEngine), new MidBot("WILLER", gameEngine));
+        logger.showOnlyInfo();
+        while(compteur < 1000){
+            List<Bot> bots = Arrays.asList(new MidBot("YEETER", gameEngine),new MidBot("WILLER", gameEngine));
             gameEngine.addBotsToPlayerMap(bots);
             gameEngine.startGame();
             compteur++;
         }
-        gameEngine.logGameStatistics();
-        compteur = 0;
-        while (compteur < 1000) {
-            List<Bot> bots = Arrays.asList(new MidBot("YEETER", gameEngine), new MidBot("WILLER", gameEngine));
-            gameEngine.addBotsToPlayerMap(bots);
-            gameEngine.startGame();
-            compteur++;
-        }
-        gameEngine.logGameStatistics();
+        statisticsLogger.logGameStatistics();
     }
 
     public void runDemo() throws WrongPlayerException, CsvValidationException, IOException {
-        GameEngine gameEngine = new GameEngine("Reich");
+        initialise();
+        logger.showInfoAndFineAndFiner();
         List<Bot> bots = Arrays.asList(new MidBot("YEETER", gameEngine), new MidBot("WILLER", gameEngine));
         gameEngine.addBotsToPlayerMap(bots);
-
-        // Initialize DetailedLogger for each bot
-        for (Bot bot : bots) {
-            GameView gameView = new GameView(gameEngine, bot);
-            bot.setGameView(gameView);
-        }
-
-        DetailedLogger detailedLogger = bots.get(0).logger; // Assuming all bots use the same logger configuration
-        LoggerControlCenter loggerControlCenter = new LoggerControlCenter(null, detailedLogger);
-        loggerControlCenter.showInfoAndFineAndFiner();
-
         gameEngine.startGame();
-        for (Bot bot : bots) {
-            bot.logger.logGameDetails();
-        }
     }
+
+    private void initialise() {
+        gameEngine = new GameEngine("Reich");
+        statisticsLogger = new GamesStatisticsLogger(gameEngine);
+        detailed = new LoggerDetailed(gameEngine);
+        logger = new LoggerControlCenter(statisticsLogger, detailed);
+        }
 }

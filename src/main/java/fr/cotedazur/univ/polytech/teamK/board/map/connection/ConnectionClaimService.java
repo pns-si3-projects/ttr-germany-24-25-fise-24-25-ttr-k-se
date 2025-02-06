@@ -2,7 +2,7 @@ package fr.cotedazur.univ.polytech.teamK.board.map.connection;
 
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameBoard;
 
 public class ConnectionClaimService {
     private ConnectionClaimService () {}
@@ -17,7 +17,7 @@ public class ConnectionClaimService {
      * @return true if the connection is successfully claimed, false otherwise
      * @throws IllegalArgumentException if the number of cards used is less than 0
      */
-    public static boolean claimAttempt(Connection connection, Integer numberOfCardsUsed, Player player, Board gameMap, int numberOfPlayers) {
+    public static boolean claimAttempt(Connection connection, Integer numberOfCardsUsed, Player player, GameBoard gameMap, int numberOfPlayers) {
         validateNumberOfCards(numberOfCardsUsed);
         if (!hasEnoughCards(numberOfCardsUsed, connection)) {
             return false;
@@ -80,7 +80,7 @@ public class ConnectionClaimService {
      * @param cityOne the first city
      * @param cityTwo the second city
      */
-    private static void markOtherConnectionsAsClaimed(Board gameMap, City cityOne, City cityTwo, Connection claimedConnection) {
+    private static void markOtherConnectionsAsClaimed(GameBoard gameMap, City cityOne, City cityTwo, Connection claimedConnection) {
         for (Connection conn : gameMap.getCitiesConnections(cityOne.getName())) {
             if (conn.getCityTwo().equals(cityTwo) && !conn.equals(claimedConnection)) {
                 conn.setFree(false);
