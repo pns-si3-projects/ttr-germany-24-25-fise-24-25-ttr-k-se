@@ -22,29 +22,25 @@ public class LoggerDetailed {
         logger.setUseParentHandlers(false);
     }
 
-    //Used by the GameEngine to log the game details
-    public void logGameDetails(){
-        logPlayerInfo();
-        logRound();
-    }
-
-    private void logPlayerInfo(){
+    public void logGameStart(){
+        logger.fine("All aboard the train !");
+        logger.fine("Number of Players "+ gameEngine.getPlayers().size());
         StringBuilder playerName = new StringBuilder();
         for (Player player : gameEngine.getPlayers().values()) {
             playerName.append(player.getName()).append(" - ");
         }
         logger.fine("Players Names: " + playerName);
-        logger.fine("Number of Players "+ gameEngine.getPlayers().size());
     }
 
-    private void logRound(){
+    public void logRound(){
         logger.fine("Round: " + gameEngine.getRound());
         for (Bot bot : gameEngine.getPlayers().keySet()) {
             logger.fine(bot.getName() +
                     "\nScore : " +bot.gameView.getMyScore() +
                     "\nConnections : " +bot.gameView.getMyConnections() +
                     "\nMeeples : " +bot.gameView.getMyMeeples() +
-                    "\nWagonCard : " +bot.gameView.getMyWagonCards());
+                    "\nWagonCard : " +bot.gameView.getMyWagonCards() +
+                    "\nDestinationCard : " + bot.gameView.getMyDestinationCards());
         }
 
     }
@@ -60,8 +56,9 @@ public class LoggerDetailed {
 
     //Called by Bot
     public void logDrawDestinationCard(Bot bot){
-        logger.finer(bot.getName() + " draws a destination card " + "( " + bot.gameView.getMyDestinationCards().getLast()+" )");
+        logger.finer(bot.getName() + " draws a long destination card " + "( " + bot.gameView.getMyDestinationCards().getLast()+" )");
     }
+
     public void logDrawWagonCard(Bot bot){
         logger.finer(bot.getName() + " draws a wagon card !" + "( " + bot.gameView.getMyWagonCards().getLast()+" )");
     }
@@ -69,4 +66,21 @@ public class LoggerDetailed {
     public void buyConnection(Bot bot){
         logger.finer(bot.getName() + " buys the connection " + bot.gameView.getMyConnections().getLast());
     }
+
+
+
+    //Used by the GameEngine to log the game details
+    public void logGameResults(){
+        logger.fine("Game Results: ");
+        logger.fine("The game lasted " + gameEngine.getRound() + " rounds.");
+        logger.fine("The finall scores are : ");
+        for(Player player: gameEngine.getPlayers().values()){
+            logger.fine(player.getName() + " : " + player.getScore());
+        }
+        logger.fine("The winner is : " + gameEngine.getHighestScoreAndWinner().getKey().getName());
+    }
+
+
+
+
 }
