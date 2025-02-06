@@ -192,22 +192,20 @@ public class GameEngine{
     /**
      * Adds a destination card to the specified bot's hand.
      *
-     * @param bot the bot adding the destination card
+     * @param bot             the bot adding the destination card
      * @param destinationCard the destination card to be added
-     * @return true if the destination card was successfully added, false otherwise
-     * @throws DeckEmptyException if the deck is empty
+     * @throws DeckEmptyException   if the deck is empty
      * @throws WrongPlayerException if the bot is not the current bot
      */
-    public boolean addDestinationCard(Bot bot, DestinationCard destinationCard) throws DeckEmptyException, WrongPlayerException {
+    public void addDestinationCard(Bot bot, DestinationCard destinationCard) throws DeckEmptyException, WrongPlayerException {
         try {
             if(confirmId(bot) && destinationCard != null) {
                 getPlayerByBot(bot).addCardDestination(destinationCard);
                 return true;
             }
-            return false;
         }
-        catch (NullPointerException e) {
-            return false;
+        catch (NullPointerException ignored) {
+            throw new NullPointerException("You can't add this card");
         }
     }
 
@@ -232,11 +230,12 @@ public class GameEngine{
      */
     public void startGame() throws WrongPlayerException, CsvValidationException, IOException {
         initializeBoard(mapName);
-
+        detailedLogger.logGameStart();
         totalGames++;
         while (lastPlayer==null) {
-            lastPlayer = playRound(lastPlayer);
+            lastPlayer = playRound(null);
             round ++;
+            detailedLogger.logRound();
         }
         lastRound(lastPlayer);
         scoreMeepleManager.calculateMeeplePoints();
@@ -325,7 +324,7 @@ public class GameEngine{
         else{
             detailedLogger.logGameEndWagonsCardsLeft(lastPlayer.getName(), lastPlayer.getWagonsRemaining());
         }
-        detailedLogger.logGameDetails();
+        detailedLogger.logGameResults();
     }
 
     public void resetTotalGames(){
