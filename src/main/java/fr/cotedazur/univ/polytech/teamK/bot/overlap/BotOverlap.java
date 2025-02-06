@@ -71,14 +71,21 @@ public class BotOverlap extends Bot {
                 }
                 //System.out.println(toPurchase.getColor());
             }
+
+            return success;
+        }
+        else
+        {
             if (this.gameView.getPlayerByBot(this).validDestinationCard(this.currentPath.getDestCardOfpath()))
             {
                 this.currentPath = nextDestinationToDo();
             }
-            return success;
         }
         return false;
     }
+
+
+
 
     public boolean drawWagonCard()
     {
