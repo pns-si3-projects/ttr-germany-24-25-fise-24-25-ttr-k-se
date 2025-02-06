@@ -58,7 +58,7 @@ public class StatsAnalyse {
                 writer.writeNext(record);
             }
         } catch (IOException e) {
-            e.printStackTrace();
+            System.err.println("Une erreur est survenue lors de l'exécution.");
         }
 
         reader.close();

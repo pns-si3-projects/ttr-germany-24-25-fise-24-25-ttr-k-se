@@ -98,7 +98,8 @@ class MidBotTest {
     }
 
     @Test
-    void testDraw () {
+    void testDraw () throws WrongPlayerException {
+        gameEngine.setCurrentBot(bot);
         List<DestinationCard> draw = bot.drawDestFromNumber(3);
         assertEquals(52, gameView.getShortDestination().getRemainingCards());
         assertEquals(33, gameView.getLongueDestination().getRemainingCards());
