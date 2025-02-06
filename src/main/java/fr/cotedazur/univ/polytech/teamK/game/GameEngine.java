@@ -89,6 +89,8 @@ public class GameEngine{
     protected Set<Bot> getAllBot () {return players.keySet();}
     protected Player getPlayerByBot (Bot bot) {return players.get(bot);}
 
+    public void setCurrentBot (Bot bot) {this.currentBot = bot;}
+
     /**
      * Adds a destination card to the deck.
      *
@@ -191,7 +193,7 @@ public class GameEngine{
     public boolean addDestinationCard(Bot bot, DestinationCard destinationCard) throws DeckEmptyException, WrongPlayerException {
         try {
             if(confirmId(bot) && destinationCard != null) {
-                getPlayerByBot(bot).addCardDestination(destinationCard);
+                return getPlayerByBot(bot).addCardDestination(destinationCard);
             }
             return false;
         }
@@ -223,6 +225,7 @@ public class GameEngine{
         initializeBoard(mapName);
 
         totalGames++;
+        System.out.println(totalGames);
         while (lastPlayer==null) {
             lastPlayer = playRound(lastPlayer);
             round ++;
@@ -243,7 +246,6 @@ public class GameEngine{
      */
     private Player playRound(Player lastPlayer) throws WrongPlayerException {
         int noMoreActionsCount = 0;
-
         for (Map.Entry<Bot, Player> entry : players.entrySet()) {
             currentBot = entry.getKey();
             Player currentPlayer = entry.getValue();

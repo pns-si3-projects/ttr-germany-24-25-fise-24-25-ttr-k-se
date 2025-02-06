@@ -240,7 +240,16 @@ public class Deck<T extends Card> {
         if (this.cards.isEmpty()) {
             throw new DeckEmptyException("There is no wagons or deck cards remaining");
         }
-        return cards.removeLast();
+        return this.cards.removeLast();
+    }
+
+    public void putAll (Deck<T> deck) {
+        this.cards.clear();
+        this.cards.addAll(deck.cards);
+        if(!(this.visibleCard == null)) {
+            this.visibleCard.clear();
+            this.visibleCard.addAll(deck.visibleCard);
+        }
     }
 
     /**

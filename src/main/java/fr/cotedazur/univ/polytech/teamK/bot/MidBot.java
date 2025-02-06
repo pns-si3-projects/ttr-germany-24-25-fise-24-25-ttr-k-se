@@ -39,7 +39,7 @@ public class MidBot extends Bot {
             gameView.getPlayerByBot(this).validDestinationCard(toAchieve);
             return true;
         }
-        if (drawWagonCard(path.getFirst().getColor())) {
+        if ( drawWagonCard(path.getFirst().getColor()) && drawWagonCard(path.getFirst().getColor()) ) {
             return true;
         }
         //else{
@@ -54,13 +54,14 @@ public class MidBot extends Bot {
             List<DestinationCard> draw = drawDestFromNumber(2);
             List<DestinationCard> selected = new ArrayList<>();
 
-                selected.add(draw.get(0).getValue() < draw.get(1).getValue() ? draw.get(1) : draw.get(0));
-                selected.add(draw.get(2).getValue() < draw.get(3).getValue() ? draw.get(3) : draw.get(2));
+                selected.add(draw.get(0).getValue() < draw.get(1).getValue() ? draw.remove(1) : draw.remove(0));
+                selected.add(draw.get(1).getValue() < draw.get(2).getValue() ? draw.remove(2) : draw.remove(1));
 
             for (DestinationCard card : selected) {
                 gameEngine.addDestinationCard(this,card);
             }
             displayDrawDestinationCardAction();
+            giveBackCard(draw);
             return true;
         } catch (DeckEmptyException e) {
             return false;
@@ -82,8 +83,6 @@ public class MidBot extends Bot {
             return true;
         } catch (DeckEmptyException e) {
             return false;
-        } catch (WrongPlayerException e) {
-            throw e;
         }
     }
 
