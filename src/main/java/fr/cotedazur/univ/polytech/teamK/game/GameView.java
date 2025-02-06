@@ -65,8 +65,8 @@ public class GameView{
     }
 
     public Player getPlayerByBot (Bot bot) {
-        Player res =new Player("");
-        res = gameEngine.getPlayerByBot(bot);
+        //Player res =new Player("");
+        Player res = gameEngine.getPlayerByBot(bot);
         return res;
     }
 

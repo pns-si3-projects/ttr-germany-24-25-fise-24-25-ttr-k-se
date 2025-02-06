@@ -126,7 +126,7 @@ public class DestinationCardDrawManager {
         }
     }
     public PathManager chooseOriginalDestCards() throws WrongPlayerException {
-        List<DestinationCard> destCardDrawn = owner.drawDestFromNumber(0);
+        List<DestinationCard> destCardDrawn = owner.drawDestFromNumber(4);
         List<DestDestValueTuple> tupleListCommonCities = new ArrayList<DestDestValueTuple>();
         List<DestDestValueTuple> tupleListSeperateCities = new ArrayList<DestDestValueTuple>();
         Integer n = destCardDrawn.size();
