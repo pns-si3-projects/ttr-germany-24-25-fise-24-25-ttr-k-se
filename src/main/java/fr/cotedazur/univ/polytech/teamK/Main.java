@@ -68,7 +68,7 @@ public class Main {
 
     public void runDemo() throws WrongPlayerException, CsvValidationException, IOException {
         initialise();
-        logger.showInfoAndFineAndFiner();
+        logger.showInfoAndFineToFinest();
         List<Bot> bots = Arrays.asList(new MidBot("STEVE", gameEngine), new MidBot("WILLER", gameEngine));
         gameEngine.addBotsToPlayerMap(bots);
         gameEngine.startGame();

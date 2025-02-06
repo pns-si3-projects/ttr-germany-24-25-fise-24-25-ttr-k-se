@@ -23,19 +23,19 @@ public class LoggerDetailed {
     }
 
     public void logGameStart(){
-        logger.fine("All aboard the train !");
-        logger.fine("Number of Players "+ gameEngine.getPlayers().size());
+        logger.finer("All aboard the train !");
+        logger.finer("Number of Players "+ gameEngine.getPlayers().size());
         StringBuilder playerName = new StringBuilder();
         for (Player player : gameEngine.getPlayers().values()) {
             playerName.append(player.getName()).append(" - ");
         }
-        logger.fine("Players Names: " + playerName);
+        logger.finer("Players Names: " + playerName);
     }
 
     public void logRound(){
-        logger.fine("Round: " + gameEngine.getRound());
+        logger.finer("Round: " + gameEngine.getRound());
         for (Bot bot : gameEngine.getPlayers().keySet()) {
-            logger.fine(bot.getName() +
+            logger.finer(bot.getName() +
                     "\nScore : " +bot.gameView.getMyScore() +
                     "\nConnections : " +bot.gameView.getMyConnections() +
                     "\nMeeples : " +bot.gameView.getMyMeeples() +
@@ -47,37 +47,37 @@ public class LoggerDetailed {
 
     //Called by GameEngine
     public void logFiveNoActionRounds(){
-        logger.fine("No actions have been done by the bots for the last 5 rounds. Bots can no longer buy connections with their wagons. Game Over.");
+        logger.finer("No actions have been done by the bots for the last 5 rounds. Bots can no longer buy connections with their wagons. Game Over.");
     }
 
     public void logGameEndWagonsCardsLeft(String lastPlayer, int wagonCards){
-        logger.fine("The game is over, " + lastPlayer +" has " + wagonCards +" wagons left.");
+        logger.finer("The game is over, " + lastPlayer +" has " + wagonCards +" wagons left.");
     }
 
     //Called by Bot
     public void logDrawDestinationCard(Bot bot){
-        logger.finer(bot.getName() + " draws a long destination card " + "( " + bot.gameView.getMyDestinationCards().getLast()+" )");
+        logger.fine(bot.getName() + " draws a long destination card " + "( " + bot.gameView.getMyDestinationCards().getLast()+" )");
     }
 
     public void logDrawWagonCard(Bot bot){
-        logger.finer(bot.getName() + " draws a wagon card !" + "( " + bot.gameView.getMyWagonCards().getLast()+" )");
+        logger.fine(bot.getName() + " draws a wagon card !" + "( " + bot.gameView.getMyWagonCards().getLast()+" )");
     }
 
     public void buyConnection(Bot bot){
-        logger.finer(bot.getName() + " buys the connection " + bot.gameView.getMyConnections().getLast());
+        logger.fine(bot.getName() + " buys the connection " + bot.gameView.getMyConnections().getLast());
     }
 
 
 
     //Used by the GameEngine to log the game details
     public void logGameResults(){
-        logger.fine("Game Results: ");
-        logger.fine("The game lasted " + gameEngine.getRound() + " rounds.");
-        logger.fine("The finall scores are : ");
+        logger.finest("Game Results: ");
+        logger.finest("The game lasted " + gameEngine.getRound() + " rounds.");
+        logger.finest("The finall scores are : ");
         for(Player player: gameEngine.getPlayers().values()){
-            logger.fine(player.getName() + " : " + player.getScore());
+            logger.finest(player.getName() + " : " + player.getScore());
         }
-        logger.fine("The winner is : " + gameEngine.getHighestScoreAndWinner().getKey().getName());
+        logger.finest("The winner is : " + gameEngine.getHighestScoreAndWinner().getKey().getName());
     }
 
 
