@@ -196,7 +196,7 @@ public class GameEngine{
      * @throws DeckEmptyException   if the deck is empty
      * @throws WrongPlayerException if the bot is not the current bot
      */
-    public void addDestinationCard(Bot bot, DestinationCard destinationCard) throws DeckEmptyException, WrongPlayerException {
+    public boolean addDestinationCard(Bot bot, DestinationCard destinationCard) throws DeckEmptyException, WrongPlayerException {
         try {
             if(confirmId(bot) && destinationCard != null) {
                 getPlayerByBot(bot).addCardDestination(destinationCard);
@@ -205,6 +205,7 @@ public class GameEngine{
         catch (NullPointerException ignored) {
             throw new NullPointerException("You can't add this card");
         }
+        return false;
     }
 
     /**
@@ -319,7 +320,7 @@ public class GameEngine{
 
     public void displayEndGameMessage(){
         if(numberOfRoundsWithoutActions==NUMBER_OF_ROUNDS_WITHOUT_ACTIONS+1) {
-            detailedLogger.logNoMoreWagons();}
+            detailedLogger.logFiveNoActionRounds();}
         else{
             detailedLogger.logGameEndWagonsCardsLeft(lastPlayer.getName(), lastPlayer.getWagonsRemaining());
         }

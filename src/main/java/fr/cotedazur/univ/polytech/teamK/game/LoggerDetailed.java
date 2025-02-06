@@ -46,8 +46,8 @@ public class LoggerDetailed {
     }
 
     //Called by GameEngine
-    public void logNoMoreWagons(){
-        logger.fine("The game is over, the bots have ran out of wagon cards.");
+    public void logFiveNoActionRounds(){
+        logger.fine("No actions have been done by the bots for the last 5 rounds. Bots can no longer buy connections with their wagons. Game Over.");
     }
 
     public void logGameEndWagonsCardsLeft(String lastPlayer, int wagonCards){
