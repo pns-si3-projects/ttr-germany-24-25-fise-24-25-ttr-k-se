@@ -39,7 +39,7 @@ public class MainTest {
     }
 
     @Test
-    public void testRun2Thousands() throws CsvValidationException, IOException, WrongPlayerException, WrongPlayerException {
+    public void testRun2Thousands() throws CsvValidationException, IOException, WrongPlayerException {
         main.thousands = true;
         main.run();
         verify(main, times(2)).runThousand(mockGameEngine);
