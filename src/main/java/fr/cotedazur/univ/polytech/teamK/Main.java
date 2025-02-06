@@ -5,8 +5,6 @@ import com.beust.jcommander.Parameter;
 import com.opencsv.exceptions.CsvValidationException;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 import fr.cotedazur.univ.polytech.teamK.bot.MidBot;
-
-import fr.cotedazur.univ.polytech.teamK.bot.Steve;
 import fr.cotedazur.univ.polytech.teamK.game.*;
 
 
@@ -70,7 +68,7 @@ public class Main {
     public void runDemo() throws WrongPlayerException, CsvValidationException, IOException {
         initialise();
         logger.showInfoAndFineAndFiner();
-        List<Bot> bots = Arrays.asList(new Steve("STEVE", gameEngine), new MidBot("WILLER", gameEngine));
+        List<Bot> bots = Arrays.asList(new MidBot("STEVE", gameEngine), new MidBot("WILLER", gameEngine));
         gameEngine.addBotsToPlayerMap(bots);
         gameEngine.startGame();
     }

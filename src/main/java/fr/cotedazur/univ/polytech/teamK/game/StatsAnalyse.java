@@ -35,30 +35,32 @@ public class StatsAnalyse {
         while ((nextLine = reader.readNext()) != null) {
             file.add(nextLine);
         }
+        try (CSVWriter writer = new CSVWriter(new FileWriter("stats/gameStats.csv", false))) {
+            String[] record = "BOT_NAME, NUMBER_GAME, NUMBER_WIN, RATIO, TOTAL_SCORE".split(",");
+            writer.writeNext(record, false);
 
-        CSVWriter writer = new CSVWriter(new FileWriter("stats/gameStats.csv",false));
-        String[] record = "BOT_NAME, NUMBER_GAME, NUMBER_WIN, RATIO, TOTAL_SCORE".split(",");
-        writer.writeNext(record, false);
-
-        for(String [] line : file) {
-            if(allBot.contains(line[0])) {
-                line[1] = "" + (parseInt(line[1]) + 1);
-                if(Objects.equals(line[0], nameWinner)) line[2] = "" + (parseInt(line[2]) + 1);
-                line[3] = "" + ((float) (parseInt(line[2]) / (float) parseInt(line[1])) * 100) ;
-                line[4] = "" + (scoreManager.getPlayerScore(line[0]) + parseInt(line[4]) );
-                allBot.remove(line[0]);
-                writer.writeNext(line);
+            for(String [] line : file) {
+                if(allBot.contains(line[0])) {
+                    line[1] = "" + (parseInt(line[1]) + 1);
+                    if(Objects.equals(line[0], nameWinner)) line[2] = "" + (parseInt(line[2]) + 1);
+                    line[3] = "" + ((float) (parseInt(line[2]) / (float) parseInt(line[1])) * 100) ;
+                    line[4] = "" + (scoreManager.getPlayerScore(line[0]) + parseInt(line[4]) );
+                    allBot.remove(line[0]);
+                    writer.writeNext(line);
+                }
             }
+            for (String bot : allBot) {
+                String info = bot + ",1,";
+                if (Objects.equals(bot, nameWinner)) info += "1,100,";
+                else info += "0,0,";
+                info += "" + scoreManager.getPlayerScore(bot);
+                record = info.split(",");
+                writer.writeNext(record);
+            }
+        } catch (IOException e) {
+            e.printStackTrace();
         }
-        for (String bot : allBot) {
-            String info = bot + ",1,";
-            if (Objects.equals(bot, nameWinner)) info += "1,100,";
-            else info += "0,0,";
-            info += "" + scoreManager.getPlayerScore(bot);
-            record = info.split(",");
-            writer.writeNext(record);
-        }
+
         reader.close();
-        writer.close();
     }
 }
