@@ -93,6 +93,10 @@ public class Djikstra {
                 }
             }
         }
+        if (lenght == 0)
+        {
+            return null;
+        }
 
         return res;
     }

@@ -69,6 +69,13 @@ public class Main {
             gameEngine.startGame();
             compteur++;
         }
+        while(compteur < 2000){
+            List<Bot> bots = Arrays.asList(new BotOverlap("Bot1", gameEngine), new BotOverlap("Bot2", gameEngine));
+            gameEngine.addBotsToPlayerMap(bots);
+            gameEngine.startGame();
+            compteur++;
+        }
+
         statisticsLogger.logGameStatistics();
     }
 

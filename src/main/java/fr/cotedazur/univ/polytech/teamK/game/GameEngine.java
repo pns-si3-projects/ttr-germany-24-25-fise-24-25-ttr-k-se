@@ -233,6 +233,7 @@ public class GameEngine{
      * @throws WrongPlayerException if the bot is not the current bot
      */
     public void startGame() throws WrongPlayerException, CsvValidationException, IOException {
+        this.round = 0;
         StatsAnalyse statsAnalyse;
         initializeBoard(mapName);
         detailedLogger.logGameStart();

@@ -73,7 +73,7 @@ public class BotOverlap extends Bot {
             return success;
         }
         else {
-            while (this.currentPath == null || this.gameView.getPlayerByBot(this).validDestinationCardOverlap(this.currentPath.getDestCardOfpath(), gameView.getGameMap()))
+            while (this.currentPath == null || this.currentPath.getConnectionsForCurrentDestCard().size() == 0 || this.gameView.getPlayerByBot(this).validDestinationCardOverlap(this.currentPath.getDestCardOfpath(), gameView.getGameMap()))
             {
                 this.currentPath = nextDestinationToDo();
                 if (this.currentPath == null)
@@ -101,7 +101,7 @@ public class BotOverlap extends Bot {
         try
         {
             this.currentPath = this.destinationCardDrawManager.drawDestinationsFromNumber(2);
-            return true;
+            return this.currentPath != null;
         }
         catch (WrongPlayerException e)
         {
