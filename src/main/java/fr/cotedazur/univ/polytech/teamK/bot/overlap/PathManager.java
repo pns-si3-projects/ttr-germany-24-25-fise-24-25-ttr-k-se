@@ -19,6 +19,12 @@ public class PathManager{
     private HashMap<Colors, List<Integer>> costPerColorPerConnection = null;
     private GameView gameView;
 
+    /**
+     * Manages the paths for the bot's destination card and helps determine the best connections to purchase,
+     * draw wagon cards for, or compute the total cost remaining for a particular path.
+     * This class utilizes a Dijkstra algorithm to find the shortest path between the cities
+     * specified in the bot's destination card.
+     */
     public PathManager(DestinationCard destCard, Bot owner, GameView gameView) {
         this.destCardOfpath = destCard;
         this.owner = owner;
@@ -33,6 +39,10 @@ public class PathManager{
         return destCardOfpath;
     }
 
+    /**
+     * Resets the path by running the Dijkstra algorithm to find the shortest path
+     * between the start and end cities of the current destination card.
+     */
     private void resetpath() {
         this.connectionsForCurrentDestCard = Djikstra.djikstra(destCardOfpath.getEndCity(), destCardOfpath.getStartCity(),owner,false);
         if (connectionsForCurrentDestCard.size() == 0) {
@@ -42,6 +52,13 @@ public class PathManager{
             this.costPerColorPerConnection = generateValuesFromPath();
         }
     }
+
+    /**
+     * Generates a map of colors to a list of integers representing the length of connections
+     * for each color, sorted in ascending order.
+     *
+     * @return A map of colors to lists of integers representing the connection lengths.
+     */
     private HashMap<Colors, List<Integer>> generateValuesFromPath() {
         //the goal is to generate a hashmap of <Color: ArrayList<Integer>> so that I know, per color, hdrawWagonCardow many i need (seperated by connection
         //ie if i have two rails in the path of color blue, of length 3 and 5 resp, then <Blue: [3,5]> is the entry: 3 and 5 are sorted asc.
@@ -72,6 +89,11 @@ public class PathManager{
         }
         return true;
     }
+    /**
+     * Finds the maximum number of cards of a single color owned by the bot.
+     *
+     * @return The maximum number of cards of a single color that the bot owns.
+     */
     private Integer findMaximumSingleColorOwned() {
         HashMap<Colors, Integer> amountOwnedPerColor = cardsOwnedPerColor();
         Integer maximalSingleColor = Collections.max(amountOwnedPerColor.values());
@@ -94,8 +116,11 @@ public class PathManager{
         }
         return cardsOwnedPerColor;
     }
-
-
+    /**
+     * Determines which connection the bot can afford to purchase based on the path and its owned cards.
+     *
+     * @return The connection the bot can purchase, or null if no connection can be purchased.
+     */
     public Connection connectionToPurchase() {
         if (!pathStillFree()) {
             resetpath();
@@ -124,7 +149,11 @@ public class PathManager{
             }
             return null;
     }
-
+    /**
+     * Determines which colors the bot should draw to fulfill the connection requirements.
+     *
+     * @return A list of colors that the bot needs to draw cards for to fulfill the path requirements.
+     */
     public List<Colors> colorsToDraw() {
         if (!pathStillFree()) {
             resetpath();
@@ -168,6 +197,11 @@ public class PathManager{
         }
     }
 
+    /**
+     * Calculates the total remaining cost of the path for the destination card.
+     *
+     * @return The total cost remaining for the path, or null if the path is not doable.
+     */
     public Integer findTotalCostRemaining() {
         if (!pathStillFree()) {
             resetpath();

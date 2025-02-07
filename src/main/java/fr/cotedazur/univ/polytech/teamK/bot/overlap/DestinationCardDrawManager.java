@@ -10,6 +10,10 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+/**
+ * Manages the process of drawing and selecting destination cards for the bot.
+ * It evaluates which destination cards to keep based on their value and feasibility.
+ */
 public class DestinationCardDrawManager {
     private Bot owner;
     private GameView gameView;
@@ -20,7 +24,10 @@ public class DestinationCardDrawManager {
 
 
 
-
+    /**
+     * Represents a tuple of two destination cards and their combined value.
+     * Used to determine the best destination cards to keep.
+     */
     private class DestDestValueTuple
     {
         DestinationCard dest1;
@@ -42,13 +49,24 @@ public class DestinationCardDrawManager {
             return combinedValue;
         }
 
-
+        /**
+         * Compares two tuples and returns the one with the higher combined value.
+         *
+         * @param other The other tuple to compare against.
+         * @return The tuple with the higher combined value.
+         */
         public DestDestValueTuple compareTo(DestDestValueTuple other) {
             if (other.getCombinedValue() > this.getCombinedValue()) {
                 return other;
             }
             return this;
         }
+        /**
+         * Finds the maximum tuple from a list.
+         *
+         * @param others The list of tuples to compare against.
+         * @return The tuple with the highest combined value.
+         */
         public DestDestValueTuple findMax(List<DestDestValueTuple> others) {
             DestDestValueTuple max = this;
             for (DestDestValueTuple other : others) {
@@ -56,6 +74,11 @@ public class DestinationCardDrawManager {
             }
             return max;
         }
+        /**
+         * Checks if the two destination cards in this tuple share any common cities.
+         *
+         * @return True if the cards share a city, false otherwise.
+         */
         public boolean citiesInCommon()
         {
             List<City> dest1Cities = new ArrayList<>(Arrays.asList(dest1.getStartCity(), dest1.getEndCity()));
@@ -69,6 +92,13 @@ public class DestinationCardDrawManager {
             return false;
         }
     }
+    /**
+     * Chooses a single destination card to keep and returns the others.
+     *
+     * @param destKeep   The destination card to keep.
+     * @param totalDrawn The list of drawn destination cards.
+     * @throws WrongPlayerException If an action is performed by the wrong player.
+     */
     private void chooseSingleDestCard(DestinationCard destKeep, List<DestinationCard> totalDrawn) throws WrongPlayerException {
         for (DestinationCard destCard : totalDrawn) {
             if (destCard.equals(destKeep)) {
@@ -80,6 +110,13 @@ public class DestinationCardDrawManager {
             }
         }
     }
+    /**
+     * Draws destination cards and selects the best one to keep based on cost and feasibility.
+     *
+     * @param numberOfShortDests The number of destination cards to draw.
+     * @return The selected PathManager for the best destination card.
+     * @throws WrongPlayerException If an action is performed by the wrong player.
+     */
     public PathManager drawDestinationsFromNumber(Integer numberOfShortDests) throws WrongPlayerException {
         List<DestinationCard> destCardsDrawn = owner.drawDestFromNumber(numberOfShortDests);
         if (destCardsDrawn.isEmpty()) {
@@ -126,6 +163,12 @@ public class DestinationCardDrawManager {
             owner.giveBackCard(destCard);
         }
     }
+    /**
+     * Draws and selects the original set of destination cards at the start of the game.
+     *
+     * @return The PathManager for the best starting destination card.
+     * @throws WrongPlayerException If an action is performed by the wrong player.
+     */
     public PathManager chooseOriginalDestCards() throws WrongPlayerException {
         List<DestinationCard> destCardDrawn = owner.drawDestFromNumber(0);
         List<DestDestValueTuple> tupleListCommonCities = new ArrayList<DestDestValueTuple>();

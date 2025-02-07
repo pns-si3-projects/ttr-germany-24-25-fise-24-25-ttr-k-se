@@ -11,6 +11,10 @@ import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
 import java.util.*;
 
+/**
+ * The BotOverlap class represents a bot player in the game.
+ * This bot implements decision-making logic for selecting destinations, drawing cards and purchase connections.
+ */
 public class BotOverlap extends Bot {
     //protected GeneralUtils.PathValues currentPathAndDest = null;
     private PathManager currentPath;
@@ -22,7 +26,10 @@ public class BotOverlap extends Bot {
 
     }
 
-
+    /**
+     * Initializes additional components of the bot, such as path selection and card management.
+     * @throws WrongPlayerException if the player is not valid
+     */
     private void createRestOfBot() throws WrongPlayerException {
         this.meepleSelector = new MeepleSelectorManager(this, gameView);
         this.wagonDrawManager = new WagonDrawManager(gameView, this);
@@ -31,6 +38,12 @@ public class BotOverlap extends Bot {
 
     }
 
+    /**
+     * determines the next destination to pursue based on the shortest path cost.
+     *
+     * @return the best destination path to follow, or null if no path is available.
+     * @throws WrongPlayerException
+     */
     public PathManager nextDestinationToDo() throws WrongPlayerException {
         List<DestinationCard> allDestCardOwned = gameView.getMyDestinationCards();
         Integer cheapestPathCost = Integer.MAX_VALUE;
@@ -52,6 +65,11 @@ public class BotOverlap extends Bot {
         return bestDestinationCardWithpath;
     }
 
+    /**
+     * Attempts to perchase a rail connection if possible
+     * @return true if a connection was sucessfully purchased otherwise false.
+     * @throws WrongPlayerException
+     */
     public boolean buyRail() throws WrongPlayerException {
         if (this.currentPath == null) {
             return false;

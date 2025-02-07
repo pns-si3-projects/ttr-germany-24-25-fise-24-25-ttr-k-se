@@ -14,6 +14,11 @@ public class LoggerColoredFormatter extends Formatter {
     public static final String CYAN = "\u001B[36m";
     public static final String WHITE = "\u001B[37m";
 
+    /**
+     * A custom log formatter that adds ANSI color codes to log messages
+     * based on what we want to be displayed in the console.
+     * @param record the log record to be formatted.
+     */
     @Override
     public String format(LogRecord record) {
         String color;

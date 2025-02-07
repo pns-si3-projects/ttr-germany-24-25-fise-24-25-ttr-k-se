@@ -16,12 +16,24 @@ public class StatsAnalyse {
     private ScoreGeneralManager scoreManager;
     private ArrayList<String> allBot ;
 
+    /**
+     * The {@code StatsAnalyse} class is responsible for analyzing game statistics.
+     * It updates a CSV file containing statistics about bot performances,
+     * including the number of games played, number of wins, win ratio, and total score.
+     */
     public StatsAnalyse (GameEngine gameEngine, GameView gameView) {
         this.scoreManager = gameEngine.getScoreManager();
         this.allBot = gameView.getAllBotName();
     }
 
-
+    /**
+     * Reads and updates the statistics file "stats/gameStats.csv".
+     * The method updates the number of games played, number of wins, win ratio, and total score
+     * for each bot based on the latest game results.
+     *
+     * @throws CsvValidationException If an error occurs while reading the CSV file.
+     * @throws IOException            If an I/O error occurs while accessing the CSV file.
+     */
     public void analyse() throws CsvValidationException, IOException {
         CSVReader reader = new CSVReader(new FileReader("stats/gameStats.csv"));
 
