@@ -1,14 +1,21 @@
 package fr.cotedazur.univ.polytech.teamK.game;
 
+import com.opencsv.exceptions.CsvValidationException;
+import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
-import fr.cotedazur.univ.polytech.teamK.bot.MidBot;
 import org.junit.jupiter.api.BeforeEach;
+import org.junit.jupiter.api.Test;
+import org.mockito.ArgumentCaptor;
+import org.mockito.Mockito;
 
-import java.util.ArrayList;
+import java.io.IOException;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
+import java.util.logging.Handler;
+import java.util.logging.Level;
+import java.util.logging.LogRecord;
+import java.util.logging.Logger;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.Mockito.*;
@@ -16,42 +23,44 @@ import static org.mockito.Mockito.*;
 class LoggerDetailedTest {
     private LoggerDetailed loggerDetailed;
     private GameEngine gameEngine;
-    private MidBot bot;
+    private Bot bot;
     private Player player;
+    private Logger logger;
+    private Handler handler;
 
     @BeforeEach
     void setUp() {
-        gameEngine = spy(new GameEngine("Reich"));
+        gameEngine = mock(GameEngine.class);
         loggerDetailed = new LoggerDetailed(gameEngine);
 
-        bot = spy (new MidBot("name", gameEngine));
-        List<Bot> bots = new ArrayList<>();
-        bots.add(bot);
-        gameEngine.addBotsToPlayerMap(bots);
-        player = spy(gameEngine.getPlayerByBot(bot));
+        bot = mock(Bot.class);
+        player = mock(Player.class);
 
         Map<Bot, Player> players = new HashMap<>();
         players.put(bot, player);
-        doReturn(players).when(gameEngine).getPlayers();
-        doReturn(5).when(gameEngine).getRound();
-        doReturn("TestPlayer").when(player).getName();
-        doReturn(100).when(player).getScore();
-        doReturn("TestBot").when(bot).getName();
-    }
-/*
-    @Test
-    void testLogGameStart() {
-        loggerDetailed.logGameStart();
-        verify(gameEngine, times(1)).getPlayers();
-        verify(player, times(1)).getName();
+        when(gameEngine.getPlayers()).thenReturn((HashMap<Bot, Player>) players);
+        when(player.getName()).thenReturn("TestPlayer");
+        when(bot.getName()).thenReturn("TestBot");
+
+        // Capture log messages
+        logger = Logger.getLogger(LoggerDetailed.class.getName());
+        logger.setLevel(Level.FINER);
+        handler = mock(Handler.class);
+        logger.addHandler(handler);
     }
 
     @Test
-    void testLogRound() {
-        loggerDetailed.logRound();
-        verify(gameEngine, times(1)).getRound();
-        verify(gameEngine, times(1)).getPlayers();
-        verify(bot, times(1)).getName();
+    void testLogGameStart() {
+        loggerDetailed.logGameStart();
+
+        ArgumentCaptor<LogRecord> captor = ArgumentCaptor.forClass(LogRecord.class);
+        verify(handler, atLeastOnce()).publish(captor.capture());
+
+        boolean messageLogged = captor.getAllValues().stream()
+                .map(LogRecord::getMessage)
+                .anyMatch(msg -> msg.contains("All aboard the train") || msg.contains("Number of Players") || msg.contains("Players Names"));
+
+        assertTrue(messageLogged, "logGameStart should log game start messages");
     }
 
     @Test
@@ -63,37 +72,4 @@ class LoggerDetailedTest {
     void testLogGameEndWagonsCardsLeft() {
         loggerDetailed.logGameEndWagonsCardsLeft("TestPlayer", 3);
     }
-
-    @Test
-    void testLogDrawDestinationCard() {
-        loggerDetailed.logDrawDestinationCard(bot);
-        verify(bot, times(1)).getName();
-    }
-
-    @Test
-    void testLogDrawWagonCard() throws WrongPlayerException {
-        bot.drawWagonCard(Colors.BLUE);
-        loggerDetailed.logDrawWagonCard(bot);
-        verify(bot, times(1)).getName();
-    }
-
-    @Test
-    void testBuyConnection() {
-        City cityOne = bot.gameView.getGameMap().getCity("Kiel");
-        Connection connection1 = bot.gameView.getGameMap().getNeighbourConnection(cityOne, bot.gameView.getGameMap().getCity("Hamburg"));
-        player.addCardWagon(new WagonCard(Colors.BLACK));
-        player.addCardWagon(new WagonCard(Colors.BLACK));
-        assertTrue(player.buyRail(connection1,bot.gameView.getGameMap(),5));
-        loggerDetailed.buyConnection(bot);
-        verify(bot, times(2)).getName();
-    }
-
-    @Test
-    void testLogGameResults() {
-        loggerDetailed.logGameResults();
-        verify(gameEngine, times(1)).getRound();
-        verify(gameEngine, times(1)).getPlayers();
-        verify(player, times(1)).getScore();
-        verify(gameEngine, times(1)).getHighestScoreAndWinner();
-    }*/
 }

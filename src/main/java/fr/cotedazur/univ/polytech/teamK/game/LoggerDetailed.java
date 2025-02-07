@@ -2,7 +2,6 @@ package fr.cotedazur.univ.polytech.teamK.game;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 
-import java.util.List;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 
@@ -46,7 +45,9 @@ public class LoggerDetailed {
 
     }
 
-
+    public void logNoMoreWagon(String playerName){
+        logger.fine(playerName + " has no more wagon");
+    }
     //Called by GameEngine
     public void logFiveNoActionRounds(){
         logger.finer("No actions have been done by the bots for the last 5 rounds. Bots can no longer buy connections with their wagons. Game Over.");
@@ -65,7 +66,7 @@ public class LoggerDetailed {
         logger.finer(bot.getName() + " draws a wagon card !" + "( " + bot.gameView.getMyWagonCards().getLast()+" )");
     }
 
-    public void buyConnection(Bot bot){
+    public void logBuyConnection(Bot bot){
         logger.finer(bot.getName() + " buys the connection " + bot.gameView.getMyConnections().getLast());
     }
 
