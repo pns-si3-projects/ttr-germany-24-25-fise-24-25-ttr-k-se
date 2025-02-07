@@ -9,7 +9,7 @@ public class Connection {
     private City cityOne;
     private City cityTwo;
     private Integer length;
-    private Colors color;
+    private final Colors color;
     
     private Player owner;
     private boolean isFree;

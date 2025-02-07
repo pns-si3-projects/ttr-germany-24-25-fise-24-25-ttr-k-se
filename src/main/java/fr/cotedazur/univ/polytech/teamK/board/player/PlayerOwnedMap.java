@@ -7,6 +7,9 @@ import fr.cotedazur.univ.polytech.teamK.game.GameBoard;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * first idea to find if two cities are connected
+ */
 public class PlayerOwnedMap {
 
     private Map<String, Map<String, Integer>> virtualConnectionsCreated;

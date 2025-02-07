@@ -15,8 +15,8 @@ import java.util.List;
  * It evaluates which destination cards to keep based on their value and feasibility.
  */
 public class DestinationCardDrawManager {
-    private Bot owner;
-    private GameView gameView;
+    private final Bot owner;
+    private final GameView gameView;
     public DestinationCardDrawManager(Bot owner, GameView gameView) {
         this.owner = owner;
         this.gameView = gameView;

@@ -2,14 +2,12 @@ package fr.cotedazur.univ.polytech.teamK.bot;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.*;
-import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 import fr.cotedazur.univ.polytech.teamK.game.LoggerDetailed;
 
-import java.util.HashMap;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -95,29 +93,6 @@ public abstract class Bot{
                 }
             }
         }
-
-        /*
-        try {
-            for (int i = 0; i < 4; i++) {
-                if (i < number_short) {
-                    toAddCard = gameEngine.drawShortDestination(this);
-                    if (toAddCard != null)
-                        destCardDrawn.add(toAddCard);
-                    else
-                        destCardDrawn.add(gameEngine.drawLongueDestination(this));
-                } else {
-                    toAddCard = gameEngine.drawLongueDestination(this);
-                    if (toAddCard != null)
-                        destCardDrawn.add(toAddCard);
-                    else
-                        destCardDrawn.add(gameEngine.drawShortDestination(this));
-                }
-            }
-        }
-        catch (DeckEmptyException e)
-        {
-            return destCardDrawn;
-        }*/
         return destCardDrawn;
     }
 
@@ -159,7 +134,7 @@ public abstract class Bot{
         logger.logDrawDestinationCard(this);
     }
     /**
-     * The bot will choose the wagon card he want in the deck
+     * The bot will choose the wagon card he wants in the deck
      * @return true if the draw succeed
      * @throws DeckEmptyException if the wagon deck is empty
      */

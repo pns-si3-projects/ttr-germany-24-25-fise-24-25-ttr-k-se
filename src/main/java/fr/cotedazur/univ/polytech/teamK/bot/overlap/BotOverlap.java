@@ -42,12 +42,12 @@ public class BotOverlap extends Bot {
      * determines the next destination to pursue based on the shortest path cost.
      *
      * @return the best destination path to follow, or null if no path is available.
-     * @throws WrongPlayerException
+     * @throws WrongPlayerException if it's not your turn
      */
     public PathManager nextDestinationToDo() throws WrongPlayerException {
         List<DestinationCard> allDestCardOwned = gameView.getMyDestinationCards();
-        Integer cheapestPathCost = Integer.MAX_VALUE;
-        PathManager bestDestinationCardWithpath = null;
+        int cheapestPathCost = Integer.MAX_VALUE;
+        PathManager bestDestinationCardWithPath = null;
         for (DestinationCard destCard : allDestCardOwned)
         {
             if (!gameEngine.valideDestination(destCard, this))
@@ -57,18 +57,18 @@ public class BotOverlap extends Bot {
                 //length null indicated an impossible dest card
                 if (length != null && length < cheapestPathCost)
                 {
-                    bestDestinationCardWithpath = currentDestPath;
+                    bestDestinationCardWithPath = currentDestPath;
                     cheapestPathCost = length;
                 }
             }
         }
-        return bestDestinationCardWithpath;
+        return bestDestinationCardWithPath;
     }
 
     /**
-     * Attempts to perchase a rail connection if possible
-     * @return true if a connection was sucessfully purchased otherwise false.
-     * @throws WrongPlayerException
+     * Attempts to purchase a rail connection if possible
+     * @return true if a connection was successfully purchased otherwise false.
+     * @throws WrongPlayerException if it's not the player turn
      */
     public boolean buyRail() throws WrongPlayerException {
         if (this.currentPath == null) {
@@ -77,16 +77,7 @@ public class BotOverlap extends Bot {
         //this gives me a connection I can buy, ie I have enough wagons
         Connection toPurchase = currentPath.connectionToPurchase();
         if (toPurchase != null) {
-            boolean success = gameEngine.buyRail(this, toPurchase);
-            if (!success) {
-                //System.out.println("Failed to buy the rail, error in verificaiton problably");
-                if (!toPurchase.getColor().equals(Colors.GRAY)) {
-                   //System.out.println("Failed to buy the rail, error in verificaiton problably, the color is" + toPurchase.getColor());
-                }
-                //System.out.println(toPurchase.getColor());
-            }
-
-            return success;
+            return gameEngine.buyRail(this, toPurchase);
         }
         else {
             while (this.currentPath == null || this.currentPath.getConnectionsForCurrentDestCard().size() == 0 || this.gameEngine.valideDestination(this.currentPath.getDestCardOfpath(), this))
@@ -114,24 +105,13 @@ public class BotOverlap extends Bot {
     }
 
     public boolean drawDestinationCard() throws WrongPlayerException {
-        try
-        {
-            this.currentPath = this.destinationCardDrawManager.drawDestinationsFromNumber(2);
-            return this.currentPath != null;
-        }
-        catch (WrongPlayerException e)
-        {
-            String noMoreDestination = "damn tourism realllllly took off eh mate";
-        }
-        return false;
+        this.currentPath = this.destinationCardDrawManager.drawDestinationsFromNumber(2);
+        return this.currentPath != null;
     }
 
 
     public boolean playTurn() throws WrongPlayerException {
         displayPlayTurn();
-        if (gameView.getMyWagonCards().size() > 50) {
-            String steve = "steve";
-        }
         //first turn, you need to draw at first
         if (gameView.getRound() == 0)
         {

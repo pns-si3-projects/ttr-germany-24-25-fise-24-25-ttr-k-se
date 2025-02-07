@@ -16,12 +16,12 @@ public class Player {
     private int score;
     private Meeple meeples;
     private int wagonsRemaining;
-    private final PlayerOwnedMap playerMap;
+    private final PlayerOwnedMap playerMap; //first idea to find if two cities are connected
 
     private final ArrayList<Connection> connections;
     private ArrayList<WagonCard> wagonCards;
     private ArrayList<DestinationCard> destinationCards;
-    private ArrayList<DestinationCard> achieveDestination;
+    private final ArrayList<DestinationCard> achieveDestination;
 
     public Player(String name) {
         this.id = count++;
@@ -43,7 +43,7 @@ public class Player {
         this.destinationCards = destinationCards;
     }
 
-    // Getteur and Setteur
+    // Getter and Setter
     public int getId() {return id;}
     public String getName() {return name;}
     public void setName(String name) {this.name = name;}
@@ -56,12 +56,9 @@ public class Player {
     public ArrayList<DestinationCard> getAchieveDestination () {return achieveDestination;}
     public Meeple getMeeples() {return meeples;}
     public void setMeeples(Meeple meeples) {this.meeples = meeples;}
-    public int getNumberOfMeeples() {return meeples.getNumber();}
     public ArrayList<Connection> getConnections() {
         return connections;
     }
-    public PlayerOwnedMap getPlayerMap() {return playerMap;}
-
     public static void resetIdCounter() {
         count = 1;
     }
@@ -76,9 +73,6 @@ public class Player {
     public void removeDestinationCard(DestinationCard destinationCard) {
         getCartesDestination().remove(destinationCard);
     }
-    public void removeWagonCard(WagonCard wagonCard) {
-        getCartesWagon().remove(wagonCard);
-    }
 
     /**
      * Add a WagonCard to the player's hand
@@ -87,16 +81,6 @@ public class Player {
      */
     public void addCardWagon(WagonCard carte) {
         this.wagonCards.add(carte);
-    }
-
-    /**
-     * Determined if two cities are connected
-     * @param cityOne the first city
-     * @param cityTwo the second city
-     * @return true if the cities are connected, false otherwise
-     */
-    public boolean isNeighbour (City cityOne, City cityTwo) {
-        return playerMap.isNeighbour(cityOne.getName(),cityTwo.getName());
     }
 
     /**
@@ -171,9 +155,7 @@ public class Player {
      * @param card the card to check
      * @return true if the card was removed, false otherwise
      */
-    public boolean validDestinationCardBIS(DestinationCard card) {
-        String cityOne = card.getEndCity().getName();
-        String cityTwo = card.getStartCity().getName();
+    public boolean validDestinationCard(DestinationCard card) {
         if (destinationCards.contains(card)) {
             this.score += card.getValue();
             this.destinationCards.remove(card);

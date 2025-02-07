@@ -19,7 +19,7 @@ public class ConnectionUtils {
             case 6 -> 15;
             case 7 -> 18;
             case 8 -> 21;
-            default -> throw new IllegalArgumentException("Invalid route lenght: " + length);
+            default -> throw new IllegalArgumentException("Invalid route length: " + length);
         };
     }
 }

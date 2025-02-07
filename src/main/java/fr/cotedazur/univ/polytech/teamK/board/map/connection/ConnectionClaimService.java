@@ -46,7 +46,7 @@ public class ConnectionClaimService {
     }
 
     /**
-     * check if a number of cards is enoough to buy a connection
+     * check if a number of cards is enough to buy a connection
      * @param numberOfCardsUsed the number we have
      * @param connection the connection we want to check
      * @return true if the number is enough, false otherwise

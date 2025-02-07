@@ -13,10 +13,10 @@ import java.util.*;
 
 public class City {
     private String name;
-    private Meeple meeples;
+    private final Meeple meeples;
     private List<Connection> connectionList;
     private List<Player> playersThatPickedUpMeeples;
-    private boolean isCountry;
+    private final boolean isCountry;
 
 
     public City(String name, int numberOfMeeples) {

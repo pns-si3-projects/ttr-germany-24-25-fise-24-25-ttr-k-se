@@ -14,7 +14,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 public class GameEngine{
 
@@ -361,7 +360,7 @@ public class GameEngine{
             City cityOne = card.getStartCity();
             City cityTwo = card.getEndCity();
             if(Djikstra.djikstra(cityOne,cityTwo,bot) == null) {
-                return gameView.getPlayerByBot(currentBot).validDestinationCardBIS(card);
+                return gameView.getPlayerByBot(currentBot).validDestinationCard(card);
             }
         } else throw new WrongPlayerException("Wrong bot");
         return false;
