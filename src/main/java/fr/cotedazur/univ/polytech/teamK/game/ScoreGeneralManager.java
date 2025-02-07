@@ -14,11 +14,22 @@ public class ScoreGeneralManager {
     private final Map<String, Integer> gamesWon = new HashMap<>();
     private final Map<String, Integer> gamesLost = new HashMap<>();
 
+    /**
+     * Manages the scores of players in the game, tracking total scores,
+     * wins, and losses for each player.
+     */
     public ScoreGeneralManager(GameEngine gameEngine) {
         this.gameEngine = gameEngine;
     }
 
-
+    /**
+     * Adds a score to the given bot if it is a valid player in the game.
+     *
+     * @param bot   The bot whose score is to be added.
+     * @param score The score to be added.
+     * @return true if the score was successfully added, false otherwise.
+     * @throws WrongPlayerException If the bot is not recognized as a valid player.
+     */
     public boolean addScore(Bot bot, int score) throws WrongPlayerException {
         if(gameEngine.confirmId(bot)){
             gameEngine.getPlayerByBot(bot).addScore(score);
@@ -26,6 +37,11 @@ public class ScoreGeneralManager {
         return false;
     }
 
+    /**
+     * Retrieves the current scores of all players.
+     *
+     * @return A map of players and their corresponding scores.
+     */
     public Map<Player, Integer> getScores(){
         HashMap<Player, Integer> scores = new HashMap<>();
         for(Player player : gameEngine.getPlayers().values()){
@@ -35,6 +51,12 @@ public class ScoreGeneralManager {
         return scores;
     }
 
+    /**
+     * Gets the score of a specific player by their name.
+     *
+     * @param name The name of the player.
+     * @return The player's score, or 0 if the player is not found.
+     */
     public Integer getPlayerScore (String name) {
         Map<Player, Integer> scores = getScores();
         for (Map.Entry<Player, Integer> entry  : scores.entrySet()) {
@@ -49,15 +71,22 @@ public class ScoreGeneralManager {
         return totalScores;
     }
 
+    /**
+     * Records the final score of a player at the end of a game.
+     *
+     * @param player The player whose score is to be recorded.
+     */
     public void recordScore(Player player) {
         String nomPlayer = player.getName();
         totalScores.put(nomPlayer, totalScores.getOrDefault(nomPlayer, 0) + player.getScore());
     }
 
+
     public void recordWin(Player player) {
         String nomPlayer = player.getName();
         gamesWon.put(nomPlayer, gamesWon.getOrDefault(nomPlayer, 0) + 1);
     }
+
 
     public void recordLoss(Player player) {
         String nomPlayer = player.getName();
@@ -82,6 +111,11 @@ public class ScoreGeneralManager {
         }
     }
 
+    /**
+     * Determines the player with the highest score and returns their score.
+     *
+     * @return A Map.Entry containing the highest-scoring player and their score.
+     */
     public Map.Entry<Player, Integer> getHighestScoreAndWinner() {
         Player highestScoringPlayer = null;
         int highestScore = 0;

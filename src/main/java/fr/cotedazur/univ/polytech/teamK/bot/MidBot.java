@@ -11,7 +11,10 @@ import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
+/**
+ * The MidBot class represents a medium-level AI bot that plays the game
+ * by drawing destination cards, selecting optimal routes, and purchasing connections.
+ */
 public class MidBot extends Bot {
 
     public MidBot(String name, GameEngine gameEngine) {
@@ -43,6 +46,7 @@ public class MidBot extends Bot {
         return drawWagonCard(path.getFirst().getColor()) && drawWagonCard(path.getFirst().getColor());
     }
 
+
     @Override
     public boolean drawDestinationCard() throws DeckEmptyException, WrongPlayerException {
         try {
@@ -63,6 +67,14 @@ public class MidBot extends Bot {
         }
     }
 
+    /**
+     * Draws a wagon card, prioritizing a specific color if available.
+     *
+     * @param toFocus The preferred color to draw.
+     * @return true if a wagon card was successfully drawn, false otherwise.
+     * @throws DeckEmptyException If there are no cards left in the deck.
+     * @throws WrongPlayerException If an incorrect player attempts the action.
+     */
     @Override
     public boolean drawWagonCard(Colors toFocus) throws DeckEmptyException, WrongPlayerException {
         try {
@@ -79,6 +91,13 @@ public class MidBot extends Bot {
         }
     }
 
+    /**
+     * Purchases a connection along the selected path, if possible.
+     *
+     * @param path The path of connections to purchase.
+     * @return true if a connection was successfully bought, false otherwise.
+     * @throws WrongPlayerException If an incorrect player attempts the action.
+     */
     @Override
     public boolean buyConnection(ArrayList<Connection> path) throws WrongPlayerException {
         for(Connection connection : path) {

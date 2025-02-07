@@ -11,6 +11,11 @@ import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Manages the selection and retrieval of meeples for a bot player.
+ * It prioritizes selecting meeples based on their availability and attempts
+ * to pick the most abundant ones first.
+ */
 public class MeepleSelectorManager {
     private Bot owner;
     private GameView gameView;
@@ -21,9 +26,9 @@ public class MeepleSelectorManager {
         this.gameEngine = owner.getGameEngine();
     }
 
-    /*
-    sorts the meeples by color, so we know which ones we have the most of
-    then, chooses that one if possible, descending until either no meeples or we found one
+    /**
+     * sorts the meeples by color, so we know which ones we have the most of
+     * then, chooses that one if possible, descending until either no meeples or we found one
      */
     private List<Colors> sortedMeepleColors()
     {
@@ -45,8 +50,12 @@ public class MeepleSelectorManager {
         return sortedMeeplesList;
     }
 
-    /*
-    combination method: finds the meeples we want, and then picks the best color possible
+    /**
+     * Picks the best available meeples from the given connection.
+     * It selects the most abundant meeples first to ensure efficient usage.
+     *
+     * @param connection The connection from which meeples are to be picked.
+     * @throws WrongPlayerException If an action is performed by the wrong player.
      */
     private void pickMeeplesFromConnection(Connection connection) throws WrongPlayerException
     {
@@ -72,7 +81,3 @@ public class MeepleSelectorManager {
     }
 
 }
-
-
-
-
