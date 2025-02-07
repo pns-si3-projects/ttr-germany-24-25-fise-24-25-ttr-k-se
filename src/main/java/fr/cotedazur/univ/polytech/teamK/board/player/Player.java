@@ -5,42 +5,39 @@ import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.*;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
-import fr.cotedazur.univ.polytech.teamK.game.GameView;
+import fr.cotedazur.univ.polytech.teamK.game.GameBoard;
 
 import java.util.*;
 
 public class Player {
     private final int id ;
-    private static int COUNT = 1;
+    private static int count = 1;
     private String name ;
     private int score;
     private Meeple meeples;
     private int wagonsRemaining;
-    private PlayerOwnedMap playerMap;
+    private final PlayerOwnedMap playerMap;
 
-    //private Board gameMap;
-
-    private ArrayList<Connection> connections;
+    private final ArrayList<Connection> connections;
     private ArrayList<WagonCard> wagonCards;
     private ArrayList<DestinationCard> destinationCards;
-
+    private ArrayList<DestinationCard> achieveDestination;
 
     public Player(String name) {
-        this.id = COUNT++;
+        this.id = count++;
         this.name = name;
         this.score = 0;
         this.wagonsRemaining = 45;
         this.wagonCards = new ArrayList<>();
         this.destinationCards = new ArrayList<>();
+        this.achieveDestination = new ArrayList<>();
         this.connections = new ArrayList<>();
         this.meeples = new Meeple();
         playerMap = new PlayerOwnedMap();
-        //this.gameMap = gameMap;
 
     }
 
-    public Player(int id, String name, ArrayList<WagonCard> wagonCards, ArrayList<DestinationCard> destinationCards) {
+    public Player(String name, ArrayList<WagonCard> wagonCards, ArrayList<DestinationCard> destinationCards) {
         this(name);
         this.wagonCards = wagonCards;
         this.destinationCards = destinationCards;
@@ -56,6 +53,7 @@ public class Player {
     public int getWagonsRemaining() {return wagonsRemaining;}
     public int getNumberWagon() {return wagonCards.size();}
     public int getNumberDestination () {return destinationCards.size();}
+    public ArrayList<DestinationCard> getAchieveDestination () {return achieveDestination;}
     public Meeple getMeeples() {return meeples;}
     public void setMeeples(Meeple meeples) {this.meeples = meeples;}
     public int getNumberOfMeeples() {return meeples.getNumber();}
@@ -65,7 +63,7 @@ public class Player {
     public PlayerOwnedMap getPlayerMap() {return playerMap;}
 
     public static void resetIdCounter() {
-        COUNT = 1;
+        count = 1;
     }
 
     /**
@@ -84,11 +82,11 @@ public class Player {
 
     /**
      * Add a WagonCard to the player's hand
+     *
      * @param carte the card to add
      */
-    public boolean addCardWagon(WagonCard carte) {
+    public void addCardWagon(WagonCard carte) {
         this.wagonCards.add(carte);
-        return true;
     }
 
     /**
@@ -105,10 +103,9 @@ public class Player {
      * Remove some wagon cards from the player deck and the wagon associated to it
      * @param color the color of cards to remove
      * @param count the number of cards to remove
-     * @return true if the remove is complete, false otherwise
      * @throws IllegalArgumentException if the player doesn't have enough cards or enough wagon
      */
-    public boolean removeCardWagon(Colors color, int count) throws  IllegalArgumentException{
+    public void removeCardWagon(Colors color, int count) throws  IllegalArgumentException{
         if (getNumberColor(color) < count) {
             throw new IllegalArgumentException("The player doesn't have enough cards");
         }
@@ -127,7 +124,6 @@ public class Player {
             throw new IllegalArgumentException("Not enough cards to remove");
         }
         this.wagonCards.removeAll(toRemove);
-        return true;
     }
 
     /**
@@ -136,13 +132,25 @@ public class Player {
      * @return the number of WagonCard of the color
      */
     public int getNumberColor(Colors color) {
-        int count = 0;
+        int numWagonCardOfXColor = 0;
         for (WagonCard carte : this.wagonCards) {
             if (carte.getColor() == color) {
-                count++;
+                numWagonCardOfXColor++;
             }
         }
-        return count;
+        return numWagonCardOfXColor;
+    }
+
+    public Colors getMaxColor () {
+        int [] listOfOwnedMeeples = new int[]{0, 0, 0, 0, 0, 0,0,0,0,0};
+        for (WagonCard card : wagonCards) {
+            listOfOwnedMeeples[card.getColor().ordinal()] ++;
+        }
+        Colors res = Colors.YELLOW.getColorById(0);
+        for (int i=1 ; i< listOfOwnedMeeples.length-1 ; i++) {
+            if(listOfOwnedMeeples[i] > listOfOwnedMeeples[res.ordinal()]) res = Colors.YELLOW.getColorById(i);
+        }
+        return res;
     }
 
     /**
@@ -160,23 +168,21 @@ public class Player {
 
     /**
      * Add DestinationCard points and remove it from the player's hand
-     * @param carte the card to check
+     * @param card the card to check
      * @return true if the card was removed, false otherwise
      */
-    public boolean validDestinationCard(DestinationCard carte) {
-        String cityOne = carte.getEndCity().getName();
-        String cityTwo = carte.getStartCity().getName();
-        Boolean connected = false;
-        if (playerMap.isNeighbour(cityOne, cityTwo) && destinationCards.contains(carte)) {
-            this.score += carte.getValue();
-            this.destinationCards.remove(carte);
+    public boolean validDestinationCardBIS(DestinationCard card) {
+        String cityOne = card.getEndCity().getName();
+        String cityTwo = card.getStartCity().getName();
+        if (destinationCards.contains(card)) {
+            this.score += card.getValue();
+            this.destinationCards.remove(card);
+            this.achieveDestination.add(card);
             return true;
         }
-        if (!destinationCards.contains(carte)) {
+        else
             throw new IllegalArgumentException("The player doesn't have this card");
         }
-        return false;
-    }
 
 
     /**
@@ -186,6 +192,7 @@ public class Player {
      * @throws IllegalArgumentException if the meeple color doesn't exist
      */
     public boolean takeMeeples(City city, Colors colorChoice) throws IllegalArgumentException, PlayerSeenException {
+        if (city.getMeeples().isEmpty()) return true;
         if (colorChoice.ordinal() > 5) {
             throw new IllegalArgumentException("Couleur de meeples inconnue");
         }
@@ -205,9 +212,12 @@ public class Player {
      * @param connectionToBuy the connection we want to buy
      * @return true if we bought it, false otherwise
      */
-    public boolean buyRail(Connection connectionToBuy, Board gameMap, int numberOfPlayers)
+    public boolean buyRail(Connection connectionToBuy, GameBoard gameMap, int numberOfPlayers)
     {
         Colors connectionColor = connectionToBuy.getColor();
+        if (connectionColor.equals(Colors.GRAY)) {
+            connectionColor = getMaxColor();
+        }
         int cardsOfCorrectColor = getNumberColor(connectionColor);
         int lengthOfRail = connectionToBuy.getLength();
         int rainbowCards = getNumberColor(Colors.RAINBOW);
@@ -226,9 +236,9 @@ public class Player {
             {
                 removeCardWagon(connectionColor, lengthOfRail);
             }
-            //removeCardWagon(connectonColor, min(lengthOfRail, cardsOfCorrectColor)
+            //removeCardWagon(connectionColor, min(lengthOfRail, cardsOfCorrectColor)
             connectionToBuy.setOwner(this);
-            playerMap.updateMap(connectionToBuy, gameMap);
+            //playerMap.updateMap(connectionToBuy, gameMap);
             score += connectionToBuy.calculatePoints(lengthOfRail);
             return true;
         }
@@ -243,4 +253,3 @@ public class Player {
         return "\nNom: " + getName() + "\nScore: " + getScore() + "\nCartes Destination: " + getCartesDestination() + "\nCartes Wagons: " + getCartesWagon() + "\nMeeples: " + getMeeples() + "\nConnections Owned" + getConnections();
     }
 }
-

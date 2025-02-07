@@ -6,22 +6,22 @@ import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class PlayerTest {
+public class PlayerTest {
     Player player1;
     Player player2;
-    Board map;
+    GameBoard map;
 
     @BeforeEach
     void setUp () {
         Meeple.resetMeeples();
         Player.resetIdCounter();
-        map = new Board("Reich");
+        map = new GameBoard("Reich");
         player1 = new Player("Deyann");
         player2 = new Player("Tom");
     }
@@ -68,26 +68,14 @@ class PlayerTest {
         assertTrue(player1.addCardDestination(dest1));
         assertEquals(1,player1.getNumberDestination());
         assertThrows(IllegalArgumentException.class, () -> player1.addCardDestination(dest1));
-        assertThrows(IllegalArgumentException.class, () -> player1.validDestinationCard(dest2));
+        assertThrows(IllegalArgumentException.class, () -> player1.validDestinationCardBIS(dest2));
         player1.addCardWagon(new WagonCard(Colors.ORANGE));
         player1.addCardWagon(new WagonCard(Colors.ORANGE));
         player1.addCardWagon(new WagonCard(Colors.ORANGE));
         player1.addCardWagon(new WagonCard(Colors.ORANGE));
         assertTrue(player1.buyRail(connection,map,5));
-        assertTrue(player1.validDestinationCard(dest1));
+        assertTrue(player1.validDestinationCardBIS(dest1));
         assertEquals(9, player1.getScore());
         assertTrue(player1.getCartesDestination().isEmpty());
     }
-
-    /**
-    @Test
-    void testMeeples () {
-        assertEquals(0, player1.getNumberOfMeeples());
-        assertTrue(player1.takeMeeples(Cities.DANEMARK, new int[]{1, 2, 3, 4, 5}));
-        assertEquals(1, player1.getNumberOfMeeples());
-        assertFalse(player1.takeMeeples(Cities.DANEMARK, new int[]{1, 2, 3, 4, 5}));
-        assertTrue(player1.takeMeeples(Cities.HAMBURG, new int[]{1, 2, 3, 4, 5}));
-        assertEquals(2, player1.getNumberOfMeeples());
-        assertEquals(3,Cities.HAMBURG.getMeeples().getNumber());
-    }*/
 }

@@ -3,11 +3,11 @@ package fr.cotedazur.univ.polytech.teamK.board.map;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
-import java.util.Random;
+import java.security.SecureRandom;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static org.mockito.Mockito.mock;
@@ -17,8 +17,8 @@ class CityTest {
 
     private City city;
     private Player player;
-    private Board map = new Board("Reich");
-    private Random trickedRandom = mock(Random.class);
+    private GameBoard map = new GameBoard("Reich");
+    private SecureRandom trickedRandom = mock(SecureRandom.class);
 
     @BeforeEach
     void setUp(){

@@ -3,7 +3,7 @@ package fr.cotedazur.univ.polytech.teamK.board.map.connection;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameBoard;
 
 public class Connection {
     private City cityOne;
@@ -14,9 +14,6 @@ public class Connection {
     private Player owner;
     private boolean isFree;
     private static int COUNT = 1;
-
-    private ConnectionClaimService claimService;
-    private ConnectionUtils utils;
 
     public Connection(City cityOne, City cityTwo) {
         this(cityOne,cityTwo,0, null);
@@ -120,8 +117,8 @@ public class Connection {
      * @return true if the connection is successfully claimed, false otherwise
      * @throws IllegalArgumentException if the number of cards used is less than 0
      */
-    public boolean claimAttempt(Integer numberOfCardsUsed, Player player, Board gameMap, int numberOfPlayers) {
-        return claimService.claimAttempt(this, numberOfCardsUsed, player, gameMap, numberOfPlayers);
+    public boolean claimAttempt(Integer numberOfCardsUsed, Player player, GameBoard gameMap, int numberOfPlayers) {
+        return ConnectionClaimService.claimAttempt(this, numberOfCardsUsed, player, gameMap, numberOfPlayers);
     }
 
     /**
@@ -130,12 +127,12 @@ public class Connection {
      * @throws IllegalArgumentException if the length is invalid
      */
     public int calculatePoints(int length) {
-        return utils.calculatePoints(length);
+        return ConnectionUtils.calculatePoints(length);
     }
 
     @Override
     public String toString()
     {
-        return this.getCityOne() + " connected to " + this.getCityTwo();
+        return this.getCityOne() + " -> " + this.getCityTwo();
     }
 }

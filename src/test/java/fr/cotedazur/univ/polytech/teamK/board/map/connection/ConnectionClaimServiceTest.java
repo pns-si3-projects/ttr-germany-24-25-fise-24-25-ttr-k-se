@@ -4,7 +4,7 @@ import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -15,8 +15,7 @@ class ConnectionClaimServiceTest {
     private City city2;
     private Connection connection;
     private Player player;
-    private Board gameMap;
-    private ConnectionClaimService connectionClaimService;
+    private GameBoard gameMap;
 
     @BeforeEach
     void setUp(){
@@ -25,13 +24,12 @@ class ConnectionClaimServiceTest {
         city2 = new City("Regensburg", 1);
         connection = new Connection(city1, city2, 3, Colors.GREEN);
         player = new Player("Zaynab");
-        connectionClaimService = new ConnectionClaimService();
-        gameMap = new Board("Reich");
+        gameMap = new GameBoard("Reich");
     }
 
     @Test
     void testClaimAttemptSucess(){
-        boolean result = connectionClaimService.claimAttempt(connection, 4, player, gameMap, 4);
+        boolean result = ConnectionClaimService.claimAttempt(connection, 4, player, gameMap, 4);
         assertTrue(result);
         assertFalse(connection.getIsFree());
         assertEquals(player, connection.getOwner());
@@ -39,7 +37,7 @@ class ConnectionClaimServiceTest {
 
     @Test
     void testClaimAttemptNotEnoughCards() {
-        boolean result = connectionClaimService.claimAttempt(connection, 2, player, gameMap, 4);
+        boolean result = ConnectionClaimService.claimAttempt(connection, 2, player, gameMap, 4);
         assertFalse(result);
         assertTrue(connection.getIsFree());
         assertNull(connection.getOwner());
@@ -48,7 +46,7 @@ class ConnectionClaimServiceTest {
     @Test
     void testClaimAttemptConnectionNotFree() {
         connection.setFree(false);
-        boolean result = connectionClaimService.claimAttempt(connection, 4, player, gameMap, 4);
+        boolean result = ConnectionClaimService.claimAttempt(connection, 4, player, gameMap, 4);
         assertFalse(result);
         assertFalse(connection.getIsFree());
         assertNull(connection.getOwner());
@@ -61,7 +59,7 @@ class ConnectionClaimServiceTest {
         City hamburg = new City("Hamburg", 1);
         Connection connection1 = new Connection(kiel, hamburg, 2, Colors.BLACK);
         Connection connection2 = new Connection(kiel, hamburg, 2, Colors.PINK);
-        boolean result = connectionClaimService.claimAttempt(connection2, 2, player, gameMap, 3);
+        boolean result = ConnectionClaimService.claimAttempt(connection2, 2, player, gameMap, 3);
         assertTrue(result);
         assertFalse(connection2.getIsFree());
         assertEquals(player, connection2.getOwner());
@@ -72,7 +70,7 @@ class ConnectionClaimServiceTest {
     @Test
     void testClaimAttemptInvalidNumberOfCards() {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
-            connectionClaimService.claimAttempt(connection, -1, player, gameMap, 4);
+            ConnectionClaimService.claimAttempt(connection, -1, player, gameMap, 4);
         });
         assertEquals("Number of Cards Used must be greater than 0", exception.getMessage());
     }

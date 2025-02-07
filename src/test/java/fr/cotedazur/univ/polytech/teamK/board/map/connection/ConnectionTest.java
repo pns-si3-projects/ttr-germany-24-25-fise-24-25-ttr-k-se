@@ -5,7 +5,7 @@ import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameBoard;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -16,13 +16,13 @@ class ConnectionTest {
     private City cityTwo;
     private Connection connection;
     private Player player;
-    private Board gameMap;
+    private GameBoard gameMap;
 
     @BeforeEach
     void setup(){
         Meeple.resetMeeples();
         player = new Player("Deyann");
-        gameMap = new Board("Reich");
+        gameMap = new GameBoard("Reich");
         cityTwo = gameMap.getCity("Hannover");
         cityOne = gameMap.getCity("Berlin");
         connection = gameMap.getNeighbourConnection(cityOne,cityTwo);
@@ -78,7 +78,7 @@ class ConnectionTest {
     @Test
     void testClaimAttemptDoubleConnection() {
         Connection connection2 = gameMap.getNeighbourConnection(cityOne, cityTwo);
-        System.out.println(cityOne.getName());
+        //System.out.println(cityOne.getName());
         gameMap.getCity().get(cityOne.getName()).addConnection(connection);
         gameMap.getCity().get(cityOne.getName()).addConnection(connection2);
         gameMap.getCity().get(cityTwo.getName()).addConnection(connection);
@@ -99,7 +99,7 @@ class ConnectionTest {
 
     @Test
     void testToString() {
-        String expected = "Berlin connected to Hannover";
+        String expected = "Berlin -> Hannover";
         System.out.println(connection.toString());
         assertEquals(expected, connection.toString());
     }
