@@ -106,7 +106,6 @@ Les choses à refaire si on avait une quantité de temps et moyens illimité :
 
 Résultats sonar :
 ![img.png](img.png)
-
 La quality gate fail car le coverage n'est pas assez élevé (<80%).
 ## 3. Répartition des tâches
 - 100/100/100/100
