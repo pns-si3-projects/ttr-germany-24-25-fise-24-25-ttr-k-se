@@ -37,8 +37,13 @@ TODO DONE
   - Son nombre de points total gagné
 
 ### Bot spécifique et comparaison
+
 - l'image provient du cours de M Bounouas Nassim, il s'agit du bot que nous devions implémenter pendant la semaine de rush finale. 
 ![img_2.png](img_2.png)
+Nous avons nommé le bot "Overlap", car il cherche les cartes destinations où les villes se superposent lors du premier tirage. 
+Nous avons implémenté celui-ci avec une classe BotOverlap, et plusieurs classes “Managers” telles que PathManager. Les Managers s'occupent de gérer les entités utilisées par le bot, et les choix du bot au niveau des pioches ou des connexions à acheter. Le bot, lui, s'occupe de faire des choix en fonction de ce qu'il a en main, tels que choisir les cartes destinations à réaliser, et le choix de l'action à faire chaque tour : piocher une carte wagon, piocher une carte destination, ou acheter une connexion. 
+Cela permet de réutiliser la logique, telle que Dijkstra, la pioche de cartes wagons de couleurs adaptées, ou de cartes destinations possibles à réaliser, pour d'autres bots potentiels. Cela permet aussi de rendre le code plus lisible, plus facile à tester, et plus facile à modifier.
+
 - Comparaison avec le meilleur bot développé :
   Le bot de la semaine finale (BotOverlap) gagne beaucoup plus de parties que notre premier bot. C'est surement dû au fait que notre premier bot n'est pas capable
 de finir une partie normalement, il va s'entêter à essayer d'acheter des connections même si il n'a pas assez de carte. Donc le bot va piocher dans le paquet de cartes wagons jusqu'a qu'il n'y en ait plus.
