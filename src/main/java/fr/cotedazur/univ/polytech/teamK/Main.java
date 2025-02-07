@@ -56,8 +56,8 @@ public class Main {
     public void run2Thousands() throws WrongPlayerException, CsvValidationException, IOException {
         initialise();
         runThousand(gameEngine);
-        initialise();
-        runThousand(gameEngine);
+        //initialise();
+        //runThousand(gameEngine);
     }
 
     void runThousand(GameEngine gameEngine) throws WrongPlayerException, CsvValidationException, IOException {
@@ -69,7 +69,9 @@ public class Main {
             gameEngine.startGame();
             compteur++;
         }
-        while(compteur < 2000){
+        initialise();
+        compteur = 0;
+        while(compteur < 1000){
             List<Bot> bots = Arrays.asList(new BotOverlap("Bot1", gameEngine), new BotOverlap("Bot2", gameEngine));
             gameEngine.addBotsToPlayerMap(bots);
             gameEngine.startGame();
