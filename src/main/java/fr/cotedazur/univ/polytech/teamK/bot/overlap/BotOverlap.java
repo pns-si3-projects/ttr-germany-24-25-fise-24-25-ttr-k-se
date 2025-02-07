@@ -73,16 +73,19 @@ public class BotOverlap extends Bot {
             return success;
         }
         else {
-            while (this.gameView.getPlayerByBot(this).validDestinationCardOverlap(this.currentPath.getDestCardOfpath(), gameView.getGameMap()))
+            while (this.currentPath == null || this.gameView.getPlayerByBot(this).validDestinationCardOverlap(this.currentPath.getDestCardOfpath(), gameView.getGameMap()))
             {
                 this.currentPath = nextDestinationToDo();
+                if (this.currentPath == null)
+                {
+                    return false;
+                }
             }
         }
         return false;
     }
 
-    public boolean drawWagonCard()
-    {
+    public boolean drawWagonCard() throws WrongPlayerException {
         if (this.currentPath != null) {
             List<Colors> colorsToDraw = this.currentPath.colorsToDraw();
             if (colorsToDraw == null)
@@ -109,12 +112,8 @@ public class BotOverlap extends Bot {
 
 
     public boolean playTurn() throws WrongPlayerException {
-        if (gameView.getRound() > 38)
-        {
-            System.out.println("round is " + gameView.getRound());
-            System.out.println("Bot name is " + this.getName() + " number of wagons and destination cards" + gameView.getMyWagonCards() + gameView.getMyDestinationCards());
-            System.out.println("my score is " + gameView.getMyScore() + "\n");
-
+        if (gameView.getMyWagonCards().size() > 50) {
+            String steve = "steve";
         }
         //first turn, you need to draw at first
         if (gameView.getRound() == 0)

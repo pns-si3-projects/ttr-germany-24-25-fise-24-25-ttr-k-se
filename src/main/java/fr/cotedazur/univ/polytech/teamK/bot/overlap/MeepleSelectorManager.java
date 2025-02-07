@@ -4,6 +4,7 @@ import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
+import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
@@ -13,9 +14,11 @@ import java.util.List;
 public class MeepleSelectorManager {
     private Bot owner;
     private GameView gameView;
+    private GameEngine gameEngine;
     public MeepleSelectorManager(Bot owner, GameView gameView) {
         this.owner = owner;
         this.gameView = gameView;
+        this.gameEngine = owner.getGameEngine();
     }
 
     /*
@@ -53,14 +56,14 @@ public class MeepleSelectorManager {
 
         for (Colors newColor : sortedMeeplesList)
         {
-            if (this.gameView.getPlayerByBot(owner).takeMeeples(cityOne, newColor))
+            if (this.gameEngine.takeMeeples(owner, cityOne, newColor))
             {
                 break;
             }
         }
         for (Colors newColor : sortedMeeplesList)
         {
-            if (this.gameView.getPlayerByBot(owner).takeMeeples(cityTwo, newColor))
+            if (this.gameEngine.takeMeeples(owner, cityTwo, newColor))
             {
                 break;
             }

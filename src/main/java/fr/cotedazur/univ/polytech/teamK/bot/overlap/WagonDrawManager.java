@@ -3,7 +3,9 @@ package fr.cotedazur.univ.polytech.teamK.bot.overlap;
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
+import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 import fr.cotedazur.univ.polytech.teamK.game.GameView;
+import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
 import java.util.List;
 
@@ -11,24 +13,26 @@ import java.util.List;
 public class WagonDrawManager{
     private GameView gameView;
     private Bot owner;
+    private GameEngine gameEngine;
     public WagonDrawManager(GameView gameView, Bot owner) {
         this.gameView = gameView;
         this.owner = owner;
+        this.gameEngine = owner.getGameEngine();
     }
 
-    private boolean lookForSingleColorInVisible(Colors colorWanted) {
+    private boolean lookForSingleColorInVisible(Colors colorWanted) throws WrongPlayerException {
         for (int i = 0; i < gameView.getVisibleWagonCards().size(); i++) {
             WagonCard wagonCard = gameView.getVisibleWagonCards().get(i);
             if (wagonCard.getColor().equals(colorWanted)) {
-                gameView.getWagonDeck().drawVisibleCard(i);
-                gameView.getPlayerByBot(owner).addCardWagon(wagonCard);
+                WagonCard wagonCardToDraw = gameEngine.drawVisibleWagonCard(i);
+                gameEngine.addWagonCard(owner, wagonCardToDraw);
                 return true;
             }
         }
         return false;
     }
 
-    private boolean lookForTwoOfSame(Colors colorWanted) {
+    private boolean lookForTwoOfSame(Colors colorWanted) throws WrongPlayerException {
         if (gameView.getWagonDeck().getRemainingCards() < 8)
         {
             String hooooooolyShit = "yup";
@@ -44,8 +48,8 @@ public class WagonDrawManager{
                 return true;
                 //did not find it, draw facedown
             else {
-                WagonCard wagoncard = gameView.getWagonDeck().draw();
-                gameView.getPlayerByBot(owner).addCardWagon(wagoncard);
+                WagonCard wagoncard = gameEngine.drawWagonCard();
+                gameEngine.addWagonCard(owner, wagoncard);
                 return true;
             }
         } else {
@@ -55,15 +59,17 @@ public class WagonDrawManager{
             else {
                 //draw two hidden
                 for (int nbdrawn = 0; nbdrawn < 2; nbdrawn++) {
-                    WagonCard wagoncard = gameView.getWagonDeck().draw();
-                    gameView.getPlayerByBot(owner).addCardWagon(wagoncard);
+                    WagonCard wagonCard = gameEngine.drawWagonCard();
+                    gameEngine.addWagonCard(owner, wagonCard);
+                    wagonCard = gameEngine.drawWagonCard();
+                    gameEngine.addWagonCard(owner, wagonCard);
                 }
                 return true;
             }
         }
     }
 
-    private boolean lookForTwoDifferentColors(Colors primary, Colors secondary) {
+    private boolean lookForTwoDifferentColors(Colors primary, Colors secondary) throws WrongPlayerException {
         //look for the primary first
         //if unfound look for rainbow
         //if still unfound look for secondary
@@ -87,14 +93,14 @@ public class WagonDrawManager{
             }
         }
         for (int nbDrawn = 0; nbDrawn < cardsToDraw; nbDrawn++) {
-            WagonCard wagoncard = gameView.getWagonDeck().draw();
-            gameView.getPlayerByBot(owner).addCardWagon(wagoncard);
+
+            WagonCard wagoncard = gameEngine.drawWagonCard();
+            gameEngine.addWagonCard(owner, wagoncard);
         }
         return true;
     }
 
-    public boolean drawWagonsOnList(List<Colors> listOfColors)
-    {
+    public boolean drawWagonsOnList(List<Colors> listOfColors) throws WrongPlayerException {
         int nbColors = listOfColors.size();
         if (nbColors > 2 || nbColors == 0)
         {
