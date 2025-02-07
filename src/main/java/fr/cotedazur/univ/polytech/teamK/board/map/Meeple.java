@@ -55,11 +55,6 @@ public class Meeple {
         }
     }
 
-    public static void resetMeeples () {
-        total = new int[]{10, 10, 10, 10, 10, 10};
-        totalMeeples = 60;
-    }
-
     public boolean isEmpty() {
         for (int i = 0; i < number; i++) {
             if (listOfOwnedMeeples[i] != 0) {
@@ -67,6 +62,11 @@ public class Meeple {
             }
         }
         return true;
+    }
+
+    public static void resetMeeples () {
+        total = new int[]{10, 10, 10, 10, 10, 10}; //black, blue, red, white,yellow, green
+        totalMeeples = 60;
     }
 
     /**
