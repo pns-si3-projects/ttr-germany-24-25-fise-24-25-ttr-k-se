@@ -33,7 +33,7 @@ public class MidBot extends Bot {
         do {
             toAchieve = list.getFirst();
             list.removeFirst();
-            path = super.djikstra(toAchieve.getStartCity(), toAchieve.getEndCity());
+            path = Djikstra.djikstra(toAchieve.getStartCity(), toAchieve.getEndCity(),this);
             if(path == null) gameEngine.valideDestination(toAchieve, this);
         } while (path != null && path.isEmpty() && !list.isEmpty());
         if (list.isEmpty() || path == null) {
@@ -53,9 +53,17 @@ public class MidBot extends Bot {
             List<DestinationCard> draw = drawDestFromNumber(2);
             List<DestinationCard> selected = new ArrayList<>();
 
+            if(draw.size() == 4) {
+
                 selected.add(draw.get(0).getValue() < draw.get(1).getValue() ? draw.remove(1) : draw.remove(0));
                 selected.add(draw.get(1).getValue() < draw.get(2).getValue() ? draw.remove(2) : draw.remove(1));
-
+            } else if (draw.size() == 3) {
+                selected.add(draw.remove(0));
+                selected.add(draw.remove(1));
+            } else {
+                selected.addAll(draw);
+                draw.clear();
+            }
             for (DestinationCard card : selected) {
                 gameEngine.addDestinationCard(this,card);
                 displayDrawDestinationCardAction();

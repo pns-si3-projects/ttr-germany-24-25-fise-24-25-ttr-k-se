@@ -7,13 +7,13 @@ import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.PlayerSeenException;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
+import fr.cotedazur.univ.polytech.teamK.bot.Djikstra;
 
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
-import java.util.logging.Logger;
 
 public class GameEngine{
 
@@ -359,8 +359,8 @@ public class GameEngine{
         if(currentBot == bot) {
             City cityOne = card.getStartCity();
             City cityTwo = card.getEndCity();
-            if(currentBot.djikstra(cityOne,cityTwo) == null) {
-                return gameView.getPlayerByBot(currentBot).validDestinationCardBIS(card);
+            if(Djikstra.djikstra(cityOne,cityTwo,bot) == null) {
+                return gameView.getPlayerByBot(currentBot).validDestinationCard(card);
             }
         } else throw new WrongPlayerException("Wrong bot");
         return false;

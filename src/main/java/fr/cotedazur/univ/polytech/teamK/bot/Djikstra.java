@@ -1,8 +1,7 @@
-package fr.cotedazur.univ.polytech.teamK.bot.overlap;
+package fr.cotedazur.univ.polytech.teamK.bot;
 
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
-import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 import fr.cotedazur.univ.polytech.teamK.game.GameView;
 
 import java.util.ArrayList;
@@ -10,20 +9,17 @@ import java.util.HashMap;
 import java.util.List;
 
 public class Djikstra {
-    private GameView gameView;
-    private Bot owner;
-    public Djikstra(GameView gameView, Bot owner) {
-        this.gameView = gameView;
-        this.owner = owner;
-    }
+
+    private Djikstra() {}
     /**
      * Dijkstra algorithm who find the shortest path between two cities
      * @param cityOne the first cities
      * @param cityTwo the second cities
      * @return a arrayList with the path
      */
-    public ArrayList<Connection> djikstra(City cityOne, City cityTwo) {
+    public static ArrayList<Connection> djikstra(City cityOne, City cityTwo, Bot owner, Boolean findNeightbor) {
         ArrayList<HashMap<City,Integer>> djikstraTable = new ArrayList<>();
+        GameView gameView = owner.gameView;
         HashMap<City,Integer> djikstraLine = new HashMap<>();
         ArrayList<City> seen = new ArrayList<>();
         for (City c : gameView.getGameMap().getCity().values()) {
@@ -39,10 +35,10 @@ public class Djikstra {
             for(Connection connection : actual.getConnectionList()) {
                 int i1 = djikstraLine.get(actual)+connection.getLength();
                 int i2 = djikstraLine.get(connection.getOtherCity(actual));
-                if(gameView.getPlayerByBot(owner).isNeighbour(actual,connection.getOtherCity(actual))) {
+                if(connection.getOwner() == gameView.getPlayerByBot(owner)) {
                     djikstraLine.replace(connection.getOtherCity(actual),djikstraLine.get(actual));
                 }
-                if (i1< i2 && connection.getIsFree())
+                else if (i1< i2 && connection.getIsFree())
                     djikstraLine.replace(connection.getOtherCity(actual),djikstraLine.get(actual)+connection.getLength());
             }
             HashMap<City,Integer> djikstraLineToAdd = new HashMap<>();
@@ -93,11 +89,14 @@ public class Djikstra {
                 }
             }
         }
-        if (lenght == 0)
-        {
+        if(lenght == 0 && findNeightbor) {
             return null;
         }
 
         return res;
+    }
+
+    public static ArrayList<Connection> djikstra(City cityOne, City cityTwo, Bot owner) {
+        return djikstra(cityOne,cityTwo,owner,true);
     }
 }

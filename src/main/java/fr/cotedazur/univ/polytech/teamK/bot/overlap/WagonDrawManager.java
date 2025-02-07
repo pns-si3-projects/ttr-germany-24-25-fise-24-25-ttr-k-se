@@ -56,14 +56,6 @@ public class WagonDrawManager{
      * @throws WrongPlayerException if an invalid player performs the action
      */
     private boolean lookForTwoOfSame(Colors colorWanted) throws WrongPlayerException {
-        if (gameView.getWagonDeck().getRemainingCards() < 8)
-        {
-            String hooooooolyShit = "yup";
-        }
-
-
-
-
         //try to find the color once
         if (lookForSingleColorInVisible(colorWanted)) {
             //found one, try to find it again
@@ -149,7 +141,6 @@ public class WagonDrawManager{
         int nbColors = listOfColors.size();
         if (nbColors > 2 || nbColors == 0)
         {
-            String wtf = "what the fuck";
             return false;
         }
         else if (nbColors == 1)

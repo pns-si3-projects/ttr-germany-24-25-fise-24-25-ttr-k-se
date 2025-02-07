@@ -6,6 +6,7 @@ import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
+import fr.cotedazur.univ.polytech.teamK.bot.Djikstra;
 import fr.cotedazur.univ.polytech.teamK.game.GameView;
 
 import java.util.*;
@@ -17,7 +18,7 @@ public class PathManager{
     private Bot owner;
     private HashMap<Colors, List<Integer>> costPerColorPerConnection = null;
     private GameView gameView;
-    private Djikstra djikstra;
+
     /**
      * Manages the paths for the bot's destination card and helps determine the best connections to purchase,
      * draw wagon cards for, or compute the total cost remaining for a particular path.
@@ -28,7 +29,6 @@ public class PathManager{
         this.destCardOfpath = destCard;
         this.owner = owner;
         this.gameView = gameView;
-        this.djikstra = new Djikstra(gameView, owner);
         resetpath();
     }
 
@@ -44,8 +44,7 @@ public class PathManager{
      * between the start and end cities of the current destination card.
      */
     private void resetpath() {
-        //this.connectionsForCurrentDestCard = owner.djikstra(destCardOfpath.getEndCity(), destCardOfpath.getStartCity());
-        this.connectionsForCurrentDestCard = djikstra.djikstra(destCardOfpath.getEndCity(), destCardOfpath.getStartCity());
+        this.connectionsForCurrentDestCard = Djikstra.djikstra(destCardOfpath.getEndCity(), destCardOfpath.getStartCity(),owner,false);
         if (connectionsForCurrentDestCard.size() == 0) {
             cardDoable = false;
         } else {
@@ -61,7 +60,7 @@ public class PathManager{
      * @return A map of colors to lists of integers representing the connection lengths.
      */
     private HashMap<Colors, List<Integer>> generateValuesFromPath() {
-        //the goal is to generate a hashmap of <Color: ArrayList<Integer>> so that I know, per color, how many i need (seperated by connection
+        //the goal is to generate a hashmap of <Color: ArrayList<Integer>> so that I know, per color, hdrawWagonCardow many i need (seperated by connection
         //ie if i have two rails in the path of color blue, of length 3 and 5 resp, then <Blue: [3,5]> is the entry: 3 and 5 are sorted asc.
         HashMap<Colors, List<Integer>> purchaseCostPerColorSortedDescending = new HashMap<Colors, List<Integer>>();
         for (Connection c : connectionsForCurrentDestCard) {
