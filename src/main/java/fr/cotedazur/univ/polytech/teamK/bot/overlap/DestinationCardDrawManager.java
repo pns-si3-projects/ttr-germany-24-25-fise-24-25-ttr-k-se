@@ -122,6 +122,7 @@ public class DestinationCardDrawManager {
         for (DestinationCard destCard : toKeep) {
             owner.gameEngine.addDestinationCard(owner, destCard);
             totalDrawn.remove(destCard);
+            owner.displayDrawDestinationCardAction();
         }
         for (DestinationCard destCard : totalDrawn) {
             owner.giveBackCard(destCard);

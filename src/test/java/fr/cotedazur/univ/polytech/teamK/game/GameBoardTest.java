@@ -31,18 +31,4 @@ public class GameBoardTest {
         assertTrue(count > 0);
         assertTrue(count2 == 0);
     }
-
-    @Test
-    public void testGetCitiesConnections(){
-    }
-
-    @Test
-    public void testGetCity(){
-
-    }
-
-    @Test
-    public void getNeighbourConnection(){
-
-    }
 }

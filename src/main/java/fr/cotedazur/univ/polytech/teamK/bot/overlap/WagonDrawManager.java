@@ -26,6 +26,7 @@ public class WagonDrawManager{
             if (wagonCard.getColor().equals(colorWanted)) {
                 WagonCard wagonCardToDraw = gameEngine.drawVisibleWagonCard(i);
                 gameEngine.addWagonCard(owner, wagonCardToDraw);
+                owner.displayDrawWagonCardAction();
                 return true;
             }
         }
@@ -50,6 +51,7 @@ public class WagonDrawManager{
             else {
                 WagonCard wagoncard = gameEngine.drawWagonCard();
                 gameEngine.addWagonCard(owner, wagoncard);
+                owner.displayDrawWagonCardAction();
                 return true;
             }
         } else {
@@ -61,8 +63,10 @@ public class WagonDrawManager{
                 for (int nbdrawn = 0; nbdrawn < 2; nbdrawn++) {
                     WagonCard wagonCard = gameEngine.drawWagonCard();
                     gameEngine.addWagonCard(owner, wagonCard);
+                    owner.displayDrawWagonCardAction();
                     wagonCard = gameEngine.drawWagonCard();
                     gameEngine.addWagonCard(owner, wagonCard);
+                    owner.displayDrawWagonCardAction();
                 }
                 return true;
             }
@@ -96,6 +100,7 @@ public class WagonDrawManager{
 
             WagonCard wagoncard = gameEngine.drawWagonCard();
             gameEngine.addWagonCard(owner, wagoncard);
+            owner.displayDrawWagonCardAction();
         }
         return true;
     }

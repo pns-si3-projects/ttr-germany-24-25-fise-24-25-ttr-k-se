@@ -53,7 +53,6 @@ public class BotOverlap extends Bot {
     }
 
     public boolean buyRail() throws WrongPlayerException {
-        displayPlayTurn();
         if (this.currentPath == null) {
             return false;
         }
@@ -111,6 +110,7 @@ public class BotOverlap extends Bot {
 
 
     public boolean playTurn() throws WrongPlayerException {
+        displayPlayTurn();
         if (gameView.getMyWagonCards().size() > 50) {
             String steve = "steve";
         }

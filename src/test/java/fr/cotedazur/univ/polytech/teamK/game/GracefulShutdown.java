@@ -18,7 +18,6 @@ public class GracefulShutdown {
 
     private static void preformCleanup(){
         System.out.println("Releasing resources ...");
-        //Close database connection
         //Save game state
     }
 }
