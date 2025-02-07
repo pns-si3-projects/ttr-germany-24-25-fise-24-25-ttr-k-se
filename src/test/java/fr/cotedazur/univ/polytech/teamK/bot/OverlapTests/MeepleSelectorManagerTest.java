@@ -64,7 +64,14 @@ public class MeepleSelectorManagerTest {
 
         int[] expectedMeeples = {5,0,0,6,0,0};
 
-        assertTrue(expectedMeeples.equals(gameView.getPlayerByBot(owner).getMeeples()));
+        //assertTrue(expectedMeeples.equals(gameView.getPlayerByBot(owner).getMeeples().getListOfOwnedMeeples()));
 
+        for (int i = 0; i < 6; i++) {
+            if (expectedMeeples[i] != gameView.getPlayerByBot(owner).getMeeples().getListOfOwnedMeeples()[i])
+            {
+                assertTrue(false);
+            }
+        }
+        assertTrue(true);
     }
 }
