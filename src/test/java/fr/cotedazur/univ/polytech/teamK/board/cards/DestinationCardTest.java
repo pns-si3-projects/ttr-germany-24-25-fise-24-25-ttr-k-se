@@ -50,4 +50,48 @@ class DestinationCardTest {
         DestinationCard card = new DestinationCard(cities2, cities4, 10);
         assertEquals("SHORT_DESTINATION Kiel->Emden (10 points)", card.toString());
     }
+
+    @Test
+    void testHashCode() {
+        DestinationCard card1 = new DestinationCard(cities1, cities2, 10);
+        DestinationCard card2 = new DestinationCard(cities1, cities2, 10);
+        assertEquals(card1.hashCode(), card2.hashCode());
+    }
+
+    @Test
+    void testEqualsDifferentValues() {
+        DestinationCard card1 = new DestinationCard(cities1, cities2, 10);
+        DestinationCard card2 = new DestinationCard(cities1, cities3, 10); // Different end city
+        DestinationCard card3 = new DestinationCard(cities1, cities2, 15); // Different value
+        DestinationCard card4 = new DestinationCard(cities3, cities4, 10); // Different start city
+
+        assertNotEquals(card1, card2);
+        assertNotEquals(card1, card3);
+        assertNotEquals(card1, card4);
+    }
+
+    @Test
+    void testSetComplete() {
+        DestinationCard card = new DestinationCard(cities1, cities2, 10);
+        assertFalse(card.isComplete()); // Initially, the card is not complete
+        card.setComplete();
+        assertTrue(card.isComplete()); // After calling setComplete, the card should be complete
+    }
+
+    @Test
+    void testToStringLongDestination() {
+        DestinationCard cardLong = new DestinationCard(cities3, cities4, 20);
+        assertEquals("LONG_DESTINATION Rostock->Emden (20 points)", cardLong.toString());
+    }
+
+    @Test
+    void testTypeOfCards() {
+        DestinationCard cardShort = new DestinationCard(cities1, cities2, 5);
+        DestinationCard cardLong = new DestinationCard(cities3, cities4, 15);
+
+        assertEquals(TypeOfCards.SHORT_DESTINATION, cardShort.getType());
+        assertEquals(TypeOfCards.LONG_DESTINATION, cardLong.getType());
+    }
+
+
 }
