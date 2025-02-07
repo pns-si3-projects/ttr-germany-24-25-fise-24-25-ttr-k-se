@@ -209,7 +209,7 @@ public abstract class Bot{
     public abstract boolean buyConnection(ArrayList<Connection> path) throws WrongPlayerException;
 
     public void displayBuyConnectionAction(){
-        logger.buyConnection(this);
+        logger.logBuyConnection(this);
     }
 
     /**

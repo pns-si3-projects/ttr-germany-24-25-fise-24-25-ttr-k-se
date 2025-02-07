@@ -47,6 +47,8 @@ TODO DONE
 - Liste des parties à refactorer et explications
 - Résumé des résultats SONAR (ou autre outil d’analyse de code)
 
+## 3. Répartition des tâches
+- 100/100/100/100
 ---
 
 > **Note** : N’hésitez pas à contacter l’ancienne équipe en cas de besoin.
