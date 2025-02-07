@@ -48,7 +48,9 @@ public class LoggerDetailed {
 
     }
 
-
+    public void logNoMoreWagon(String playerName){
+        logger.fine(playerName + " has no more wagon");
+    }
     //Called by GameEngine
     public void logFiveNoActionRounds(){
         logger.finer("No actions have been done by the bots for the last 5 rounds. Bots can no longer buy connections with their wagons. Game Over.");

@@ -22,9 +22,17 @@ TODO DONE
 - Emplacement des fichiers de logs
 
 ### Statistiques en CSV
-- Explication des choix techniques pour les statistiques
-- Format des fichiers CSV
-- Emplacement des fichiers générés
+- L'ensemble de la gestion des statistiques CSV se trouve dans la classe StatsAnalyse 
+- Le fichier CSV est toujours présent et doit être vidé à la main quand on veut prendre des nouvelles stats 
+- Une lecture du fichier CSV est effectuée pour connaitre les stats actuels.
+  Puis une première écriture ce fait pour mettre à jour les informations des bots déjà connue.
+  Enfin une deuxième écriture est réalisé pour ajouter les stats des nouveaux bots.
+- Données stockées : 
+  - Le nom du bot
+  - Son nombre de parties jouées
+  - Son nombre de victoires
+  - Son taux de victoire
+  - Son nombre de points total gagné
 
 ### Bot spécifique et comparaison
 - Présentation du bot spécifique demandé

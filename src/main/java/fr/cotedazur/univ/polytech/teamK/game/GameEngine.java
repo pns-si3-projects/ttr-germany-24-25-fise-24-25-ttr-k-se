@@ -13,6 +13,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 public class GameEngine{
 
@@ -273,8 +274,9 @@ public class GameEngine{
                         noMoreActionsCount = 0;
                     }
                 }
-                catch (IllegalStateException e) {
-                    lastPlayer = null;
+                catch (IllegalArgumentException e) {
+                    detailedLogger.logNoMoreWagon(currentBot.getName());
+                    lastPlayer = currentPlayer;
                     return lastPlayer;
                 }
                 if ((lastPlayer == null && gameOver(currentPlayer)) || noMoreActionsCheck(noMoreActionsCount,numberOfRoundsWithoutActions)) {
@@ -301,7 +303,12 @@ public class GameEngine{
         for (Map.Entry<Bot, Player> entry : players.entrySet()) {
             currentBot = entry.getKey();
             Player currentPlayer = entry.getValue();
-            currentBot.playTurn();
+            try {
+                currentBot.playTurn();
+            }
+            catch (IllegalArgumentException e) {
+                detailedLogger.logNoMoreWagon(currentBot.getName());
+            }
             if (lastPlayer.equals(currentPlayer)) {
                 break;
             }
