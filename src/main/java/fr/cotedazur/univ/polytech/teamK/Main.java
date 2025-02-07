@@ -11,6 +11,9 @@ import fr.cotedazur.univ.polytech.teamK.game.GamesStatisticsLogger;
 import fr.cotedazur.univ.polytech.teamK.game.LoggerControlCenter;
 import fr.cotedazur.univ.polytech.teamK.game.LoggerDetailed;
 
+import fr.cotedazur.univ.polytech.teamK.bot.overlap.BotOverlap;
+import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
+import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
 import java.io.IOException;
 import java.util.Arrays;
@@ -73,6 +76,7 @@ public class Main {
         initialise();
         logger.showInfoAndFineToFinest();
         List<Bot> bots = Arrays.asList(new MidBot("STEVE", gameEngine), new MidBot("WILLER", gameEngine));
+        //List<Bot> bots = Arrays.asList(new BotOverlap("Bot1", gameEngine), new BotOverlap("Bot2", gameEngine));
         gameEngine.addBotsToPlayerMap(bots);
         gameEngine.startGame();
     }

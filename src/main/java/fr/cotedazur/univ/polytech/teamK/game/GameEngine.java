@@ -150,7 +150,7 @@ public class GameEngine{
             GameBoard gameBoard = this.gameMap;
             Colors connectionColor = connection.getColor();
             Integer numberOfColorOwned = this.getPlayerByBot(bot).getNumberColor(connectionColor);
-            return getPlayerByBot(bot).buyRail(connection, gameBoard, numberOfColorOwned);
+            return getPlayerByBot(bot).buyRail(connection, gameBoard, this.getNumberPlayer());
         }
         return false;
     }
@@ -241,10 +241,14 @@ public class GameEngine{
             lastPlayer = playRound(null);
             detailedLogger.logRound();
         }
-        lastRound(lastPlayer);
-        detailedLogger.logPlayerScoresBeforeMeeples();
+        if (lastPlayer != null)
+        {
+            lastRound(lastPlayer);
+        }        detailedLogger.logPlayerScoresBeforeMeeples();
         scoreMeepleManager.calculateMeeplePoints();
         detailedLogger.logPlayerScoresAfterMeeples();
+
+        scoreMeepleManager.calculateMeeplePoints();
         recordGameResults();
         statsAnalyse = new StatsAnalyse(this, gameView);
         statsAnalyse.analyse();
@@ -262,20 +266,24 @@ public class GameEngine{
     public Player playRound(Player lastPlayer) throws WrongPlayerException {
         int noMoreActionsCount = 0;
 
-        for (Map.Entry<Bot, Player> entry : players.entrySet()) {
-            currentBot = entry.getKey();
-            Player currentPlayer = entry.getValue();
-
-            if (!currentBot.playTurn()) {
-                noMoreActionsCount++;
-            } else {
-                noMoreActionsCount = 0;
+            for (Map.Entry<Bot, Player> entry : players.entrySet()) {
+                currentBot = entry.getKey();
+                Player currentPlayer = entry.getValue();
+                try {
+                    if (!currentBot.playTurn()) {
+                        noMoreActionsCount++;
+                    } else {
+                        noMoreActionsCount = 0;
+                    }
+                }
+                catch (IllegalStateException e) {
+                    lastPlayer = null;
+                    return lastPlayer;
+                }
+                if ((lastPlayer == null && gameOver(currentPlayer)) || noMoreActionsCheck(noMoreActionsCount,numberOfRoundsWithoutActions)) {
+                    lastPlayer = currentPlayer;
+                }
             }
-
-            if ((lastPlayer == null && gameOver(currentPlayer)) || noMoreActionsCheck(noMoreActionsCount,numberOfRoundsWithoutActions)) {
-                lastPlayer = currentPlayer;
-            }
-        }
 
         if (noMoreActionsCount == getNumberPlayer()) {
             ++numberOfRoundsWithoutActions;
@@ -347,7 +355,7 @@ public class GameEngine{
             City cityOne = card.getStartCity();
             City cityTwo = card.getEndCity();
             if(currentBot.djikstra(cityOne,cityTwo) == null) {
-                gameView.getPlayerByBot(currentBot).validDestinationCard(card);
+                gameView.getPlayerByBot(currentBot).validDestinationCardBIS(card);
             }
         } else throw new WrongPlayerException("Wrong bot");
 

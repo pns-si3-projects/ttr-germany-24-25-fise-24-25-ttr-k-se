@@ -41,6 +41,8 @@ public class PlayerOwnedMap {
      */
     private void addNeighborToCity(String cityOneName, String cityTwoName, int length) {
         virtualConnectionsCreated.get(cityOneName).put(cityTwoName, length);
+        virtualConnectionsCreated.get(cityOneName).put(cityOneName, length);
+        virtualConnectionsCreated.get(cityTwoName).put(cityTwoName, length);
         virtualConnectionsCreated.get(cityTwoName).put(cityOneName, length);
     }
 
@@ -182,4 +184,8 @@ public class PlayerOwnedMap {
             }
         }
     }
+
+
+
+
 }

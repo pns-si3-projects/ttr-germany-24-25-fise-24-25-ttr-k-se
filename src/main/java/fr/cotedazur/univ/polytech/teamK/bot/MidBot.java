@@ -31,11 +31,12 @@ public class MidBot extends Bot {
             toAchieve = list.getFirst();
             list.removeFirst();
             path = super.djikstra(toAchieve.getStartCity(), toAchieve.getEndCity());
-        } while (path.isEmpty() && !list.isEmpty());
-        if (list.isEmpty()) {
+            if(path == null) gameEngine.valideDestination(toAchieve, this);
+        } while (path != null && path.isEmpty() && !list.isEmpty());
+        if (list.isEmpty() || path == null) {
             return drawDestinationCard();
         }
-        if (buyConnection(path)) {
+        else if (buyConnection(path)) {
             gameEngine.valideDestination(toAchieve,this);
             return true;
         }
