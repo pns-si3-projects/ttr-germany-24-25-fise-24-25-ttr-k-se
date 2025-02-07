@@ -11,13 +11,11 @@ import java.util.Arrays;
 import java.util.List;
 
 public class DestinationCardDrawManager {
-    private Djikstra djikstra;
     private Bot owner;
     private GameView gameView;
     public DestinationCardDrawManager(Bot owner, GameView gameView) {
         this.owner = owner;
         this.gameView = gameView;
-        this.djikstra = new Djikstra(gameView, owner);
     }
 
 

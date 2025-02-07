@@ -117,7 +117,6 @@ Lancer une classe principale définie par l'utilisateur.
                     <mainClass>fr.cotedazur.univ.polytech.teamK.Main</mainClass>
                 </configuration>
             </plugin>
-
         </plugins>
     </build>
 
