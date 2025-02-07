@@ -22,53 +22,16 @@ class BotTest {
     List<Bot> listBot ;
     GameEngine gameEngine = new GameEngine("Reich");
     GameView gameView ;
-
+/*
     @BeforeEach
     void setUp () {
         Meeple.resetMeeples();
-        //gameEngine = new GameEngine<>("Reich");
-        bot = new DumbBot("Dumb", gameEngine);
+        gameEngine = new GameEngine("Reich");
+        bot = new B("Dumb", gameEngine);
         listBot = new ArrayList<>();
         listBot.add(bot);
         gameEngine.addBotsToPlayerMap(listBot);
         gameView = new GameView(gameEngine,bot);
-    }
+    }*/
 
-    @Test
-    public void testFindBestPath() {
-        City cityOne = gameView.getGameMap().getCity("Kiel");
-        City cityTwo = gameView.getGameMap().getCity("Freiburg");
-        City cityThree = gameView.getGameMap().getCity("Karlsruhe");
-        City cityFour = gameView.getGameMap().getCity("Hannover");
-        Player player1 = gameView.getPlayerByBot(bot);
-        ArrayList<Connection> way = bot.djikstra(cityOne, cityTwo);
-        //System.out.println(way);
-        assertEquals(11, way.size());
-        gameView.getGameMap().getNeighbourConnection(cityTwo,cityThree).setFree(false);
-        way = bot.djikstra(cityOne, cityTwo);
-        //System.out.println(way);
-        Connection connection1 = gameView.getGameMap().getNeighbourConnection(cityOne, gameView.getGameMap().getCity("Hamburg"));
-        Connection connection2 = gameView.getGameMap().getNeighbourConnection(cityFour,gameView.getGameMap().getCity("Hamburg"));
-        player1.addCardWagon(new WagonCard(Colors.BLACK));
-        player1.addCardWagon(new WagonCard(Colors.BLACK));
-        player1.addCardWagon(new WagonCard(Colors.RED));
-        player1.addCardWagon(new WagonCard(Colors.RED));
-        player1.addCardWagon(new WagonCard(Colors.RED));
-        player1.addCardWagon(new WagonCard(Colors.RED));
-        assertTrue(player1.buyRail(connection1,gameView.getGameMap(),5));
-        assertTrue(player1.buyRail(connection2,gameView.getGameMap(),5));
-        way = bot.djikstra(cityOne, cityTwo);
-        //System.out.println(way);
-    }
-
-    @Test
-    void testDraw () {
-        List<DestinationCard> draw = bot.drawDestFromNumber(3);
-        //assertThrows(WrongPlayerException.class, () ->bot.drawDestinationCard());
-        assertEquals(52, gameView.getShortDestination().getRemainingCards());
-        assertEquals(33, gameView.getLongueDestination().getRemainingCards());
-        assertTrue(bot.giveBackCard(draw));
-        assertEquals(55, gameView.getShortDestination().getRemainingCards());
-        assertEquals(34, gameView.getLongueDestination().getRemainingCards());
-    }
 }

@@ -2,7 +2,7 @@ package fr.cotedazur.univ.polytech.teamK.board.player;
 
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameBoard;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -53,7 +53,7 @@ public class PlayerOwnedMap {
      * @param length length of the connection between the two cities
      * @param gameMap the board of the current game
      */
-    public void connectTwoCities(String cityOneName, String cityTwoName, Integer length, Board gameMap) {
+    public void connectTwoCities(String cityOneName, String cityTwoName, Integer length, GameBoard gameMap) {
         if (!virtualConnectionsCreated.containsKey(cityOneName)) {
             addCityToHashmap(gameMap.getCity(cityOneName));
         }
@@ -70,7 +70,7 @@ public class PlayerOwnedMap {
      * @param c the connection that was just purchased
      * @param gameMap the board of the game
      */
-    public void updateMap(Connection c, Board gameMap) {
+    public void updateMap(Connection c, GameBoard gameMap) {
         City cityA = c.getCityOne();
         String cityAName = cityA.getName();
         City cityB = c.getCityTwo();
@@ -136,7 +136,7 @@ public class PlayerOwnedMap {
      * @param gameMap board
      */
 
-    private void connectCountryAndCity(String countryName, String cityName, int lengthToAdd, Board gameMap)
+    private void connectCountryAndCity(String countryName, String cityName, int lengthToAdd, GameBoard gameMap)
     {
         for (var cityTwo : (virtualConnectionsCreated.get(cityName)).entrySet()) {
             String cityTwoName = cityTwo.getKey();
@@ -165,7 +165,7 @@ public class PlayerOwnedMap {
      * @param lengthToAdd distance between the two
      * @param gameMap board
      */
-    private void connectCityAndCity(String cityAName, String cityBName, int lengthToAdd, Board gameMap)
+    private void connectCityAndCity(String cityAName, String cityBName, int lengthToAdd, GameBoard gameMap)
     {
         for (var cityOne : (virtualConnectionsCreated.get(cityAName)).entrySet()) {
             String cityOneName = cityOne.getKey();

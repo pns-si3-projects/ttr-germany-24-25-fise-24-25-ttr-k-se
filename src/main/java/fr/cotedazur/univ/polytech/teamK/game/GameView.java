@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.teamK.game;
 
 import fr.cotedazur.univ.polytech.teamK.board.cards.Deck;
 import fr.cotedazur.univ.polytech.teamK.board.cards.DestinationCard;
+import fr.cotedazur.univ.polytech.teamK.board.cards.TypeOfCards;
 import fr.cotedazur.univ.polytech.teamK.board.cards.WagonCard;
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
@@ -28,8 +29,8 @@ public class GameView{
                 .collect(Collectors.toList());
     }
 
-    public Board getGameMap () {
-        Board res = new Board("");
+    public GameBoard getGameMap () {
+        GameBoard res = new GameBoard("");
         res = gameEngine.getGameMap();
         return res;
     }
@@ -43,20 +44,22 @@ public class GameView{
     }
 
     public Deck<DestinationCard> getShortDestination() {
-        Deck<DestinationCard> res= new Deck<>(null,null);
-        res = gameEngine.getShortDestinationDeck();
+        Deck<DestinationCard> res= new Deck<>(TypeOfCards.SHORT_DESTINATION,gameEngine.getGameMap());
+        res.putAll(gameEngine.getShortDestinationDeck());
         return res;
     }
 
+
+
     public Deck<DestinationCard> getLongueDestination() {
-        Deck<DestinationCard> res= new Deck<>(null,null);
-        res = gameEngine.getLongDestinationDeck();
+        Deck<DestinationCard> res= new Deck<>(TypeOfCards.LONG_DESTINATION,gameEngine.getGameMap());
+        res.putAll(gameEngine.getLongDestinationDeck());
         return res;
     }
 
     public Deck<WagonCard> getWagonDeck() {
-        Deck<WagonCard> res = new Deck<>(null,null);
-        res = gameEngine.getWagonDeck();
+        Deck<WagonCard> res = new Deck<>(TypeOfCards.WAGON,gameEngine.getGameMap());
+        res.putAll(gameEngine.getWagonDeck());
         return res;
     }
 
@@ -91,8 +94,10 @@ public class GameView{
     public int getMyScore() {return gameEngine.getPlayerByBot(currentBot)
             .getScore();
     }
-    public ArrayList<DestinationCard> getMyDestinationCards() {return gameEngine.getPlayerByBot(currentBot)
-            .getCartesDestination();
+    public ArrayList<DestinationCard> getMyDestinationCards() {
+        ArrayList<DestinationCard> res = new ArrayList<>();
+        res.addAll(gameEngine.getPlayerByBot(currentBot).getCartesDestination());
+        return res;
     }
     public ArrayList<WagonCard> getMyWagonCards() {return gameEngine.getPlayerByBot(currentBot)
             .getCartesWagon();
@@ -104,7 +109,7 @@ public class GameView{
     public int getMyWagonsRemaining() {return gameEngine.getPlayerByBot(currentBot)
             .getWagonsRemaining();
     }
-    public int getMyNumberWagon() {return gameEngine.getPlayerByBot(currentBot)
+    public int getMyNumberWagonCards() {return gameEngine.getPlayerByBot(currentBot)
             .getCartesWagon().size();
     }
     public int getMyNumberDestination () {return gameEngine.getPlayerByBot(currentBot)
@@ -120,6 +125,10 @@ public class GameView{
             .getConnections();
     }
 
+    public List<Player> getPlayers() {
+        return new ArrayList<>(gameEngine.getPlayers().values());
+    }
+
     public Integer getRound()
     {
         return gameEngine.getRound();
@@ -128,13 +137,5 @@ public class GameView{
     public List<WagonCard> getVisibleWagonCards() {
         return gameEngine.getWagonDeck().getVisibleCard();
     }
-    public void displayFinalScores() {
-        System.out.println("Scores finaux :");
-        gameEngine.getPlayers().values().forEach(player -> System.out.println(player.getName() + " : " + player.getScore() + " points"));
-    }
 
-    /**
-     * savoir le score des autres
-     * savoir le nombre de carte
-     */
 }

@@ -2,12 +2,13 @@ package fr.cotedazur.univ.polytech.teamK.game;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
+import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 
 import java.util.HashMap;
 import java.util.List;
 
-public class Board {
+public class GameBoard {
     private static final String KIEL = "Kiel";
     private static final String DANEMARK = "Danemark";
     private static final String BREMERHAVEN = "Bremerhaven";
@@ -50,7 +51,8 @@ public class Board {
     private static final String ROSTOCK = "Rostock";
 
     private HashMap<String, City> cities;
-    public Board(String name) {
+    public GameBoard(String name) {
+        Meeple.resetMeeples();
         if (name.equals("Reich"))
         {
             cities = buildReichMap();
@@ -71,7 +73,7 @@ public class Board {
      */
     private HashMap<String,City> buildReichMap()
     {
-        HashMap<String, City> reichMap = new HashMap<String, City>();
+        HashMap<String, City> reichMap = new HashMap<>();
 
         reichMap.put(DANEMARK, new City(DANEMARK, 1, true));
         reichMap.put(KIEL, new City(KIEL, 1));

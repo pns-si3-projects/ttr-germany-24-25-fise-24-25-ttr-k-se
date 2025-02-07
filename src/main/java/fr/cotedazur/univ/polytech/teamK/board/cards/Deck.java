@@ -1,7 +1,7 @@
 package fr.cotedazur.univ.polytech.teamK.board.cards;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
-import fr.cotedazur.univ.polytech.teamK.game.Board;
+import fr.cotedazur.univ.polytech.teamK.game.GameBoard;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -59,7 +59,7 @@ public class Deck<T extends Card> {
     private int MAX_DECK_CAPACITY;
 
 
-    public Deck(TypeOfCards type, Board currentMap) {
+    public Deck(TypeOfCards type, GameBoard currentMap) {
         if(type==TypeOfCards.LONG_DESTINATION) MAX_DECK_CAPACITY = 34;
         if(type == TypeOfCards.SHORT_DESTINATION) MAX_DECK_CAPACITY = 55;
         if(type==TypeOfCards.WAGON) {
@@ -73,7 +73,7 @@ public class Deck<T extends Card> {
      * Create a deck of cards
      * @param type the cards type
      */
-    public void initialize(TypeOfCards type, Board currentMap) {
+    public void initialize(TypeOfCards type, GameBoard currentMap) {
         this.cards = new ArrayList<>(MAX_DECK_CAPACITY);
         if (type == TypeOfCards.SHORT_DESTINATION) {
             initializeShortDestination(currentMap);
@@ -112,7 +112,7 @@ public class Deck<T extends Card> {
      * Create longe destination deck
      * @param currentMap the game map
      */
-    private void initializeLongDestination(Board currentMap) {
+    private void initializeLongDestination(GameBoard currentMap) {
         this.cards.add((T) new DestinationCard(currentMap.getCity(NIEDERLANDE), currentMap.getCity(BERLIN), 13));
         this.cards.add((T) new DestinationCard(currentMap.getCity(DORTMUND), currentMap.getCity(MUNCHEN), 13));
         this.cards.add((T) new DestinationCard(currentMap.getCity(LEIPZIG), currentMap.getCity(ULM), 12));
@@ -147,13 +147,14 @@ public class Deck<T extends Card> {
         this.cards.add((T) new DestinationCard(currentMap.getCity(ROSTOCK), currentMap.getCity(OSTERREICH), 22));
         this.cards.add((T) new DestinationCard(currentMap.getCity(DANEMARK), currentMap.getCity(LINDAU), 22));
         this.cards.add((T) new DestinationCard(currentMap.getCity(KIEL), currentMap.getCity(SCHWEIZ), 20));
+        shuffle();
     }
 
     /**
      * short destination
      * @param currentMap the game map
      */
-    private void initializeShortDestination(Board currentMap) {
+    private void initializeShortDestination(GameBoard currentMap) {
         this.cards.add((T) new DestinationCard(currentMap.getCity(MANNHEIM), currentMap.getCity(STUTTGART), 2));
         this.cards.add((T) new DestinationCard(currentMap.getCity(MAINZ), currentMap.getCity(STUTTGART), 3));
         this.cards.add((T) new DestinationCard(currentMap.getCity(KOLN), currentMap.getCity(SAARBRUCKEN), 4));
@@ -209,6 +210,7 @@ public class Deck<T extends Card> {
         this.cards.add((T) new DestinationCard(currentMap.getCity(KOLN), currentMap.getCity(MUNCHEN), 11));
         this.cards.add((T) new DestinationCard(currentMap.getCity(MAGDEBURG), currentMap.getCity(KOLN), 11));
         this.cards.add((T) new DestinationCard(currentMap.getCity(KOLN), currentMap.getCity(FREIBURG), 11));
+        shuffle();
     }
 
     /**
@@ -227,6 +229,9 @@ public class Deck<T extends Card> {
         return this.cards.isEmpty();
     }
 
+    public int size(){
+        return this.cards.size();
+    }
     /**
      * Shuffle a deck of cards
      */
@@ -240,7 +245,16 @@ public class Deck<T extends Card> {
         if (this.cards.isEmpty()) {
             throw new DeckEmptyException("There is no wagons or deck cards remaining");
         }
-        return cards.removeLast();
+        return this.cards.removeLast();
+    }
+
+    public void putAll (Deck<T> deck) {
+        this.cards.clear();
+        this.cards.addAll(deck.cards);
+        if(!(this.visibleCard == null)) {
+            this.visibleCard.clear();
+            this.visibleCard.addAll(deck.visibleCard);
+        }
     }
 
     /**

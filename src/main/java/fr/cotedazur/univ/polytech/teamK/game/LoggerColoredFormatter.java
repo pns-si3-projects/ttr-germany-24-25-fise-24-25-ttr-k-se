@@ -3,7 +3,7 @@ package fr.cotedazur.univ.polytech.teamK.game;
 import java.util.logging.Formatter;
 import java.util.logging.LogRecord;
 
-public class ColoredFormatter extends Formatter {
+public class LoggerColoredFormatter extends Formatter {
     // ANSI escape codes for colors
     public static final String RESET = "\u001B[0m";
     public static final String RED = "\u001B[31m";

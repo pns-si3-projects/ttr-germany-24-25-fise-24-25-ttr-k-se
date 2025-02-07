@@ -7,6 +7,7 @@ import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
+import fr.cotedazur.univ.polytech.teamK.game.LoggerDetailed;
 
 import java.util.HashMap;
 import java.util.ArrayList;
@@ -19,6 +20,7 @@ public abstract class Bot{
     public final GameEngine gameEngine;
     public String name;
     public final int id;
+    public LoggerDetailed logger;
 
     protected Bot(String name, GameEngine gameEngine)
     {
@@ -35,13 +37,14 @@ public abstract class Bot{
     }
     public void setGameView(GameView gameView){
         this.gameView = gameView;
+        this.logger = new LoggerDetailed(gameEngine);
     }
     /**
      * Method who will draw the 4 dest Cards with the number of short dest the player chose
      * @param number_short the number of short dest to draw
      * @return a list of the cards
      */
-    public List<DestinationCard> drawDestFromNumber (int number_short) {
+    public List<DestinationCard> drawDestFromNumber (int number_short) throws WrongPlayerException {
         List<DestinationCard> destCardDrawn = new ArrayList<>(4) ;
         DestinationCard toAddCard;
 
@@ -93,17 +96,17 @@ public abstract class Bot{
         try {
             for (int i = 0; i < 4; i++) {
                 if (i < number_short) {
-                    toAddCard = gameEngine.drawShortDestination();
+                    toAddCard = gameEngine.drawShortDestination(this);
                     if (toAddCard != null)
                         destCardDrawn.add(toAddCard);
                     else
-                        destCardDrawn.add(gameEngine.drawLongueDestination());
+                        destCardDrawn.add(gameEngine.drawLongueDestination(this));
                 } else {
-                    toAddCard = gameEngine.drawLongueDestination();
+                    toAddCard = gameEngine.drawLongueDestination(this);
                     if (toAddCard != null)
                         destCardDrawn.add(toAddCard);
                     else
-                        destCardDrawn.add(gameEngine.drawShortDestination());
+                        destCardDrawn.add(gameEngine.drawShortDestination(this));
                 }
             }
         }
@@ -167,7 +170,7 @@ public abstract class Bot{
                 if(gameView.getPlayerByBot(this).isNeighbour(actual,connection.getOtherCity(actual))) {
                     djikstraLine.replace(connection.getOtherCity(actual),djikstraLine.get(actual));
                 }
-                if (i1< i2 && connection.getIsFree())
+                else if (i1< i2 && connection.getIsFree())
                     djikstraLine.replace(connection.getOtherCity(actual),djikstraLine.get(actual)+connection.getLength());
             }
             HashMap<City,Integer> djikstraLineToAdd = new HashMap<>();
@@ -218,6 +221,9 @@ public abstract class Bot{
                 }
             }
         }
+        if(lenght == 0) {
+            return null;
+        }
 
         return res;
     }
@@ -230,7 +236,7 @@ public abstract class Bot{
     public abstract boolean drawDestinationCard() throws DeckEmptyException, WrongPlayerException;
 
     public void displayDrawDestinationCardAction(){
-        System.out.println(getName() + " tire des cartes destinations ! " + "("+gameView.getMyDestinationCards().getLast()+")");
+        logger.logDrawDestinationCard(this);
     }
     /**
      * The bot will choose the wagon card he want in the deck
@@ -240,7 +246,7 @@ public abstract class Bot{
     public abstract boolean drawWagonCard(Colors toFocus) throws DeckEmptyException, WrongPlayerException ;
 
     public void displayDrawWagonCardAction(){
-        System.out.println(getName() + " tire des cartes wagons ! " + "("+gameView.getMyWagonCards().getLast()+")");
+        logger.logDrawWagonCard(this);
     }
 
     /**
@@ -249,7 +255,7 @@ public abstract class Bot{
     public abstract boolean buyConnection(ArrayList<Connection> path) throws WrongPlayerException;
 
     public void displayBuyConnectionAction(){
-        System.out.println(getName() + " achète une connection ! "+"("+gameView.getMyConnections().getLast()+")");
+        logger.buyConnection(this);
     }
 
     /**
