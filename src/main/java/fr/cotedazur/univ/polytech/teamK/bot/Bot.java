@@ -29,6 +29,10 @@ public abstract class Bot{
         this.gameEngine = gameEngine;
     }
 
+    public GameEngine getGameEngine()
+    {
+        return gameEngine;
+    }
     public int getId(){
         return id;
     }

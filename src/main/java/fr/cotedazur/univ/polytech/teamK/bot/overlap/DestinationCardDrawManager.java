@@ -112,7 +112,7 @@ public class DestinationCardDrawManager {
             }
             catch (NullPointerException e)
             {
-                return null
+                return null;
             }
         }
         else
