@@ -2,6 +2,8 @@ package fr.cotedazur.univ.polytech.teamK.game;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.logging.ConsoleHandler;
 import java.util.logging.Logger;
 
@@ -12,6 +14,7 @@ import java.util.logging.Logger;
 public class LoggerDetailed {
     private static final Logger logger = Logger.getLogger(LoggerDetailed.class.getName());
     private GameEngine gameEngine;
+    private Map<Player, Integer> scoresBeforeMeeples = new HashMap<>();
 
     public LoggerDetailed(GameEngine gameEngine) {this.gameEngine = gameEngine; }
 
@@ -57,7 +60,7 @@ public class LoggerDetailed {
 
     //Called by Bot
     public void logDrawDestinationCard(Bot bot){
-        logger.finer(bot.getName() + " draws a long destination card " + "( " + bot.gameView.getMyDestinationCards().getLast()+" )");
+        logger.finer(bot.getName() + " draws a destination card " + "( " + bot.gameView.getMyDestinationCards().getLast()+" )");
     }
 
     public void logDrawWagonCard(Bot bot){
@@ -70,17 +73,20 @@ public class LoggerDetailed {
 
     //Used by the GameEngine to log the game details
     public void logPlayerScoresBeforeMeeples(){
-        logger.fine("The game has ended.");
-        logger.fine("The scores before Meeple bonus are : ");
+        logger.finest("The game has ended.");
+        logger.finest("The scores before Meeple bonus are : ");
         for(Player player : gameEngine.getPlayers().values()){
-            logger.fine(player.getName() + " : " + player.getScore());
+            logger.finest(player.getName() + " : " + player.getScore());
+            scoresBeforeMeeples.put(player, player.getScore());
         }
     }
 
     public void logPlayerScoresAfterMeeples(){
-        logger.fine("The scores after Meeple bonus are : ");
-        for(Player player : gameEngine.getPlayers().values()){
-            logger.fine(player.getName() + " gained bonus meeple points. His new score is " + player.getScore());
+        logger.finer("The scores after Meeple bonus are : ");
+        for(Player player : scoresBeforeMeeples.keySet()){
+            int gainedScore = 0;
+            gainedScore = player.getScore() - scoresBeforeMeeples.get(player);
+            logger.finer(player.getName() + " gained " + gainedScore + " bonus meeple points. His score now is " + player.getScore());
         }
     }
 

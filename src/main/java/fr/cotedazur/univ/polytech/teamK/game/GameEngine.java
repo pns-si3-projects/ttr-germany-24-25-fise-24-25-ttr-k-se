@@ -31,12 +31,10 @@ public class GameEngine{
     private Deck<WagonCard> wagonDeck;
     private GameView gameView;
     private Integer round;
-    private ScoreGeneralManager scoreManager;
-    private ScoreMeepleManager scoreMeepleManager;
+    private final ScoreGeneralManager scoreManager;
+    private final ScoreMeepleManager scoreMeepleManager;
     private GamesStatisticsLogger statisticsLogger;
-    private LoggerDetailed detailedLogger;
-    private StatsAnalyse statsAnalyse;
-
+    private final LoggerDetailed detailedLogger;
 
     public GameEngine(String mapName) {
         this.mapName = mapName;
@@ -234,6 +232,7 @@ public class GameEngine{
      * @throws WrongPlayerException if the bot is not the current bot
      */
     public void startGame() throws WrongPlayerException, CsvValidationException, IOException {
+        StatsAnalyse statsAnalyse;
         initializeBoard(mapName);
         detailedLogger.logGameStart();
         totalGames++;
@@ -241,10 +240,8 @@ public class GameEngine{
             lastPlayer = playRound(null);
             detailedLogger.logRound();
         }
-        if (lastPlayer != null)
-        {
-            lastRound(lastPlayer);
-        }        detailedLogger.logPlayerScoresBeforeMeeples();
+        lastRound(lastPlayer);
+        detailedLogger.logPlayerScoresBeforeMeeples();
         scoreMeepleManager.calculateMeeplePoints();
         detailedLogger.logPlayerScoresAfterMeeples();
 
@@ -322,8 +319,8 @@ public class GameEngine{
      * @return true if there are no more actions to be performed, false otherwise
      */
     public boolean noMoreActionsCheck(int numberOfPlayerWithoutActions, int numberOfRoundsWithoutActions) {
-        int NUMBER_OF_ROUNDS_WITHOUT_ACTIONS = 5;
-        return (numberOfPlayerWithoutActions == getNumberPlayer()) && (numberOfRoundsWithoutActions == NUMBER_OF_ROUNDS_WITHOUT_ACTIONS);
+        int numRoundsNoActions = 5;
+        return (numberOfPlayerWithoutActions == getNumberPlayer()) && (numberOfRoundsWithoutActions == numRoundsNoActions);
     }
 
     /**

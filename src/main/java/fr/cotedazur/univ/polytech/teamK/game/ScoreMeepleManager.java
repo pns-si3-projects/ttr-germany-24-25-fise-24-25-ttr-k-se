@@ -111,10 +111,10 @@ public class ScoreMeepleManager {
         }
     }
 
-    /*method to return scores before addition of meeples
+    //method to return scores before addition of meeples
     public Map<Player, Integer> getScoreBeforeMeeple(){
         Map<Player, Integer> scoresBeforeMeeples;
         scoresBeforeMeeples = gameEngine.getScoreManager().getScores();
         return scoresBeforeMeeples;
-    }*/
+    }
 }

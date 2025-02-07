@@ -56,14 +56,14 @@ public class Deck<T extends Card> {
     public static final String MAGDEBURG = "Magdeburg";
     private List<T> cards;
     private List<T> visibleCard;
-    private int MAX_DECK_CAPACITY;
+    private int maxDeckCapacity;
 
 
     public Deck(TypeOfCards type, GameBoard currentMap) {
-        if(type==TypeOfCards.LONG_DESTINATION) MAX_DECK_CAPACITY = 34;
-        if(type == TypeOfCards.SHORT_DESTINATION) MAX_DECK_CAPACITY = 55;
+        if(type==TypeOfCards.LONG_DESTINATION) maxDeckCapacity = 34;
+        if(type == TypeOfCards.SHORT_DESTINATION) maxDeckCapacity = 55;
         if(type==TypeOfCards.WAGON) {
-            MAX_DECK_CAPACITY = 110;
+            maxDeckCapacity = 110;
             visibleCard = new ArrayList<>(4);
         }
         initialize(type, currentMap);
@@ -74,7 +74,7 @@ public class Deck<T extends Card> {
      * @param type the cards type
      */
     public void initialize(TypeOfCards type, GameBoard currentMap) {
-        this.cards = new ArrayList<>(MAX_DECK_CAPACITY);
+        this.cards = new ArrayList<>(maxDeckCapacity);
         if (type == TypeOfCards.SHORT_DESTINATION) {
             initializeShortDestination(currentMap);
         }
@@ -251,7 +251,7 @@ public class Deck<T extends Card> {
     public void putAll (Deck<T> deck) {
         this.cards.clear();
         this.cards.addAll(deck.cards);
-        if(!(this.visibleCard == null)) {
+        if(this.visibleCard != null) {
             this.visibleCard.clear();
             this.visibleCard.addAll(deck.visibleCard);
         }
@@ -281,7 +281,7 @@ public class Deck<T extends Card> {
      * @throws DeckFullException if the deck is already full
      */
     public void addCard(T card) throws DeckFullException {
-        if (cards.size() == MAX_DECK_CAPACITY) {
+        if (cards.size() == maxDeckCapacity) {
             throw new DeckFullException("The deck is full");
         }
         cards.add(card);
