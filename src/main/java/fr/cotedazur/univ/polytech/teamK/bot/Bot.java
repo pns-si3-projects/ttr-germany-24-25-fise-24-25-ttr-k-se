@@ -171,7 +171,7 @@ public abstract class Bot{
             for(Connection connection : actual.getConnectionList()) {
                 int i1 = djikstraLine.get(actual)+connection.getLength();
                 int i2 = djikstraLine.get(connection.getOtherCity(actual));
-                if(gameView.getPlayerByBot(this).isNeighbour(actual,connection.getOtherCity(actual))) {
+                if(connection.getOwner() == gameView.getPlayerByBot(this)) {
                     djikstraLine.replace(connection.getOtherCity(actual),djikstraLine.get(actual));
                 }
                 else if (i1< i2 && connection.getIsFree())

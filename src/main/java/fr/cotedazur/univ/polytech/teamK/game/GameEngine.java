@@ -233,6 +233,7 @@ public class GameEngine{
      * @throws WrongPlayerException if the bot is not the current bot
      */
     public void startGame() throws WrongPlayerException, CsvValidationException, IOException {
+        this.round = 0;
         StatsAnalyse statsAnalyse;
         initializeBoard(mapName);
         detailedLogger.logGameStart();
@@ -354,15 +355,15 @@ public class GameEngine{
         totalGames = 0;
     }
 
-    public void valideDestination(DestinationCard card, Bot bot) throws WrongPlayerException {
+    public boolean valideDestination(DestinationCard card, Bot bot) throws WrongPlayerException {
         if(currentBot == bot) {
             City cityOne = card.getStartCity();
             City cityTwo = card.getEndCity();
             if(currentBot.djikstra(cityOne,cityTwo) == null) {
-                gameView.getPlayerByBot(currentBot).validDestinationCardBIS(card);
+                return gameView.getPlayerByBot(currentBot).validDestinationCardBIS(card);
             }
         } else throw new WrongPlayerException("Wrong bot");
-
+        return false;
     }
 
     /**

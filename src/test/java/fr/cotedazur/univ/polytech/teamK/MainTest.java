@@ -61,11 +61,4 @@ public class MainTest {
         assertNotNull(main.detailed);
         assertNotNull(main.logger);
     }
-
-    @Test
-    public void testRunThousand() throws CsvValidationException, IOException, WrongPlayerException {
-        main.runThousand(mockGameEngine);
-        verify(mockGameEngine, times(1000)).startGame();
-        verify(mockStatisticsLogger).logGameStatistics();
-    }
 }

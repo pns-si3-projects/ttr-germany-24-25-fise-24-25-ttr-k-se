@@ -65,11 +65,21 @@ public class ScoreGeneralManager {
     }
 
     public int getGamesWon(Player player) {
-        return gamesWon.get(player.getName());
+        try {
+            return gamesWon.get(player.getName());
+        }
+        catch (NullPointerException e) {
+            return 0;
+        }
     }
 
     public int getGamesLost(Player player) {
-        return gamesLost.get(player.getName());
+        try {
+            return gamesLost.get(player.getName());
+        }
+        catch (NullPointerException e) {
+            return 0;
+        }
     }
 
     public Map.Entry<Player, Integer> getHighestScoreAndWinner() {

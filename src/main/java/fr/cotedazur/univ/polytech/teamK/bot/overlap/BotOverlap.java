@@ -31,14 +31,13 @@ public class BotOverlap extends Bot {
 
     }
 
-    public PathManager nextDestinationToDo()
-    {
+    public PathManager nextDestinationToDo() throws WrongPlayerException {
         List<DestinationCard> allDestCardOwned = gameView.getMyDestinationCards();
         Integer cheapestPathCost = Integer.MAX_VALUE;
         PathManager bestDestinationCardWithpath = null;
         for (DestinationCard destCard : allDestCardOwned)
         {
-            if (!gameView.getPlayerByBot(this).validDestinationCardOverlap(destCard,gameView.getGameMap()))
+            if (!gameEngine.valideDestination(destCard, this))
             {
                 PathManager currentDestPath = new PathManager(destCard, this, gameView);
                 Integer length = currentDestPath.findTotalCostRemaining();
@@ -72,7 +71,7 @@ public class BotOverlap extends Bot {
             return success;
         }
         else {
-            while (this.currentPath == null || this.gameView.getPlayerByBot(this).validDestinationCardOverlap(this.currentPath.getDestCardOfpath(), gameView.getGameMap()))
+            while (this.currentPath == null || this.currentPath.getConnectionsForCurrentDestCard().size() == 0 || this.gameEngine.valideDestination(this.currentPath.getDestCardOfpath(), this))
             {
                 this.currentPath = nextDestinationToDo();
                 if (this.currentPath == null)
@@ -100,7 +99,7 @@ public class BotOverlap extends Bot {
         try
         {
             this.currentPath = this.destinationCardDrawManager.drawDestinationsFromNumber(2);
-            return true;
+            return this.currentPath != null;
         }
         catch (WrongPlayerException e)
         {
@@ -172,49 +171,5 @@ public class BotOverlap extends Bot {
         return false;
     }
 
-    //-------------------------------------------------------------------------------------------------------------
-    //verifying state of bot methods
-    /*
-    private boolean verifNoDestCardsToDoAndPossible()
-    {
-        for (DestinationCard destcard : gameView.getMyDestinationCards())
-        {
-            if (!(gameView.getPlayerByBot(this).validDestinationCard(destcard)) && (djikstraPathValues(destcard) != null))
-            {
-                return false;
-            }
-        }
-        return true;
-    }
-    */
-    //-------------------------------------------------------------------
-    //end of game safety method tests
-    private boolean emptyDestinationDecksTest(String action)
-    {
-        if (gameView.getLongueDestination().isEmpty() && gameView.getShortDestination().isEmpty())
-        {
-            System.out.println("Destination decks are empty");
-            System.out.println("You are trying to" + action);
-            System.out.println("You have " + gameView.getMyWagonCards().size() + "number of wagon cards");
-            System.out.println("You have " + gameView.getMyDestinationCards().size() + "number of destination cards cards");
-            System.out.println("Your connections are " + gameView.getMyConnections());
-            return true;
-        }
-        return false;
-    }
-
-    private boolean emptyWagonDeckTest(String action)
-    {
-        if (gameView.getWagonDeck().isEmpty() && gameView.getVisibleWagonCards().isEmpty())
-        {
-            System.out.println("Wagon decks are empty");
-            System.out.println("You are trying to" + action);
-            System.out.println("You have " + gameView.getMyWagonCards().size() + "number of wagon cards");
-            System.out.println("You have " + gameView.getMyDestinationCards().size() + "number of destination cards cards");
-            System.out.println("Your connections are " + gameView.getMyConnections());
-            return true;
-        }
-        return false;
-    }
 
 }

@@ -27,6 +27,9 @@ public class PathManager{
         resetpath();
     }
 
+    public List<Connection> getConnectionsForCurrentDestCard() {
+        return connectionsForCurrentDestCard;
+    }
     public DestinationCard getDestCardOfpath() {
         return destCardOfpath;
     }
