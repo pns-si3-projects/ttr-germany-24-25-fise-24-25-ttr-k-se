@@ -20,7 +20,7 @@ public class MidBot extends Bot {
 
     @Override
     public boolean playTurn() throws WrongPlayerException {
-
+        displayPlayTurn();
         if (gameView.getMyDestinationCards().isEmpty()) {
             return drawDestinationCard();
         }

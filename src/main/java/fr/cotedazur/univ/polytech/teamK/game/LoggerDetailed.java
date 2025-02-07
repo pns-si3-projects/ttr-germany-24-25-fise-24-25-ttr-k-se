@@ -101,4 +101,8 @@ public class LoggerDetailed {
         }
         logger.fine("The winner is : " + gameEngine.getHighestScoreAndWinner().getKey().getName());
     }
+
+    public void logPlayTurn(Bot bot){
+        logger.finest(bot.getName() + " is playing his turn.");
+    }
 }

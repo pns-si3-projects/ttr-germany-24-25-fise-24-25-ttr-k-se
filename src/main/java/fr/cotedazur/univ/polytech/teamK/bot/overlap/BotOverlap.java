@@ -54,6 +54,7 @@ public class BotOverlap extends Bot {
     }
 
     public boolean buyRail() throws WrongPlayerException {
+        displayPlayTurn();
         if (this.currentPath == null) {
             return false;
         }

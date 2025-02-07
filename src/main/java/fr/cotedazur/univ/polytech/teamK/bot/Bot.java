@@ -264,4 +264,8 @@ public abstract class Bot{
      */
     public abstract boolean playTurn() throws WrongPlayerException ;
 
+    public void displayPlayTurn(){
+        logger.logPlayTurn(this);
+    }
+
 }
