@@ -21,16 +21,16 @@ class ConnectionUtilsTest {
         IllegalArgumentException exception = assertThrows(IllegalArgumentException.class, () -> {
             ConnectionUtils.calculatePoints(0);
         });
-        assertEquals("Invalid route lenght: 0", exception.getMessage());
+        assertEquals("Invalid route length: 0", exception.getMessage());
 
         exception = assertThrows(IllegalArgumentException.class, () -> {
             ConnectionUtils.calculatePoints(11);
         });
-        assertEquals("Invalid route lenght: 11", exception.getMessage());
+        assertEquals("Invalid route length: 11", exception.getMessage());
 
         exception = assertThrows(IllegalArgumentException.class, () -> {
             ConnectionUtils.calculatePoints(9);
         });
-        assertEquals("Invalid route lenght: 9", exception.getMessage());
+        assertEquals("Invalid route length: 9", exception.getMessage());
     }
 }
