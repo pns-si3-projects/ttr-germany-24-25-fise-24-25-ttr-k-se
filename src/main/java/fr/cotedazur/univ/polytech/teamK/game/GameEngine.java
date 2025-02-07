@@ -221,7 +221,9 @@ public class GameEngine{
      * @return true if the bot's ID is confirmed, false otherwise
      * @throws WrongPlayerException if the bot is not the current bot
      */
-    public boolean confirmId(Bot bot) throws WrongPlayerException if (bot.getId()!=currentBot.getId()) {
+    public boolean confirmId(Bot bot) throws WrongPlayerException
+    {
+        if (bot.getId()!=currentBot.getId()) {
             throw new WrongPlayerException("Wrong player");
         }
         return true;
@@ -360,7 +362,7 @@ public class GameEngine{
             City cityOne = card.getStartCity();
             City cityTwo = card.getEndCity();
             if(Djikstra.djikstra(cityOne,cityTwo,bot) == null) {
-                return gameView.getPlayerByBot(currentBot).validDestinationCardBIS(card);
+                return gameView.getPlayerByBot(currentBot).validDestinationCard(card);
             }
         } else throw new WrongPlayerException("Wrong bot");
         return false;
