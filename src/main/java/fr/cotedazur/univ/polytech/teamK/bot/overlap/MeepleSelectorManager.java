@@ -2,6 +2,7 @@ package fr.cotedazur.univ.polytech.teamK.bot.overlap;
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
 import fr.cotedazur.univ.polytech.teamK.board.map.City;
+import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
@@ -26,15 +27,41 @@ public class MeepleSelectorManager {
         this.gameEngine = owner.getGameEngine();
     }
 
+
+
     /**
      * sorts the meeples by color, so we know which ones we have the most of
      * then, chooses that one if possible, descending until either no meeples or we found one
      */
     private List<Colors> sortedMeepleColors()
     {
+        List<Colors> sortedMeepleColorsBis = new ArrayList<>();
+        Meeple myMeeple = gameView.getMyMeeples();
+        for (Colors currentColor : Colors.values())
+        {
+            if (sortedMeepleColorsBis.isEmpty())
+            {
+                sortedMeepleColorsBis.add(currentColor);
+            }
+            else
+            {
+                Colors comparedColor = sortedMeepleColorsBis.getFirst();
+                int indxToAdd = 0;
+                while (indxToAdd < sortedMeepleColorsBis.size() && myMeeple.getNumberOfAColor(comparedColor) > myMeeple.getNumberOfAColor(currentColor))
+                {
+
+                    comparedColor = sortedMeepleColorsBis.get(indxToAdd);
+                    indxToAdd++;
+                }
+                sortedMeepleColorsBis.add(indxToAdd, currentColor);
+            }
+        }
+        return sortedMeepleColorsBis;
+
+        /*
         List<Colors> sortedMeeplesList = new ArrayList<Colors>();
         Player myPlayer = gameView.getPlayerByBot(owner);
-        for (Colors newColor : sortedMeeplesList)
+        for (Colors newColor : Colors.values())
         {
             int amountOfNew = myPlayer.getMeeples().getNumberOfAColor(newColor);
             for (int addedColorIndex = 0; addedColorIndex < sortedMeeplesList.size(); addedColorIndex++)
@@ -47,7 +74,7 @@ public class MeepleSelectorManager {
                 }
             }
         }
-        return sortedMeeplesList;
+        */
     }
 
     /**
@@ -57,7 +84,7 @@ public class MeepleSelectorManager {
      * @param connection The connection from which meeples are to be picked.
      * @throws WrongPlayerException If an action is performed by the wrong player.
      */
-    private void pickMeeplesFromConnection(Connection connection) throws WrongPlayerException
+    public void pickMeeplesFromConnection(Connection connection) throws WrongPlayerException
     {
         City cityOne = connection.getCityOne();
         City cityTwo = connection.getCityTwo();

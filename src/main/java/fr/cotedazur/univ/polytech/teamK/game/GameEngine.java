@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
+import java.util.logging.Logger;
 
 public class GameEngine{
 
@@ -220,8 +221,7 @@ public class GameEngine{
      * @return true if the bot's ID is confirmed, false otherwise
      * @throws WrongPlayerException if the bot is not the current bot
      */
-    public boolean confirmId(Bot bot) throws WrongPlayerException {
-        if (bot.getId()!=currentBot.getId()) {
+    public boolean confirmId(Bot bot) throws WrongPlayerException if (bot.getId()!=currentBot.getId()) {
             throw new WrongPlayerException("Wrong player");
         }
         return true;
@@ -360,7 +360,7 @@ public class GameEngine{
             City cityOne = card.getStartCity();
             City cityTwo = card.getEndCity();
             if(Djikstra.djikstra(cityOne,cityTwo,bot) == null) {
-                return gameView.getPlayerByBot(currentBot).validDestinationCard(card);
+                return gameView.getPlayerByBot(currentBot).validDestinationCardBIS(card);
             }
         } else throw new WrongPlayerException("Wrong bot");
         return false;

@@ -77,7 +77,9 @@ public class BotOverlap extends Bot {
         //this gives me a connection I can buy, ie I have enough wagons
         Connection toPurchase = currentPath.connectionToPurchase();
         if (toPurchase != null) {
-            return gameEngine.buyRail(this, toPurchase);
+            boolean success = gameEngine.buyRail(this, toPurchase);
+            meepleSelector.pickMeeplesFromConnection(toPurchase);
+            return success;
         }
         else {
             while (this.currentPath == null || this.currentPath.getConnectionsForCurrentDestCard().size() == 0 || this.gameEngine.valideDestination(this.currentPath.getDestCardOfpath(), this))

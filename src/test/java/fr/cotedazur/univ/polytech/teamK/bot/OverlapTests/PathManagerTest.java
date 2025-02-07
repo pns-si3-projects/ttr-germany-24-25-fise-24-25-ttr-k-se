@@ -25,7 +25,6 @@ class PathManagerTest {
     GameView gameView;
     GameEngine gameEngine;
     Bot owner;
-    //DestinationCard destinationCardDrawn = gameEngine.drawLongueDestination();
     DestinationCard destinationCardDusselErfurt;
     DestinationCard destinationCardHannoverDresden;
 
@@ -42,6 +41,26 @@ class PathManagerTest {
             gameView.getPlayerByBot(owner).addCardWagon(wagonCardToAdd);
         }
     }
+    private void buyRail(Connection tobuy) throws WrongPlayerException {
+        Colors colorToAdd = tobuy.getColor();
+        Integer numberToAdd = tobuy.getLength();
+        addWagonCardsToOwner(colorToAdd, numberToAdd);
+        gameEngine.setCurrentBot(owner);
+        gameEngine.buyRail(owner, tobuy);
+    }
+    private Connection findConnection(String cityOne, String cityTwo, Colors color)
+    {
+        List<Connection> neighbours = gameView.getGameMap().getCitiesConnections(cityOne);
+        for (Connection connection : neighbours)
+        {
+            if ((connection.getCityTwo().getName().equals(cityTwo) || connection.getCityOne().getName().equals(cityTwo)) && (connection.getColor().equals(color)))
+            {
+                return connection;
+            }
+        }
+        return null;
+    }
+
     @BeforeEach
     public void setUp() throws WrongPlayerException {
         Meeple.resetMeeples();
@@ -124,20 +143,28 @@ class PathManagerTest {
     }
 
     @Test
-    public void testToName() throws WrongPlayerException {
+    public void testColorsToDraw() throws WrongPlayerException {
         PathManager pathManager = new PathManager(destinationCardHannoverDresden, owner, owner.gameView);
-        addWagonCardsToOwner(Colors.BLUE, 3);
         Colors colorToDrawFirst = pathManager.colorsToDraw().getFirst();
         Colors colorToDrawSecond = pathManager.colorsToDraw().getLast();
+        assertEquals(Colors.YELLOW, colorToDrawFirst);
+        assertEquals(Colors.BLACK, colorToDrawSecond);
 
+        addWagonCardsToOwner(Colors.ORANGE, 3);
+        addWagonCardsToOwner(Colors.GREEN, 3);
 
-        assertEquals(Colors.BLUE, colorToDrawFirst);
-        assertEquals(Colors.YELLOW, colorToDrawSecond);
-
-        addWagonCardsToOwner(Colors.BLACK, 2);
         colorToDrawSecond = pathManager.colorsToDraw().getLast();
 
-        assertEquals(Colors.BLACK, colorToDrawSecond);
+        assertEquals(Colors.YELLOW, colorToDrawFirst);
+        assertTrue((Colors.ORANGE == colorToDrawSecond) || (Colors.GREEN == colorToDrawSecond));
     }
 
+    @Test
+    public void testFindTotalCostRemaining() throws WrongPlayerException {
+        buyRail(findConnection("Dresden", "Leipzig", Colors.BLACK));
+        PathManager pathManager = new PathManager(destinationCardHannoverDresden, owner, owner.gameView);
+
+        Integer remainingCost = pathManager.findTotalCostRemaining();
+        assertEquals(6, remainingCost);
+    }
 }

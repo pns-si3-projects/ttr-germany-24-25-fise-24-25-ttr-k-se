@@ -29,6 +29,12 @@ public class Meeple {
         }
     }
 
+    public void setMeeples(int[] meeples)
+    {
+        for (int i = 0; i < meeples.length; i++) {
+            listOfOwnedMeeples[i] = meeples[i];
+        }
+    }
     //pour les joueurs
     public Meeple(){
         listOfOwnedMeeples = new int[]{0, 0, 0, 0, 0, 0};
