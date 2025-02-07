@@ -156,7 +156,10 @@ public class GameEngine{
             lastPlayer = playRound(lastPlayer);
             round += 1;
         }
-        lastRound(lastPlayer);
+        if (lastPlayer != null)
+        {
+            lastRound(lastPlayer);
+        }
         scoreManager.calculateMeeplePoints();
         recordGameResults();
         displayEndGameMessage();
@@ -167,20 +170,26 @@ public class GameEngine{
     private Player playRound(Player lastPlayer) throws WrongPlayerException {
         int noMoreActionsCount = 0;
 
-        for (Map.Entry<Bot, Player> entry : players.entrySet()) {
-            currentBot = entry.getKey();
-            Player currentPlayer = entry.getValue();
-
-            if (!currentBot.playTurn()) {
-                noMoreActionsCount++;
-            } else {
-                noMoreActionsCount = 0;
+            for (Map.Entry<Bot, Player> entry : players.entrySet()) {
+                currentBot = entry.getKey();
+                Player currentPlayer = entry.getValue();
+                try {
+                    if (!currentBot.playTurn()) {
+                        noMoreActionsCount++;
+                    } else {
+                        noMoreActionsCount = 0;
+                    }
+                }
+                catch (IllegalStateException e) {
+                    lastPlayer = null;
+                    return lastPlayer;
+                }
+                if ((lastPlayer == null && gameOver(currentPlayer)) || noMoreActionsCheck(noMoreActionsCount,numberOfRoundsWithoutActions)) {
+                    lastPlayer = currentPlayer;
+                }
             }
 
-            if ((lastPlayer == null && gameOver(currentPlayer)) || noMoreActionsCheck(noMoreActionsCount,numberOfRoundsWithoutActions)) {
-                lastPlayer = currentPlayer;
-            }
-        }
+
 
         if (noMoreActionsCount == getNumberPlayer()) {
             ++numberOfRoundsWithoutActions;
