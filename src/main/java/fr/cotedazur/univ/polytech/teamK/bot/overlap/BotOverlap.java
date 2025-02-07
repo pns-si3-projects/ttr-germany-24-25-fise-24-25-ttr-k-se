@@ -108,13 +108,7 @@ public class BotOverlap extends Bot {
 
 
     public boolean playTurn() throws WrongPlayerException {
-        if (gameView.getRound() > 38)
-        {
-            System.out.println("round is " + gameView.getRound());
-            System.out.println("Bot name is " + this.getName() + " number of wagons and destination cards" + gameView.getMyWagonCards() + gameView.getMyDestinationCards());
-            System.out.println("my score is " + gameView.getMyScore() + "\n");
 
-        }
         //first turn, you need to draw at first
         if (gameView.getRound() == 0)
         {
