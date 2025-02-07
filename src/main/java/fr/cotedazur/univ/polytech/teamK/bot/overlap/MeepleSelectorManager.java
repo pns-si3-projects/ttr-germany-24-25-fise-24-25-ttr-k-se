@@ -5,6 +5,7 @@ import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
+import fr.cotedazur.univ.polytech.teamK.board.player.PlayerSeenException;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
@@ -92,17 +93,26 @@ public class MeepleSelectorManager {
 
         for (Colors newColor : sortedMeeplesList)
         {
-            if (this.gameEngine.takeMeeples(owner, cityOne, newColor))
+            try
             {
-                break;
+                if (this.gameEngine.takeMeeples(owner, cityOne, newColor))
+                {
+                    break;
+                }
             }
+            catch (PlayerSeenException ignored){}
+
         }
         for (Colors newColor : sortedMeeplesList)
         {
-            if (this.gameEngine.takeMeeples(owner, cityTwo, newColor))
+            try
             {
-                break;
+                if (this.gameEngine.takeMeeples(owner, cityTwo, newColor))
+                {
+                    break;
+                }
             }
+            catch (PlayerSeenException ignored){}
         }
 
     }
