@@ -54,14 +54,14 @@ public abstract class Bot{
             {
                 try
                 {
-                    toAddCard = gameEngine.drawShortDestination();
+                    toAddCard = gameEngine.drawShortDestination(this);
                     destCardDrawn.add(toAddCard);
                 }
                 catch (DeckEmptyException e)
                 {
                     try
                     {
-                        toAddCard = gameEngine.drawLongueDestination();
+                        toAddCard = gameEngine.drawLongueDestination(this);
                         destCardDrawn.add(toAddCard);
                     }
                     catch (DeckEmptyException e1)
@@ -74,14 +74,14 @@ public abstract class Bot{
             {
                 try
                 {
-                    toAddCard = gameEngine.drawLongueDestination();
+                    toAddCard = gameEngine.drawLongueDestination(this);
                     destCardDrawn.add(toAddCard);
                 }
                 catch (DeckEmptyException e)
                 {
                     try
                     {
-                        toAddCard = gameEngine.drawShortDestination();
+                        toAddCard = gameEngine.drawShortDestination(this);
                         destCardDrawn.add(toAddCard);
                     }
                     catch (DeckEmptyException e1)

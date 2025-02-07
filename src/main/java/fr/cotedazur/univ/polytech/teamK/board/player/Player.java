@@ -177,6 +177,7 @@ public class Player {
         if (djikstraIsNeightbor(cityOne,cityTwo,board) && destinationCards.contains(carte)) {
             this.score += carte.getValue();
             this.destinationCards.remove(carte);
+            this.achieveDestination.add(carte);
             return true;
         }
         if (!destinationCards.contains(carte)) {

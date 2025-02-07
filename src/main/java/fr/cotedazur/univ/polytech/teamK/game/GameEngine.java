@@ -248,7 +248,7 @@ public class GameEngine{
         scoreMeepleManager.calculateMeeplePoints();
         detailedLogger.logPlayerScoresAfterMeeples();
 
-        scoreManager.calculateMeeplePoints();
+        scoreMeepleManager.calculateMeeplePoints();
         recordGameResults();
         statsAnalyse = new StatsAnalyse(this, gameView);
         statsAnalyse.analyse();
@@ -312,7 +312,6 @@ public class GameEngine{
                 entry.getValue().addScore(-destinationCard.getValue());
             }
         }
-        statsAnalyse.analyse();
     }
 
     /**
@@ -356,7 +355,7 @@ public class GameEngine{
             City cityOne = card.getStartCity();
             City cityTwo = card.getEndCity();
             if(currentBot.djikstra(cityOne,cityTwo) == null) {
-                gameView.getPlayerByBot(currentBot).validDestinationCard(card);
+                gameView.getPlayerByBot(currentBot).validDestinationCardBIS(card);
             }
         } else throw new WrongPlayerException("Wrong bot");
 
