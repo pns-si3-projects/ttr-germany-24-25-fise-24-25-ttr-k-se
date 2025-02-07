@@ -107,14 +107,10 @@ public class DestinationCardDrawManager {
         }
         if (bestDestinationCardPathmanager == null) {
             //no destination cards pulled are possible: take the one of least value
-            try {
-                chooseSingleDestCard(cheapestNullDest.getDestCardOfpath(), destCardsDrawn);
-            }
-            catch (NullPointerException e)
-            {
-                return null;
-            }
+            assert cheapestNullDest != null;
+            chooseSingleDestCard(cheapestNullDest.getDestCardOfpath(), destCardsDrawn);
         }
+
         else
         {
             chooseSingleDestCard(bestDestinationCardPathmanager.getDestCardOfpath(), destCardsDrawn);

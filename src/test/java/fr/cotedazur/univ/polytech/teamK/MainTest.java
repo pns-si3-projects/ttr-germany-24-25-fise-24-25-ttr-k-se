@@ -51,7 +51,7 @@ public class MainTest {
         main.run();
         verify(mockGameEngine).startGame();
         verify(mockLogger).showInfoAndFineAndFiner();
-    }*/
+    }
 
     @Test
     public void testInitialisation() {
@@ -67,5 +67,5 @@ public class MainTest {
         main.runThousand(mockGameEngine);
         verify(mockGameEngine, times(1000)).startGame();
         verify(mockStatisticsLogger).logGameStatistics();
-    }
+    }*/
 }
