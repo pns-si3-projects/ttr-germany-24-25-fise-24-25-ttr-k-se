@@ -85,7 +85,7 @@ public class DestinationCardDrawManager {
     public PathManager drawDestinationsFromNumber(Integer numberOfShortDests) throws WrongPlayerException {
         List<DestinationCard> destCardsDrawn = owner.drawDestFromNumber(numberOfShortDests);
         if (destCardsDrawn.isEmpty()) {
-            System.out.println("No destination card drawn: round is " + gameView.getRound());
+            //System.out.println("No destination card drawn: round is " + gameView.getRound());
             owner.drawDestFromNumber(numberOfShortDests);
             return null;
         }

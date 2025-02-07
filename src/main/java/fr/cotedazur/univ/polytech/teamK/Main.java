@@ -64,7 +64,7 @@ public class Main {
         int compteur = 0;
         logger.showOnlyInfo();
         while(compteur < 1000){
-            List<Bot> bots = Arrays.asList(bot1, bot2);
+            List<Bot> bots = Arrays.asList(bot1, bot2, new BotOverlap("terciary", gameEngine));
             gameEngine.addBotsToPlayerMap(bots);
             gameEngine.startGame();
             compteur++;
@@ -76,7 +76,7 @@ public class Main {
         initialise();
         logger.showInfoAndFineToFinest();
         //List<Bot> bots = Arrays.asList(new MidBot("STEVE", gameEngine), new MidBot("WILLER", gameEngine));
-        List<Bot> bots = Arrays.asList(new BotOverlap("Bot1", gameEngine), new BotOverlap("Bot2", gameEngine));
+        List<Bot> bots = Arrays.asList(new BotOverlap("Bot1", gameEngine), new BotOverlap("Bot2", gameEngine), new BotOverlap("Bot3", gameEngine));
         gameEngine.addBotsToPlayerMap(bots);
         gameEngine.startGame();
     }

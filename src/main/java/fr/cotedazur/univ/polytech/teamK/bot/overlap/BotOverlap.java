@@ -63,7 +63,7 @@ public class BotOverlap extends Bot {
             if (!success) {
                 //System.out.println("Failed to buy the rail, error in verificaiton problably");
                 if (!toPurchase.getColor().equals(Colors.GRAY)) {
-                    System.out.println("Failed to buy the rail, error in verificaiton problably, the color is" + toPurchase.getColor());
+                   //System.out.println("Failed to buy the rail, error in verificaiton problably, the color is" + toPurchase.getColor());
                 }
                 //System.out.println(toPurchase.getColor());
             }
