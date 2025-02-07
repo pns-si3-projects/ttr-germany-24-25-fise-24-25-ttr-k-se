@@ -1,4 +1,4 @@
-package fr.cotedazur.univ.polytech.teamK.bot.OverlapTests;
+package fr.cotedazur.univ.polytech.teamK.bot.overlap;
 
 
 import fr.cotedazur.univ.polytech.teamK.board.Colors;
@@ -8,8 +8,6 @@ import fr.cotedazur.univ.polytech.teamK.board.map.City;
 import fr.cotedazur.univ.polytech.teamK.board.map.Meeple;
 import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
-import fr.cotedazur.univ.polytech.teamK.bot.overlap.BotOverlap;
-import fr.cotedazur.univ.polytech.teamK.bot.overlap.PathManager;
 import fr.cotedazur.univ.polytech.teamK.game.GameEngine;
 import fr.cotedazur.univ.polytech.teamK.game.GameView;
 import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
