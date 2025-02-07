@@ -68,13 +68,13 @@ public class PlayerTest {
         assertTrue(player1.addCardDestination(dest1));
         assertEquals(1,player1.getNumberDestination());
         assertThrows(IllegalArgumentException.class, () -> player1.addCardDestination(dest1));
-        assertThrows(IllegalArgumentException.class, () -> player1.validDestinationCardBIS(dest2));
+        assertThrows(IllegalArgumentException.class, () -> player1.validDestinationCard(dest2));
         player1.addCardWagon(new WagonCard(Colors.ORANGE));
         player1.addCardWagon(new WagonCard(Colors.ORANGE));
         player1.addCardWagon(new WagonCard(Colors.ORANGE));
         player1.addCardWagon(new WagonCard(Colors.ORANGE));
         assertTrue(player1.buyRail(connection,map,5));
-        assertTrue(player1.validDestinationCardBIS(dest1));
+        assertTrue(player1.validDestinationCard(dest1));
         assertEquals(9, player1.getScore());
         assertTrue(player1.getCartesDestination().isEmpty());
     }

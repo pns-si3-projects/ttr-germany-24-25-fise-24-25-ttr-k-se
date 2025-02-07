@@ -11,6 +11,10 @@ import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
 import java.util.*;
 
+/**
+ * The BotOverlap class represents a bot player in the game.
+ * This bot implements decision-making logic for selecting destinations, drawing cards and purchase connections.
+ */
 public class BotOverlap extends Bot {
     //protected GeneralUtils.PathValues currentPathAndDest = null;
     private PathManager currentPath;
@@ -22,7 +26,10 @@ public class BotOverlap extends Bot {
 
     }
 
-
+    /**
+     * Initializes additional components of the bot, such as path selection and card management.
+     * @throws WrongPlayerException if the player is not valid
+     */
     private void createRestOfBot() throws WrongPlayerException {
         this.meepleSelector = new MeepleSelectorManager(this, gameView);
         this.wagonDrawManager = new WagonDrawManager(gameView, this);
@@ -31,10 +38,16 @@ public class BotOverlap extends Bot {
 
     }
 
+    /**
+     * determines the next destination to pursue based on the shortest path cost.
+     *
+     * @return the best destination path to follow, or null if no path is available.
+     * @throws WrongPlayerException if it's not your turn
+     */
     public PathManager nextDestinationToDo() throws WrongPlayerException {
         List<DestinationCard> allDestCardOwned = gameView.getMyDestinationCards();
-        Integer cheapestPathCost = Integer.MAX_VALUE;
-        PathManager bestDestinationCardWithpath = null;
+        int cheapestPathCost = Integer.MAX_VALUE;
+        PathManager bestDestinationCardWithPath = null;
         for (DestinationCard destCard : allDestCardOwned)
         {
             if (!gameEngine.valideDestination(destCard, this))
@@ -44,14 +57,19 @@ public class BotOverlap extends Bot {
                 //length null indicated an impossible dest card
                 if (length != null && length < cheapestPathCost)
                 {
-                    bestDestinationCardWithpath = currentDestPath;
+                    bestDestinationCardWithPath = currentDestPath;
                     cheapestPathCost = length;
                 }
             }
         }
-        return bestDestinationCardWithpath;
+        return bestDestinationCardWithPath;
     }
 
+    /**
+     * Attempts to purchase a rail connection if possible
+     * @return true if a connection was successfully purchased otherwise false.
+     * @throws WrongPlayerException if it's not the player turn
+     */
     public boolean buyRail() throws WrongPlayerException {
         if (this.currentPath == null) {
             return false;
@@ -60,14 +78,7 @@ public class BotOverlap extends Bot {
         Connection toPurchase = currentPath.connectionToPurchase();
         if (toPurchase != null) {
             boolean success = gameEngine.buyRail(this, toPurchase);
-            if (!success) {
-                //System.out.println("Failed to buy the rail, error in verificaiton problably");
-                if (!toPurchase.getColor().equals(Colors.GRAY)) {
-                   //System.out.println("Failed to buy the rail, error in verificaiton problably, the color is" + toPurchase.getColor());
-                }
-                //System.out.println(toPurchase.getColor());
-            }
-
+            meepleSelector.pickMeeplesFromConnection(toPurchase);
             return success;
         }
         else {
@@ -96,24 +107,13 @@ public class BotOverlap extends Bot {
     }
 
     public boolean drawDestinationCard() throws WrongPlayerException {
-        try
-        {
-            this.currentPath = this.destinationCardDrawManager.drawDestinationsFromNumber(2);
-            return this.currentPath != null;
-        }
-        catch (WrongPlayerException e)
-        {
-            String noMoreDestination = "damn tourism realllllly took off eh mate";
-        }
-        return false;
+        this.currentPath = this.destinationCardDrawManager.drawDestinationsFromNumber(2);
+        return this.currentPath != null;
     }
 
 
     public boolean playTurn() throws WrongPlayerException {
         displayPlayTurn();
-        if (gameView.getMyWagonCards().size() > 50) {
-            String steve = "steve";
-        }
         //first turn, you need to draw at first
         if (gameView.getRound() == 0)
         {

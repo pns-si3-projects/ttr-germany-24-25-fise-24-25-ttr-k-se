@@ -10,7 +10,7 @@ public class Meeple {
     private static int[] total = {10,10,10,10,10,10}; //black, blue, red, white,yellow, green
     private static int totalMeeples = 60;
 
-    private int [] listOfOwnedMeeples; //black, blue, red,white,yellow, green
+    private final int [] listOfOwnedMeeples; //black, blue, red,white,yellow, green
     private int number;
 
     public Meeple(int number, SecureRandom rand) {
@@ -29,6 +29,12 @@ public class Meeple {
         }
     }
 
+    public void setMeeples(int[] meeples)
+    {
+        for (int i = 0; i < meeples.length; i++) {
+            listOfOwnedMeeples[i] = meeples[i];
+        }
+    }
     //pour les joueurs
     public Meeple(){
         listOfOwnedMeeples = new int[]{0, 0, 0, 0, 0, 0};
@@ -70,7 +76,7 @@ public class Meeple {
     }
 
     /**
-     * Transfer one meeple of a choosen color from a Meeple class to this one
+     * Transfer one meeple of a chosen color from a Meeple class to this one
      * @param cityMeeples the Meeple class where we pick one meeples
      * @param color the color choice, should be a color of a meeples
      */
@@ -103,7 +109,7 @@ public class Meeple {
 
     @Override
     public int hashCode() {
-        // Combine les champs 'number' et 'asign' pour calculer un hash unique
+        // Combine les champs 'number' et 'assign' pour calculer un hash unique
         return Objects.hash(number, Arrays.hashCode(listOfOwnedMeeples));
     }
 

@@ -47,4 +47,39 @@ class MeepleTest {
         assertEquals(0, city.getNumber());
         assertArrayEquals(new int[] {0,0,0,0,1,1}, player.getListOfOwnedMeeples());
     }
+
+    @Test
+    void testMultipleTransfers() {
+        when(trickedRandom.nextInt(6)).thenReturn(0).thenReturn(1);
+        city = new Meeple(5, trickedRandom);  // Create a city with 5 meeples
+        assertTrue(player.transferMeeples(city, Colors.BLACK));  // Transfer black meeple
+        assertTrue(player.transferMeeples(city, Colors.BLUE));  // Transfer blue meeple
+        assertArrayEquals(new int[]{1, 1, 0, 0, 0, 0}, player.getListOfOwnedMeeples());
+        assertEquals(3, city.getNumber());  // 3 meeples should remain in the city
+    }
+
+    @Test
+    void testTransferWithNoMeeples() {
+        when(trickedRandom.nextInt(6)).thenReturn(4);
+        city = new Meeple(2, trickedRandom);
+        assertFalse(player.transferMeeples(city, Colors.RED));  // No red meeples in city
+        assertFalse(player.transferMeeples(city, Colors.GREEN));  // No green meeples in city
+    }
+
+
+    @Test
+    void testGetNumberOfAColorAfterTransfers() {
+        when(trickedRandom.nextInt(6)).thenReturn(4).thenReturn(5);
+        city = new Meeple(2, trickedRandom);
+        player.transferMeeples(city, Colors.YELLOW);  // Transfer yellow meeple
+        assertEquals(1, player.getNumberOfAColor(Colors.YELLOW));  // Player should now have 1 yellow meeple
+    }
+
+    @Test
+    void testToString() {
+        when(trickedRandom.nextInt(6)).thenReturn(4);
+        city = new Meeple(2, trickedRandom);
+        String expectedString = "Black=0, Blue=0, Red=0, White=0, Yellow=2, Green=0";
+        assertEquals(expectedString, city.toString());
+    }
 }

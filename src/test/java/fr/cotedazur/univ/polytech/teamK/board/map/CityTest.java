@@ -86,4 +86,37 @@ class CityTest {
         assertTrue(countryCity.isCountry());
     }
 
+    @Test
+    void testAddPlayerWhenListAlreadyInitialized() {
+        city.addPlayer(player);  // Adding player to an initialized list
+        assertTrue(city.getPlayersThatPickedUpMeeples().contains(player));
+    }
+
+    @Test
+    void testAddMultipleConnections() {
+        City anotherCity = new City("Hamburg", 3, trickedRandom, false);
+        Connection connection1 = new Connection(city, anotherCity, 5, Colors.RED);
+        Connection connection2 = new Connection(anotherCity, city, 3, Colors.BLUE);
+
+        city.addConnection(connection1);
+        city.addConnection(connection2);
+
+        assertEquals(2, city.getConnectionList().size());
+        assertTrue(city.getConnectionList().contains(connection1));
+        assertTrue(city.getConnectionList().contains(connection2));
+    }
+
+    @Test
+    void testSetName() {
+        city.setName("NewCity");
+        assertEquals("NewCity", city.getName());
+    }
+
+    @Test
+    void testAddPlayerWhenListIsNull() {
+        City cityWithNullList = new City("Munich", 5, trickedRandom, false);
+        cityWithNullList.addPlayer(player);
+        assertTrue(cityWithNullList.getPlayersThatPickedUpMeeples().contains(player));
+    }
+
 }

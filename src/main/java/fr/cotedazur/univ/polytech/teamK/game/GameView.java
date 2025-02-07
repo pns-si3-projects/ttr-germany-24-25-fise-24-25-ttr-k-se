@@ -13,10 +13,15 @@ import java.security.InvalidParameterException;
 import java.util.*;
 import java.util.stream.Collectors;
 
+/**
+ * This gameView class provides an interface for retreiving game-related data.
+ * it acts as a bridge between the game engine and the UI components,
+ * allowing access to player information, game state, and available ressources.
+ */
 public class GameView{
     private GameEngine gameEngine;
     private Bot currentBot; 
-    
+
     public GameView(GameEngine gameEngine, Bot player) {
         this.gameEngine = gameEngine;
         this.currentBot = player;

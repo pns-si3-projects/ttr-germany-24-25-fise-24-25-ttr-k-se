@@ -25,6 +25,9 @@ public class LoggerDetailed {
         logger.setUseParentHandlers(false);
     }
 
+    /**
+     * Logs the start of the game, including the number of players and their names.
+     */
     public void logGameStart(){
         logger.fine("All aboard the train !");
         logger.fine("Number of Players "+ gameEngine.getPlayers().size());
@@ -35,6 +38,9 @@ public class LoggerDetailed {
         logger.fine("Players Names: " + playerName);
     }
 
+    /**
+     * Logs the details of the current round, including bot actions and stats.
+     */
     public void logRound(){
         logger.fine("Round: " + gameEngine.getRound());
         for (Bot bot : gameEngine.getPlayers().keySet()) {
@@ -48,6 +54,11 @@ public class LoggerDetailed {
 
     }
 
+    /**
+     * Logs when a player has no more wagons left.
+     *
+     * @param playerName The name of the player.
+     */
     public void logNoMoreWagon(String playerName){
         logger.fine(playerName + " has no more wagon");
     }
@@ -56,24 +67,48 @@ public class LoggerDetailed {
         logger.finer("No actions have been done by the bots for the last 5 rounds. Bots can no longer buy connections with their wagons. Game Over.");
     }
 
+    /**
+     * Logs the end of the game when a player has no more wagons left.
+     *
+     * @param lastPlayer The last player.
+     * @param wagonCards The number of wagons they had left.
+     */
     public void logGameEndWagonsCardsLeft(String lastPlayer, int wagonCards){
         logger.fine("The game is over, " + lastPlayer +" has " + wagonCards +" wagons left.");
     }
 
     //Called by Bot
+    /**
+     * Logs when a bot draws a destination card.
+     *
+     * @param bot The bot drawing the card.
+     */
     public void logDrawDestinationCard(Bot bot){
         logger.finer(bot.getName() + " draws a destination card " + "( " + bot.gameView.getMyDestinationCards().getLast()+" )");
     }
 
+    /**
+     * Logs when a bot draws a wagon card.
+     *
+     * @param bot The bot drawing the card.
+     */
     public void logDrawWagonCard(Bot bot){
         logger.finer(bot.getName() + " draws a wagon card !" + "( " + bot.gameView.getMyWagonCards().getLast()+" )");
     }
 
+    /**
+     * Logs when a bot buys a connection.
+     *
+     * @param bot The bot buying the connection.
+     */
     public void logBuyConnection(Bot bot){
         logger.finer(bot.getName() + " buys the connection " + bot.gameView.getMyConnections().getLast());
     }
 
     //Used by the GameEngine to log the game details
+    /**
+     * Logs the player scores before Meeple bonuses are applied.
+     */
     public void logPlayerScoresBeforeMeeples(){
         logger.finest("The game has ended.");
         logger.finest("The scores before Meeple bonus are : ");
@@ -83,6 +118,9 @@ public class LoggerDetailed {
         }
     }
 
+    /**
+     * Logs the player scores after Meeple bonuses are applied.
+     */
     public void logPlayerScoresAfterMeeples(){
         logger.finer("The scores after Meeple bonus are : ");
         for(Player player : scoresBeforeMeeples.keySet()){
@@ -92,6 +130,9 @@ public class LoggerDetailed {
         }
     }
 
+    /**
+     * Logs the final game results, including the total rounds and player scores.
+     */
     public void logGameResults(){
         logger.fine("Game Results: ");
         logger.fine("The game lasted " + gameEngine.getRound() + " rounds.");

@@ -7,6 +7,7 @@ import fr.cotedazur.univ.polytech.teamK.board.map.connection.Connection;
 import fr.cotedazur.univ.polytech.teamK.board.player.PlayerSeenException;
 import fr.cotedazur.univ.polytech.teamK.bot.Bot;
 import fr.cotedazur.univ.polytech.teamK.board.player.Player;
+import fr.cotedazur.univ.polytech.teamK.bot.Djikstra;
 
 import java.io.IOException;
 import java.util.HashMap;
@@ -220,7 +221,8 @@ public class GameEngine{
      * @return true if the bot's ID is confirmed, false otherwise
      * @throws WrongPlayerException if the bot is not the current bot
      */
-    public boolean confirmId(Bot bot) throws WrongPlayerException {
+    public boolean confirmId(Bot bot) throws WrongPlayerException
+    {
         if (bot.getId()!=currentBot.getId()) {
             throw new WrongPlayerException("Wrong player");
         }
@@ -359,8 +361,8 @@ public class GameEngine{
         if(currentBot == bot) {
             City cityOne = card.getStartCity();
             City cityTwo = card.getEndCity();
-            if(currentBot.djikstra(cityOne,cityTwo) == null) {
-                return gameView.getPlayerByBot(currentBot).validDestinationCardBIS(card);
+            if(Djikstra.djikstra(cityOne,cityTwo,bot) == null) {
+                return gameView.getPlayerByBot(currentBot).validDestinationCard(card);
             }
         } else throw new WrongPlayerException("Wrong bot");
         return false;

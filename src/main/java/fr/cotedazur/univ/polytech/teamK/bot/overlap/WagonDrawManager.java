@@ -9,6 +9,12 @@ import fr.cotedazur.univ.polytech.teamK.game.WrongPlayerException;
 
 import java.util.List;
 
+/**
+ * The {@code WagonDrawManager} class is responsible for managing the drawing of wagon cards
+ * it helps the bot determine the best strategy to draw wagon cards based on the current game state and available visible cards.
+ * The manager provides methods to look for specific colors of wagon cards in the visible card and the deck
+ * and to draw them accordingly.
+ */
 
 public class WagonDrawManager{
     private GameView gameView;
@@ -20,6 +26,14 @@ public class WagonDrawManager{
         this.gameEngine = owner.getGameEngine();
     }
 
+    /**
+     * Looks for a single wagon card of the specified color in the visible wagon cards.
+     * If found, it draws the card and adds it to the bot's collection.
+     *
+     * @param colorWanted the color of the wagon card to search for
+     * @return {@code true} if a matching card was found and drawn; {@code false} otherwise
+     * @throws WrongPlayerException if an invalid player performs the action
+     */
     private boolean lookForSingleColorInVisible(Colors colorWanted) throws WrongPlayerException {
         for (int i = 0; i < gameView.getVisibleWagonCards().size(); i++) {
             WagonCard wagonCard = gameView.getVisibleWagonCards().get(i);
@@ -33,15 +47,15 @@ public class WagonDrawManager{
         return false;
     }
 
+    /**
+     * Looks for two matching wagon cards of the specified color in the visible cards.
+     * If two matching cards are not found, it attempts to draw from the deck.
+     *
+     * @param colorWanted the color of the wagon cards to search for
+     * @return {@code true} if the cards are found and drawn; {@code false} otherwise
+     * @throws WrongPlayerException if an invalid player performs the action
+     */
     private boolean lookForTwoOfSame(Colors colorWanted) throws WrongPlayerException {
-        if (gameView.getWagonDeck().getRemainingCards() < 8)
-        {
-            String hooooooolyShit = "yup";
-        }
-
-
-
-
         //try to find the color once
         if (lookForSingleColorInVisible(colorWanted)) {
             //found one, try to find it again
@@ -73,6 +87,16 @@ public class WagonDrawManager{
         }
     }
 
+    /**
+     * Looks for two different colored wagon cards, one of the primary color and one of the secondary color.
+     * It searches for the primary color first, then attempts to find a rainbow or secondary color.
+     * If no visible cards match, it will draw cards from the deck.
+     *
+     * @param primary the primary color of the wagon card
+     * @param secondary the secondary color of the wagon card
+     * @return {@code true} if the cards are found and drawn; {@code false} otherwise
+     * @throws WrongPlayerException if an invalid player performs the action
+     */
     private boolean lookForTwoDifferentColors(Colors primary, Colors secondary) throws WrongPlayerException {
         //look for the primary first
         //if unfound look for rainbow
@@ -105,11 +129,18 @@ public class WagonDrawManager{
         return true;
     }
 
+    /**
+     * Draws a set of wagon cards based on the provided list of colors.
+     * The method can draw either two cards of the same color or two cards of different colors.
+     *
+     * @param listOfColors the list of colors representing the desired wagon cards to draw
+     * @return {@code true} if the cards are successfully drawn; {@code false} if the input is invalid
+     * @throws WrongPlayerException if an invalid player performs the action
+     */
     public boolean drawWagonsOnList(List<Colors> listOfColors) throws WrongPlayerException {
         int nbColors = listOfColors.size();
         if (nbColors > 2 || nbColors == 0)
         {
-            String wtf = "what the fuck";
             return false;
         }
         else if (nbColors == 1)

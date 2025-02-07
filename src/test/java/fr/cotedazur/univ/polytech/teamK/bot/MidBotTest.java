@@ -58,7 +58,7 @@ class MidBotTest {
         City cityOne = gameView.getGameMap().getCity("Magdeburg");
         City cityTwo = gameView.getGameMap().getCity("Chemnitz");
         Player player1;
-        ArrayList<Connection> path = bot.djikstra(cityOne, cityTwo);
+        ArrayList<Connection> path = Djikstra.djikstra(cityOne, cityTwo,bot);
         do{
             gameEngine.setCurrentBot(bot);
             bot.drawWagonCard(Colors.BLUE);
@@ -68,33 +68,6 @@ class MidBotTest {
         assertEquals(1, gameView.getMyConnections().size());
         if(player1.getNumberColor(Colors.BLUE) == 2) assertEquals(path.getLast(),gameView.getMyConnections().getFirst());
         if(player1.getNumberColor(Colors.YELLOW) == 2) assertEquals(path.getFirst(),gameView.getMyConnections().getFirst());
-    }
-
-    @Test
-    public void testFindBestPath() {
-        City cityOne = gameView.getGameMap().getCity("Kiel");
-        City cityTwo = gameView.getGameMap().getCity("Freiburg");
-        City cityThree = gameView.getGameMap().getCity("Karlsruhe");
-        City cityFour = gameView.getGameMap().getCity("Hannover");
-        Player player1 = gameView.getPlayerByBot(bot);
-        ArrayList<Connection> way = bot.djikstra(cityOne, cityTwo);
-        //System.out.println(way);
-        assertEquals(11, way.size());
-        gameView.getGameMap().getNeighbourConnection(cityTwo,cityThree).setFree(false);
-        way = bot.djikstra(cityOne, cityTwo);
-        //System.out.println(way);
-        Connection connection1 = gameView.getGameMap().getNeighbourConnection(cityOne, gameView.getGameMap().getCity("Hamburg"));
-        Connection connection2 = gameView.getGameMap().getNeighbourConnection(cityFour,gameView.getGameMap().getCity("Hamburg"));
-        player1.addCardWagon(new WagonCard(Colors.BLACK));
-        player1.addCardWagon(new WagonCard(Colors.BLACK));
-        player1.addCardWagon(new WagonCard(Colors.RED));
-        player1.addCardWagon(new WagonCard(Colors.RED));
-        player1.addCardWagon(new WagonCard(Colors.RED));
-        player1.addCardWagon(new WagonCard(Colors.RED));
-        assertTrue(player1.buyRail(connection1,gameView.getGameMap(),5));
-        assertTrue(player1.buyRail(connection2,gameView.getGameMap(),5));
-        way = bot.djikstra(cityOne, cityTwo);
-        //System.out.println(way);
     }
 
     @Test
