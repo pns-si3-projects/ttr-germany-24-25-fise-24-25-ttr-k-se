@@ -35,6 +35,7 @@ public class PathManager{
     }
 
     private void resetpath() {
+        //this.connectionsForCurrentDestCard = owner.djikstra(destCardOfpath.getEndCity(), destCardOfpath.getStartCity());
         this.connectionsForCurrentDestCard = djikstra.djikstra(destCardOfpath.getEndCity(), destCardOfpath.getStartCity());
         if (connectionsForCurrentDestCard.size() == 0) {
             cardDoable = false;
